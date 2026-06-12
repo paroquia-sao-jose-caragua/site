@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -27,7 +29,15 @@ export default function RootLayout({
 			<head>
 				<link rel="icon" href="/favicon.svg" type="image/svg+xml"></link>
 			</head>
-			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+				<div className="min-h-screen flex flex-col bg-white" style={{ fontFamily: "Inter, sans-serif" }}>
+					<SiteHeader />
+					<div className="flex-1">
+						{children}
+					</div>
+					<SiteFooter />
+				</div>
+			</body>
 		</html>
 	);
 }
