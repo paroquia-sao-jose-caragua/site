@@ -1,20 +1,17 @@
+"use client";
+
 import { useState } from "react";
 import { X, MapPin, Clock, Map, Copy, Check } from "lucide-react";
-import { useNavigate } from "react-router";
 import { communities, type Community } from "../data/agendaData";
 
-import imgEllipse1 from "../../imports/Desktop5/e1d50cae9fab58435153a4c41bbf85789ad42f26.png";
-import imgEllipse2 from "../../imports/Desktop5/05954d1396cd22d752a9383cc71f05004fb83a94.png";
-import imgEllipse3 from "../../imports/Desktop5/7387a98bd8b87ea87349155d8dcfa3b57becde99.png";
-import imgEllipse4 from "../../imports/Desktop5/8923874a787fb8983e3c782e8248f74411a5c7b1.png";
-import imgEllipse5 from "../../imports/Desktop5/455ffb51a3b40639c1fdae0be7b7b8c147a6c4b4.png";
+import { useRouter } from "next/navigation";
 
 const communityImages: Record<string, string> = {
-  psj: imgEllipse1,
-  cse: imgEllipse2,
-  cnsr: imgEllipse3,
-  csf: imgEllipse4,
-  cscj: imgEllipse5,
+  psj: "/Desktop5/e1d50cae9fab58435153a4c41bbf85789ad42f26.png",
+  cse: "/Desktop5/05954d1396cd22d752a9383cc71f05004fb83a94.png",
+  cnsr: "/Desktop5/7387a98bd8b87ea87349155d8dcfa3b57becde99.png",
+  csf: "/Desktop5/8923874a787fb8983e3c782e8248f74411a5c7b1.png",
+  cscj: "/Desktop5/455ffb51a3b40639c1fdae0be7b7b8c147a6c4b4.png",
 };
 
 interface CommunityModalProps {
@@ -23,13 +20,13 @@ interface CommunityModalProps {
 }
 
 function CommunityModal({ community, onClose }: CommunityModalProps) {
-  const navigate = useNavigate();
+  const router = useRouter();
   const img = communityImages[community.id];
   const [copied, setCopied] = useState(false);
 
   const handleViewSchedule = () => {
     onClose();
-    navigate(`/agenda?comunidade=${community.id}`);
+    router.push(`/agenda?comunidade=${community.id}`);
   };
 
   const handleCopyAddress = () => {
@@ -43,14 +40,18 @@ function CommunityModal({ community, onClose }: CommunityModalProps) {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      onClick={e => { if (e.target === e.currentTarget) onClose(); }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={onClose}
+      />
 
       {/* Modal */}
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-[400px] overflow-hidden">
-
+      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-100 overflow-hidden">
         {/* Close button */}
         <button
           onClick={onClose}
@@ -69,7 +70,10 @@ function CommunityModal({ community, onClose }: CommunityModalProps) {
               alt={community.name}
               className="size-24 rounded-full object-cover ring-4 ring-[#dcc2b5] mb-4"
             />
-            <h2 className="text-[#1a1a1a] text-[18px]" style={{ fontWeight: 700, lineHeight: 1.3 }}>
+            <h2
+              className="text-[#1a1a1a] text-[18px]"
+              style={{ fontWeight: 700, lineHeight: 1.3 }}
+            >
               {community.name}
             </h2>
           </div>
@@ -77,7 +81,10 @@ function CommunityModal({ community, onClose }: CommunityModalProps) {
           {/* Address row */}
           <div className="flex items-start gap-2.5 mb-4">
             <MapPin size={15} className="text-[#a45d00] shrink-0 mt-0.5" />
-            <p className="text-[#6b7280] text-[14px] flex-1" style={{ lineHeight: 1.6 }}>
+            <p
+              className="text-[#6b7280] text-[14px] flex-1"
+              style={{ lineHeight: 1.6 }}
+            >
               {community.address}
             </p>
             <button
@@ -126,24 +133,30 @@ export function CommunitiesSection() {
 
   return (
     <section id="comunidades" className="py-20 bg-[#f9f5f2]">
-      <div className="max-w-[1200px] mx-auto px-6">
+      <div className="max-w-300 mx-auto px-6">
         <div className="mb-10">
-          <p className="text-[#4a2f24] text-[11px] uppercase tracking-widest mb-1" style={{ fontWeight: 500 }}>
+          <p
+            className="text-[#4a2f24] text-[11px] uppercase tracking-widest mb-1"
+            style={{ fontWeight: 500 }}
+          >
             Igreja
           </p>
-          <h2 className="text-[#4a2f24] text-[26px]" style={{ fontWeight: 600, lineHeight: 1.3 }}>
+          <h2
+            className="text-[#4a2f24] text-[26px]"
+            style={{ fontWeight: 600, lineHeight: 1.3 }}
+          >
             Conheça Nossas Comunidades
           </h2>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 md:gap-8">
-          {communities.map(c => (
+          {communities.map((c) => (
             <button
               key={c.id}
               onClick={() => setSelected(c)}
               className="flex flex-col items-center gap-4 group cursor-pointer text-center focus:outline-none"
             >
-              <div className="relative size-[140px] md:size-[160px] shrink-0">
+              <div className="relative size-35 md:size-40 shrink-0">
                 <img
                   src={communityImages[c.id]}
                   alt={c.name}
@@ -162,7 +175,10 @@ export function CommunitiesSection() {
       </div>
 
       {selected && (
-        <CommunityModal community={selected} onClose={() => setSelected(null)} />
+        <CommunityModal
+          community={selected}
+          onClose={() => setSelected(null)}
+        />
       )}
     </section>
   );

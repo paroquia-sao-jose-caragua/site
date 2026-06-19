@@ -1,7 +1,9 @@
+"use client";
+
 import { useState } from "react";
 import { Menu, X, Heart } from "lucide-react";
-import { Link, NavLink } from "react-router";
-import imgLogo from "../../imports/Desktop5/85dbf46b54be77c7212c66da9b797105c1fc2bf5.png";
+import Link from "next/link";
+import { NavLink } from "./ui/nav-link";
 
 const navItems = [
   { label: "Início", to: "/" },
@@ -14,38 +16,41 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 bg-[#4a2f24] border-b border-[#533b31]">
-      <div className="max-w-[1200px] mx-auto px-6 h-[72px] flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-3 shrink-0">
+      <div className="max-w-300 mx-auto px-6 h-18 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-3 shrink-0">
           <div className="relative size-10 rounded-full overflow-hidden ring-2 ring-[#f9f5f2]/20">
-            <img src={imgLogo} alt="Logo Paróquia São José" className="size-full object-cover" />
+            <img
+              src="/Desktop5/85dbf46b54be77c7212c66da9b797105c1fc2bf5.png"
+              alt="Logo Paróquia São José"
+              className="size-full object-cover"
+            />
           </div>
           <div>
-            <p className="text-[#f9f5f2] text-[15px]" style={{ fontWeight: 600 }}>Paróquia São José</p>
-            <p className="text-[#dcc2b5] text-[12px]">Diocese de Caraguatatuba</p>
+            <p
+              className="text-[#f9f5f2] text-[15px]"
+              style={{ fontWeight: 600 }}
+            >
+              Paróquia São José
+            </p>
+            <p className="text-[#dcc2b5] text-[12px]">
+              Diocese de Caraguatatuba
+            </p>
           </div>
         </Link>
 
         <nav className="hidden md:flex items-center gap-1">
-          {navItems.map(item => (
+          {navItems.map((item) => (
             <NavLink
               key={item.label}
-              to={item.to}
+              href={item.to}
               end={item.to === "/"}
-              className={({ isActive }) =>
-                [
-                  "px-4 py-2 text-[14px] rounded-lg transition-colors",
-                  isActive
-                    ? "text-[#f9f5f2] bg-white/15"
-                    : "text-[#dcc2b5] hover:text-[#f9f5f2] hover:bg-white/10",
-                ].join(" ")
-              }
-              style={{ fontWeight: 500 }}
+              className="px-4 py-2 text-[14px] rounded-lg transition-colors text-[#dcc2b5]"
             >
               {item.label}
             </NavLink>
           ))}
           <Link
-            to="/contribuir"
+            href="/quero-contribuir"
             className="ml-2 inline-flex items-center gap-1.5 bg-[#faba45] hover:bg-[#f5aa2e] text-[#2b2b2b] text-[13px] px-4 py-2 rounded-lg transition-colors shadow-sm"
             style={{ fontWeight: 600 }}
           >
@@ -65,16 +70,18 @@ export function SiteHeader() {
 
       {mobileOpen && (
         <div className="md:hidden bg-[#3d2318] border-t border-[#533b31] px-6 py-2">
-          {navItems.map(item => (
+          {navItems.map((item) => (
             <NavLink
               key={item.label}
-              to={item.to}
+              href={item.to}
               end={item.to === "/"}
               onClick={() => setMobileOpen(false)}
               className={({ isActive }) =>
                 [
                   "block py-3 text-[15px] border-b border-[#533b31]/60 transition-colors",
-                  isActive ? "text-[#f9f5f2]" : "text-[#dcc2b5] hover:text-[#f9f5f2]",
+                  isActive
+                    ? "text-[#f9f5f2]"
+                    : "text-[#dcc2b5] hover:text-[#f9f5f2]",
                 ].join(" ")
               }
               style={{ fontWeight: 500 }}
@@ -84,7 +91,7 @@ export function SiteHeader() {
           ))}
           <div className="py-4">
             <Link
-              to="/contribuir"
+              href="/quero-contribuir"
               onClick={() => setMobileOpen(false)}
               className="flex items-center justify-center gap-1.5 bg-[#faba45] hover:bg-[#f5aa2e] text-[#2b2b2b] text-[14px] px-4 py-2.5 rounded-lg transition-colors"
               style={{ fontWeight: 600 }}
