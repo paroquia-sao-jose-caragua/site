@@ -15,7 +15,7 @@ const clergy: ClergyMember[] = [
     img: "/Desktop5/cbfee9095d0b7216d141eba05232f2e192b01bc2.png",
     role: "Pároco",
     name: "Padre Altair Santos",
-    bio: "O Padre Altair Santos é natural de São Paulo e foi ordenado presbítero pela Diocese de Caraguatatuba em 2003. Com mais de duas décadas de ministério sacerdotal, dedicou sua vida pastoral ao serviço das comunidades do litoral norte paulista. Chegou à Paróquia São José em 2018, onde desde então conduz com dedicação e proximidade as celebrações, a formação dos fiéis e as obras sociais da paróquia. É conhecido pela sua homilia acolhedora, pelo compromisso com a catequese e pelo cuidado especial com os mais vulneráveis. Coordena também o Carnê Solidário para a construção do Centro Pastoral, projeto que considera sua maior missão na comunidade.",
+    bio: "Nascido em 26 de janeiro de 1967, foi ordenado em 29 de janeiro de 1994. Atualmente é Pároco da Paróquia São José de Caraguatatuba.",
   },
   {
     img: "/Desktop5/2c639083669db26e28970c07d7940eb6016061d7.png",
