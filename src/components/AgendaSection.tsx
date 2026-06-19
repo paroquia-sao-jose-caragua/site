@@ -10,22 +10,12 @@ const slides = [
   {
     img: "/Desktop5/d53665c7234c83d23c647e6d5da1abf39fc0ea7d.png",
     title: "Celebre conosco a Missa em Honra a São José",
-    info: "19/08 às 19h30 na Paróquia São José",
+    info: "Todo dia 19 às 19h30 na Paróquia São José",
   },
   {
     img: "/Desktop5/9501870a6d2e000e824b7f82399914486cb30cfd.png",
     title: "Contribua com a construção do nosso Centro Pastoral",
     info: "Carnê Solidário, contribua a partir de R$30 mensais",
-  },
-  {
-    img: "Desktop5/10181dbdd1289d9ee91dfb3a492eda510d382953.png",
-    title: "Dúvidas? Estamos aqui para ajudar",
-    info: "Procure a Secretaria Paroquial: (12) 98170-5757",
-  },
-  {
-    img: "/Desktop5/452e3e401d65613d5521a335b685b5b01181bfc6.png",
-    title: "Momento especial de aprendizado e espiritualidade",
-    info: "No dia 03/07, logo após a Santa Missa das 19h30",
   },
 ];
 
@@ -84,7 +74,7 @@ export function AgendaSection() {
                   <div
                     key={i}
                     className="relative shrink-0 w-full"
-                    style={{ aspectRatio: "16/10" }}
+                    style={{ aspectRatio: "16/12" }}
                   >
                     <img
                       src={slide.img}
