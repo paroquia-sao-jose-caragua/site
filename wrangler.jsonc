@@ -23,6 +23,10 @@
   "observability": {
     "enabled": true,
   },
+  "vars": {
+    "CONTACT_EMAIL_TO": "secretaria-dev@paroquiasaojosecaragua.org.br",
+    "RESEND_FROM_EMAIL": "Paróquia São José <contato@paroquiasaojosecaragua.org.br>",
+  },
   "upload_source_maps": true,
   "env": {
     "staging": {
@@ -51,6 +55,10 @@
       "observability": {
         "enabled": true,
       },
+      "vars": {
+        "CONTACT_EMAIL_TO": "secretaria-staging@paroquiasaojosecaragua.org.br",
+        "RESEND_FROM_EMAIL": "Paróquia São José <contato@paroquiasaojosecaragua.org.br>",
+      },
     },
     "production": {
       "name": "site",
@@ -77,6 +85,10 @@
       ],
       "observability": {
         "enabled": false,
+      },
+      "vars": {
+        "CONTACT_EMAIL_TO": "secretaria@paroquiasaojosecaragua.org.br",
+        "RESEND_FROM_EMAIL": "Paróquia São José <contato@paroquiasaojosecaragua.org.br>",
       },
     },
   },
