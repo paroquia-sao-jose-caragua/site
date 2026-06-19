@@ -1,10 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
+import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 
 import Link from "next/link";
+import { listCalendarSchedules } from "@/lib/api/calendar/list";
+import type { CalendarSchedule, Schedule } from "@/entities/CalendarSchedule";
 
 const slides = [
   {
@@ -19,35 +22,156 @@ const slides = [
   },
 ];
 
-const schedule: Record<
-  string,
-  { time: string; name: string; location: string }[]
-> = {
-  "terça-feira, 29 de julho": [
-    {
-      time: "19:30 - 20:30",
-      name: "Santa Missa",
-      location: "Paróquia São José",
-    },
-    {
-      time: "20:30 - 21:00",
-      name: "Terço dos Homens",
-      location: "Paróquia São José",
-    },
-  ],
-  "quarta-feira, 30 de julho": [
-    { time: "17:00 - 18:30", name: "Santa Missa", location: "Santa Edwiges" },
-    {
-      time: "19:30 - 20:30",
-      name: "Santa Missa",
-      location: "Paróquia São José",
-    },
-  ],
+const WEEKDAYS_FULL = [
+  "Domingo",
+  "Segunda-feira",
+  "Terça-feira",
+  "Quarta-feira",
+  "Quinta-feira",
+  "Sexta-feira",
+  "Sábado",
+];
+const MONTHS_PT = [
+  "Janeiro",
+  "Fevereiro",
+  "Março",
+  "Abril",
+  "Maio",
+  "Junho",
+  "Julho",
+  "Agosto",
+  "Setembro",
+  "Outubro",
+  "Novembro",
+  "Dezembro",
+];
+
+type AgendaSectionEvent = {
+  id: string;
+  date: string;
+  time: string;
+  name: string;
+  location: string;
+  startTime: string;
 };
+
+function parseDate(str: string) {
+  const [year, month, day] = str.split("-").map(Number);
+  return new Date(year, month - 1, day);
+}
+
+function formatDateLabel(dateStr: string) {
+  const date = parseDate(dateStr);
+
+  return `${WEEKDAYS_FULL[date.getDay()]}, ${date.getDate()} de ${
+    MONTHS_PT[date.getMonth()]
+  }`;
+}
+
+function getTodayDateStr() {
+  const today = new Date();
+
+  return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(
+    2,
+    "0",
+  )}-${String(today.getDate()).padStart(2, "0")}`;
+}
+
+function getCommunityShortName(name: string) {
+  return name
+    .replace(/^Matriz\s+/i, "")
+    .replace(/^Paróquia\s+/i, "")
+    .replace(/^Capela\s+/i, "")
+    .replace(/^Comunidade\s+/i, "");
+}
+
+function formatCommunityName(community: Schedule["community"]) {
+  const communityType = community.type as string;
+  const prefix =
+    communityType === "parish_chapel" || communityType === "parish_church"
+      ? "Matriz"
+      : "Capela";
+
+  return `${prefix} ${getCommunityShortName(community.name)}`;
+}
+
+function getScheduleTitle(schedule: Schedule) {
+  if (schedule.type === "event") {
+    return schedule.title;
+  }
+
+  return schedule.title ?? "Santa Missa";
+}
+
+function getScheduleId(schedule: Schedule) {
+  return schedule.type === "mass"
+    ? schedule.massScheduleId
+    : schedule.eventScheduleId;
+}
+
+function formatScheduleTime(schedule: Schedule) {
+  return schedule.endTime
+    ? `${schedule.startTime} - ${schedule.endTime}`
+    : schedule.startTime;
+}
+
+function mapCalendarToEvents(calendar: CalendarSchedule[]) {
+  return calendar.flatMap((day) => {
+    const date = day.date.slice(0, 10);
+
+    return day.schedules.active.map(
+      (schedule): AgendaSectionEvent => ({
+        id: `${date}-${getScheduleId(schedule)}`,
+        date,
+        time: formatScheduleTime(schedule),
+        name: getScheduleTitle(schedule),
+        location: formatCommunityName(schedule.community),
+        startTime: schedule.startTime,
+      }),
+    );
+  });
+}
 
 export function AgendaSection() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const today = new Date();
+  const currentMonth = today.getMonth() + 1;
+  const currentYear = today.getFullYear();
+
+  const { data, isPending, isError } = useQuery({
+    queryKey: ["home-calendar-schedules", currentYear, currentMonth],
+    queryFn: () =>
+      listCalendarSchedules({
+        month: currentMonth,
+        year: currentYear,
+      }),
+    refetchOnWindowFocus: false,
+  });
+
+  const schedule = useMemo(() => {
+    const todayDateStr = getTodayDateStr();
+    const events = mapCalendarToEvents(data?.calendar ?? [])
+      .filter((event) => event.date >= todayDateStr)
+      .sort((a, b) => {
+        const dateCompare = a.date.localeCompare(b.date);
+
+        if (dateCompare !== 0) {
+          return dateCompare;
+        }
+
+        return a.startTime.localeCompare(b.startTime);
+      })
+      .slice(0, 4);
+
+    return events.reduce<Record<string, AgendaSectionEvent[]>>((acc, event) => {
+      const day = formatDateLabel(event.date);
+
+      acc[day] = [...(acc[day] ?? []), event];
+
+      return acc;
+    }, {});
+  }, [data?.calendar]);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
@@ -156,43 +280,63 @@ export function AgendaSection() {
             </h2>
 
             <div className="space-y-6">
-              {Object.entries(schedule).map(([day, events]) => (
-                <div key={day}>
-                  <p
-                    className="text-[#7b4f37] text-[13px] mb-3"
-                    style={{ fontWeight: 500 }}
-                  >
-                    {day}
-                  </p>
-                  <div className="space-y-2">
-                    {events.map((evt, i) => (
-                      <div
-                        key={i}
-                        className="bg-[#f9f5f2] border border-[#dcc2b5]/60 rounded-xl p-4 flex items-end justify-between shadow-sm hover:shadow-md transition-shadow"
-                      >
-                        <div>
-                          <p className="text-[#2b2b2b]/70 text-[13px] mb-0.5">
-                            {evt.time}
-                          </p>
-                          <p
-                            className="text-[#2b2b2b] text-[15px]"
-                            style={{ fontWeight: 500 }}
-                          >
-                            {evt.name}
-                          </p>
-                        </div>
+              {isPending && (
+                <p className="text-[#2b2b2b]/60 text-[14px]">
+                  Carregando agenda
+                </p>
+              )}
+
+              {!isPending && isError && (
+                <p className="text-[#2b2b2b]/60 text-[14px]">
+                  Não foi possível carregar a agenda
+                </p>
+              )}
+
+              {!isPending && !isError && Object.keys(schedule).length === 0 && (
+                <p className="text-[#2b2b2b]/60 text-[14px]">
+                  Nenhum agendamento encontrado
+                </p>
+              )}
+
+              {!isPending &&
+                !isError &&
+                Object.entries(schedule).map(([day, events]) => (
+                  <div key={day}>
+                    <p
+                      className="text-[#7b4f37] text-[13px] mb-3"
+                      style={{ fontWeight: 500 }}
+                    >
+                      {day}
+                    </p>
+                    <div className="space-y-2">
+                      {events.map((evt, i) => (
                         <div
-                          className="flex items-center gap-1 text-[#a45d00] text-[12px]"
-                          style={{ fontWeight: 400 }}
+                          key={`${evt.id}-${i}`}
+                          className="bg-[#f9f5f2] border border-[#dcc2b5]/60 rounded-xl p-4 flex items-end justify-between shadow-sm hover:shadow-md transition-shadow"
                         >
-                          <MapPin size={11} />
-                          <span>{evt.location}</span>
+                          <div>
+                            <p className="text-[#2b2b2b]/70 text-[13px] mb-0.5">
+                              {evt.time}
+                            </p>
+                            <p
+                              className="text-[#2b2b2b] text-[15px]"
+                              style={{ fontWeight: 500 }}
+                            >
+                              {evt.name}
+                            </p>
+                          </div>
+                          <div
+                            className="flex items-center gap-1 text-[#a45d00] text-[12px]"
+                            style={{ fontWeight: 400 }}
+                          >
+                            <MapPin size={11} />
+                            <span>{evt.location}</span>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
 
             <Link

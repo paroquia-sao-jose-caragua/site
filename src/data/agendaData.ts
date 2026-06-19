@@ -6,14 +6,18 @@ export interface Community {
 }
 
 export interface AgendaEvent {
-  id: number;
+  id: number | string;
   title: string;
   startTime: string;
-  endTime: string;
+  endTime?: string;
   communityId: string;
   recurring: boolean;
   date: string; // "YYYY-MM-DD"
   description?: string;
+  communityName?: string;
+  communityShortName?: string;
+  communityCoverUrl?: string;
+  communityAddress?: string;
 }
 
 export const communities: Community[] = [
