@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { Suspense, useMemo, useState, useEffect } from "react";
 import {
   MapPin,
   RefreshCw,
@@ -244,7 +244,7 @@ function EventCard({ event }: EventCardProps) {
   );
 }
 
-export default function AgendaPage() {
+function AgendaPageContent() {
   const today = new Date();
   const currentMonth = today.getMonth() + 1;
   const currentYear = today.getFullYear();
@@ -568,5 +568,24 @@ export default function AgendaPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AgendaPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#fafafa]">
+          <div className="bg-white border-b border-[#e5e7eb]">
+            <div className="max-w-300 mx-auto px-6 py-6">
+              <div className="h-4 w-20 rounded bg-[#f9f5f2]" />
+              <div className="mt-3 h-8 w-72 max-w-full rounded bg-[#f9f5f2]" />
+            </div>
+          </div>
+        </div>
+      }
+    >
+      <AgendaPageContent />
+    </Suspense>
   );
 }
