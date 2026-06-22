@@ -32,26 +32,29 @@ export const communities: Community[] = [
     id: "cse",
     name: "Capela Santa Edwiges",
     shortName: "Sta. Edwiges",
-    address: "R. Santa Edwiges, 120 — Pegorelli, Caraguatatuba - SP",
+    address:
+      "Praça Engenheiro Marino Parolari, 40 — Porto Novo, Caraguatatuba - SP, 11667-255",
   },
   {
     id: "cnsr",
     name: "Capela Nossa Sra. do Rosário",
     shortName: "N. Sra. Rosário",
-    address: "Av. Guilherme de Abreu Sodré, 500 — Indaiá, Caraguatatuba - SP",
+    address:
+      "Avenida Manoel Avelino dos Santos, 100 — Praia das Palmeiras, Caraguatatuba - SP, 11666-251",
   },
   {
     id: "csf",
     name: "Capela Sagrada Família",
-    shortName: "Sagrada Família",
-    address: "R. das Orquídeas, 45 — Jaraguazinho, Caraguatatuba - SP",
+    shortName: "Sag. Família",
+    address:
+      "R. Porto Novo, 211 — Praia das Palmeiras, Caraguatatuba - SP, 11666-480",
   },
   {
     id: "cscj",
     name: "Capela Sagrado Coração de Jesus",
     shortName: "Sag. Coração",
     address:
-      "R. José Benedito de Oliveira, 80 — Martim de Sá, Caraguatatuba - SP",
+      "Av. Albert Charles Hanciau, 566 — Pontal de Santa Marina, Caraguatatuba - SP, 11672-050",
   },
 ];
 
