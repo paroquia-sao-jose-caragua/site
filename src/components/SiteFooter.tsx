@@ -1,134 +1,259 @@
+import { PhoneIcon } from "lucide-react";
 import svgPaths from "../../public/Desktop5/svg-45x3npa3b6";
-
-function FacebookIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-      <path
-        clipRule="evenodd"
-        d={svgPaths.p39e9f800}
-        fill="#F9F5F2"
-        fillRule="evenodd"
-      />
-    </svg>
-  );
-}
+import Link from "next/link";
+import { LogoMarkVerticalDark } from "./LogoMarkVerticalDark";
 
 function InstagramIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
       <path
         clipRule="evenodd"
         d={svgPaths.p24541b00}
-        fill="#F9F5F2"
+        fill="#D6A64A"
         fillRule="evenodd"
       />
-      <path d={svgPaths.p3e93a340} fill="#F9F5F2" />
+      <path d={svgPaths.p3e93a340} fill="#D6A64A" />
       <path
         clipRule="evenodd"
         d={svgPaths.p4146700}
-        fill="#F9F5F2"
+        fill="#D6A64A"
         fillRule="evenodd"
       />
-    </svg>
-  );
-}
-
-function PhoneIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-      <path d={svgPaths.p1dc90a80} fill="#F9F5F2" />
     </svg>
   );
 }
 
 export function SiteFooter() {
   return (
-    <footer id="contato" className="bg-[#4a2f24]">
-      <div className="border-b border-[#533b31]">
-        <div className="max-w-300 mx-auto px-6 py-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-            {/* Secretaria */}
-            <div>
-              <p
-                className="text-[#f9f5f2] text-[11px] uppercase tracking-widest mb-4"
-                style={{ fontWeight: 500 }}
-              >
-                Secretaria
-              </p>
-              <div
-                className="space-y-2 text-[#f9f5f2]/80 text-[14px]"
-                style={{ lineHeight: 1.7 }}
-              >
-                <p>Terça a sexta-feira:</p>
-                <p>9h às 12h e 14h às 17h40</p>
-                <p className="mt-2">Sábado: 8h às 12h</p>
-              </div>
-            </div>
+    <footer
+      id="contato"
+      className="
+        relative
+        overflow-hidden
+        bg-[#18351E]
+        text-[#F8F3EC]
+      "
+    >
+      <div
+        className="
+          max-w-280
+          mx-auto
+          px-6
+          pt-10
+          pb-14
+        "
+      >
+        {/* Marca */}
 
-            {/* Endereço */}
-            <div>
-              <p
-                className="text-[#f9f5f2] text-[11px] uppercase tracking-widest mb-4"
-                style={{ fontWeight: 500 }}
-              >
-                Endereço
-              </p>
-              <p
-                className="text-[#f9f5f2]/80 text-[14px]"
-                style={{ lineHeight: 1.7 }}
-              >
-                R. Edson dos Santos, 30 - Morro do Algodão,
-                <br />
-                Caraguatatuba - SP, 11671-180
-              </p>
-            </div>
+        <div
+          className="
+            flex
+            flex-col
+            items-center
+            text-center
+            mb-20
+          "
+        >
+          <div
+            className="
+              text-[#D6A64A]
+              text-3xl
+              mb-4
+            "
+          >
+            ✝
+          </div>
 
-            {/* Redes Sociais */}
-            <div>
-              <p
-                className="text-[#f9f5f2] text-[11px] uppercase tracking-widest mb-4"
-                style={{ fontWeight: 500 }}
+          <Link href="/" className="flex items-center gap-3 shrink-0">
+            <LogoMarkVerticalDark height={241.5} width={245.5} />
+          </Link>
+        </div>
+
+        <div
+          className="
+            flex
+            flex-col
+            md:flex-row
+            gap-12
+            justify-between
+          "
+        >
+          {/* Secretaria */}
+
+          <div>
+            <p
+              className="
+                text-[#D6A64A]
+                uppercase
+                tracking-widest
+                text-sm
+                mb-5
+              "
+            >
+              Secretaria
+            </p>
+
+            <p
+              className="
+              text-[#F8F3EC]/80
+              leading-relaxed
+            "
+            >
+              Terça a sexta-feira:
+              <br />
+              9h às 12h e 14h às 17h40
+              <br />
+              <br />
+              Sábado: 8h às 12h
+            </p>
+          </div>
+
+          {/* Endereço */}
+
+          <div>
+            <p
+              className="
+                text-[#D6A64A]
+                uppercase
+                tracking-widest
+                text-sm
+                mb-5
+              "
+            >
+              Endereço
+            </p>
+
+            <p
+              className="
+                text-[#F8F3EC]/80
+                leading-relaxed
+              "
+            >
+              R. Edson dos Santos, 30
+              <br />
+              Morro do Algodão
+              <br />
+              Caraguatatuba - SP, 11671-180
+            </p>
+          </div>
+
+          {/* Redes */}
+
+          <div>
+            <p
+              className="
+                text-[#D6A64A]
+                uppercase
+                tracking-widest
+                text-sm
+                mb-5
+              "
+            >
+              Redes Sociais
+            </p>
+
+            <div className="space-y-4">
+              <a
+                href="#"
+                className="
+                  flex
+                  items-center
+                  gap-3
+                  text-[#F8F3EC]/80
+                "
               >
-                Redes Sociais
-              </p>
-              <div className="space-y-3">
-                <a
-                  href="https://www.facebook.com/parsaojose/?locale=pt_BR"
-                  target="_blank"
-                  className="flex items-center gap-2.5 text-[#f9f5f2]/80 hover:text-[#f9f5f2] text-[14px] transition-colors"
+                <span
+                  className="
+                    size-8
+                    rounded-full
+                    border
+                    border-[#D6A64A]
+                    flex
+                    items-center
+                    justify-center
+                    text-[#D6A64A]
+                    font-bold
+                  "
                 >
-                  <FacebookIcon />
-                  <span>parsaojose</span>
-                </a>
-                <a
-                  href="https://www.instagram.com/paroquiasaojosecaragua/"
-                  target="_blank"
-                  className="flex items-center gap-2.5 text-[#f9f5f2]/80 hover:text-[#f9f5f2] text-[14px] transition-colors"
+                  f
+                </span>
+                parsaojose
+              </a>
+
+              <a
+                href="#"
+                className="
+                  flex
+                  items-center
+                  gap-3
+                  text-[#F8F3EC]/80
+                "
+              >
+                <span
+                  className="
+                    size-8
+                    rounded-full
+                    border
+                    border-[#D6A64A]
+                    flex
+                    items-center
+                    justify-center
+                    text-[#D6A64A]
+                  "
                 >
                   <InstagramIcon />
-                  <span>paroquiasaojosecaragua</span>
-                </a>
-                <a
-                  href="https://api.whatsapp.com/send?phone=5512981705757"
-                  target="_blank"
-                  className="flex items-center gap-2.5 text-[#f9f5f2]/80 hover:text-[#f9f5f2] text-[14px] transition-colors"
+                </span>
+                paroquiasaojosecaragua
+              </a>
+
+              <a
+                href="#"
+                className="
+                  flex
+                  items-center
+                  gap-3
+                  text-[#F8F3EC]/80
+                "
+              >
+                <span
+                  className="
+                    size-8
+                    rounded-full
+                    border
+                    border-[#D6A64A]
+                    flex
+                    items-center
+                    justify-center
+                    text-[#D6A64A]
+                  "
                 >
-                  <PhoneIcon />
-                  <span>(12) 98170-5757</span>
-                </a>
-              </div>
+                  <PhoneIcon className="text-[#D6A64A]" size={14} />
+                </span>
+                (12) 98170-5757
+              </a>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-[#533b31]/50">
-        <div className="max-w-300 mx-auto px-6 py-5">
-          <p className="text-[#f9f5f2]/50 text-[13px] text-center">
-            Copyright © 2026 Paróquia São José
-          </p>
-        </div>
+      {/* bottom */}
+
+      <div
+        className="
+          border-t
+          border-[#D6A64A]/30
+          py-5
+          text-center
+        "
+      >
+        <p
+          className="
+            text-[#F8F3EC]/50
+            text-sm
+          "
+        >
+          Copyright © 2026 Paróquia São José
+        </p>
       </div>
     </footer>
   );

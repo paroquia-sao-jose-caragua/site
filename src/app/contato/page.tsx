@@ -2,29 +2,7 @@
 
 import type { FormEvent } from "react";
 import { useState } from "react";
-import { MapPin, Clock, Send, CheckCircle, AlertCircle } from "lucide-react";
-import svgPaths from "../../../public/MacBookPro1412/svg-3c63l3s3dy";
-
-function WhatsAppIcon({ size = 20 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 20 20" fill="none">
-      <path d={svgPaths.p179ae280} fill="currentColor" />
-    </svg>
-  );
-}
-
-function FacebookIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path
-        clipRule="evenodd"
-        d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12c0-5.523-4.477-10-10-10z"
-        fill="currentColor"
-        fillRule="evenodd"
-      />
-    </svg>
-  );
-}
+import { MapPin, Clock, Send, CheckCircle, PhoneIcon } from "lucide-react";
 
 function InstagramIcon() {
   return (
@@ -78,7 +56,7 @@ export default function ContactPage() {
       if (!response.ok) {
         throw new Error(
           data?.message ??
-            "Não foi possível enviar sua mensagem. Tente novamente."
+            "Não foi possível enviar sua mensagem. Tente novamente.",
         );
       }
 
@@ -87,7 +65,7 @@ export default function ContactPage() {
       setError(
         err instanceof Error
           ? err.message
-          : "Não foi possível enviar sua mensagem. Tente novamente."
+          : "Não foi possível enviar sua mensagem. Tente novamente.",
       );
     } finally {
       setLoading(false);
@@ -95,174 +73,271 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa]">
-      {/* Page header */}
-      <div className="bg-white border-b border-[#e5e7eb]">
-        <div className="max-w-[1100px] mx-auto px-6 py-10">
-          <p
-            className="text-[#4a2f24] text-[11px] uppercase tracking-widest mb-2"
-            style={{ fontWeight: 500 }}
-          >
-            Contato
-          </p>
-          <h1
-            className="text-[#1a1a1a] text-[30px]"
-            style={{ fontWeight: 600, lineHeight: 1.3 }}
-          >
-            Entre em contato conosco
-          </h1>
-          <p className="text-[#6b7280] text-[16px] mt-2">
-            Estamos aqui para ajudar. Envie sua mensagem ou fale diretamente
-            pelo WhatsApp.
-          </p>
+    <section
+      className="
+      relative
+      overflow-hidden
+      bg-[#fbf4eb]
+    "
+    >
+      <div
+        className="
+        mx-auto
+        relative
+        z-10
+      "
+      >
+        {/* Page header */}
+        <div className="relative bg-[#18351e] border-b border-[#d6b686]">
+          <div className="flex flex-col items-start max-w-[1100px] mx-auto px-6 py-6">
+            <div className="flex items-center justify-center gap-1 text-[#d6b686] text-sm mb-4 bg-[#1f3f26] px-3 py-1.5 rounded-full border border-[#eeca94]/20">
+              <PhoneIcon size={16} fill="#d6b686" />
+              <span>Contato</span>
+            </div>
+            <h1 className="text-[#fff8f0] text-3xl lg:text-4xl font-semibold">
+              Entre em contato conosco
+            </h1>
+            <p
+              className="
+                mt-5
+                text-[#f8f3ece6]
+                text-lg
+                max-w-3xl
+              "
+              style={{
+                fontFamily: "Cormorant Garamond, serif",
+              }}
+            >
+              Estamos à disposição para acolher suas dúvidas, intenções,
+              sugestões e pedidos.
+            </p>
+          </div>
         </div>
-      </div>
 
-      <div className="max-w-[1100px] mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-10">
-          {/* Contact form */}
-          <div>
+        <div className="max-w-[1100px] mx-auto pt-12 pb-36 px-6 grid lg:grid-cols-[1.4fr_420px] gap-8 items-start">
+          {/* Formulário */}
+
+          <div
+            className="
+              bg-[#fbf4eb]
+              border
+              border-[#D6A64A]
+              rounded-3xl
+              p-8
+              lg:p-10
+            "
+          >
             {submitted ? (
-              <div className="bg-white border border-[#dcc2b5]/50 rounded-2xl p-10 shadow-sm flex flex-col items-center text-center">
-                <div className="size-16 rounded-full bg-[#f9f5f2] flex items-center justify-center mb-4">
-                  <CheckCircle size={32} className="text-[#7b4f37]" />
+              <div
+                className="
+                bg-[#fbf4eb]
+                text-center
+              "
+              >
+                <div
+                  className="
+                    mx-auto
+                    size-16
+                    rounded-full
+                    flex
+                    items-center
+                    justify-center
+                  "
+                >
+                  <CheckCircle size={30} className="text-[#B8872E]" />
                 </div>
+
                 <h2
-                  className="text-[#1a1a1a] text-[22px] mb-2"
-                  style={{ fontWeight: 600 }}
-                >
-                  Mensagem enviada!
-                </h2>
-                <p
-                  className="text-[#6b7280] text-[15px]"
-                  style={{ lineHeight: 1.7 }}
-                >
-                  Obrigado por entrar em contato. Retornaremos em breve.
-                </p>
-                <button
-                  onClick={() => {
-                    setSubmitted(false);
-                    setForm({ name: "", email: "", subject: "", message: "" });
+                  className="
+                    text-[#18351E]
+                    text-4xl
+                    mb-3
+                  "
+                  style={{
+                    fontFamily: "Cormorant Garamond, serif",
+                    fontWeight: 600,
                   }}
-                  className="mt-6 text-[#7b4f37] text-[14px] hover:text-[#4a2f24] transition-colors"
-                  style={{ fontWeight: 500 }}
                 >
-                  Enviar outra mensagem
-                </button>
+                  Mensagem enviada
+                </h2>
+
+                <p className="text-[#5A463B]">
+                  Obrigado pelo contato. Retornaremos em breve.
+                </p>
               </div>
             ) : (
-              <form
-                onSubmit={handleSubmit}
-                className="bg-white border border-[#dcc2b5]/50 rounded-2xl p-8 shadow-sm space-y-5"
-              >
-                <h2
-                  className="text-[#1a1a1a] text-[18px] mb-2"
-                  style={{ fontWeight: 600 }}
-                >
-                  Envie uma mensagem
-                </h2>
-
-                {error ? (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {error && (
                   <div
-                    className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-[13px] text-red-700"
-                    role="alert"
+                    className="
+                      rounded-2xl
+                      border
+                      border-red-300
+                      bg-red-50
+                      px-4
+                      py-3
+                      text-red-700
+                      text-sm
+                    "
                   >
-                    <AlertCircle size={16} className="mt-0.5 shrink-0" />
-                    <span>{error}</span>
+                    {error}
                   </div>
-                ) : null}
+                )}
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 gap-5">
                   <div>
-                    <label
-                      className="block text-[13px] text-[#374151] mb-1.5"
-                      style={{ fontWeight: 500 }}
-                    >
-                      Nome completo
+                    <label className="block text-[#18351E] text-sm mb-2 font-medium">
+                      Nome Completo
                     </label>
+
                     <input
                       type="text"
                       required
                       value={form.name}
                       onChange={(e) =>
-                        setForm((f) => ({ ...f, name: e.target.value }))
+                        setForm((f) => ({
+                          ...f,
+                          name: e.target.value,
+                        }))
                       }
                       placeholder="Seu nome"
-                      className="w-full px-4 py-2.5 rounded-xl border border-[#e5e7eb] bg-white text-[14px] text-[#1a1a1a] placeholder:text-[#9ca3af] focus:outline-none focus:border-[#7b4f37] focus:ring-2 focus:ring-[#7b4f37]/15 transition-all"
+                      className="
+                        w-full
+                        rounded-xl
+                        border
+                        border-[#D6A64A]/40
+                        bg-[#fbf4eb]
+                        px-4
+                        py-3
+                        text-[#18351E]
+                        outline-none
+                        focus:border-[#B8872E]
+                      "
                     />
                   </div>
+
                   <div>
-                    <label
-                      className="block text-[13px] text-[#374151] mb-1.5"
-                      style={{ fontWeight: 500 }}
-                    >
+                    <label className="block text-[#18351E] text-sm mb-2 font-medium">
                       E-mail
                     </label>
+
                     <input
                       type="email"
                       required
                       value={form.email}
                       onChange={(e) =>
-                        setForm((f) => ({ ...f, email: e.target.value }))
+                        setForm((f) => ({
+                          ...f,
+                          email: e.target.value,
+                        }))
                       }
                       placeholder="seu@email.com"
-                      className="w-full px-4 py-2.5 rounded-xl border border-[#e5e7eb] bg-white text-[14px] text-[#1a1a1a] placeholder:text-[#9ca3af] focus:outline-none focus:border-[#7b4f37] focus:ring-2 focus:ring-[#7b4f37]/15 transition-all"
+                      className="
+                        w-full
+                        rounded-xl
+                        border
+                        border-[#D6A64A]/40
+                        bg-[#fbf4eb]
+                        px-4
+                        py-3
+                        text-[#18351E]
+                        outline-none
+                        focus:border-[#B8872E]
+                      "
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label
-                    className="block text-[13px] text-[#374151] mb-1.5"
-                    style={{ fontWeight: 500 }}
-                  >
+                  <label className="block text-[#18351E] text-sm mb-2 font-medium">
                     Assunto
                   </label>
+
                   <input
                     type="text"
                     required
                     value={form.subject}
                     onChange={(e) =>
-                      setForm((f) => ({ ...f, subject: e.target.value }))
+                      setForm((f) => ({
+                        ...f,
+                        subject: e.target.value,
+                      }))
                     }
                     placeholder="Assunto da mensagem"
-                    className="w-full px-4 py-2.5 rounded-xl border border-[#e5e7eb] bg-white text-[14px] text-[#1a1a1a] placeholder:text-[#9ca3af] focus:outline-none focus:border-[#7b4f37] focus:ring-2 focus:ring-[#7b4f37]/15 transition-all"
+                    className="
+                      w-full
+                      rounded-xl
+                      border
+                      border-[#D6A64A]/40
+                      bg-[#fbf4eb]
+                      px-4
+                      py-3
+                      text-[#18351E]
+                      outline-none
+                      focus:border-[#B8872E]
+                    "
                   />
                 </div>
 
                 <div>
-                  <label
-                    className="block text-[13px] text-[#374151] mb-1.5"
-                    style={{ fontWeight: 500 }}
-                  >
+                  <label className="block text-[#18351E] text-sm mb-2 font-medium">
                     Mensagem
                   </label>
+
                   <textarea
                     required
-                    rows={6}
+                    rows={8}
                     value={form.message}
                     onChange={(e) =>
-                      setForm((f) => ({ ...f, message: e.target.value }))
+                      setForm((f) => ({
+                        ...f,
+                        message: e.target.value,
+                      }))
                     }
                     placeholder="Escreva sua mensagem..."
-                    className="w-full px-4 py-2.5 rounded-xl border border-[#e5e7eb] bg-white text-[14px] text-[#1a1a1a] placeholder:text-[#9ca3af] focus:outline-none focus:border-[#7b4f37] focus:ring-2 focus:ring-[#7b4f37]/15 transition-all resize-none"
+                    className="
+                      w-full
+                      rounded-xl
+                      border
+                      border-[#D6A64A]/40
+                      bg-[#fbf4eb]
+                      px-4
+                      py-3
+                      text-[#18351E]
+                      outline-none
+                      resize-none
+                      focus:border-[#B8872E]
+                    "
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex items-center justify-center gap-2 bg-[#4a2f24] hover:bg-[#3d2318] disabled:opacity-70 text-[#f9f5f2] text-[15px] py-3 rounded-xl transition-colors shadow-sm"
-                  style={{ fontWeight: 500 }}
+                  className="
+                    inline-flex
+                    items-center
+                    justify-center
+                    gap-2
+                    rounded-xl
+                    bg-[#18351E]
+                    px-8
+                    py-3
+                    text-[#eeca94]
+                    hover:bg-[#27442A]
+                    transition-colors
+                    disabled:opacity-60
+                    w-full
+                  "
                 >
                   {loading ? (
                     <>
-                      <div className="size-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <div className="size-4 border-2 border-[#D6A64A]/30 border-t-[#D6A64A] rounded-full animate-spin" />
                       Enviando...
                     </>
                   ) : (
                     <>
-                      <Send size={15} />
+                      <Send size={16} />
                       Enviar Mensagem
                     </>
                   )}
@@ -271,48 +346,91 @@ export default function ContactPage() {
             )}
           </div>
 
-          {/* Info sidebar */}
-          <div className="space-y-4">
-            {/* WhatsApp CTA */}
-            <div className="bg-white border border-[#dcc2b5]/50 rounded-2xl p-6 shadow-sm">
-              <p
-                className="text-[#1a1a1a] text-[15px] mb-1"
-                style={{ fontWeight: 600 }}
+          {/* Sidebar */}
+
+          <div className="space-y-5">
+            {/* WhatsApp */}
+
+            <div
+              className="
+              bg-[#fbf4eb]
+              border
+              border-[#D6A64A]
+              rounded-3xl
+              p-6
+            "
+            >
+              <h3
+                className="
+                    text-[#18351E]
+                    text-xl
+                    mb-3
+                  "
+                style={{
+                  fontFamily: "Cormorant Garamond, serif",
+                  fontWeight: 600,
+                }}
               >
                 Prefere falar pelo WhatsApp?
-              </p>
-              <p className="text-[#6b7280] text-[13px] mb-4">
+              </h3>
+
+              <p className="text-[#5A463B] leading-relaxed">
                 Atendimento mais rápido pela Secretaria Paroquial.
               </p>
+
               <a
                 href="https://wa.me/5512981705757"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full flex items-center justify-center gap-2.5 bg-[#00c760] hover:bg-[#00b055] text-white text-[15px] py-3 rounded-xl transition-colors shadow-sm"
-                style={{ fontWeight: 500 }}
+                className="
+                mt-4
+                flex
+                items-center
+                justify-center
+                gap-2
+                rounded-xl
+                bg-[#18351E]
+                text-[#eeca94]
+                py-3
+                hover:bg-[#27442A]
+                transition-colors
+              "
               >
-                <WhatsAppIcon size={18} />
+                <PhoneIcon className="text-[#eeca94]" size={16} />
                 (12) 98170-5757
               </a>
             </div>
 
-            {/* Address */}
-            <div className="bg-white border border-[#dcc2b5]/50 rounded-2xl p-6 shadow-sm">
-              <div className="flex items-start gap-3 mb-4">
-                <div className="size-8 rounded-lg bg-[#f9f5f2] flex items-center justify-center shrink-0 mt-0.5">
-                  <MapPin size={16} className="text-[#7b4f37]" />
-                </div>
+            {/* Endereço */}
+
+            <div
+              className="
+              bg-[#fbf4eb]
+              border
+              border-[#D6A64A]
+              rounded-3xl
+              p-6
+            "
+            >
+              <div className="flex items-start gap-3">
+                <MapPin size={18} className="text-[#B8872E] mt-1 shrink-0" />
+
                 <div>
-                  <p
-                    className="text-[#1a1a1a] text-[14px] mb-1"
-                    style={{ fontWeight: 600 }}
+                  <h3
+                    className="
+                    text-[#18351E]
+                    text-xl
+                    mb-3
+                  "
+                    style={{
+                      fontFamily: "Cormorant Garamond, serif",
+                      fontWeight: 600,
+                    }}
                   >
                     Endereço
-                  </p>
-                  <p
-                    className="text-[#6b7280] text-[13px]"
-                    style={{ lineHeight: 1.6 }}
-                  >
+                  </h3>
+
+                  <p className="text-[#5A463B] leading-relaxed">
                     R. Edson dos Santos, 30
                     <br />
                     Morro do Algodão
@@ -323,56 +441,121 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Hours */}
-            <div className="bg-white border border-[#dcc2b5]/50 rounded-2xl p-6 shadow-sm">
+            {/* Horários */}
+
+            <div
+              className="
+              bg-[#fbf4eb]
+              border
+              border-[#D6A64A]
+              rounded-3xl
+              p-6
+            "
+            >
               <div className="flex items-start gap-3">
-                <div className="size-8 rounded-lg bg-[#f9f5f2] flex items-center justify-center shrink-0 mt-0.5">
-                  <Clock size={16} className="text-[#7b4f37]" />
-                </div>
+                <Clock size={18} className="text-[#B8872E] mt-1 shrink-0" />
+
                 <div>
-                  <p
-                    className="text-[#1a1a1a] text-[14px] mb-2"
-                    style={{ fontWeight: 600 }}
+                  <h3
+                    className="
+                    text-[#18351E]
+                    text-xl
+                    mb-3
+                  "
+                    style={{
+                      fontFamily: "Cormorant Garamond, serif",
+                      fontWeight: 600,
+                    }}
                   >
-                    Horário da Secretaria
+                    Secretaria
+                  </h3>
+
+                  <p className="text-[#5A463B] leading-relaxed">
+                    Terça a sexta-feira
+                    <br />
+                    9h às 12h e 14h às 17h40
+                    <br />
+                    <br />
+                    Sábado: 8h às 12h
                   </p>
-                  <div
-                    className="text-[#6b7280] text-[13px] space-y-1"
-                    style={{ lineHeight: 1.6 }}
-                  >
-                    <p>Terça a sexta-feira:</p>
-                    <p>9h às 12h e 14h às 17h40</p>
-                    <p className="mt-1">Sábado: 8h às 12h</p>
-                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Social */}
-            <div className="bg-white border border-[#dcc2b5]/50 rounded-2xl p-6 shadow-sm">
-              <p
-                className="text-[#1a1a1a] text-[14px] mb-3"
-                style={{ fontWeight: 600 }}
+            {/* Redes */}
+
+            <div
+              className="
+              bg-[#fbf4eb]
+              border
+              border-[#D6A64A]
+              rounded-3xl
+              p-6
+            "
+            >
+              <h3
+                className="
+                text-[#18351E]
+                text-xl
+                mb-4
+              "
+                style={{
+                  fontFamily: "Cormorant Garamond, serif",
+                  fontWeight: 600,
+                }}
               >
                 Redes Sociais
-              </p>
-              <div className="space-y-2.5">
+              </h3>
+
+              <div className="space-y-3">
                 <a
-                  href="https://www.facebook.com/parsaojose/?locale=pt_BR"
-                  target="_blank"
-                  className="flex items-center gap-2.5 text-[#6b7280] hover:text-[#4a2f24] text-[13px] transition-colors"
+                  href="#"
+                  className="
+                  flex
+                  items-center
+                  gap-3
+                  text-[#5a463b]
+                "
                 >
-                  <span className="size-7 rounded-lg bg-[#f9f5f2] flex items-center justify-center">
-                    <FacebookIcon />
+                  <span
+                    className="
+                    size-8
+                    rounded-full
+                    border
+                    border-[#D6A64A]
+                    flex
+                    items-center
+                    justify-center
+                    text-[#D6A64A]
+                    font-bold
+                  "
+                  >
+                    f
                   </span>
                   parsaojose
                 </a>
+
                 <a
-                  href="https://www.instagram.com/paroquiasaojosecaragua/"
-                  target="_blank"
-                  className="flex items-center gap-2.5 text-[#6b7280] hover:text-[#4a2f24] text-[13px] transition-colors"
+                  href="#"
+                  className="
+                  flex
+                  items-center
+                  gap-3
+                  text-[#5a463b]
+                "
                 >
-                  <span className="size-7 rounded-lg bg-[#f9f5f2] flex items-center justify-center">
+                  <span
+                    className="
+                    size-8
+                    rounded-full
+                    border
+                    border-[#D6A64A]
+                    flex
+                    items-center
+                    justify-center
+                    text-[#D6A64A]
+                  "
+                  >
                     <InstagramIcon />
                   </span>
                   paroquiasaojosecaragua
@@ -382,6 +565,22 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
-    </div>
+
+      <div
+        className="
+        absolute
+        bottom-0
+        left-0
+        w-[calc(100%+4cm)]
+        max-w-none
+        ml-[-2cm]
+        aspect-[1536/296]
+        bg-[url('/wave-separator.svg')]
+        bg-no-repeat
+        bg-center
+        bg-cover
+      "
+      />
+    </section>
   );
 }

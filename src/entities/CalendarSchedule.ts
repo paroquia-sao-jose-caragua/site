@@ -1,11 +1,11 @@
-import type { Community } from './Community';
-import type { MassScheduleException } from './MassScheduleException';
+import type { Community } from "./Community";
+import type { MassScheduleException } from "./MassScheduleException";
 
 export type MassSchedule = {
   massScheduleId: string;
-  type: 'mass';
+  type: "mass";
   title?: string;
-  massType: 'ordinary' | 'devotional' | 'solemnity';
+  massType: "ordinary" | "devotional" | "solemnity";
   orientations?: string;
   isPrecept: boolean;
   startTime: string;
@@ -13,7 +13,7 @@ export type MassSchedule = {
   cancellationReason?: string;
   community: {
     id: string;
-    type: Community['type'];
+    type: Community["type"];
     coverUrl: string;
     name: string;
     address: string;
@@ -22,24 +22,24 @@ export type MassSchedule = {
 
 export type EventSchedule = {
   eventScheduleId: string;
-  type: 'event';
+  type: "event";
   title: string;
   eventType:
-    | 'mass'
-    | 'pilgrimage'
-    | 'service'
-    | 'formation'
-    | 'feast'
-    | 'anniversary'
-    | 'conference'
-    | 'meeting'
-    | 'celebration'
-    | 'retreat'
-    | 'liturgical_event'
-    | 'ordination'
-    | 'community_event'
-    | 'other';
-  massType?: 'ordinary' | 'devotional' | 'solemnity' | 'sacramental';
+    | "mass"
+    | "pilgrimage"
+    | "service"
+    | "formation"
+    | "feast"
+    | "anniversary"
+    | "conference"
+    | "meeting"
+    | "celebration"
+    | "retreat"
+    | "liturgical_event"
+    | "ordination"
+    | "community_event"
+    | "other";
+  massType?: "ordinary" | "devotional" | "solemnity" | "sacramental";
   isPrecept?: boolean;
   customLocation?: string;
   orientations?: string;
@@ -48,7 +48,7 @@ export type EventSchedule = {
   cancellationReason?: string;
   community: {
     id: string;
-    type: Community['type'];
+    type: Community["type"];
     coverUrl: string;
     name: string;
     address: string;

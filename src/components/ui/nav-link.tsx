@@ -33,7 +33,7 @@ export function NavLink({
       href={href}
       className={[
         resolvedClassName,
-        isActive ? "text-[#f9f5f2]" : "text-[#dcc2b5] hover:text-[#f9f5f2]",
+        isActive ? "text-[#BB8835]" : "text-[#32402A] hover:text-[#BB8835]",
       ].join(" ")}
       onClick={onClick}
       style={style}

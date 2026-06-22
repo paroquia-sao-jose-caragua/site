@@ -21,7 +21,7 @@ const clergy: ClergyMember[] = [
     img: "/Desktop5/2c639083669db26e28970c07d7940eb6016061d7.png",
     role: "Diácono Permanente",
     name: "Valter de Almeida",
-    bio: "Nascido em 13 de abril de 1951, foi ordenado diácono permanente em 05 de junho de 1999. É casado com Deiko Hashimoto desde 11 de setembro de 1976 e exerce seu ministério na Paróquia São José em Caraguatatuba.",
+    bio: "Valter de Almeida nasceu em São José do Rio Pardo, no Estado de São Paulo, em 13 de abril de 1951, filho de José Porcínio de Almeida Sobrinho e Palmira Foiadelli de Almeida. É casado com Deiko Hashimoto de Almeida, com quem constituiu sua família, tendo um filho e dois netos. Foi ordenado Diácono Permanente em 05 de junho de 1999, na Catedral Divino Espírito Santo, em Caraguatatuba, pelas mãos de Dom Fernando Mason. Atualmente exerce seu ministério diaconal na Paróquia São José, no bairro Morro do Algodão, em Caraguatatuba, dedicando-se ao serviço da Igreja e da comunidade.",
   },
   {
     img: "/Desktop5/f5d4c9341b05a3663e03b0433e3c3f2de529be86.png",
@@ -45,56 +45,212 @@ interface CleryModalProps {
 function CleroModal({ member, onClose }: CleryModalProps) {
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="
+        fixed
+        inset-0
+        z-50
+        flex
+        items-center
+        justify-center
+        p-5
+      "
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      {/* Backdrop */}
+      {/* backdrop */}
+
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="
+          absolute
+          inset-0
+          bg-[#18351E]/60
+          backdrop-blur-sm
+        "
         onClick={onClose}
       />
 
-      {/* Modal */}
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-100 overflow-hidden max-h-[90vh] flex flex-col">
-        {/* Close button */}
+      {/* modal */}
+
+      <div
+        className="
+          relative
+          w-full
+          max-w-md
+          max-h-[90vh]
+          overflow-hidden
+          rounded-3xl
+          bg-[#FBF8F3]
+          border
+          border-[#D6A64A]
+          shadow-2xl
+          flex
+          flex-col
+        "
+      >
+        {/* topo dourado */}
+
+        <div
+          className="
+            h-2
+            bg-[#B8872E]
+          "
+        />
+
+        {/* fechar */}
+
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 z-10 size-8 flex items-center justify-center rounded-full bg-black/10 hover:bg-black/20 text-[#4a2f24] transition-colors"
-          aria-label="Fechar"
+          className="
+            absolute
+            top-5
+            right-5
+            size-9
+            rounded-full
+            bg-[#18351E]
+            text-[#D6A64A]
+            flex
+            items-center
+            justify-center
+            hover:scale-105
+            transition
+          "
         >
-          <X size={15} />
+          <X size={16} />
         </button>
 
-        {/* Content — scrollable */}
-        <div className="p-6 pt-8 overflow-y-auto">
-          {/* Circular photo + role + name */}
-          <div className="flex flex-col items-center text-center mb-5">
-            <img
-              src={member.img}
-              alt={member.name}
-              className="size-40 rounded-full object-cover object-top ring-4 ring-[#dcc2b5] mb-4"
-            />
+        {/* conteúdo */}
+
+        <div
+          className="
+            p-8
+            overflow-y-auto
+          "
+        >
+          {/* Foto */}
+
+          <div
+            className="
+              flex
+              flex-col
+              items-center
+              text-center
+              mb-6
+            "
+          >
+            <div
+              className="
+                relative
+                size-40
+                mb-6
+              "
+            >
+              <div
+                className="
+                  absolute
+                  inset-0
+                  rounded-full
+                  border-4
+                  border-[#B8872E]
+                "
+              />
+
+              <img
+                src={member.img}
+                alt={member.name}
+                className="
+                  size-full
+                  rounded-full
+                  object-cover
+                  object-top
+                  p-1
+                "
+              />
+            </div>
+
+            {/* cargo */}
+
             <p
-              className="text-[#a45d00] text-[11px] uppercase tracking-widest mb-1"
-              style={{ fontWeight: 600 }}
+              className="
+                text-[#B8872E]
+                text-xs
+                uppercase
+                tracking-[0.25em]
+                mb-2
+              "
+              style={{
+                fontWeight: 600,
+              }}
             >
               {member.role}
             </p>
+
+            {/* nome */}
+
             <h2
-              className="text-[#1a1a1a] text-[18px]"
-              style={{ fontWeight: 700, lineHeight: 1.3 }}
+              className="
+                text-[#18351E]
+                text-3xl
+              "
+              style={{
+                fontFamily: "Cormorant Garamond, serif",
+                fontWeight: 600,
+              }}
             >
               {member.name}
             </h2>
           </div>
 
-          {/* Divider */}
-          <div className="w-10 h-0.5 bg-[#dcc2b5] rounded-full mx-auto mb-5" />
+          {/* divisor */}
 
-          {/* Bio */}
-          <p className="text-[#4b5563] text-[14px]" style={{ lineHeight: 1.8 }}>
+          <div
+            className="
+              flex
+              items-center
+              justify-center
+              gap-4
+              mb-6
+            "
+          >
+            <span
+              className="
+                h-px
+                w-16
+                bg-[#B8872E]
+              "
+            />
+
+            <span
+              className="
+                text-[#B8872E]
+                text-xl
+              "
+            >
+              ✝
+            </span>
+
+            <span
+              className="
+                h-px
+                w-16
+                bg-[#B8872E]
+              "
+            />
+          </div>
+
+          {/* biografia */}
+
+          <p
+            className="
+              text-[#5A463B]
+              text-base
+              leading-relaxed
+              text-justify
+            "
+            style={{
+              fontFamily: "Cormorant Garamond, serif",
+            }}
+          >
             {member.bio}
           </p>
         </div>
@@ -107,55 +263,251 @@ export function CleroSection() {
   const [selected, setSelected] = useState<ClergyMember | null>(null);
 
   return (
-    <section className="py-20 bg-[#f9f5f2]">
-      <div className="max-w-300 mx-auto px-6">
-        <div className="mb-10">
-          <p
-            className="text-[#4a2f24] text-[11px] uppercase tracking-widest mb-1"
-            style={{ fontWeight: 500 }}
+    <section
+      className="
+        relative
+        overflow-hidden
+        bg-[#F8F3EC]
+        pt-16
+        md:pt-24
+        pb-16
+        md:pb-36
+      "
+    >
+      <div
+        className="
+          max-w-320
+          mx-auto
+          px-6
+          pb-10
+          relative
+          overflow-hidden
+          z-10
+        "
+      >
+        {/* Header */}
+
+        <div className="mb-14">
+          <div
+            className="
+              flex
+              items-center
+              gap-3
+              mb-4
+            "
           >
-            Clero
-          </p>
+            <span className="h-px w-12 bg-[#B8872E]" />
+
+            <p
+              className="
+                text-[#B8872E]
+                uppercase
+                tracking-[0.35em]
+                text-sm
+              "
+              style={{
+                fontFamily: "Cormorant Garamond, serif",
+              }}
+            >
+              Clero
+            </p>
+
+            <span className="h-px w-12 bg-[#B8872E]" />
+          </div>
+
           <h2
-            className="text-[#4a2f24] text-[26px]"
-            style={{ fontWeight: 600, lineHeight: 1.3 }}
+            className="
+              text-[#18351E]
+              text-3xl lg:text-4xl
+              font-semibold
+            "
+            style={{
+              fontFamily: "Cormorant Garamond, serif",
+            }}
           >
             Servos da Igreja
           </h2>
+
+          <p
+            className="
+              mt-5
+              text-[#5A463B]
+              text-lg
+            "
+            style={{
+              fontFamily: "Cormorant Garamond, serif",
+            }}
+          >
+            Conheça aqueles que dedicam suas vidas ao serviço da nossa
+            comunidade de fé.
+          </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-8">
+        {/* Cards */}
+
+        <div
+          className="
+            grid
+            grid-cols-1
+            sm:grid-cols-2
+            md:grid-cols-4
+            gap-6
+          "
+        >
           {clergy.map((person, i) => (
             <button
               key={i}
               onClick={() => setSelected(person)}
-              className="flex flex-col items-center gap-4 group focus:outline-none"
+              className="
+                group
+                relative
+                rounded-2xl
+                border
+                border-[#D6A64A]
+                bg-[#fbf4eb]
+                p-6
+                flex
+                flex-col
+                items-center
+                text-center
+                transition-all
+                duration-300
+                hover:-translate-y-2
+                hover:shadow-xl
+                cursor-pointer
+              "
             >
-              <div className="relative size-35 md:size-40 shrink-0">
+              {/* Foto */}
+
+              <div
+                className="
+                  relative
+                  size-36
+                  md:size-40
+                  mb-5
+                "
+              >
+                <div
+                  className="
+                    absolute
+                    inset-0
+                    rounded-full
+                    border-4
+                    border-[#B8872E]
+                  "
+                />
+
                 <img
                   src={person.img}
                   alt={person.name}
-                  className="size-full object-cover object-top rounded-full ring-4 ring-[#dcc2b5] group-hover:ring-[#7b4f37] group-hover:scale-[1.03] transition-all duration-300"
+                  className="
+                    size-full
+                    rounded-full
+                    object-cover
+                    object-top
+                    p-1
+                  "
                 />
+
+                {/* selo */}
+
+                <div
+                  className="
+                    absolute
+                    -bottom-3
+                    left-1/2
+                    -translate-x-1/2
+                    size-10
+                    rounded-full
+                    bg-[#18351E]
+                    border
+                    border-[#D6A64A]
+                    flex
+                    items-center
+                    justify-center
+                  "
+                >
+                  <span
+                    className="
+                      text-[#D6A64A]
+                      text-xl
+                    "
+                  >
+                    ✝
+                  </span>
+                </div>
               </div>
-              <div className="text-center">
-                <p
-                  className="text-[#a45d00] text-[11px] uppercase tracking-wide mb-0.5"
-                  style={{ fontWeight: 600 }}
-                >
-                  {person.role}
-                </p>
-                <p
-                  className="text-[#7b4f37] text-[15px] group-hover:text-[#4a2f24] transition-colors"
-                  style={{ fontWeight: 600, lineHeight: 1.4 }}
-                >
-                  {person.name}
-                </p>
+
+              {/* cargo */}
+
+              <p
+                className="
+                  text-[#B8872E]
+                  text-xs
+                  uppercase
+                  tracking-widest
+                  mb-2
+                "
+                style={{
+                  fontWeight: 600,
+                }}
+              >
+                {person.role}
+              </p>
+
+              {/* nome */}
+
+              <h3
+                className="
+                  text-[#18351E]
+                  text-xl
+                  leading-tight
+                "
+                style={{
+                  fontFamily: "Cormorant Garamond, serif",
+                  fontWeight: 600,
+                }}
+              >
+                {person.name}
+              </h3>
+
+              {/* detalhe */}
+
+              <div
+                className="
+                  flex
+                  items-center
+                  gap-3
+                  mt-5
+                "
+              >
+                <span className="h-px w-8 bg-[#B8872E]" />
+
+                <span className="text-[#B8872E]">✝</span>
+
+                <span className="h-px w-8 bg-[#B8872E]" />
               </div>
             </button>
           ))}
         </div>
       </div>
+
+      {/* Onda decorativa inferior */}
+      <div
+        className="
+          absolute
+          bottom-0
+          left-0
+          w-[calc(100%+4cm)]
+          max-w-none
+          ml-[-2cm]
+          aspect-[1536/296]
+          bg-[url('/wave-separator.svg')]
+          bg-no-repeat
+          bg-center
+          bg-cover
+        "
+      />
 
       {selected && (
         <CleroModal member={selected} onClose={() => setSelected(null)} />

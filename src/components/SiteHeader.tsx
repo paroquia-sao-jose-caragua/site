@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Menu, X, Heart } from "lucide-react";
 import Link from "next/link";
 import { NavLink } from "./ui/nav-link";
+import { LogoMark } from "./LogoMark";
 
 const navItems = [
   { label: "Início", to: "/" },
@@ -15,93 +16,79 @@ export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-[#4a2f24] border-b border-[#533b31]">
-      <div className="max-w-300 mx-auto px-6 h-18 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3 shrink-0">
-          <div className="relative size-10 rounded-full overflow-hidden ring-2 ring-[#f9f5f2]/20">
-            <img
-              src="/Desktop5/85dbf46b54be77c7212c66da9b797105c1fc2bf5.png"
-              alt="Logo Paróquia São José"
-              className="size-full object-cover"
-            />
-          </div>
-          <div>
-            <p
-              className="text-[#f9f5f2] text-[15px]"
-              style={{ fontWeight: 600 }}
-            >
-              Paróquia São José
-            </p>
-            <p className="text-[#dcc2b5] text-[12px]">
-              Diocese de Caraguatatuba
-            </p>
-          </div>
-        </Link>
-
-        <nav className="hidden md:flex items-center gap-1">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.label}
-              href={item.to}
-              end={item.to === "/"}
-              className="px-4 py-2 text-[14px] rounded-lg transition-colors text-[#dcc2b5]"
-            >
-              {item.label}
-            </NavLink>
-          ))}
-          <Link
-            href="/quero-contribuir"
-            className="ml-2 inline-flex items-center gap-1.5 bg-[#faba45] hover:bg-[#f5aa2e] text-[#2b2b2b] text-[13px] px-4 py-2 rounded-lg transition-colors shadow-sm"
-            style={{ fontWeight: 600 }}
-          >
-            <Heart size={13} className="fill-[#2b2b2b]" />
-            Quero contribuir
-          </Link>
-        </nav>
-
-        <button
-          className="md:hidden text-[#f9f5f2] p-2 rounded-lg hover:bg-white/10 transition-colors"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Menu"
-        >
-          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
-      </div>
-
-      {mobileOpen && (
-        <div className="md:hidden bg-[#3d2318] border-t border-[#533b31] px-6 py-2">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.label}
-              href={item.to}
-              end={item.to === "/"}
-              onClick={() => setMobileOpen(false)}
-              className={({ isActive }) =>
-                [
-                  "block py-3 text-[15px] border-b border-[#533b31]/60 transition-colors",
-                  isActive
-                    ? "text-[#f9f5f2]"
-                    : "text-[#dcc2b5] hover:text-[#f9f5f2]",
-                ].join(" ")
-              }
-              style={{ fontWeight: 500 }}
-            >
-              {item.label}
-            </NavLink>
-          ))}
-          <div className="py-4">
-            <Link
-              href="/quero-contribuir"
-              onClick={() => setMobileOpen(false)}
-              className="flex items-center justify-center gap-1.5 bg-[#faba45] hover:bg-[#f5aa2e] text-[#2b2b2b] text-[14px] px-4 py-2.5 rounded-lg transition-colors"
-              style={{ fontWeight: 600 }}
-            >
-              <Heart size={14} className="fill-[#2b2b2b]" />
-              Quero contribuir
+    <header className="sticky top-0 z-50">
+      <div className="flex items-start">
+        <div className="relative flex-1 ml-[-12px] bg-[#fbf4eb] min-w-0 border-b border-[#D6A64A]">
+          <div className="max-w-320 mx-auto px-6 h-24 flex items-center justify-between">
+            <Link href="/" className="flex items-center gap-3 shrink-0">
+              <LogoMark height={80} width={240} />
             </Link>
+
+            <nav className="hidden md:flex items-center gap-1">
+              {navItems.map((item) => (
+                <NavLink
+                  key={item.label}
+                  href={item.to}
+                  end={item.to === "/"}
+                  className="px-4 py-2 text-md font-semibold rounded-lg transition-colors"
+                >
+                  {item.label}
+                </NavLink>
+              ))}
+              <Link
+                href="/quero-contribuir"
+                className="ml-2 inline-flex items-center gap-1.5 bg-[#18351e] hover:bg-[#27442A] text-[#eeca94] hover:text-[#eeca94] text-md px-4 py-2 rounded-lg transition-colors shadow-sm"
+                style={{ fontWeight: 500 }}
+              >
+                <Heart size={13} className="fill-[#eeca94]" />
+                Quero contribuir
+              </Link>
+            </nav>
+
+            <button
+              className="md:hidden text-[#314523] p-2 rounded-lg hover:bg-white/10 transition-colors"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Menu"
+            >
+              {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
+
+          {mobileOpen && (
+            <div className="md:hidden bg-[#18351e] border-t border-[#BB8835] py-2">
+              {navItems.map((item) => (
+                <NavLink
+                  key={item.label}
+                  href={item.to}
+                  end={item.to === "/"}
+                  onClick={() => setMobileOpen(false)}
+                  className={({ isActive }) =>
+                    [
+                      "block py-3 text-[15px] transition-colors pl-10 pr-6",
+                      isActive
+                        ? "text-[#d6b686] bg-[#234125] border-r-2 border-[#d6b686]"
+                        : "text-[#d6b686] hover:text-[#d6b686]",
+                    ].join(" ")
+                  }
+                  style={{ fontWeight: 500 }}
+                >
+                  {item.label}
+                </NavLink>
+              ))}
+              <div className="py-4">
+                <Link
+                  href="/quero-contribuir"
+                  className="inline-flex items-center gap-1.5 bg-[#e0be8b] hover:bg-[#314523] text-[#314523] hover:text-[#e0be8b] text-[13px] ml-8 px-4 py-2 rounded-lg transition-colors shadow-sm"
+                  style={{ fontWeight: 600 }}
+                >
+                  <Heart size={13} className="fill-[#314523]" />
+                  Quero contribuir
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </header>
   );
 }

@@ -7,16 +7,24 @@ import { ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 
 import Link from "next/link";
 import { listCalendarSchedules } from "@/lib/api/calendar/list";
-import type { CalendarSchedule, Schedule } from "@/entities/CalendarSchedule";
+import type {
+  CalendarSchedule,
+  EventSchedule,
+  Schedule,
+} from "@/entities/CalendarSchedule";
+import { BotanicalDivider } from "./icons/BotanicalDivider";
+import { Community } from "@/entities/Community";
+import { cn } from "./ui/utils";
+import { ScheduleModal } from "./ScheduleModal";
 
 const slides = [
   {
-    img: "/Desktop5/d53665c7234c83d23c647e6d5da1abf39fc0ea7d.png",
+    img: "/hero/slide-1.png",
     title: "Celebre conosco a Missa em Honra a São José",
     info: "Todo dia 19 às 19h30 na Paróquia São José",
   },
   {
-    img: "/Desktop5/9501870a6d2e000e824b7f82399914486cb30cfd.png",
+    img: "/hero/slide-2.png",
     title: "Contribua com a construção do nosso Centro Pastoral",
     info: "Carnê Solidário, contribua a partir de R$30 mensais",
   },
@@ -49,10 +57,38 @@ const MONTHS_PT = [
 type AgendaSectionEvent = {
   id: string;
   date: string;
+  type: Schedule["type"];
+  title?: string;
+  massType?: "ordinary" | "devotional" | "solemnity" | "sacramental";
+  eventType?:
+    | "mass"
+    | "pilgrimage"
+    | "service"
+    | "formation"
+    | "feast"
+    | "anniversary"
+    | "conference"
+    | "meeting"
+    | "celebration"
+    | "retreat"
+    | "liturgical_event"
+    | "ordination"
+    | "community_event"
+    | "other";
+  isPrecept?: boolean;
+  customLocation?: string;
+  orientations?: string;
   time: string;
   name: string;
   location: string;
   startTime: string;
+  community: {
+    id: string;
+    type: Community["type"];
+    coverUrl: string;
+    name: string;
+    address: string;
+  };
 };
 
 function parseDate(str: string) {
@@ -95,12 +131,47 @@ function formatCommunityName(community: Schedule["community"]) {
   return `${prefix} ${getCommunityShortName(community.name)}`;
 }
 
-function getScheduleTitle(schedule: Schedule) {
-  if (schedule.type === "event") {
-    return schedule.title;
+const getEventTypeLabel = (eventType: EventSchedule["eventType"]): string => {
+  switch (eventType) {
+    case "mass":
+      return "Santa Missa";
+    case "pilgrimage":
+      return "Peregrinação";
+    case "service":
+      return "Serviço";
+    case "formation":
+      return "Formação";
+    case "feast":
+      return "Festa";
+    case "anniversary":
+      return "Aniversário";
+    case "conference":
+      return "Conferência";
+    case "meeting":
+      return "Encontro";
+    case "celebration":
+      return "Celebração";
+    case "retreat":
+      return "Retiro";
+    case "liturgical_event":
+      return "Evento Litúrgico";
+    case "ordination":
+      return "Ordenação";
+    case "community_event":
+      return "Evento Comunitário";
+    case "other":
+      return "Evento";
+    default:
+      return "Evento";
+  }
+};
+
+function getScheduleName(schedule: Schedule) {
+  if (schedule.type === "mass" || schedule.eventType === "mass") {
+    return "Santa Missa";
   }
 
-  return schedule.title ?? "Santa Missa";
+  return getEventTypeLabel(schedule.eventType);
 }
 
 function getScheduleId(schedule: Schedule) {
@@ -122,11 +193,23 @@ function mapCalendarToEvents(calendar: CalendarSchedule[]) {
     return day.schedules.active.map(
       (schedule): AgendaSectionEvent => ({
         id: `${date}-${getScheduleId(schedule)}`,
+        type: schedule.type,
         date,
         time: formatScheduleTime(schedule),
-        name: getScheduleTitle(schedule),
+        name: getScheduleName(schedule),
+        title: schedule?.title,
+        isPrecept: schedule.isPrecept,
+        orientations: schedule?.orientations,
+        ...(schedule.type === "event"
+          ? {
+              eventType: schedule.eventType,
+              customLocation: schedule?.customLocation,
+            }
+          : {}),
+        massType: schedule?.massType,
         location: formatCommunityName(schedule.community),
         startTime: schedule.startTime,
+        community: schedule.community,
       }),
     );
   });
@@ -138,6 +221,8 @@ export function AgendaSection() {
   const today = new Date();
   const currentMonth = today.getMonth() + 1;
   const currentYear = today.getFullYear();
+  const [selectedSchedule, setSelectedSchedule] =
+    useState<AgendaSectionEvent | null>(null);
 
   const { data, isPending, isError } = useQuery({
     queryKey: ["home-calendar-schedules", currentYear, currentMonth],
@@ -184,13 +269,13 @@ export function AgendaSection() {
   }, [emblaApi]);
 
   return (
-    <section id="agenda" className="py-16 bg-white">
-      <div className="max-w-300 mx-auto px-6">
-        <div className="flex flex-col lg:flex-row gap-10 xl:gap-14 items-start">
+    <section id="agenda" className="pt-0 pb-10 lg:pt-10 bg-[#F8F3EC]">
+      <div className="max-w-320 mx-auto px-6">
+        <div className="flex flex-col lg:flex-row gap-6 sm:gap-10 xl:gap-10 items-start">
           {/* Carousel */}
-          <div className="w-full lg:w-[58%] shrink-0">
+          <div className="w-full lg:w-[50%] shrink-0">
             <div
-              className="relative overflow-hidden rounded-2xl shadow-md"
+              className="ml-[-24px] w-[calc(100%_+_48px)] rounded-none relative overflow-hidden lg:rounded-2xl lg:w-full lg:ml-0"
               ref={emblaRef}
             >
               <div className="flex">
@@ -205,24 +290,6 @@ export function AgendaSection() {
                       alt={slide.title}
                       className="absolute inset-0 w-full h-full object-cover"
                     />
-                    <div
-                      className="absolute inset-0"
-                      style={{
-                        background:
-                          "linear-gradient(to top, rgba(74,47,36,0.92) 0%, rgba(74,47,36,0) 55%)",
-                      }}
-                    />
-                    <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-                      <p
-                        className="text-[#f9f5f2] text-[22px] md:text-[26px] mb-2 leading-snug"
-                        style={{ fontWeight: 600 }}
-                      >
-                        {slide.title}
-                      </p>
-                      <p className="text-[#f9f5f2]/80 text-[14px] md:text-[16px]">
-                        {slide.info}
-                      </p>
-                    </div>
                   </div>
                 ))}
               </div>
@@ -239,7 +306,7 @@ export function AgendaSection() {
                     style={{
                       width: i === selectedIndex ? 20 : 6,
                       height: 6,
-                      background: i === selectedIndex ? "#7b4f37" : "#dcc2b5",
+                      background: i === selectedIndex ? "#d6a64a" : "#d6a64a60",
                     }}
                     aria-label={`Slide ${i + 1}`}
                   />
@@ -248,14 +315,14 @@ export function AgendaSection() {
               <div className="flex gap-2">
                 <button
                   onClick={scrollPrev}
-                  className="p-2 rounded-lg border border-[#dcc2b5] hover:bg-[#f9f5f2] transition-colors"
+                  className="p-2 rounded-lg border border-[#ECD6BD] hover:bg-[#ECD6BD]/20 transition-colors"
                   aria-label="Anterior"
                 >
                   <ChevronLeft size={16} className="text-[#7b4f37]" />
                 </button>
                 <button
                   onClick={scrollNext}
-                  className="p-2 rounded-lg border border-[#dcc2b5] hover:bg-[#f9f5f2] transition-colors"
+                  className="p-2 rounded-lg border border-[#ECD6BD] hover:bg-[#ECD6BD]/20 transition-colors"
                   aria-label="Próximo"
                 >
                   <ChevronRight size={16} className="text-[#7b4f37]" />
@@ -266,19 +333,6 @@ export function AgendaSection() {
 
           {/* Schedule */}
           <div className="flex-1 min-w-0 w-full">
-            <p
-              className="text-[#4a2f24] text-[11px] uppercase tracking-widest mb-1"
-              style={{ fontWeight: 500 }}
-            >
-              Agenda
-            </p>
-            <h2
-              className="text-[#4a2f24] text-[26px] mb-6"
-              style={{ fontWeight: 600, lineHeight: 1.3 }}
-            >
-              Nossa programação especial
-            </h2>
-
             <div className="space-y-6">
               {isPending && (
                 <p className="text-[#2b2b2b]/60 text-[14px]">
@@ -302,37 +356,59 @@ export function AgendaSection() {
                 !isError &&
                 Object.entries(schedule).map(([day, events]) => (
                   <div key={day}>
-                    <p
-                      className="text-[#7b4f37] text-[13px] mb-3"
-                      style={{ fontWeight: 500 }}
-                    >
-                      {day}
-                    </p>
-                    <div className="space-y-2">
+                    <div className="flex items-center gap-2 mb-3">
+                      <BotanicalDivider height={30} width={45} />
+                      <p className="text-[#32402A] text-sm font-semibold">
+                        {day}
+                      </p>
+                    </div>
+                    <div className="space-y-3">
                       {events.map((evt, i) => (
-                        <div
+                        <button
                           key={`${evt.id}-${i}`}
-                          className="bg-[#f9f5f2] border border-[#dcc2b5]/60 rounded-xl p-4 flex items-end justify-between shadow-sm hover:shadow-md transition-shadow"
+                          onClick={() => setSelectedSchedule(evt)}
+                          className={cn(
+                            "w-full hover:bg-[#ECD6BD]/20 border rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between hover:shadow-sm transition-shadow cursor-pointer",
+                            evt.massType === "solemnity"
+                              ? "bg-[#F7EBD7] border-[#B8872E]"
+                              : "bg-[#fbf4eb] border-[#d6a64a]",
+                          )}
                         >
-                          <div>
-                            <p className="text-[#2b2b2b]/70 text-[13px] mb-0.5">
+                          <div className="mb-2 sm:mb-0 sm:min-h-[40px] flex flex-col items-start justify-center sm:pr-4 sm:border-r border-[#ECD6BD] sm:mr-4">
+                            <p className="text-[#32402A] text-sm font-semibold">
                               {evt.time}
                             </p>
+                          </div>
+                          <div className="flex flex-col sm:flex-row flex-wrap sm:flex-nowrap justify-between items-start sm:items-center flex-1 gap-1 sm:gap-2">
+                            <div>
+                              {evt.massType === "solemnity" && (
+                                <span
+                                  className="
+                                    text-[#B8872E]
+                                    text-[10px]
+                                    uppercase
+                                    tracking-widest
+                                    font-semibold
+                                  "
+                                >
+                                  ✦ Solenidade
+                                </span>
+                              )}
+                              <p className="text-[#32402A] text-md font-semibold">
+                                {evt.name}
+                              </p>
+                            </div>
                             <p
-                              className="text-[#2b2b2b] text-[15px]"
-                              style={{ fontWeight: 500 }}
+                              className="flex-1 text-[#A3651B] text-xs sm:text-right"
+                              style={{ fontWeight: 400 }}
                             >
-                              {evt.name}
+                              <span>
+                                <MapPin size={11} className="inline mb-[3px]" />{" "}
+                                {evt.location}
+                              </span>
                             </p>
                           </div>
-                          <div
-                            className="flex items-center gap-1 text-[#a45d00] text-[12px]"
-                            style={{ fontWeight: 400 }}
-                          >
-                            <MapPin size={11} />
-                            <span>{evt.location}</span>
-                          </div>
-                        </div>
+                        </button>
                       ))}
                     </div>
                   </div>
@@ -341,13 +417,20 @@ export function AgendaSection() {
 
             <Link
               href="/agenda"
-              className="mt-6 inline-flex items-center gap-1 text-[#7b4f37] text-[14px] hover:text-[#4a2f24] transition-colors"
+              className="mt-6 inline-flex items-center gap-1 text-[#32402A] text-[14px] hover:text-[#BB8835] transition-colors"
               style={{ fontWeight: 500 }}
             >
               Ver Programação Completa
               <ChevronRight size={15} />
             </Link>
           </div>
+
+          {selectedSchedule && (
+            <ScheduleModal
+              schedule={selectedSchedule}
+              onClose={() => setSelectedSchedule(null)}
+            />
+          )}
         </div>
       </div>
     </section>

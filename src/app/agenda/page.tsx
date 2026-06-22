@@ -10,18 +10,17 @@ import {
   ChevronRight,
   X,
 } from "lucide-react";
-import { communities, type AgendaEvent } from "../../data/agendaData";
 import { useSearchParams } from "next/navigation";
 import { listCalendarSchedules } from "@/lib/api/calendar/list";
-import type { CalendarSchedule, Schedule } from "@/entities/CalendarSchedule";
-
-const communityImages: Record<string, string> = {
-  psj: "/Desktop5/e1d50cae9fab58435153a4c41bbf85789ad42f26.png",
-  cse: "/Desktop5/05954d1396cd22d752a9383cc71f05004fb83a94.png",
-  cnsr: "/Desktop5/7387a98bd8b87ea87349155d8dcfa3b57becde99.png",
-  csf: "/Desktop5/8923874a787fb8983e3c782e8248f74411a5c7b1.png",
-  cscj: "/Desktop5/455ffb51a3b40639c1fdae0be7b7b8c147a6c4b4.png",
-};
+import type {
+  CalendarSchedule,
+  EventSchedule,
+  Schedule,
+} from "@/entities/CalendarSchedule";
+import { BotanicalDivider } from "@/components/icons/BotanicalDivider";
+import { Community } from "@/entities/Community";
+import { ScheduleModal } from "@/components/ScheduleModal";
+import { useCommunities } from "@/lib/api/communities/use-communities";
 
 const WEEKDAYS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 const WEEKDAYS_FULL = [
@@ -83,25 +82,6 @@ function formatDateLabel(dateStr: string) {
   return `${weekday}, ${day} de ${month}`;
 }
 
-function getCommunityShortName(name: string) {
-  return name
-    .replace(/^Matriz\s+/i, "")
-    .replace(/^Paróquia\s+/i, "")
-    .replace(/^Capela\s+/i, "")
-    .replace(/^Comunidade\s+/i, "");
-}
-
-function formatCommunityName(community: Schedule["community"]) {
-  const communityType = community.type as string;
-  const prefix =
-    communityType === "parish_chapel" || communityType === "parish_church"
-      ? "Matriz"
-      : "Capela";
-  const name = getCommunityShortName(community.name);
-
-  return `${prefix} ${name}`;
-}
-
 function normalizeText(value: string) {
   return value
     .normalize("NFD")
@@ -110,34 +90,74 @@ function normalizeText(value: string) {
     .toLowerCase();
 }
 
-function matchesCommunityFilter(event: AgendaEvent, selectedCommunity: string) {
-  if (selectedCommunity === "all" || event.communityId === selectedCommunity) {
+function matchesCommunityFilter(
+  event: AgendaEvent,
+  selectedCommunityId: string,
+  communities: Community[],
+) {
+  if (
+    selectedCommunityId === "all" ||
+    event.communityId === selectedCommunityId
+  ) {
     return true;
   }
 
-  const legacyCommunity = communities.find((c) => c.id === selectedCommunity);
+  const legacyCommunity = communities.find((c) => c.id === selectedCommunityId);
 
-  if (!legacyCommunity || !event.communityName) {
+  if (!legacyCommunity || !event.community.name) {
     return false;
   }
 
-  const eventCommunityName = normalizeText(event.communityName);
-  const legacyNames = [legacyCommunity.name, legacyCommunity.shortName].map(
-    normalizeText,
-  );
+  const eventCommunityName = normalizeText(event.community.name);
+  const legacyName = normalizeText(legacyCommunity.name);
 
-  return legacyNames.some(
-    (name) =>
-      eventCommunityName.includes(name) || name.includes(eventCommunityName),
+  return (
+    eventCommunityName.includes(legacyName) ||
+    legacyName.includes(eventCommunityName)
   );
 }
 
-function getScheduleTitle(schedule: Schedule) {
-  if (schedule.type === "event") {
-    return schedule.title;
+const getEventTypeLabel = (eventType: EventSchedule["eventType"]): string => {
+  switch (eventType) {
+    case "mass":
+      return "Santa Missa";
+    case "pilgrimage":
+      return "Peregrinação";
+    case "service":
+      return "Serviço";
+    case "formation":
+      return "Formação";
+    case "feast":
+      return "Festa";
+    case "anniversary":
+      return "Aniversário";
+    case "conference":
+      return "Conferência";
+    case "meeting":
+      return "Encontro";
+    case "celebration":
+      return "Celebração";
+    case "retreat":
+      return "Retiro";
+    case "liturgical_event":
+      return "Evento Litúrgico";
+    case "ordination":
+      return "Ordenação";
+    case "community_event":
+      return "Evento Comunitário";
+    case "other":
+      return "Evento";
+    default:
+      return "Evento";
+  }
+};
+
+function getScheduleName(schedule: Schedule) {
+  if (schedule.type === "mass" || schedule.eventType === "mass") {
+    return "Santa Missa";
   }
 
-  return schedule.title ?? "Santa Missa";
+  return getEventTypeLabel(schedule.eventType);
 }
 
 function getScheduleDescription(schedule: Schedule) {
@@ -162,24 +182,36 @@ function mapCalendarToAgendaEvents(calendar: CalendarSchedule[]) {
     }
 
     return activeSchedules.map((schedule): AgendaEvent => {
-      const communityName = formatCommunityName(schedule.community);
-
       return {
         id:
           schedule.type === "mass"
             ? `${date}-${schedule.massScheduleId}`
             : `${date}-${schedule.eventScheduleId}`,
-        title: getScheduleTitle(schedule),
-        startTime: schedule.startTime,
-        endTime: schedule.endTime,
+        type: schedule.type,
+        name: getScheduleName(schedule),
+        time: `${schedule.startTime} - ${schedule.endTime}`,
         communityId: schedule.community.id,
-        communityName,
-        communityShortName: getCommunityShortName(communityName),
-        communityCoverUrl: schedule.community.coverUrl,
-        communityAddress: schedule.community.address,
+        location: schedule.community.address,
+        orientations: schedule?.orientations,
+        ...(schedule.type === "event"
+          ? {
+              eventType: schedule.eventType,
+              customLocation: schedule?.customLocation,
+            }
+          : {}),
         recurring: isRecurringSchedule(schedule),
         date,
         description: getScheduleDescription(schedule),
+        community: schedule.community,
+        isPrecept: schedule.isPrecept,
+        ...(schedule.type === "event"
+          ? {
+              eventType: schedule.eventType,
+              customLocation: schedule?.customLocation,
+            }
+          : {}),
+        title: schedule?.title,
+        massType: schedule?.massType,
       };
     });
   });
@@ -232,23 +264,23 @@ function MiniCalendar({
   for (let d = 1; d <= daysInMonth; d++) cells.push(d);
 
   return (
-    <div className="bg-white border border-[#dcc2b5]/50 rounded-2xl p-4 shadow-sm">
+    <div className="bg-[#F8F0E7] border border-[#d6a64a]/50 rounded-2xl p-4 shadow-sm">
       <div className="flex items-center justify-between mb-3">
         <button
           onClick={prevMonth}
-          className="p-1.5 rounded-lg hover:bg-[#f9f5f2] transition-colors text-[#7b4f37]"
+          className="p-1.5 rounded-lg hover:bg-[#ECD6BD]/50 transition-colors text-[#32402A]/80"
         >
           <ChevronLeft size={15} />
         </button>
         <span
-          className="text-[13px] text-[#4a2f24]"
+          className="text-[13px] text-[#32402A]"
           style={{ fontWeight: 600 }}
         >
           {MONTHS_PT[calMonth - 1]} {calYear}
         </span>
         <button
           onClick={nextMonth}
-          className="p-1.5 rounded-lg hover:bg-[#f9f5f2] transition-colors text-[#7b4f37]"
+          className="p-1.5 rounded-lg hover:bg-[#ECD6BD]/50 transition-colors text-[#32402A]/80"
         >
           <ChevronRight size={15} />
         </button>
@@ -258,7 +290,7 @@ function MiniCalendar({
         {WEEKDAYS.map((d) => (
           <div
             key={d}
-            className="text-center text-[10px] text-[#7b4f37]/70 py-1"
+            className="text-center text-[10px] text-[#32402A]/80 py-1"
             style={{ fontWeight: 500 }}
           >
             {d}
@@ -281,16 +313,16 @@ function MiniCalendar({
               className={[
                 "relative flex flex-col items-center justify-center h-8 w-full rounded-lg text-[12px] transition-all",
                 isSelected
-                  ? "bg-[#4a2f24] text-white"
+                  ? "bg-[#355231] text-[#ffe7c2]"
                   : isToday
-                    ? "bg-[#f9f5f2] text-[#4a2f24]"
-                    : "text-[#2b2b2b] hover:bg-[#f9f5f2]",
+                    ? "bg-[#ECD6BD]/50 text-[#32402A]"
+                    : "text-[#32402A] hover:bg-[#ECD6BD]/50",
               ].join(" ")}
               style={{ fontWeight: isToday || isSelected ? 600 : 400 }}
             >
               {day}
               {hasEvent && !isSelected && (
-                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 size-0.75 rounded-full bg-[#a45d00]" />
+                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 size-0.75 rounded-full bg-[#32402A]/80" />
               )}
             </button>
           );
@@ -300,55 +332,105 @@ function MiniCalendar({
   );
 }
 
+interface AgendaEvent {
+  id: string;
+  name: string;
+  type: Schedule["type"];
+  time: string;
+  communityId: string;
+  recurring: boolean;
+  date: string; // "YYYY-MM-DD"
+  description?: string;
+  location: string;
+  title?: string;
+  isPrecept?: boolean;
+  customLocation?: string;
+  orientations?: string;
+  massType?: "ordinary" | "devotional" | "solemnity" | "sacramental";
+  eventType?:
+    | "mass"
+    | "pilgrimage"
+    | "service"
+    | "formation"
+    | "feast"
+    | "anniversary"
+    | "conference"
+    | "meeting"
+    | "celebration"
+    | "retreat"
+    | "liturgical_event"
+    | "ordination"
+    | "community_event"
+    | "other";
+  community: {
+    id: string;
+    type: Community["type"];
+    coverUrl: string;
+    name: string;
+    address: string;
+  };
+}
+
 interface EventCardProps {
   event: AgendaEvent;
 }
 
 function EventCard({ event }: EventCardProps) {
-  const community = communities.find((c) => c.id === event.communityId);
-  const communityName = event.communityName ?? community?.name;
-  const img = event.communityCoverUrl ?? communityImages[event.communityId];
+  const [selectedSchedule, setSelectedSchedule] = useState<AgendaEvent | null>(
+    null,
+  );
+
+  const communityName = event.community.name;
+  const img = event.community.coverUrl;
 
   return (
-    <div className="bg-white border border-[#e5e7eb] rounded-xl px-5 py-4 flex items-start gap-4 hover:border-[#dcc2b5] hover:shadow-sm transition-all">
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 mb-1.5">
-          <span className="text-[#2b2b2b]/60 text-[13px]">
-            {event.endTime
-              ? `${event.startTime} — ${event.endTime}`
-              : event.startTime}
-          </span>
-          {event.recurring && (
-            <span
-              className="inline-flex items-center gap-1 text-[#7b4f37] text-[11px] bg-[#f9f5f2] border border-[#dcc2b5]/60 px-2 py-0.5 rounded-full"
-              style={{ fontWeight: 500 }}
-            >
-              <RefreshCw size={10} />
-              Recorrente
-            </span>
-          )}
-        </div>
-        <p
-          className="text-[#1a1a1a] text-[15px] mb-2"
-          style={{ fontWeight: 600 }}
-        >
-          {event.title}
-        </p>
-        {event.description && (
-          <p className="text-[#2b2b2b]/60 text-[13px] mb-2">
-            {event.description}
+    <div>
+      <button
+        onClick={() => setSelectedSchedule(event)}
+        className="bg-[#f9efe6] hover:bg-[#ECD6BD]/20 border border-[#d6a64a] rounded-xl px-5 py-4 flex items-start gap-4 hover:border-[#dcc2b5] hover:shadow-sm transition-all cursor-pointer w-full text-left"
+      >
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="text-[#32402A]/80 text-[13px]">{event.time}</span>
+            {event.recurring && (
+              <span
+                className="inline-flex items-center gap-1 text-[#7b4f37] text-[11px] bg-[#ECD6BD]/20 border border-[#dcc2b5]/60 px-2 py-0.5 rounded-full"
+                style={{ fontWeight: 500 }}
+              >
+                <RefreshCw size={10} />
+                Recorrente
+              </span>
+            )}
+          </div>
+          <p
+            className="text-[#32402A] text-[15px] mb-2"
+            style={{ fontWeight: 600 }}
+          >
+            {event.name}
           </p>
-        )}
-        <div className="flex items-center gap-1 text-[#a45d00] text-[13px]">
-          <MapPin size={12} />
-          <span>{communityName}</span>
+          {event.description && (
+            <p className="text-[#32402A]/80 text-[13px] mb-2">
+              {event.description}
+            </p>
+          )}
+          <div className="flex items-center gap-1 text-[#A3651B] text-[13px]">
+            <MapPin size={12} />
+            <span>{communityName}</span>
+          </div>
         </div>
-      </div>
-      {img && (
-        <img
-          src={img}
-          alt={communityName || ""}
-          className="size-9 rounded-full object-cover ring-2 ring-[#dcc2b5]/50 shrink-0 mt-0.5"
+        {img && (
+          <img
+            src={img}
+            alt={communityName || ""}
+            className="size-9 rounded-full object-cover ring-2 ring-[#d6a64a] shrink-0 mt-0.5"
+          />
+        )}
+      </button>
+
+      {selectedSchedule && (
+        <ScheduleModal
+          schedule={selectedSchedule}
+          onClose={() => setSelectedSchedule(null)}
         />
       )}
     </div>
@@ -361,29 +443,43 @@ function AgendaPageContent() {
   const currentYear = today.getFullYear();
 
   const searchParams = useSearchParams();
-  const initialCommunity = searchParams.get("comunidade") ?? "all";
   const visibleMonths = useMemo(() => getVisibleMonths(), []);
+  const { communities } = useCommunities();
 
   const initialMonth = visibleMonths.find((m) => m.value === currentMonth)
     ? currentMonth
     : visibleMonths[0].value;
   const [selectedMonth, setSelectedMonth] = useState(initialMonth);
-  const [selectedCommunity, setSelectedCommunity] =
-    useState<string>(initialCommunity);
+  const [selectedCommunityId, setSelectedCommunityId] = useState("all");
   const [selectedDate, setSelectedDate] = useState<string>("");
+
+  const selectedCommunity = useMemo(() => {
+    if (selectedCommunityId === "all") return undefined;
+
+    return communities.find((c) => c.id === selectedCommunityId);
+  }, [selectedCommunityId, communities]);
 
   // Sync if URL param changes (e.g. back navigation)
   useEffect(() => {
     const param = searchParams.get("comunidade") ?? "all";
-    setSelectedCommunity(param);
+    setSelectedCommunityId(param);
   }, [searchParams]);
 
   const { data, isPending, isError } = useQuery({
-    queryKey: ["calendar-schedules", currentYear, selectedMonth],
+    queryKey: [
+      "calendar-schedules",
+      currentYear,
+      selectedMonth,
+      selectedCommunityId,
+    ],
     queryFn: () =>
       listCalendarSchedules({
         month: selectedMonth,
         year: currentYear,
+        communityId:
+          selectedCommunityId && selectedCommunityId !== "all"
+            ? selectedCommunityId
+            : undefined,
       }),
     refetchOnWindowFocus: false,
   });
@@ -392,61 +488,24 @@ function AgendaPageContent() {
     return mapCalendarToAgendaEvents(data?.calendar ?? []);
   }, [data?.calendar]);
 
-  const communityOptions = useMemo(() => {
-    const options = new Map<
-      string,
-      {
-        id: string;
-        name: string;
-        shortName: string;
-        coverUrl?: string;
-      }
-    >();
-
-    agendaEvents.forEach((event) => {
-      if (!event.communityName || options.has(event.communityId)) {
-        return;
-      }
-
-      options.set(event.communityId, {
-        id: event.communityId,
-        name: event.communityName,
-        shortName: event.communityShortName ?? event.communityName,
-        coverUrl: event.communityCoverUrl,
-      });
-    });
-
-    if (options.size === 0) {
-      communities.forEach((community) => {
-        options.set(community.id, {
-          id: community.id,
-          name: community.name,
-          shortName: community.shortName,
-          coverUrl: communityImages[community.id],
-        });
-      });
-    }
-
-    return Array.from(options.values()).sort((a, b) =>
-      a.name.localeCompare(b.name),
-    );
-  }, [agendaEvents]);
-
   const filteredEvents = useMemo(() => {
     return agendaEvents.filter((e) => {
       const d = parseDate(e.date);
       const monthMatch =
         d.getMonth() + 1 === selectedMonth && d.getFullYear() === currentYear;
-      const communityMatch = matchesCommunityFilter(e, selectedCommunity);
+      const communityMatch = selectedCommunityId
+        ? matchesCommunityFilter(e, selectedCommunityId, communities)
+        : undefined;
       const dateMatch = !selectedDate || e.date === selectedDate;
       return monthMatch && communityMatch && dateMatch;
     });
   }, [
     agendaEvents,
     selectedMonth,
-    selectedCommunity,
+    selectedCommunityId,
     selectedDate,
     currentYear,
+    communities,
   ]);
 
   const eventsByDay = useMemo(() => {
@@ -456,10 +515,6 @@ function AgendaPageContent() {
       list.push(e);
       map.set(e.date, list);
     });
-    // Sort events within each day by start time
-    map.forEach((list) =>
-      list.sort((a, b) => a.startTime.localeCompare(b.startTime)),
-    );
     return map;
   }, [filteredEvents]);
 
@@ -487,33 +542,29 @@ function AgendaPageContent() {
 
   const clearFilters = () => {
     setSelectedDate("");
-    setSelectedCommunity("all");
+    setSelectedCommunityId("all");
   };
 
-  const hasFilters = selectedDate !== "" || selectedCommunity !== "all";
-  const selectedCommunityLabel =
-    communityOptions.find((c) => c.id === selectedCommunity)?.shortName ??
-    communities.find((c) => c.id === selectedCommunity)?.shortName;
+  const hasFilters = selectedDate !== "" || selectedCommunityId !== "all";
 
   return (
-    <div className="min-h-screen bg-[#fafafa]">
+    <div className="relative min-h-screen bg-[#F8F0E7]">
       {/* Page header */}
-      <div className="bg-white border-b border-[#e5e7eb]">
-        <div className="max-w-300 mx-auto px-6 py-6">
-          <div className="flex items-center gap-2 text-[#7b4f37] text-[13px] mb-2">
-            <Calendar size={14} />
+      <div className="relative bg-[#18351e]">
+        <div className="flex flex-col items-start max-w-320 mx-auto px-6 py-6">
+          <div className="flex items-center justify-center gap-1 text-[#d6b686] text-sm mb-4 bg-[#1f3f26] px-3 py-1.5 rounded-full border border-[#eeca94]/20">
+            <Calendar size={16} />
             <span>Agenda</span>
           </div>
-          <h1
-            className="text-[#1a1a1a] text-[28px]"
-            style={{ fontWeight: 600 }}
-          >
+          <h1 className="text-[#fff8f0] text-3xl lg:text-4xl font-semibold">
             Programação da Paróquia
           </h1>
         </div>
+      </div>
 
-        {/* Month tabs */}
-        <div className="max-w-300 mx-auto px-6">
+      {/* Month tabs */}
+      <div className="sticky top-24 z-40 bg-[#18351e] border-b border-[#d6b686]">
+        <div className="max-w-320 mx-auto px-6">
           <div className="flex gap-0 overflow-x-auto pb-0 scrollbar-none">
             {visibleMonths.map((m) => (
               <button
@@ -523,10 +574,10 @@ function AgendaPageContent() {
                   setSelectedDate("");
                 }}
                 className={[
-                  "px-5 py-3 text-[14px] whitespace-nowrap border-b-2 transition-all shrink-0",
+                  "px-5 py-3 text-md whitespace-nowrap border-b-2 transition-all shrink-0",
                   selectedMonth === m.value
-                    ? "border-[#4a2f24] text-[#4a2f24]"
-                    : "border-transparent text-[#6b7280] hover:text-[#4a2f24] hover:border-[#dcc2b5]",
+                    ? "border-[#d6b686] text-[#d6b686] bg-[#234125]"
+                    : "border-transparent text-[#d6b686] hover:text-[#d6b686] hover:bg-[#234125]/40",
                 ].join(" ")}
                 style={{ fontWeight: selectedMonth === m.value ? 600 : 400 }}
               >
@@ -538,10 +589,10 @@ function AgendaPageContent() {
       </div>
 
       {/* Body */}
-      <div className="max-w-300 mx-auto px-6 py-8">
+      <div className="max-w-320 mx-auto px-6 pt-8 pb-36">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar */}
-          <div className="w-full lg:w-65 shrink-0 space-y-4">
+          <div className="w-full lg:w-65 shrink-0 space-y-4 lg:sticky lg:top-[calc(6rem+3.25rem+2rem)] lg:self-start">
             {/* Mini calendar */}
             <MiniCalendar
               year={currentYear}
@@ -558,50 +609,48 @@ function AgendaPageContent() {
             />
 
             {/* Community filter */}
-            <div className="bg-white border border-[#dcc2b5]/50 rounded-2xl p-4 shadow-sm">
+            <div className="bg-[#F8F0E7] border border-[#d6a64a]/50 rounded-2xl p-4 shadow-sm">
               <p
-                className="text-[11px] text-[#4a2f24] uppercase tracking-widest mb-3"
+                className="text-[11px] text-[#18351e] uppercase tracking-widest mb-3"
                 style={{ fontWeight: 600 }}
               >
                 Comunidade
               </p>
               <div className="space-y-1">
                 <button
-                  onClick={() => setSelectedCommunity("all")}
+                  onClick={() => setSelectedCommunityId("all")}
                   className={[
                     "w-full text-left px-3 py-2 rounded-lg text-[13px] transition-colors",
-                    selectedCommunity === "all"
-                      ? "bg-[#4a2f24] text-white"
-                      : "text-[#2b2b2b] hover:bg-[#f9f5f2]",
+                    selectedCommunityId === "all"
+                      ? "bg-[#355231] text-[#ffe7c2]"
+                      : "text-[#2b2b2b] hover:bg-[#ECD6BD]/50",
                   ].join(" ")}
                   style={{
-                    fontWeight: selectedCommunity === "all" ? 600 : 400,
+                    fontWeight: selectedCommunityId === "all" ? 600 : 400,
                   }}
                 >
                   Todas
                 </button>
-                {communityOptions.map((c) => (
+                {communities.map((c) => (
                   <button
                     key={c.id}
-                    onClick={() => setSelectedCommunity(c.id)}
+                    onClick={() => setSelectedCommunityId(c.id)}
                     className={[
                       "w-full text-left px-3 py-2 rounded-lg text-[13px] transition-colors flex items-center gap-2",
-                      selectedCommunity === c.id
-                        ? "bg-[#4a2f24] text-white"
-                        : "text-[#2b2b2b] hover:bg-[#f9f5f2]",
+                      selectedCommunityId === c.id
+                        ? "bg-[#355231] text-[#ffe7c2]"
+                        : "text-[#2b2b2b] hover:bg-[#ECD6BD]/50",
                     ].join(" ")}
                     style={{
-                      fontWeight: selectedCommunity === c.id ? 600 : 400,
+                      fontWeight: selectedCommunityId === c.id ? 600 : 400,
                     }}
                   >
-                    {c.coverUrl && (
-                      <img
-                        src={c.coverUrl}
-                        alt={c.name}
-                        className="size-5 rounded-full object-cover shrink-0"
-                      />
-                    )}
-                    <span className="truncate">{c.shortName}</span>
+                    <span className="truncate">
+                      {c.type === "parish_church"
+                        ? "Paróquia Matriz "
+                        : "Capela "}
+                      {c.name}
+                    </span>
                   </button>
                 ))}
               </div>
@@ -613,12 +662,12 @@ function AgendaPageContent() {
             {/* Active filters bar */}
             {hasFilters && (
               <div className="flex items-center gap-2 mb-4 flex-wrap">
-                <span className="text-[13px] text-[#6b7280]">
+                <span className="text-[13px] text-[#32402A]/80">
                   Filtros ativos:
                 </span>
                 {selectedDate && (
                   <span
-                    className="inline-flex items-center gap-1.5 bg-[#f9f5f2] border border-[#dcc2b5] text-[#4a2f24] text-[12px] px-3 py-1 rounded-full"
+                    className="inline-flex items-center gap-1.5 bg-[#ECD6BD]/20 border border-[#dcc2b5] text-[#4a2f24] text-[12px] px-3 py-1 rounded-full"
                     style={{ fontWeight: 500 }}
                   >
                     <Calendar size={11} />
@@ -635,15 +684,15 @@ function AgendaPageContent() {
                     </button>
                   </span>
                 )}
-                {selectedCommunity !== "all" && (
+                {selectedCommunity && (
                   <span
-                    className="inline-flex items-center gap-1.5 bg-[#f9f5f2] border border-[#dcc2b5] text-[#4a2f24] text-[12px] px-3 py-1 rounded-full"
+                    className="inline-flex items-center gap-1.5 bg-[#ECD6BD]/20 border border-[#dcc2b5] text-[#4a2f24] text-[12px] px-3 py-1 rounded-full"
                     style={{ fontWeight: 500 }}
                   >
                     <MapPin size={11} />
-                    {selectedCommunityLabel}
+                    {selectedCommunity?.name}
                     <button
-                      onClick={() => setSelectedCommunity("all")}
+                      onClick={() => setSelectedCommunityId("all")}
                       className="ml-1 hover:text-[#7b4f37]"
                     >
                       <X size={11} />
@@ -652,8 +701,7 @@ function AgendaPageContent() {
                 )}
                 <button
                   onClick={clearFilters}
-                  className="text-[12px] text-[#7b4f37] hover:text-[#4a2f24] transition-colors"
-                  style={{ fontWeight: 500 }}
+                  className="text-[12px] text-[#4a2f24]/80 hover:text-[#4a2f24] transition-colors font-bold"
                 >
                   Limpar tudo
                 </button>
@@ -700,15 +748,16 @@ function AgendaPageContent() {
                   return (
                     <div key={dateStr}>
                       <div className="flex items-center gap-2 mb-3">
+                        <BotanicalDivider height={30} width={45} />
                         <h2
-                          className="text-[#1a1a1a] text-[17px]"
+                          className="text-[#32402A] text-[17px]"
                           style={{ fontWeight: 600 }}
                         >
                           {formatDateLabel(dateStr)}
                         </h2>
                         {isToday && (
                           <span
-                            className="text-[11px] bg-[#4a2f24] text-white px-2 py-0.5 rounded-full"
+                            className="text-[11px] bg-[#32402A] text-[#ffe7c2] px-2 py-0.5 rounded-full"
                             style={{ fontWeight: 500 }}
                           >
                             Hoje
@@ -716,7 +765,7 @@ function AgendaPageContent() {
                         )}
                       </div>
 
-                      <div className="space-y-2">
+                      <div className="space-y-3">
                         {events.map((evt, i) => (
                           <EventCard key={`${evt.id}-${i}`} event={evt} />
                         ))}
@@ -736,19 +785,18 @@ function AgendaPageContent() {
                       className="text-[#dcc2b5] mx-auto mb-3"
                     />
                     <p
-                      className="text-[#6b7280] text-[15px]"
+                      className="text-[#4a2f24]/80 text-[15px]"
                       style={{ fontWeight: 500 }}
                     >
                       Nenhum evento encontrado
                     </p>
-                    <p className="text-[#9ca3af] text-[13px] mt-1">
+                    <p className="text-[#4a2f24]/60 text-[13px] mt-1">
                       Tente outro mês ou remova os filtros
                     </p>
                     {hasFilters && (
                       <button
                         onClick={clearFilters}
-                        className="mt-4 text-[#7b4f37] text-[13px] hover:text-[#4a2f24] transition-colors"
-                        style={{ fontWeight: 500 }}
+                        className="mt-4 text-[#4a2f24]/80 text-[13px] hover:text-[#4a2f24] transition-colors font-bold"
                       >
                         Limpar filtros
                       </button>
@@ -759,6 +807,24 @@ function AgendaPageContent() {
           </div>
         </div>
       </div>
+
+      {/* Onda decorativa inferior */}
+      <div
+        className="
+          absolute
+          bottom-0
+          left-0
+          w-[calc(100%+4cm)]
+          max-w-none
+          ml-[-2cm]
+          aspect-[1536/296]
+          bg-[url('/wave-separator.svg')]
+          bg-no-repeat
+          bg-center
+          bg-cover
+          pointer-events-none
+        "
+      />
     </div>
   );
 }
@@ -769,7 +835,7 @@ export default function AgendaPage() {
       fallback={
         <div className="min-h-screen bg-[#fafafa]">
           <div className="bg-white border-b border-[#e5e7eb]">
-            <div className="max-w-300 mx-auto px-6 py-6">
+            <div className="max-w-320 mx-auto px-6 py-6">
               <div className="h-4 w-20 rounded bg-[#f9f5f2]" />
               <div className="mt-3 h-8 w-72 max-w-full rounded bg-[#f9f5f2]" />
             </div>
