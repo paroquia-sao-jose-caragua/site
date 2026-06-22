@@ -36,7 +36,7 @@
       "keep_names": true,
       "route": {
         "custom_domain": true,
-        "pattern": "site-staging.paroquiasaojosecaragua.org.br",
+        "pattern": "staging.paroquiasaojosecaragua.org.br",
         "zone_name": "paroquiasaojosecaragua.org.br",
       },
       "assets": {
@@ -67,7 +67,7 @@
       "keep_names": true,
       "route": {
         "custom_domain": true,
-        "pattern": "site.paroquiasaojosecaragua.org.br",
+        "pattern": "paroquiasaojosecaragua.org.br",
         "zone_name": "paroquiasaojosecaragua.org.br",
       },
       "assets": {
