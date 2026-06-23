@@ -2,6 +2,7 @@ import { Schedule } from "@/entities/CalendarSchedule";
 import { Community } from "@/entities/Community";
 import { Check, Copy, MapPin, X } from "lucide-react";
 import { useState } from "react";
+import { CrossIcon } from "./icons/CrossIcon";
 
 type AgendaSectionEvent = {
   id: string;
@@ -215,7 +216,7 @@ export function ScheduleModal({ schedule, onClose }: ScheduleModalProps) {
           >
             <span className="h-px w-14 bg-[#B8872E]" />
 
-            <span className="text-[#B8872E]">✝</span>
+            <CrossIcon width={8} height={16} fill="#B8872E" />
 
             <span className="h-px w-14 bg-[#B8872E]" />
           </div>

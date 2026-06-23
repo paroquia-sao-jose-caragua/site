@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { X } from "lucide-react";
+import { CrossIcon } from "./icons/CrossIcon";
 
 interface ClergyMember {
   img: string;
@@ -220,14 +221,7 @@ function CleroModal({ member, onClose }: CleryModalProps) {
               "
             />
 
-            <span
-              className="
-                text-[#B8872E]
-                text-xl
-              "
-            >
-              ✝
-            </span>
+            <CrossIcon width={8} height={16} fill="#B8872E" />
 
             <span
               className="
@@ -427,14 +421,7 @@ export function CleroSection() {
                     justify-center
                   "
                 >
-                  <span
-                    className="
-                      text-[#D6A64A]
-                      text-xl
-                    "
-                  >
-                    ✝
-                  </span>
+                  <CrossIcon fill="#D6A64A" width={10} height={20} />
                 </div>
               </div>
 
@@ -483,7 +470,7 @@ export function CleroSection() {
               >
                 <span className="h-px w-8 bg-[#B8872E]" />
 
-                <span className="text-[#B8872E]">✝</span>
+                <CrossIcon width={8} height={16} fill="#B8872E" />
 
                 <span className="h-px w-8 bg-[#B8872E]" />
               </div>

@@ -2,6 +2,7 @@ import { PhoneIcon } from "lucide-react";
 import svgPaths from "../../public/Desktop5/svg-45x3npa3b6";
 import Link from "next/link";
 import { LogoMarkVerticalDark } from "./LogoMarkVerticalDark";
+import { CrossIcon } from "./icons/CrossIcon";
 
 function InstagramIcon() {
   return (
@@ -54,14 +55,8 @@ export function SiteFooter() {
             mb-20
           "
         >
-          <div
-            className="
-              text-[#D6A64A]
-              text-3xl
-              mb-4
-            "
-          >
-            ✝
+          <div className="mb-4">
+            <CrossIcon width={14} height={28} fill="#D6A64A" />
           </div>
 
           <Link href="/" className="flex items-center gap-3 shrink-0">

@@ -6,6 +6,7 @@ import { communities, type Community } from "../data/agendaData";
 
 import { useRouter } from "next/navigation";
 import { BotanicalDivider } from "./icons/BotanicalDivider";
+import { CrossIcon } from "./icons/CrossIcon";
 
 const communityImages: Record<string, string> = {
   psj: "/Desktop5/e1d50cae9fab58435153a4c41bbf85789ad42f26.png",
@@ -182,13 +183,7 @@ function CommunityModal({ community, onClose }: CommunityModalProps) {
             "
             />
 
-            <span
-              className="
-              text-[#B8872E]
-            "
-            >
-              ✝
-            </span>
+            <CrossIcon width={8} height={16} fill="#B8872E" />
 
             <span
               className="
@@ -429,7 +424,7 @@ export function CommunitiesSection() {
                     justify-center
                   "
                 >
-                  <span className="text-[#D6A64A] text-xl">✝</span>
+                  <CrossIcon fill="#D6A64A" width={10} height={20} />
                 </div>
               </div>
 
@@ -457,7 +452,7 @@ export function CommunitiesSection() {
               >
                 <span className="h-px w-8 bg-[#B8872E]" />
 
-                <span className="text-[#B8872E]">✝</span>
+                <CrossIcon width={8} height={16} fill="#B8872E" />
 
                 <span className="h-px w-8 bg-[#B8872E]" />
               </div>

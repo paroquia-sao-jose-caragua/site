@@ -548,7 +548,7 @@ function AgendaPageContent() {
   const hasFilters = selectedDate !== "" || selectedCommunityId !== "all";
 
   return (
-    <div className="relative min-h-screen bg-[#F8F0E7]">
+    <div className="relative overflow-hidden min-h-screen bg-[#F8F0E7]">
       {/* Page header */}
       <div className="relative bg-[#18351e]">
         <div className="flex flex-col items-start max-w-320 mx-auto px-6 py-6">
