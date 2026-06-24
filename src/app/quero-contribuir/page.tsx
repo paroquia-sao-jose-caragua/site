@@ -54,7 +54,7 @@ export default function ContributePage() {
               Contribua com as obras e missões da Paróquia São José
             </h1>
             <p
-              className="mt-5 text-[#f8f3ece6] text-lg max-w-3xl text-center"
+              className="mt-5 text-[#f8f3ece6] text-lg max-w-150 text-center"
               style={{
                 fontFamily: "Cormorant Garamond, serif",
               }}
