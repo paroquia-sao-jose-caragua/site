@@ -84,7 +84,7 @@
         },
       ],
       "observability": {
-        "enabled": false,
+        "enabled": true,
       },
       "vars": {
         "CONTACT_EMAIL_TO": "secretaria@paroquiasaojosecaragua.org.br",
