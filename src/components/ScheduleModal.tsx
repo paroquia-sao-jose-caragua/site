@@ -108,12 +108,15 @@ export function ScheduleModal({ schedule, onClose }: ScheduleModalProps) {
           relative
           w-full
           max-w-md
+          max-h-[90vh]
           overflow-hidden
           rounded-3xl
           bg-[#FBF8F3]
           border
           border-[#D6A64A]
           shadow-2xl
+          flex
+          flex-col
         "
       >
         <div className="h-2 bg-[#B8872E]" />
