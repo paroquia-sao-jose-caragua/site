@@ -163,7 +163,7 @@ export function SiteFooter() {
 
             <div className="space-y-4 flex flex-col items-center md:items-start">
               <a
-                href="#"
+                href="https://www.facebook.com/parsaojose/?locale=pt_BR"
                 className="
                   flex
                   items-center
@@ -190,7 +190,7 @@ export function SiteFooter() {
               </a>
 
               <a
-                href="#"
+                href="https://www.instagram.com/paroquiasaojosecaragua/"
                 className="
                   flex
                   items-center
@@ -216,7 +216,7 @@ export function SiteFooter() {
               </a>
 
               <a
-                href="#"
+                href="https://wa.me/5512981705757"
                 className="
                   flex
                   items-center

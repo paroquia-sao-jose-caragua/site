@@ -509,7 +509,7 @@ export default function ContactPage() {
 
               <div className="space-y-3">
                 <a
-                  href="#"
+                  href="https://www.facebook.com/parsaojose/?locale=pt_BR"
                   className="
                   flex
                   items-center
@@ -536,7 +536,7 @@ export default function ContactPage() {
                 </a>
 
                 <a
-                  href="#"
+                  href="https://www.instagram.com/paroquiasaojosecaragua/"
                   className="
                   flex
                   items-center
