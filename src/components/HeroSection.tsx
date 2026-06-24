@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronLeft, ChevronRight, MapPin } from "lucide-react";
+import { Calendar, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 
 import Link from "next/link";
 import { listCalendarSchedules } from "@/lib/api/calendar/list";
@@ -400,15 +400,37 @@ export function HeroSection() {
               )}
 
               {!isPending && isError && (
-                <p className="text-[#2b2b2b]/60 text-[14px]">
-                  Não foi possível carregar a agenda
-                </p>
+                <div className="text-center py-10">
+                  <Calendar
+                    size={34}
+                    className="text-[#dcc2b5] mx-auto mb-2 opacity-70"
+                  />
+
+                  <p className="text-[#2b2b2b]/70 text-[14px] font-medium">
+                    Não foi possível carregar a agenda
+                  </p>
+
+                  <p className="text-[#6b7280] text-[12px] mt-1">
+                    Tente novamente em alguns instantes
+                  </p>
+                </div>
               )}
 
               {!isPending && !isError && Object.keys(schedule).length === 0 && (
-                <p className="text-[#2b2b2b]/60 text-[14px]">
-                  Nenhum agendamento encontrado
-                </p>
+                <div className="text-center py-10">
+                  <Calendar
+                    size={34}
+                    className="text-[#dcc2b5] mx-auto mb-2 opacity-70"
+                  />
+
+                  <p className="text-[#2b2b2b]/70 text-[14px] font-medium">
+                    Nenhum agendamento encontrado
+                  </p>
+
+                  <p className="text-[#6b7280] text-[12px] mt-1">
+                    Em breve novas celebrações serão adicionadas
+                  </p>
+                </div>
               )}
 
               {!isPending &&
