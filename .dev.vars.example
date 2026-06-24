@@ -1,3 +1,4 @@
+NEXT_PUBLIC_BASE_API_URL=http://localhost:3001
 RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 RESEND_FROM_EMAIL="Paróquia São José <contato@seudominio.com.br>"
 CONTACT_EMAIL_TO=secretaria@seudominio.com.br
