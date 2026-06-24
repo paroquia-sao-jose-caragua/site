@@ -14,7 +14,10 @@ interface ListCommunitiesResponse {
 }
 
 export const listCommunities = async () => {
-  const result = await communityApi<ListCommunitiesResponse>();
+  const result = await communityApi<ListCommunitiesResponse>("/", {
+    method: "GET",
+    next: { revalidate: 300 }, // Revalidate every 5 minutes
+  });
 
   return result;
 };

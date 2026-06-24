@@ -1,5 +1,5 @@
-import type { CalendarSchedule } from '@/entities/CalendarSchedule';
-import { calendarApi } from '../utils/calendarApi';
+import type { CalendarSchedule } from "@/entities/CalendarSchedule";
+import { calendarApi } from "../utils/calendarApi";
 
 interface ListCalendarSchedulesResponse {
   calendar: CalendarSchedule[];
@@ -19,8 +19,9 @@ export const listCalendarSchedules = async (values: {
   const result = await calendarApi<ListCalendarSchedulesResponse>(
     `/?${searchParams}`,
     {
-      method: 'GET',
-    }
+      method: "GET",
+      next: { revalidate: 300 }, // Revalidate every 5 minutes
+    },
   );
 
   return result;
