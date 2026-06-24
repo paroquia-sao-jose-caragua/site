@@ -168,8 +168,8 @@ body {
 .communities-section::after {
   content: "";
   position: absolute;
-  width: 1024px;
-  height: 680px;
+  width: 1160px;
+  height: 770px;
 
   background-image: url("/inicio/san-joseph.png");
   background-repeat: no-repeat;
@@ -184,7 +184,7 @@ body {
 @media (min-width: 1024px) {
   .communities-section::after {
     right: -20px;
-    top: 0px;
+    top: -50px;
   }
 }
 
