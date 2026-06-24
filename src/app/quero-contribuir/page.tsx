@@ -6,21 +6,12 @@ import {
   Check,
   Heart,
   ChevronRight,
-  HandHeart,
   HeartIcon,
   PhoneIcon,
 } from "lucide-react";
 import svgPaths from "../../../public/MacBookPro1412/svg-3c63l3s3dy";
 
 import Link from "next/link";
-
-function WhatsAppIcon({ size = 18 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 20 20" fill="none">
-      <path d={svgPaths.p179ae280} fill="currentColor" />
-    </svg>
-  );
-}
 
 function CopyButton({ text, label }: { text: string; label: string }) {
   const [copied, setCopied] = useState(false);
@@ -60,7 +51,7 @@ export default function ContributePage() {
               <span>Obras e Missão</span>
             </div>
             <h1 className="max-w-150 text-[#fff8f0] text-3xl lg:text-4xl font-semibold text-center">
-              Contribua com a construção do nosso Centro Pastoral
+              Contribua com as obras e missões da Paróquia São José
             </h1>
             <p
               className="mt-5 text-[#f8f3ece6] text-lg max-w-3xl text-center"
@@ -68,8 +59,8 @@ export default function ContributePage() {
                 fontFamily: "Cormorant Garamond, serif",
               }}
             >
-              Cada doação nos aproxima da conclusão deste espaço que servirá a
-              toda a comunidade.
+              Cada contribuição é um ato de fé e solidariedade, fortalecendo a
+              missão da paróquia e o trabalho pastoral em nossa comunidade.
             </p>
           </div>
         </div>
@@ -221,7 +212,7 @@ export default function ContributePage() {
                   Apoio às Atividades Pastorais
                 </h3>
                 <p className="text-[#5A463B] text-[14px] leading-relaxed">
-                  Sua contribuição ajuda a manter o Centro Pastoral e suas
+                  Sua contribuição ajuda a manter a Paróquia São José e suas
                   atividades de evangelização.
                 </p>
               </div>
@@ -242,8 +233,9 @@ export default function ContributePage() {
             <p className="text-[#5A463B] text-[15px] mb-4 leading-relaxed">
               Com fé e dedicação, estamos dando vida ao Centro Pastoral da
               Paróquia São José — um espaço para evangelização, formação e
-              convivência cristã. Cada doação é um passo importante nessa missão
-              de acolher, formar e servir.
+              convivência cristã. A boa fé de cada doador permitiu erguermos um
+              local que acolhe a comunidade, promove encontros e fortalece a
+              missão pastoral.
             </p>
             <Link
               href="/contato"
