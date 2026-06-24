@@ -481,6 +481,7 @@ export function CommunitiesSection() {
           bg-no-repeat
           bg-center
           bg-cover
+          z-1
         "
       />
 
