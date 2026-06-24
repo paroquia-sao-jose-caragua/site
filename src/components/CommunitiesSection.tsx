@@ -50,11 +50,12 @@ function CommunityModal({ community, onClose }: CommunityModalProps) {
       className="
         fixed
         inset-0
-        z-50
+        z-52
         flex
         items-center
         justify-center
         p-5
+        max-h-screen
       "
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
@@ -117,6 +118,7 @@ function CommunityModal({ community, onClose }: CommunityModalProps) {
           className="
             p-8
             text-center
+            overflow-y-auto
           "
         >
           {/* imagem */}
@@ -303,7 +305,7 @@ export function CommunitiesSection() {
   return (
     <section
       id="comunidades"
-      className="communities-section relative overflow-hidden pt-16 lg:pt-0 pb-24 lg:pb-36 z-1"
+      className="communities-section relative overflow-hidden pt-16 lg:pt-0 pb-24 lg:pb-36"
     >
       <div className="max-w-320 mx-auto px-6 relative z-10">
         {/* Header */}
@@ -466,7 +468,7 @@ export function CommunitiesSection() {
       <div
         className="
           absolute
-          bottom-0
+          bottom-[-2px]
           left-0
           w-[calc(100%+4cm)]
           max-w-none

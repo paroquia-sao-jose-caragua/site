@@ -483,7 +483,7 @@ export function CleroSection() {
       <div
         className="
           absolute
-          bottom-[-10px]
+          bottom-[-2px]
           left-0
           w-[calc(100%+4cm)]
           max-w-none

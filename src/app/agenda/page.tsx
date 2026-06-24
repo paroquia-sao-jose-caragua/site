@@ -812,7 +812,7 @@ function AgendaPageContent() {
       <div
         className="
           absolute
-          bottom-0
+          bottom-[-2px]
           left-0
           w-[calc(100%+4cm)]
           max-w-none

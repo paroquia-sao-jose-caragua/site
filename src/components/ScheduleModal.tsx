@@ -82,10 +82,11 @@ export function ScheduleModal({ schedule, onClose }: ScheduleModalProps) {
       className="
         fixed
         inset-0
-        z-50
+        z-52
         flex
         items-center
         justify-center
+        max-h-screen
         p-5
       "
       onClick={(e) => {
@@ -137,7 +138,7 @@ export function ScheduleModal({ schedule, onClose }: ScheduleModalProps) {
           <X size={16} />
         </button>
 
-        <div className="p-8">
+        <div className="p-8 overflow-y-auto">
           {/* Evento */}
           <div className="flex flex-col items-center text-center mb-6">
             <img
@@ -186,11 +187,11 @@ export function ScheduleModal({ schedule, onClose }: ScheduleModalProps) {
             schedule.massType !== "ordinary" &&
             schedule.massType !== "solemnity" &&
             getMassTypeLabel(schedule.massType) ? (
-              <p className="text-lg">{`${getMassTypeLabel(schedule.massType)}${schedule.title ? `: ${schedule.title}` : ""}`}</p>
+              <p className="text-lg text-[#18351e]">{`${getMassTypeLabel(schedule.massType)}${schedule.title ? `: ${schedule.title}` : ""}`}</p>
             ) : null}
 
             {schedule?.massType === "solemnity" && schedule?.title ? (
-              <p className="text-lg">{`Título: ${schedule.title}`}</p>
+              <p className="text-lg text-[#18351e]">{`Título: ${schedule.title}`}</p>
             ) : null}
 
             <p

@@ -78,6 +78,7 @@ export function SiteHeader() {
               <div className="py-4">
                 <Link
                   href="/quero-contribuir"
+                  onClick={() => setMobileOpen(false)}
                   className="inline-flex items-center gap-1.5 bg-[#e0be8b] hover:bg-[#314523] text-[#314523] hover:text-[#e0be8b] text-[13px] ml-8 px-4 py-2 rounded-lg transition-colors shadow-sm"
                   style={{ fontWeight: 600 }}
                 >
