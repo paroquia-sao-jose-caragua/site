@@ -16,7 +16,7 @@ const clergy: ClergyMember[] = [
     img: "/Desktop5/cbfee9095d0b7216d141eba05232f2e192b01bc2.png",
     role: "Pároco",
     name: "Padre Altair Santos",
-    bio: "Nascido em 26 de janeiro de 1967, foi ordenado em 29 de janeiro de 1994. Atualmente é Pároco da Paróquia São José de Caraguatatuba.",
+    bio: "Pe. Altair dos Santos nasceu em Florestópolis, no estado do Paraná, em 26 de janeiro de 1967. Filho de Sebastião dos Santos e Santa de Matos, foi batizado no Paraná. Recebeu os sacramentos da Primeira Eucaristia e da Crisma nas Paróquias de Nossa Senhora Auxiliadora e Nossa Senhora do Sagrado Coração, em Curitiba, onde iniciou seu engajamento pastoral. Foi ordenado diácono no Paraná e, posteriormente, ordenado presbítero em 29 de janeiro de 1994, em Curitiba (PR). Atualmente, exerce o ministério como pároco da Paróquia São José, em Caraguatatuba (SP), dedicando-se ao serviço pastoral da Igreja e da comunidade.",
   },
   {
     img: "/Desktop5/2c639083669db26e28970c07d7940eb6016061d7.png",
@@ -259,9 +259,9 @@ export function CleroSection() {
   return (
     <section
       className="
+        clero-section
         relative
         overflow-hidden
-        bg-[#F8F3EC]
         pt-16
         md:pt-24
         pb-16
@@ -312,7 +312,7 @@ export function CleroSection() {
           <h2
             className="
               text-[#18351E]
-              text-3xl lg:text-4xl
+              text-3xl lg:text-5xl
               font-semibold
             "
             style={{
@@ -343,8 +343,8 @@ export function CleroSection() {
           className="
             grid
             grid-cols-1
-            sm:grid-cols-2
-            md:grid-cols-4
+            md:grid-cols-2
+            lg:grid-cols-4
             gap-6
           "
         >
@@ -358,7 +358,7 @@ export function CleroSection() {
                 rounded-2xl
                 border
                 border-[#D6A64A]
-                bg-[#fbf4eb]
+                bg-[#fbf4eb]/70
                 p-6
                 flex
                 flex-col
@@ -483,7 +483,7 @@ export function CleroSection() {
       <div
         className="
           absolute
-          bottom-0
+          bottom-[-10px]
           left-0
           w-[calc(100%+4cm)]
           max-w-none
@@ -493,6 +493,7 @@ export function CleroSection() {
           bg-no-repeat
           bg-center
           bg-cover
+          z-1
         "
       />
 

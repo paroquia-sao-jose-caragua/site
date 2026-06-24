@@ -29,6 +29,7 @@ export function SiteFooter() {
     <footer
       id="contato"
       className="
+        footer-section
         relative
         overflow-hidden
         bg-[#18351E]
@@ -37,7 +38,7 @@ export function SiteFooter() {
     >
       <div
         className="
-          max-w-280
+          max-w-220
           mx-auto
           px-6
           pt-10
@@ -68,8 +69,11 @@ export function SiteFooter() {
           className="
             flex
             flex-col
+            items-center
+            md:items-start
             md:flex-row
-            gap-12
+            gap-10
+            md:gap-12
             justify-between
           "
         >
@@ -83,6 +87,8 @@ export function SiteFooter() {
                 tracking-widest
                 text-sm
                 mb-5
+                text-center
+                md:text-left
               "
             >
               Secretaria
@@ -92,6 +98,8 @@ export function SiteFooter() {
               className="
               text-[#F8F3EC]/80
               leading-relaxed
+              text-center
+              md:text-left
             "
             >
               Terça a sexta-feira:
@@ -113,6 +121,8 @@ export function SiteFooter() {
                 tracking-widest
                 text-sm
                 mb-5
+                text-center
+                md:text-left
               "
             >
               Endereço
@@ -122,6 +132,8 @@ export function SiteFooter() {
               className="
                 text-[#F8F3EC]/80
                 leading-relaxed
+                text-center
+                md:text-left
               "
             >
               R. Edson dos Santos, 30
@@ -142,12 +154,14 @@ export function SiteFooter() {
                 tracking-widest
                 text-sm
                 mb-5
+                text-center
+                md:text-left
               "
             >
               Redes Sociais
             </p>
 
-            <div className="space-y-4">
+            <div className="space-y-4 flex flex-col items-center md:items-start">
               <a
                 href="#"
                 className="

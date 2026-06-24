@@ -57,7 +57,7 @@ export function CentroPastoralSection() {
                 mb-5
               "
             >
-              <BotanicalDivider height={30} width={45} />
+              <span className="h-px w-12 bg-[#B8872E]" />
 
               <p
                 className="
@@ -73,12 +73,12 @@ export function CentroPastoralSection() {
                 Obras e Missão
               </p>
 
-              <BotanicalDivider height={30} width={45} />
+              <span className="h-px w-12 bg-[#B8872E]" />
             </div>
 
             <h2
               className="
-                text-3xl lg:text-4xl
+                text-3xl lg:text-5xl
                 font-semibold
                 leading-tight
                 mb-6

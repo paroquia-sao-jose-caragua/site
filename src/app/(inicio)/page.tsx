@@ -1,4 +1,4 @@
-import { AgendaSection } from "@/components/AgendaSection";
+import { HeroSection } from "@/components/HeroSection";
 import { CommunitiesSection } from "@/components/CommunitiesSection";
 import { CentroPastoralSection } from "@/components/CentroPastoralSection";
 import { CleroSection } from "@/components/CleroSection";
@@ -6,7 +6,7 @@ import { CleroSection } from "@/components/CleroSection";
 export default function HomePage() {
   return (
     <main>
-      <AgendaSection />
+      <HeroSection />
       <CommunitiesSection />
       <CentroPastoralSection />
       <CleroSection />

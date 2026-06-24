@@ -18,7 +18,7 @@ import type {
   Schedule,
 } from "@/entities/CalendarSchedule";
 import { BotanicalDivider } from "@/components/icons/BotanicalDivider";
-import { Community } from "@/entities/Community";
+import type { Community } from "@/entities/Community";
 import { ScheduleModal } from "@/components/ScheduleModal";
 import { useCommunities } from "@/lib/api/communities/use-communities";
 

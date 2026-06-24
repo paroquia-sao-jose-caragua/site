@@ -303,13 +303,13 @@ export function CommunitiesSection() {
   return (
     <section
       id="comunidades"
-      className="relative overflow-hidden bg-[#F8F3EC] pt-10 pb-24 lg:pb-36"
+      className="communities-section relative overflow-hidden pt-16 lg:pt-0 pb-24 lg:pb-36 z-1"
     >
       <div className="max-w-320 mx-auto px-6 relative z-10">
         {/* Header */}
         <div className="mb-14">
           <div className="flex items-center gap-3 mb-4">
-            <BotanicalDivider height={30} width={45} />
+            <span className="h-px w-12 bg-[#B8872E]" />
 
             <p
               className="text-[#B8872E] uppercase tracking-[0.35em] text-sm"
@@ -320,11 +320,11 @@ export function CommunitiesSection() {
               Igreja
             </p>
 
-            <BotanicalDivider height={30} width={45} />
+            <span className="h-px w-12 bg-[#B8872E]" />
           </div>
 
           <h2
-            className="text-[#18351E] text-3xl lg:text-4xl md:text-6xl font-semibold"
+            className="text-[#18351E] text-3xl lg:text-5xl md:text-5xl font-semibold"
             style={{
               fontFamily: "Cormorant Garamond, serif",
             }}
@@ -357,6 +357,7 @@ export function CommunitiesSection() {
           {communities.map((c) => (
             <button
               key={c.id}
+              type="button"
               onClick={() => setSelected(c)}
               className="
                 group
@@ -364,7 +365,7 @@ export function CommunitiesSection() {
                 rounded-2xl
                 border
                 border-[#D6A64A]
-                bg-[#fbf4eb]
+                bg-[#fbf4eb]/70
                 p-5
                 flex
                 flex-col

@@ -40,7 +40,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${lora.className} antialiased`}
       >
         <AppProvider>
-          <div className="min-h-screen flex flex-col bg-white">
+          <div className="min-h-screen flex flex-col bg-[#f8f0e7]">
             <SiteHeader />
             <div className="flex-1">{children}</div>
             <SiteFooter />
