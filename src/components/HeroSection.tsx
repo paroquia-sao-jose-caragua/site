@@ -13,7 +13,7 @@ import type {
   Schedule,
 } from "@/entities/CalendarSchedule";
 import { BotanicalDivider } from "./icons/BotanicalDivider";
-import { Community } from "@/entities/Community";
+import type { Community } from "@/entities/Community";
 import { cn } from "./ui/utils";
 import { ScheduleModal } from "./ScheduleModal";
 
@@ -341,9 +341,62 @@ export function HeroSection() {
           <div className="hero-section-schedule flex-1 min-w-0 w-full px-6">
             <div className="space-y-6">
               {isPending && (
-                <p className="text-[#2b2b2b]/60 text-[14px]">
-                  Carregando agenda
-                </p>
+                <div className="space-y-8 mt-4">
+                  {/* Skeleton days */}
+                  {[1, 2].map((day) => (
+                    <div key={day}>
+                      {/* Header do dia */}
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="h-4 w-40 bg-[#EADBC8] rounded animate-pulse" />
+                      </div>
+
+                      {/* Events */}
+                      <div className="space-y-3">
+                        {[1, 2].map((item) => (
+                          <div
+                            key={item}
+                            className="w-full border border-[#ECD6BD]/50 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between bg-[#fbf4eb]/50"
+                          >
+                            {/* Hora */}
+                            <div className="mb-2 sm:mb-0 sm:min-h-[40px] flex flex-col items-start justify-center sm:pr-4 sm:border-r border-[#ECD6BD] sm:mr-4">
+                              <div className="h-4 w-[84px] bg-[#EADBC8] rounded animate-pulse" />
+                            </div>
+
+                            {/* Conteúdo */}
+                            <div className="flex flex-col sm:flex-row flex-wrap sm:flex-nowrap justify-between items-start sm:items-center flex-1 gap-2 w-full">
+                              <div className="space-y-2 w-full">
+                                {/* nome */}
+                                <div className="h-4 w-26 bg-[#EADBC8] rounded animate-pulse" />
+                              </div>
+
+                              {/* location */}
+                              <div className="h-3 w-32 bg-[#EADBC8] rounded animate-pulse sm:text-right" />
+                            </div>
+                          </div>
+                        ))}
+                        {day !== 1 && (
+                          <div className="w-full border border-[#ECD6BD]/50 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between bg-[#fbf4eb]/50">
+                            {/* Hora */}
+                            <div className="mb-2 sm:mb-0 sm:min-h-[40px] flex flex-col items-start justify-center sm:pr-4 sm:border-r border-[#ECD6BD] sm:mr-4">
+                              <div className="h-4 w-[84px] bg-[#EADBC8] rounded animate-pulse" />
+                            </div>
+
+                            {/* Conteúdo */}
+                            <div className="flex flex-col sm:flex-row flex-wrap sm:flex-nowrap justify-between items-start sm:items-center flex-1 gap-2 w-full">
+                              <div className="space-y-2 w-full">
+                                {/* nome */}
+                                <div className="h-4 w-26 bg-[#EADBC8] rounded animate-pulse" />
+                              </div>
+
+                              {/* location */}
+                              <div className="h-3 w-32 bg-[#EADBC8] rounded animate-pulse sm:text-right" />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               )}
 
               {!isPending && isError && (
@@ -422,14 +475,16 @@ export function HeroSection() {
                 ))}
             </div>
 
-            <Link
-              href="/agenda"
-              className="mt-6 inline-flex items-center gap-1 text-[#32402A] text-[14px] hover:text-[#BB8835] transition-colors"
-              style={{ fontWeight: 500 }}
-            >
-              Ver Programação Completa
-              <ChevronRight size={15} />
-            </Link>
+            {!isPending && !isError && Object.keys(schedule).length > 0 && (
+              <Link
+                href="/agenda"
+                className="mt-6 inline-flex items-center gap-1 text-[#32402A] text-[14px] hover:text-[#BB8835] transition-colors"
+                style={{ fontWeight: 500 }}
+              >
+                Ver Programação Completa
+                <ChevronRight size={15} />
+              </Link>
+            )}
           </div>
 
           {selectedSchedule && (

@@ -712,12 +712,33 @@ function AgendaPageContent() {
             <div className="space-y-8">
               {isPending && (
                 <div className="text-center py-16">
-                  <Calendar size={40} className="text-[#dcc2b5] mx-auto mb-3" />
+                  <div className="relative mx-auto mb-3 w-fit">
+                    <Calendar
+                      size={40}
+                      className="text-[#caa48f] animate-[softPulse_2s_ease-in-out_infinite]"
+                    />
+
+                    <div className="absolute inset-0 animate-ping opacity-20">
+                      <Calendar size={40} className="text-[#b8896f]" />
+                    </div>
+                  </div>
+
                   <p
                     className="text-[#6b7280] text-[15px]"
                     style={{ fontWeight: 500 }}
                   >
                     Carregando agenda
+                    <span className="inline-flex ml-1 gap-[2px]">
+                      <span className="animate-bounce [animation-delay:0ms]">
+                        .
+                      </span>
+                      <span className="animate-bounce [animation-delay:150ms]">
+                        .
+                      </span>
+                      <span className="animate-bounce [animation-delay:300ms]">
+                        .
+                      </span>
+                    </span>
                   </p>
                 </div>
               )}
