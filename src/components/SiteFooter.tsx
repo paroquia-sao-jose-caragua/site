@@ -61,7 +61,7 @@ export function SiteFooter() {
           </div>
 
           <Link href="/" className="flex items-center gap-3 shrink-0">
-            <LogoMarkVerticalDark height={241.5} width={245.5} />
+            <img src="/logo-footer.png" alt="" height={241.5} width={245.5} />
           </Link>
         </div>
 

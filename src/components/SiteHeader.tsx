@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Menu, X, Heart } from "lucide-react";
 import Link from "next/link";
 import { NavLink } from "./ui/nav-link";
-import { LogoMark } from "./LogoMark";
 
 const navItems = [
   { label: "Início", to: "/" },
@@ -21,7 +20,7 @@ export function SiteHeader() {
         <div className="relative flex-1 ml-[-12px] bg-[#fbf4eb] min-w-0 border-b border-[#D6A64A]">
           <div className="max-w-320 mx-auto px-6 h-24 flex items-center justify-between">
             <Link href="/" className="flex items-center gap-3 shrink-0">
-              <LogoMark height={80} width={240} />
+              <img src="/logo-mark.png" alt="" height={80} width={240} />
             </Link>
 
             <nav className="hidden md:flex items-center gap-1">
