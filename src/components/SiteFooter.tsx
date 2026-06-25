@@ -1,7 +1,6 @@
 import { PhoneIcon } from "lucide-react";
 import svgPaths from "../../public/Desktop5/svg-45x3npa3b6";
 import Link from "next/link";
-import { LogoMarkVerticalDark } from "./LogoMarkVerticalDark";
 import { CrossIcon } from "./icons/CrossIcon";
 
 function InstagramIcon() {
