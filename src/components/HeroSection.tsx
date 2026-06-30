@@ -16,6 +16,7 @@ import { BotanicalDivider } from "./icons/BotanicalDivider";
 import type { Community } from "@/entities/Community";
 import { cn } from "./ui/utils";
 import { ScheduleModal } from "./ScheduleModal";
+import dayjs from "dayjs";
 
 const slides = [
   {
@@ -218,13 +219,24 @@ function mapCalendarToEvents(calendar: CalendarSchedule[]) {
 export function HeroSection() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const today = new Date();
-  const currentMonth = today.getMonth() + 1;
-  const currentYear = today.getFullYear();
   const [selectedSchedule, setSelectedSchedule] =
     useState<AgendaSectionEvent | null>(null);
 
-  const { data, isPending, isError } = useQuery({
+  const today = dayjs();
+
+  const currentMonth = today.month() + 1;
+  const currentYear = today.year();
+
+  const nextMonthDate = today.add(1, "month");
+
+  const nextMonth = nextMonthDate.month() + 1;
+  const nextYear = nextMonthDate.year();
+
+  const {
+    data: currentData,
+    isPending,
+    isError,
+  } = useQuery({
     queryKey: ["home-calendar-schedules", currentYear, currentMonth],
     queryFn: () =>
       listCalendarSchedules({
@@ -234,8 +246,33 @@ export function HeroSection() {
     refetchOnWindowFocus: false,
   });
 
+  const { data: nextData } = useQuery({
+    queryKey: ["home-calendar-schedules", nextYear, nextMonth],
+    queryFn: () =>
+      listCalendarSchedules({
+        month: nextMonth,
+        year: nextYear,
+      }),
+    refetchOnWindowFocus: false,
+  });
+
+  const data = useMemo(() => {
+    const todayDateStr = today.format("YYYY-MM-DD");
+
+    const currentEvents = mapCalendarToEvents(
+      currentData?.calendar ?? [],
+    ).filter((event) => event.date >= todayDateStr);
+
+    if (currentEvents.length > 0) {
+      return currentData;
+    }
+
+    return nextData;
+  }, [currentData, nextData, today]);
+
   const schedule = useMemo(() => {
-    const todayDateStr = getTodayDateStr();
+    const todayDateStr = today.format("YYYY-MM-DD");
+
     const events = mapCalendarToEvents(data?.calendar ?? [])
       .filter((event) => event.date >= todayDateStr)
       .sort((a, b) => {
@@ -256,7 +293,7 @@ export function HeroSection() {
 
       return acc;
     }, {});
-  }, [data?.calendar]);
+  }, [data, today]);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
@@ -303,7 +340,7 @@ export function HeroSection() {
               <div className="flex gap-1.5">
                 {slides.map((_, i) => (
                   <button
-                    key={`dot-${i}`}
+                    key={`dot-${i + 1}`}
                     type="button"
                     onClick={() => emblaApi?.scrollTo(i)}
                     className="rounded-full transition-all"
