@@ -22,39 +22,39 @@ export interface AgendaEvent {
 
 export const communities: Community[] = [
   {
-    id: "psj",
+    id: "01KJKHF9C9TH7N3SRM50GM6K5V",
     name: "Paróquia Matriz São José",
     shortName: "São José",
     address:
-      "R. Edson dos Santos, 30 — Morro do Algodão, Caraguatatuba - SP, 11671-180",
+      "Rua Edson dos Santos, 30 — Morro do Algodão, Caraguatatuba - SP, 11671-180",
   },
   {
-    id: "cse",
+    id: "01KJKHGT3C2GHFGXF9V8498SRX",
+    name: "Capela Sagrado Coração de Jesus",
+    shortName: "Sag. Coração",
+    address:
+      "Av. Albert Charles Hanciau, 566 — Pontal de Santa Marina, Caraguatatuba - SP, 11672-050",
+  },
+  {
+    id: "01KW9NFZQGFNR179YAQ2KNP5PN",
     name: "Capela Santa Edwiges",
     shortName: "Sta. Edwiges",
     address:
       "Praça Engenheiro Marino Parolari, 40 — Porto Novo, Caraguatatuba - SP, 11667-255",
   },
   {
-    id: "cnsr",
+    id: "01KJKHM9CPTQVBB572QSE118FN",
     name: "Capela Nossa Sra. do Rosário",
     shortName: "N. Sra. Rosário",
     address:
-      "Avenida Manoel Avelino dos Santos, 100 — Praia das Palmeiras, Caraguatatuba - SP, 11666-251",
+      "Av. Manoel Avelino dos Santos, 100 — Praia das Palmeiras, Caraguatatuba - SP, 11666-251",
   },
   {
-    id: "csf",
+    id: "01KW9NJSPK2SB53QV4C9KPX5MA",
     name: "Capela Sagrada Família",
     shortName: "Sag. Família",
     address:
-      "R. Porto Novo, 211 — Praia das Palmeiras, Caraguatatuba - SP, 11666-480",
-  },
-  {
-    id: "cscj",
-    name: "Capela Sagrado Coração de Jesus",
-    shortName: "Sag. Coração",
-    address:
-      "Av. Albert Charles Hanciau, 566 — Pontal de Santa Marina, Caraguatatuba - SP, 11672-050",
+      "Rua José de Almeida, 211 — Praia das Palmeiras, Caraguatatuba - SP, 11666-480",
   },
 ];
 
