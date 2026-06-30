@@ -1,20 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { X, MapPin, Clock, Map, Copy, Check } from "lucide-react";
+import { X, MapPin, Clock, Map as MapIcon, Copy, Check } from "lucide-react";
 import { communities, type Community } from "../data/agendaData";
 
 import { useRouter } from "next/navigation";
-import { BotanicalDivider } from "./icons/BotanicalDivider";
 import { CrossIcon } from "./icons/CrossIcon";
-
-const communityImages: Record<string, string> = {
-  psj: "/Desktop5/e1d50cae9fab58435153a4c41bbf85789ad42f26.png",
-  cse: "/Desktop5/05954d1396cd22d752a9383cc71f05004fb83a94.png",
-  cnsr: "/Desktop5/7387a98bd8b87ea87349155d8dcfa3b57becde99.png",
-  csf: "/Desktop5/8923874a787fb8983e3c782e8248f74411a5c7b1.png",
-  cscj: "/Desktop5/455ffb51a3b40639c1fdae0be7b7b8c147a6c4b4.png",
-};
 
 interface CommunityModalProps {
   community: Community;
@@ -23,7 +14,6 @@ interface CommunityModalProps {
 
 function CommunityModal({ community, onClose }: CommunityModalProps) {
   const router = useRouter();
-  const img = communityImages[community.id];
 
   const [copied, setCopied] = useState(false);
 
@@ -145,7 +135,7 @@ function CommunityModal({ community, onClose }: CommunityModalProps) {
             />
 
             <img
-              src={img}
+              src={community.coverUrl}
               alt={community.name}
               className="
                 size-full
@@ -271,7 +261,7 @@ function CommunityModal({ community, onClose }: CommunityModalProps) {
               transition
             "
           >
-            <Map size={16} />
+            <MapIcon size={16} />
             Abrir no Mapa
           </a>
 

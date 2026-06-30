@@ -1,5 +1,6 @@
 export interface Community {
   id: string;
+  coverUrl: string;
   name: string;
   shortName: string;
   address: string;
@@ -23,6 +24,7 @@ export interface AgendaEvent {
 export const communities: Community[] = [
   {
     id: "01KJKHF9C9TH7N3SRM50GM6K5V",
+    coverUrl: "/Desktop5/e1d50cae9fab58435153a4c41bbf85789ad42f26.png",
     name: "Paróquia Matriz São José",
     shortName: "São José",
     address:
@@ -30,6 +32,7 @@ export const communities: Community[] = [
   },
   {
     id: "01KJKHGT3C2GHFGXF9V8498SRX",
+    coverUrl: "/Desktop5/455ffb51a3b40639c1fdae0be7b7b8c147a6c4b4.png",
     name: "Capela Sagrado Coração de Jesus",
     shortName: "Sag. Coração",
     address:
@@ -37,6 +40,7 @@ export const communities: Community[] = [
   },
   {
     id: "01KW9NFZQGFNR179YAQ2KNP5PN",
+    coverUrl: "/Desktop5/05954d1396cd22d752a9383cc71f05004fb83a94.png",
     name: "Capela Santa Edwiges",
     shortName: "Sta. Edwiges",
     address:
@@ -44,6 +48,7 @@ export const communities: Community[] = [
   },
   {
     id: "01KJKHM9CPTQVBB572QSE118FN",
+    coverUrl: "/Desktop5/7387a98bd8b87ea87349155d8dcfa3b57becde99.png",
     name: "Capela Nossa Sra. do Rosário",
     shortName: "N. Sra. Rosário",
     address:
@@ -51,6 +56,7 @@ export const communities: Community[] = [
   },
   {
     id: "01KW9NJSPK2SB53QV4C9KPX5MA",
+    coverUrl: "/Desktop5/8923874a787fb8983e3c782e8248f74411a5c7b1.png",
     name: "Capela Sagrada Família",
     shortName: "Sag. Família",
     address:
