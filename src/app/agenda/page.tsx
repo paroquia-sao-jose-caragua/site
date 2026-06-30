@@ -21,6 +21,7 @@ import { BotanicalDivider } from "@/components/icons/BotanicalDivider";
 import type { Community } from "@/entities/Community";
 import { ScheduleModal } from "@/components/ScheduleModal";
 import { useCommunities } from "@/lib/api/communities/use-communities";
+import dayjs from "dayjs";
 
 const WEEKDAYS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 const WEEKDAYS_FULL = [
@@ -267,6 +268,7 @@ function MiniCalendar({
     <div className="bg-[#F8F0E7] border border-[#d6a64a]/50 rounded-2xl p-4 shadow-sm">
       <div className="flex items-center justify-between mb-3">
         <button
+          type="button"
           onClick={prevMonth}
           className="p-1.5 rounded-lg hover:bg-[#ECD6BD]/50 transition-colors text-[#32402A]/80"
         >
@@ -279,6 +281,7 @@ function MiniCalendar({
           {MONTHS_PT[calMonth - 1]} {calYear}
         </span>
         <button
+          type="button"
           onClick={nextMonth}
           className="p-1.5 rounded-lg hover:bg-[#ECD6BD]/50 transition-colors text-[#32402A]/80"
         >
@@ -309,6 +312,7 @@ function MiniCalendar({
           return (
             <button
               key={dateStr}
+              type="button"
               onClick={() => onSelect(isSelected ? "" : dateStr)}
               className={[
                 "relative flex flex-col items-center justify-center h-8 w-full rounded-lg text-[12px] transition-all",
@@ -386,6 +390,7 @@ function EventCard({ event }: EventCardProps) {
   return (
     <div>
       <button
+        type="button"
         onClick={() => setSelectedSchedule(event)}
         className="bg-[#f9efe6] hover:bg-[#ECD6BD]/20 border border-[#d6a64a] rounded-xl px-5 py-4 flex items-start gap-4 hover:border-[#dcc2b5] hover:shadow-sm transition-all cursor-pointer w-full text-left"
       >
@@ -438,17 +443,25 @@ function EventCard({ event }: EventCardProps) {
 }
 
 function AgendaPageContent() {
-  const today = new Date();
-  const currentMonth = today.getMonth() + 1;
-  const currentYear = today.getFullYear();
+  const today = dayjs();
+
+  const currentMonth = today.month() + 1;
+  const currentYear = today.year();
+
+  const nextMonthDate = today.add(1, "month");
+
+  const nextMonth = nextMonthDate.month() + 1;
+  const nextYear = nextMonthDate.year();
 
   const searchParams = useSearchParams();
+
   const visibleMonths = useMemo(() => getVisibleMonths(), []);
   const { communities } = useCommunities();
 
   const initialMonth = visibleMonths.find((m) => m.value === currentMonth)
     ? currentMonth
     : visibleMonths[0].value;
+
   const [selectedMonth, setSelectedMonth] = useState(initialMonth);
   const [selectedCommunityId, setSelectedCommunityId] = useState("all");
   const [selectedDate, setSelectedDate] = useState<string>("");
@@ -459,13 +472,19 @@ function AgendaPageContent() {
     return communities.find((c) => c.id === selectedCommunityId);
   }, [selectedCommunityId, communities]);
 
-  // Sync if URL param changes (e.g. back navigation)
   useEffect(() => {
     const param = searchParams.get("comunidade") ?? "all";
+
     setSelectedCommunityId(param);
   }, [searchParams]);
 
-  const { data, isPending, isError } = useQuery({
+  const isCurrentMonth = selectedMonth === currentMonth;
+
+  const {
+    data: currentData,
+    isPending,
+    isError,
+  } = useQuery({
     queryKey: [
       "calendar-schedules",
       currentYear,
@@ -477,12 +496,39 @@ function AgendaPageContent() {
         month: selectedMonth,
         year: currentYear,
         communityId:
-          selectedCommunityId && selectedCommunityId !== "all"
-            ? selectedCommunityId
-            : undefined,
+          selectedCommunityId !== "all" ? selectedCommunityId : undefined,
       }),
     refetchOnWindowFocus: false,
   });
+
+  const { data: nextData } = useQuery({
+    queryKey: ["calendar-schedules", nextYear, nextMonth, selectedCommunityId],
+    queryFn: () =>
+      listCalendarSchedules({
+        month: nextMonth,
+        year: nextYear,
+        communityId:
+          selectedCommunityId !== "all" ? selectedCommunityId : undefined,
+      }),
+    enabled: isCurrentMonth,
+    refetchOnWindowFocus: false,
+  });
+
+  const data = useMemo(() => {
+    if (!isCurrentMonth) {
+      return currentData;
+    }
+
+    const currentEvents = mapCalendarToAgendaEvents(
+      currentData?.calendar ?? [],
+    ).filter((event) => event.date >= today.format("YYYY-MM-DD"));
+
+    if (currentEvents.length > 0) {
+      return currentData;
+    }
+
+    return nextData;
+  }, [currentData, nextData, isCurrentMonth, today]);
 
   const agendaEvents = useMemo(() => {
     return mapCalendarToAgendaEvents(data?.calendar ?? []);
