@@ -401,7 +401,7 @@ export function CommunitiesSection() {
                 />
 
                 <img
-                  src={communityImages[c.id]}
+                  src={c.coverUrl}
                   alt={c.name}
                   className="
                     size-full
