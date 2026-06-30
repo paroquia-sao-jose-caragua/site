@@ -808,9 +808,7 @@ function AgendaPageContent() {
                 !isError &&
                 datesToShow.map((dateStr) => {
                   const events = eventsByDay.get(dateStr) ?? [];
-                  const isToday =
-                    dateStr ===
-                    `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+                  const isToday = dateStr === dayjs().format("YYYY-MM-DD");
 
                   return (
                     <div key={dateStr}>
