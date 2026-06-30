@@ -1,7 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { X, MapPin, Clock, Map as MapIcon, Copy, Check } from "lucide-react";
+import {
+  X,
+  MapPin,
+  Clock,
+  CalendarIcon,
+  Map as MapIcon,
+  Copy,
+  Check,
+} from "lucide-react";
 import { communities, type Community } from "../data/agendaData";
 
 import { useRouter } from "next/navigation";
@@ -283,8 +291,8 @@ function CommunityModal({ community, onClose }: CommunityModalProps) {
               transition
             "
           >
-            <Clock size={16} />
-            Ver Horários de Missa
+            <CalendarIcon size={16} />
+            Ver Programação
           </button>
         </div>
       </div>
