@@ -523,12 +523,20 @@ function AgendaPageContent() {
       currentData?.calendar ?? [],
     ).filter((event) => event.date >= today.format("YYYY-MM-DD"));
 
-    if (currentEvents.length > 0) {
-      return currentData;
-    }
-
-    return nextData;
+    return currentEvents.length > 0 ? currentData : nextData;
   }, [currentData, nextData, isCurrentMonth, today]);
+
+  useEffect(() => {
+    if (!isCurrentMonth) return;
+
+    const currentEvents = mapCalendarToAgendaEvents(
+      currentData?.calendar ?? [],
+    ).filter((event) => event.date >= today.format("YYYY-MM-DD"));
+
+    if (currentEvents.length === 0 && nextData?.calendar?.length) {
+      setSelectedMonth(nextMonth);
+    }
+  }, [currentData, nextData, isCurrentMonth, nextMonth, today]);
 
   const agendaEvents = useMemo(() => {
     return mapCalendarToAgendaEvents(data?.calendar ?? []);
