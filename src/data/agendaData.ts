@@ -31,10 +31,9 @@ export const communities: Community[] = [
     address:
       "Rua Edson dos Santos, 30 — Morro do Algodão, Caraguatatuba - SP, 11671-180",
     massTimes: [
-      "Domingo: 9h30",
-      "Quarta-feira: 18h30",
-      "Quinta-feira: 18h30",
-      "1º Sábado do mês: 8h",
+      "Domingo: 9h30 e 19h30",
+      "Quarta e quinta-feira: 18h30",
+      "1º Sábado do mês às 8h",
     ],
   },
   {
@@ -44,7 +43,7 @@ export const communities: Community[] = [
     shortName: "N. Sra. Rosário",
     address:
       "Av. Manoel Avelino dos Santos, 100 — Praia das Palmeiras, Caraguatatuba - SP, 11666-251",
-    massTimes: ["Terça-feira: 19h30", "Sábado: 19h30"],
+    massTimes: ["Terça e sábado: 19h30"],
   },
   {
     id: "01KW9NFZQGFNR179YAQ2KNP5PN",

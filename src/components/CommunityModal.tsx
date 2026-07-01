@@ -142,7 +142,8 @@ export function CommunityModal({ community, onClose }: CommunityModalProps) {
 
         <div
           className="
-            p-8
+            p-4
+            sm:p-8
             text-center
             overflow-y-auto
           "
