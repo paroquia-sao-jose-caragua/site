@@ -1,4 +1,4 @@
-import { PhoneIcon } from "lucide-react";
+import { LockIcon, PhoneIcon } from "lucide-react";
 import svgPaths from "../../public/Desktop5/svg-45x3npa3b6";
 import Link from "next/link";
 import { CrossIcon } from "./icons/CrossIcon";
@@ -248,20 +248,43 @@ export function SiteFooter() {
 
       <div
         className="
+          
           border-t
           border-[#D6A64A]/30
           py-5
           text-center
         "
       >
-        <p
+        <div
           className="
+            flex
+            flex-col
+            sm:flex-row
+            gap-4
+            items-center
+            justify-between
+            px-6
+            max-w-220
+            mx-auto
+          "
+        >
+          <p
+            className="
             text-[#F8F3EC]/50
             text-sm
           "
-        >
-          Copyright © 2026 Paróquia São José
-        </p>
+          >
+            Copyright © 2026 Paróquia São José
+          </p>
+          <a
+            href="https://panel.paroquiasaojosecaragua.org.br/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#F8F3EC]/70 text-sm flex items-center gap-2 text-md border border-[#D6A64A]/30 rounded-lg px-3 py-2 hover:bg-[#D6A64A]/10 transition-colors"
+          >
+            <LockIcon size={16} /> Área Restrita
+          </a>
+        </div>
       </div>
     </footer>
   );
