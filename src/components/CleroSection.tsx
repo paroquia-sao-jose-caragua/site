@@ -27,7 +27,7 @@ const clergy: ClergyMember[] = [
   {
     img: "/Desktop5/f5d4c9341b05a3663e03b0433e3c3f2de529be86.png",
     role: "Bispo Diocesano",
-    name: "Dom José Carlos Brandão Cabral",
+    name: "Dom José Carlos Chacorowski",
     bio: "Dom José Carlos Chacorowski, CM, nasceu em Curitiba (PR) em 26 de dezembro de 1956. Ordenado sacerdote pelo Papa São João Paulo II em 1980, dedicou sua vida à formação, à missão evangelizadora e ao serviço pastoral, atuando no Brasil e em missão na República Democrática do Congo. Ao longo de sua trajetória, exerceu importantes funções na Congregação da Missão e junto às Filhas da Caridade, além de servir como Bispo Auxiliar de São Luís do Maranhão. Em 2013, foi nomeado pelo Papa Francisco Bispo da Diocese de Caraguatatuba, onde tomou posse em 17 de agosto do mesmo ano e segue conduzindo seu ministério episcopal até os dias atuais.",
   },
   {
