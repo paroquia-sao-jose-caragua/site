@@ -246,10 +246,10 @@ export function UpcomingMassesSection() {
                         key={item.id}
                         type="button"
                         onClick={() => setSelectedSchedule(item)}
-                        className="w-full text-left flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-[#f4ece1] pb-3 last:border-b-0 gap-2 cursor-pointer hover:bg-[#faf8f5] p-2 rounded-xl transition-all group"
+                        className="w-full text-left flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-[#f4ece1] pb-3 last:border-b-0 gap-2 cursor-pointer hover:bg-[#f3ece0] p-2 rounded-xl transition-all group"
                       >
                         <div className="flex items-center gap-3">
-                          <span className="text-sm font-bold text-[#B8872E] font-mono bg-[#faf8f5] px-2.5 py-1 rounded-md border border-[#D6A64A]/30 group-hover:bg-[#B8872E] group-hover:text-[#18351E] transition-colors">
+                          <span className="text-sm font-bold text-[#B8872E] font-mono bg-[#f3ece0] px-2.5 py-1 rounded-md border border-[#D6A64A]/30 group-hover:bg-[#B8872E] group-hover:text-[#18351E] transition-colors">
                             {item.time}
                           </span>
                           <span className="font-semibold text-sm text-[#18351E] group-hover:text-[#B8872E] transition-colors">

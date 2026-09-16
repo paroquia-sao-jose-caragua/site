@@ -96,7 +96,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
 
             {/* Right Church Photo */}
             <div className="lg:col-span-6">
-              <div className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-[#D6A64A]/40 shadow-xl bg-[#faf8f5]">
+              <div className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-[#D6A64A]/40 shadow-xl bg-[#f3ece0]">
                 <img
                   src={community.coverUrl}
                   alt={community.name}
@@ -400,7 +400,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                   key={idx}
                   className="bg-[#fbf5eb] border border-[#D6A64A]/30 rounded-2xl p-6 text-center hover:border-[#B8872E] transition-all hover:shadow-md"
                 >
-                  <div className="size-12 rounded-2xl bg-[#faf8f5] border border-[#D6A64A]/40 flex items-center justify-center text-[#B8872E] mx-auto mb-4">
+                  <div className="size-12 rounded-2xl bg-[#f3ece0] border border-[#D6A64A]/40 flex items-center justify-center text-[#B8872E] mx-auto mb-4">
                     {idx % 5 === 0 && <CrossIcon width={14} height={22} fill="#B8872E" />}
                     {idx % 5 === 1 && <BookOpen className="w-5 h-5 text-[#B8872E]" />}
                     {idx % 5 === 2 && <Heart className="w-5 h-5 text-[#B8872E]" />}

@@ -80,7 +80,7 @@ export function OurCommunitiesSection() {
                 className="lg:col-span-6 bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-3xl overflow-hidden shadow-xs hover:shadow-lg transition-all flex flex-col justify-between text-left group cursor-pointer relative"
               >
                 {/* Image Container with Badge */}
-                <div className="relative h-64 md:h-72 w-full overflow-hidden bg-[#faf8f5]">
+                <div className="relative h-64 md:h-72 w-full overflow-hidden bg-[#f3ece0]">
                   <img
                     src={getImageUrl(matriz.coverUrl, matriz.coverId)}
                     alt={matriz.name}
@@ -96,7 +96,7 @@ export function OurCommunitiesSection() {
                   <div>
                     {/* Icon + Title + Subtitle */}
                     <div className="flex items-start gap-3 mb-3">
-                      <div className="w-10 h-10 rounded-xl bg-[#faf8f5] border border-[#D6A64A]/40 flex items-center justify-center text-[#B8872E] shrink-0 mt-0.5">
+                      <div className="w-10 h-10 rounded-xl bg-[#f3ece0] border border-[#D6A64A]/40 flex items-center justify-center text-[#B8872E] shrink-0 mt-0.5">
                         <Church className="w-5 h-5" />
                       </div>
                       <div>
@@ -159,7 +159,7 @@ export function OurCommunitiesSection() {
                   >
                     <div>
                       {/* Rectangular Image */}
-                      <div className="h-36 w-full overflow-hidden rounded-xl bg-[#faf8f5] mb-3 relative">
+                      <div className="h-36 w-full overflow-hidden rounded-xl bg-[#f3ece0] mb-3 relative">
                         <img
                           src={imageSrc}
                           alt={item.name}
