@@ -74,7 +74,7 @@ export function CommunitiesSection() {
                 rounded-2xl
                 border
                 border-[#D6A64A]
-                bg-[#fbf4eb]/70
+                bg-[#fbf5eb]/70
                 p-5
                 flex
                 flex-col

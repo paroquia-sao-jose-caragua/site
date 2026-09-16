@@ -41,7 +41,7 @@ function CopyButton({ text, label }: { text: string; label: string }) {
 
 export default function ContributePage() {
   return (
-    <section className="relative overflow-hidden bg-[#fbf4eb]">
+    <section className="relative overflow-hidden bg-[#fbf5eb]">
       <div className="relative z-10">
         {/* Page header */}
         <div className="relative bg-[#18351e] border-b border-[#d6b686]">
@@ -78,7 +78,7 @@ export default function ContributePage() {
               Faça sua doação via PIX
             </h2>
 
-            <div className="bg-[#fbf4eb] border border-[#D6A64A] rounded-3xl overflow-hidden">
+            <div className="bg-[#fbf5eb] border border-[#D6A64A] rounded-3xl overflow-hidden">
               {/* Phone PIX key */}
               <div className="p-6 border-b border-[#D6A64A]/40">
                 <p className="text-sm text-[#18351E] uppercase tracking-widest mb-4 font-semibold">
@@ -140,7 +140,7 @@ export default function ContributePage() {
                   QR Code PIX
                 </p>
                 <div className="flex flex-col sm:flex-row gap-6 items-center">
-                  <div className="shrink-0 bg-[#fbf4eb] border border-[#D6A64A]/60 rounded-2xl p-3">
+                  <div className="shrink-0 bg-[#fbf5eb] border border-[#D6A64A]/60 rounded-2xl p-3">
                     <img
                       src="/qr-code.svg"
                       alt="QR Code PIX Paróquia São José"
@@ -186,7 +186,7 @@ export default function ContributePage() {
               Outras formas de contribuir
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="bg-[#fbf4eb] border border-[#D6A64A] rounded-3xl p-5">
+              <div className="bg-[#fbf5eb] border border-[#D6A64A] rounded-3xl p-5">
                 <h3
                   className="text-[#18351E] text-xl mb-2"
                   style={{
@@ -201,7 +201,7 @@ export default function ContributePage() {
                   horários de atendimento.
                 </p>
               </div>
-              <div className="bg-[#fbf4eb] border border-[#D6A64A] rounded-3xl p-5">
+              <div className="bg-[#fbf5eb] border border-[#D6A64A] rounded-3xl p-5">
                 <h3
                   className="text-[#18351E] text-xl mb-2"
                   style={{
@@ -221,7 +221,7 @@ export default function ContributePage() {
 
           {/* Project photo + text */}
           <section className="border-t border-[#D6A64A]/40 pt-10">
-            <div className="bg-[#fbf4eb] border border-[#D6A64A] rounded-3xl overflow-hidden mb-6">
+            <div className="bg-[#fbf5eb] border border-[#D6A64A] rounded-3xl overflow-hidden mb-6">
               <div className="aspect-16/7">
                 <img
                   src="/MacBookPro1412/9501870a6d2e000e824b7f82399914486cb30cfd.png"

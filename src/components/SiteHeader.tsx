@@ -1,26 +1,57 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X, Heart } from "lucide-react";
 import Link from "next/link";
 import { NavLink } from "./ui/nav-link";
 
 const navItems = [
   { label: "Início", to: "/" },
+  { label: "Liturgia Diária", to: "/liturgia" },
+  { label: "Comunidades", to: "/comunidades" },
   { label: "Agenda", to: "/agenda" },
+  { label: "Clérigos", to: "/clerigos" },
   { label: "Contato", to: "/contato" },
 ];
 
 export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 30) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <header className="sticky top-0 z-50">
       <div className="flex items-start">
-        <div className="relative flex-1 ml-[-12px] bg-[#fbf4eb] min-w-0 border-b border-[#D6A64A]">
-          <div className="max-w-320 mx-auto px-6 h-24 flex items-center justify-between">
+        <div
+          className={`relative flex-1 bg-[#fbf5eb] min-w-0 border-b border-[#D6A64A] transition-all duration-300 ease-in-out ${
+            scrolled ? "shadow-md bg-[#fbf5eb]/95 backdrop-blur-md" : ""
+          }`}
+        >
+          <div
+            className={`max-w-320 mx-auto px-6 flex items-center justify-between transition-all duration-300 ease-in-out ${
+              scrolled ? "h-[72px]" : "h-24"
+            }`}
+          >
             <Link href="/" className="flex items-center gap-3 shrink-0">
-              <img src="/logo-mark.png" alt="" height={80} width={240} />
+              <img
+                src="/logo-mark.png"
+                alt="Paróquia São José"
+                className={`w-auto transition-all duration-300 ease-in-out object-contain ${
+                  scrolled ? "h-14" : "h-20"
+                }`}
+              />
             </Link>
 
             <nav className="hidden md:flex items-center gap-1">

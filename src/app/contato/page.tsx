@@ -77,7 +77,7 @@ export default function ContactPage() {
       className="
       relative
       overflow-hidden
-      bg-[#fbf4eb]
+      bg-[#fbf5eb]
     "
     >
       <div
@@ -119,7 +119,7 @@ export default function ContactPage() {
 
           <div
             className="
-              bg-[#fbf4eb]
+              bg-[#fbf5eb]
               border
               border-[#D6A64A]
               rounded-3xl
@@ -130,7 +130,7 @@ export default function ContactPage() {
             {submitted ? (
               <div
                 className="
-                bg-[#fbf4eb]
+                bg-[#fbf5eb]
                 text-center
               "
               >
@@ -206,7 +206,7 @@ export default function ContactPage() {
                         rounded-xl
                         border
                         border-[#D6A64A]/40
-                        bg-[#fbf4eb]
+                        bg-[#fbf5eb]
                         px-4
                         py-3
                         text-[#18351E]
@@ -237,7 +237,7 @@ export default function ContactPage() {
                         rounded-xl
                         border
                         border-[#D6A64A]/40
-                        bg-[#fbf4eb]
+                        bg-[#fbf5eb]
                         px-4
                         py-3
                         text-[#18351E]
@@ -269,7 +269,7 @@ export default function ContactPage() {
                       rounded-xl
                       border
                       border-[#D6A64A]/40
-                      bg-[#fbf4eb]
+                      bg-[#fbf5eb]
                       px-4
                       py-3
                       text-[#18351E]
@@ -300,7 +300,7 @@ export default function ContactPage() {
                       rounded-xl
                       border
                       border-[#D6A64A]/40
-                      bg-[#fbf4eb]
+                      bg-[#fbf5eb]
                       px-4
                       py-3
                       text-[#18351E]
@@ -353,7 +353,7 @@ export default function ContactPage() {
 
             <div
               className="
-              bg-[#fbf4eb]
+              bg-[#fbf5eb]
               border
               border-[#D6A64A]
               rounded-3xl
@@ -405,7 +405,7 @@ export default function ContactPage() {
 
             <div
               className="
-              bg-[#fbf4eb]
+              bg-[#fbf5eb]
               border
               border-[#D6A64A]
               rounded-3xl
@@ -445,7 +445,7 @@ export default function ContactPage() {
 
             <div
               className="
-              bg-[#fbf4eb]
+              bg-[#fbf5eb]
               border
               border-[#D6A64A]
               rounded-3xl
@@ -486,7 +486,7 @@ export default function ContactPage() {
 
             <div
               className="
-              bg-[#fbf4eb]
+              bg-[#fbf5eb]
               border
               border-[#D6A64A]
               rounded-3xl

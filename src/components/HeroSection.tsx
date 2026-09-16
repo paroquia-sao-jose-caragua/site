@@ -392,7 +392,7 @@ export function HeroSection() {
                         {[1, 2].map((item) => (
                           <div
                             key={item}
-                            className="w-full border border-[#ECD6BD]/50 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between bg-[#fbf4eb]/50"
+                            className="w-full border border-[#ECD6BD]/50 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between bg-[#fbf5eb]/50"
                           >
                             {/* Hora */}
                             <div className="mb-2 sm:mb-0 sm:min-h-[40px] flex flex-col items-start justify-center sm:pr-4 sm:border-r border-[#ECD6BD] sm:mr-4">
@@ -412,7 +412,7 @@ export function HeroSection() {
                           </div>
                         ))}
                         {day !== 1 && (
-                          <div className="w-full border border-[#ECD6BD]/50 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between bg-[#fbf4eb]/50">
+                          <div className="w-full border border-[#ECD6BD]/50 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between bg-[#fbf5eb]/50">
                             {/* Hora */}
                             <div className="mb-2 sm:mb-0 sm:min-h-[40px] flex flex-col items-start justify-center sm:pr-4 sm:border-r border-[#ECD6BD] sm:mr-4">
                               <div className="h-4 w-[84px] bg-[#EADBC8] rounded animate-pulse" />
@@ -490,7 +490,7 @@ export function HeroSection() {
                             "z-1 w-full hover:bg-[#F7EBD7]/80 border rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between hover:shadow-sm transition-shadow cursor-pointer",
                             evt.massType === "solemnity"
                               ? "bg-[#F7EBD7]/80 border-[#B8872E]"
-                              : "bg-[#fbf4eb]/80 border-[#d6a64a]",
+                              : "bg-[#fbf5eb]/80 border-[#d6a64a]",
                           )}
                         >
                           <div className="mb-2 sm:mb-0 sm:min-h-[40px] flex flex-col items-start justify-center sm:pr-4 sm:border-r border-[#ECD6BD] sm:mr-4">

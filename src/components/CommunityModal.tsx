@@ -8,20 +8,43 @@ import {
   Check,
   ClockIcon,
 } from "lucide-react";
-import type { Community } from "../data/agendaData";
-
 import { useRouter } from "next/navigation";
 import { CrossIcon } from "./icons/CrossIcon";
+import { apiBaseUrl } from "@/lib/api/utils/api";
+
+export interface CommunityModalItem {
+  id: string;
+  name: string;
+  coverUrl?: string;
+  coverId?: string;
+  address?: string;
+  shortName?: string;
+  massTimes?: string[];
+  slug?: string;
+}
 
 interface CommunityModalProps {
-  community: Community;
+  community: CommunityModalItem;
   onClose: () => void;
 }
 
 export function CommunityModal({ community, onClose }: CommunityModalProps) {
   const router = useRouter();
-
   const [copied, setCopied] = useState(false);
+
+  const addressText = community.address || "Endereço a consultar na secretaria";
+  const massTimesText =
+    community.massTimes && community.massTimes.length > 0
+      ? community.massTimes.join("\n")
+      : "Consulte a agenda da comunidade para ver os horários de missas.";
+
+  const imageSrc =
+    community.coverUrl ||
+    (community.coverId
+      ? community.coverId.startsWith("http") || community.coverId.startsWith("/")
+        ? community.coverId
+        : `${apiBaseUrl}/attachments/${community.coverId}`
+      : "/pastoral-center.png");
 
   const handleViewSchedule = () => {
     onClose();
@@ -29,7 +52,7 @@ export function CommunityModal({ community, onClose }: CommunityModalProps) {
   };
 
   const handleCopyAddress = () => {
-    navigator.clipboard.writeText(community.address).catch(() => {});
+    navigator.clipboard.writeText(addressText).catch(() => {});
     setCopied(true);
 
     setTimeout(() => {
@@ -38,7 +61,7 @@ export function CommunityModal({ community, onClose }: CommunityModalProps) {
   };
 
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    community.address,
+    addressText,
   )}`;
 
   return (
@@ -169,7 +192,7 @@ export function CommunityModal({ community, onClose }: CommunityModalProps) {
             />
 
             <img
-              src={community.coverUrl}
+              src={imageSrc}
               alt={community.name}
               className="
                 size-full
@@ -256,7 +279,7 @@ export function CommunityModal({ community, onClose }: CommunityModalProps) {
               style={{ fontFamily: "Cormorant Garamond, serif" }}
             >
               <span className="font-light whitespace-pre-line">
-                {community.massTimes.join("\n")}
+                {massTimesText}
               </span>
             </p>
           </div>
@@ -308,7 +331,7 @@ export function CommunityModal({ community, onClose }: CommunityModalProps) {
                   fontFamily: "Cormorant Garamond, serif",
                 }}
               >
-                {community.address}
+                {addressText}
               </p>
               <button
                 type="button"
@@ -372,10 +395,37 @@ export function CommunityModal({ community, onClose }: CommunityModalProps) {
               text-[#F8F3EC]
               hover:bg-[#102516]
               transition
+              mb-3
             "
           >
             <CalendarIcon size={16} />
             Ver Agenda
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              onClose();
+              router.push(`/comunidades/${community.slug || community.id}`);
+            }}
+            className="
+              flex
+              items-center
+              justify-center
+              gap-2
+              w-full
+              py-3
+              rounded-xl
+              bg-[#B8872E]
+              text-white
+              hover:bg-[#a37625]
+              transition
+              font-semibold
+              text-sm
+              cursor-pointer
+            "
+          >
+            Saiba mais sobre a comunidade
           </button>
         </div>
       </div>
