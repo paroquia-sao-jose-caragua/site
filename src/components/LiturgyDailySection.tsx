@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { BookOpen, Calendar as CalendarIcon } from "lucide-react";
 import Link from "next/link";
 import { getDailyLiturgy } from "@/lib/api/liturgy/getDaily";
+import { formatLiturgyText } from "@/utils/formatLiturgyText";
 
 export function LiturgyDailySection() {
   const { data } = useQuery({
@@ -50,7 +51,7 @@ export function LiturgyDailySection() {
               <p className="text-sm font-semibold text-[#B8872E] mb-3">{gospelRef}</p>
 
               <p className="text-sm text-[#3E2E25] font-medium mb-8 leading-relaxed max-w-md">
-                {gospelSnippet}
+                {formatLiturgyText(gospelSnippet)}
               </p>
 
               <Link

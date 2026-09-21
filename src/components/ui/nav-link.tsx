@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { cn } from "./utils";
 
 interface NavLinkProps {
   href: string;
@@ -20,21 +21,38 @@ export function NavLink({
   end = false,
   onClick,
   style,
+  isActive: explicitIsActive,
 }: NavLinkProps) {
   const pathname = usePathname();
 
-  const isActive = end ? pathname === href : pathname.startsWith(href);
+  const isActive =
+    explicitIsActive !== undefined
+      ? explicitIsActive
+      : end
+        ? pathname === href
+        : pathname.startsWith(href);
 
-  const resolvedClassName =
-    typeof className === "function" ? className({ isActive }) : className;
+  if (typeof className === "function") {
+    return (
+      <Link
+        href={href}
+        className={className({ isActive })}
+        onClick={onClick}
+        style={style}
+      >
+        {children}
+      </Link>
+    );
+  }
 
   return (
     <Link
       href={href}
-      className={[
-        resolvedClassName,
-        isActive ? "text-[#BB8835]" : "text-[#32402A] hover:text-[#BB8835]",
-      ].join(" ")}
+      className={cn(
+        "relative inline-flex items-center transition-all duration-200 rounded-lg px-3.5 py-1.5 text-md font-medium text-[#32402A] hover:text-[#B8872E] hover:bg-[#B8872E]/8",
+        isActive && "bg-[#B8872E]/15 text-[#8c6218] font-semibold",
+        className
+      )}
       onClick={onClick}
       style={style}
     >

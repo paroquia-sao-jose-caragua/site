@@ -201,21 +201,6 @@ export function OurCommunitiesSection() {
             </div>
           </div>
         )}
-
-        {/* Section Footer (Centered Link) */}
-        <div className="mt-14 text-center">
-          <div className="inline-flex items-center gap-4 max-w-md mx-auto w-full">
-            <span className="h-px flex-1 bg-[#D6A64A]/40" />
-            <Link
-              href="/comunidades"
-              className="text-xs font-bold text-[#B8872E] hover:text-[#18351E] uppercase tracking-widest flex items-center gap-1.5 transition-colors shrink-0"
-            >
-              <span>VER TODAS AS COMUNIDADES</span>
-              <ChevronRight className="w-4 h-4" />
-            </Link>
-            <span className="h-px flex-1 bg-[#D6A64A]/40" />
-          </div>
-        </div>
       </div>
 
       {selected && (

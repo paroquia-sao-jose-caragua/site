@@ -125,8 +125,8 @@ export function UpcomingMassesSection() {
   const events = allCalendarDays
     .flatMap((dayGroup) => {
       const dateStr = dayGroup.date.slice(0, 10);
-      return dayGroup.schedules.active.map((schedule): AgendaSectionEvent => ({
-        id: `${dateStr}-${getScheduleId(schedule)}`,
+      return dayGroup.schedules.active.map((schedule, idx): AgendaSectionEvent => ({
+        id: `${dateStr}-${getScheduleId(schedule)}-${schedule.startTime || idx}`,
         date: dateStr,
         type: schedule.type,
         time: formatScheduleTime(schedule),
@@ -241,9 +241,9 @@ export function UpcomingMassesSection() {
 
                   {/* Times List */}
                   <div className="flex-1 space-y-3 w-full">
-                    {items.map((item) => (
+                    {items.map((item, idx) => (
                       <button
-                        key={item.id}
+                        key={`${item.id}-${idx}`}
                         type="button"
                         onClick={() => setSelectedSchedule(item)}
                         className="w-full text-left flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-[#f4ece1] pb-3 last:border-b-0 gap-2 cursor-pointer hover:bg-[#f3ece0] p-2 rounded-xl transition-all group"

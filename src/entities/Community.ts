@@ -25,6 +25,15 @@ export type CommunityMassSchedule = {
   times: MassScheduleTime[];
 };
 
+export type CommunityPhoto = {
+  id: string;
+  communityId?: string;
+  photoId: string;
+  photoUrl?: string;
+  caption?: string;
+  orderIndex: number;
+};
+
 export type Community = {
   id: string;
   name: string;
@@ -33,6 +42,18 @@ export type Community = {
   type: "parish_church" | "chapel";
   address: string;
   coverId: string;
-  coverUrl: string;
+  coverUrl?: string;
+  heroSubtitle?: string;
+  aboutTitle?: string;
+  aboutDescription?: string;
+  historySummary?: string;
+  patronName?: string;
+  patronDescription?: string;
+  patronPhotoId?: string;
+  patronPhotoUrl?: string;
+  phone?: string;
+  email?: string;
+  officeHours?: string;
+  photos?: CommunityPhoto[];
   massSchedules?: CommunityMassSchedule[];
 };

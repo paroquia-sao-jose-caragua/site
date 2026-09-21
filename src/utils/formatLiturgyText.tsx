@@ -4,7 +4,10 @@ import React from "react";
  * Formats liturgy scripture text by detecting verse numbers (e.g. "31aspirai", "13,1Se", "2Se", "10Mas")
  * and adding a space with a bold font weight for the verse number.
  */
-export function formatLiturgyText(text: string | undefined | null): React.ReactNode {
+export function formatLiturgyText(
+  text: string | undefined | null,
+  verseClassName = "font-bold text-[#a6824b] font-sans inline-block mr-1 ml-0.5"
+): React.ReactNode {
   if (!text) return null;
 
   // Matches verse numbers (e.g. "31", "13,1", "2") attached to or preceding words
@@ -26,7 +29,7 @@ export function formatLiturgyText(text: string | undefined | null): React.ReactN
     parts.push(
       <span
         key={matchIndex}
-        className="font-bold text-[#a6824b] font-sans inline-block mr-1 ml-0.5"
+        className={verseClassName}
       >
         {verseNum}
       </span>

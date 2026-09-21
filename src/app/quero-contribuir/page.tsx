@@ -8,10 +8,21 @@ import {
   ChevronRight,
   HeartIcon,
   PhoneIcon,
+  QrCode,
 } from "lucide-react";
-import svgPaths from "../../../public/MacBookPro1412/svg-3c63l3s3dy";
-
+import { QRCodeSVG } from "qrcode.react";
+import { generatePixPayload } from "@/utils/pix";
 import Link from "next/link";
+
+const PIX_PHONE_KEY = "(12) 98170-5757";
+const PIX_RAW_KEY = "12981705757";
+
+const pixPayload = generatePixPayload({
+  key: PIX_RAW_KEY,
+  name: "Paroquia Sao Jose",
+  city: "Caraguatatuba",
+  txid: "***",
+});
 
 function CopyButton({ text, label }: { text: string; label: string }) {
   const [copied, setCopied] = useState(false);
@@ -26,7 +37,7 @@ function CopyButton({ text, label }: { text: string; label: string }) {
     <button
       onClick={handleCopy}
       className={[
-        "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-md transition-all",
+        "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-md transition-all cursor-pointer",
         copied
           ? "bg-green-50 border-green-300 text-green-700"
           : "border-[#D6A64A]/60 text-[#18351E] hover:bg-[#ECD6BD]/40",
@@ -94,13 +105,13 @@ export default function ContributePage() {
                         fontVariantNumeric: "tabular-nums",
                       }}
                     >
-                      (12) 98170-5757
+                      {PIX_PHONE_KEY}
                     </p>
                     <p className="text-[#5A463B]/80 text-[13px] mt-1">
                       Paróquia São José — Caraguatatuba
                     </p>
                   </div>
-                  <CopyButton text="12981705757" label="Copiar chave" />
+                  <CopyButton text={PIX_RAW_KEY} label="Copiar chave" />
                 </div>
               </div>
 
@@ -140,19 +151,30 @@ export default function ContributePage() {
                   QR Code PIX
                 </p>
                 <div className="flex flex-col sm:flex-row gap-6 items-center">
-                  <div className="shrink-0 bg-[#fbf5eb] border border-[#D6A64A]/60 rounded-2xl p-3">
-                    <img
-                      src="/qr-code.svg"
-                      alt="QR Code PIX Paróquia São José"
-                      className="w-45 h-45 object-contain"
+                  <div className="shrink-0 bg-[#fbf5eb] border border-[#D6A64A]/60 rounded-2xl p-4 shadow-xs flex items-center justify-center">
+                    <QRCodeSVG
+                      value={pixPayload}
+                      size={170}
+                      level="M"
+                      bgColor="#fbf5eb"
+                      fgColor="#18351E"
+                      className="w-40 h-40 object-contain"
                     />
                   </div>
-                  <div className="flex flex-col gap-4 justify-center">
+                  <div className="flex flex-col gap-4 justify-center flex-1">
                     <p className="text-[#5A463B] text-[14px] leading-relaxed">
                       Abra o app do seu banco, vá em{" "}
                       <strong>Pix → Ler QR Code</strong> e aponte a câmera para
-                      o código ao lado.
+                      o código ao lado, ou copie o código Pix abaixo.
                     </p>
+
+                    <div>
+                      <CopyButton
+                        text={pixPayload}
+                        label="Copiar código Pix (Copia e Cola)"
+                      />
+                    </div>
+
                     <div className="bg-[#ECD6BD]/20 border border-[#D6A64A]/50 rounded-2xl p-4">
                       <p className="text-[#18351E] text-md mb-2 font-semibold">
                         Envie o comprovante pelo WhatsApp
