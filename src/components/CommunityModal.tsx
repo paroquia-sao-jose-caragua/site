@@ -11,6 +11,8 @@ import {
 import { useRouter } from "next/navigation";
 import { CrossIcon } from "./icons/CrossIcon";
 import { apiBaseUrl } from "@/lib/api/utils/api";
+import { formatCommunityMassScheduleDetails } from "@/lib/utils/formatMassSchedules";
+import type { CommunityMassSchedule } from "@/entities/Community";
 
 export interface CommunityModalItem {
   id: string;
@@ -20,6 +22,7 @@ export interface CommunityModalItem {
   address?: string;
   shortName?: string;
   massTimes?: string[];
+  massSchedules?: CommunityMassSchedule[];
   slug?: string;
 }
 
@@ -33,10 +36,17 @@ export function CommunityModal({ community, onClose }: CommunityModalProps) {
   const [copied, setCopied] = useState(false);
 
   const addressText = community.address || "Endereço a consultar na secretaria";
+  
+  const formattedFromSchedules = community.massSchedules
+    ? formatCommunityMassScheduleDetails(community.massSchedules)
+    : [];
+
   const massTimesText =
     community.massTimes && community.massTimes.length > 0
       ? community.massTimes.join("\n")
-      : "Consulte a agenda da comunidade para ver os horários de missas.";
+      : formattedFromSchedules.length > 0
+        ? formattedFromSchedules.join("\n")
+        : "Consulte a agenda da comunidade para ver os horários de missas.";
 
   const imageSrc =
     community.coverUrl ||

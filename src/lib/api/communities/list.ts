@@ -1,16 +1,8 @@
+import type { Community } from "@/entities/Community";
 import { communityApi } from "../utils/communityApi";
 
 interface ListCommunitiesResponse {
-  communities: {
-    id: string;
-    name: string;
-    slug: string;
-    createdAt: string;
-    type: "parish_church" | "chapel";
-    address: string;
-    coverId: string;
-    coverUrl: string;
-  }[];
+  communities: Community[];
 }
 
 export const listCommunities = async () => {

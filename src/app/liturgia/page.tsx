@@ -43,7 +43,7 @@ export default function LiturgiaPage() {
   const tomorrowDateStr = selectedDate.add(1, "day").format("dddd, D [de] MMMM");
 
   return (
-    <main className="relative overflow-hidden bg-[#fbf6ee] min-h-screen py-8 px-4 lg:px-12">
+    <main className="relative overflow-hidden bg-[#fbf6ee] min-h-screen py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto mb-32">
         {/* Breadcrumb */}
         <nav className="text-xs text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
@@ -54,48 +54,48 @@ export default function LiturgiaPage() {
           <span className="text-[#2d261e]">Liturgia Diária</span>
         </nav>
 
-        {/* Page Header */}
-        <div className="mb-8">
-          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#a6824b] uppercase tracking-widest mb-2">
-            <BookOpen className="w-4 h-4" />
-            LITURGIA DIÁRIA
-          </div>
-          <h1 className="text-3xl md:text-5xl font-serif font-bold text-[#2d261e]">
-            Liturgia do Dia
-          </h1>
-          <p className="text-sm md:text-base text-[#6b5c4d] mt-2">
-            A Palavra de Deus que ilumina o nosso caminho.
-          </p>
-        </div>
-
-        {/* Date Selector Header */}
-        <div className="flex items-center gap-3 bg-[#fbf5eb] border border-[#e8e2d8] rounded-xl px-4 py-3 w-fit shadow-sm mb-8">
-          <button
-            onClick={handlePrevDay}
-            className="p-1.5 rounded-lg text-[#8c7b6c] hover:bg-[#fbf6ee] hover:text-[#2d261e] transition-colors"
-            title="Dia anterior"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-
-          <div className="flex items-center gap-2 text-sm md:text-base font-serif font-semibold text-[#2d261e]">
-            <CalendarIcon className="w-4 h-4 text-[#a6824b]" />
-            <span className="capitalize">{selectedDate.format("dddd, D [de] MMMM [de] YYYY")}</span>
-          </div>
-
-          <button
-            onClick={handleNextDay}
-            className="p-1.5 rounded-lg text-[#8c7b6c] hover:bg-[#fbf6ee] hover:text-[#2d261e] transition-colors"
-            title="Próximo dia"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
-        </div>
-
         {/* Main Content Layout (Grid 2 cols) */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           {/* Left / Main Column (2 cols) */}
           <div className="lg:col-span-2 space-y-6">
+            {/* Page Header */}
+            <div>
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#a6824b] uppercase tracking-widest mb-2">
+                <BookOpen className="w-4 h-4" />
+                LITURGIA DIÁRIA
+              </div>
+              <h1 className="text-3xl md:text-5xl font-serif font-bold text-[#2d261e]">
+                Liturgia do Dia
+              </h1>
+              <p className="text-sm md:text-base text-[#6b5c4d] mt-2">
+                A Palavra de Deus que ilumina o nosso caminho.
+              </p>
+            </div>
+
+            {/* Date Selector Header */}
+            <div className="flex items-center gap-3 bg-[#fbf5eb] border border-[#e8e2d8] rounded-xl px-4 py-3 w-fit shadow-sm">
+              <button
+                onClick={handlePrevDay}
+                className="p-1.5 rounded-lg text-[#8c7b6c] hover:bg-[#fbf6ee] hover:text-[#2d261e] transition-colors"
+                title="Dia anterior"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+
+              <div className="flex items-center gap-2 text-sm md:text-base font-serif font-semibold text-[#2d261e]">
+                <CalendarIcon className="w-4 h-4 text-[#a6824b]" />
+                <span className="capitalize">{selectedDate.format("dddd, D [de] MMMM [de] YYYY")}</span>
+              </div>
+
+              <button
+                onClick={handleNextDay}
+                className="p-1.5 rounded-lg text-[#8c7b6c] hover:bg-[#fbf6ee] hover:text-[#2d261e] transition-colors"
+                title="Próximo dia"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+
             {/* Tabs Bar */}
             <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-[#e8e2d8]">
               <button
@@ -315,7 +315,7 @@ export default function LiturgiaPage() {
           {/* Right Sidebar Column (1 col) */}
           <div className="space-y-6">
             {/* Hero Card */}
-            <div className="relative rounded-2xl overflow-hidden w-full aspect-[16/9] border border-[#D6A64A]/40 shadow-md">
+            <div className="relative rounded-2xl overflow-hidden w-full aspect-[16/10.15] border border-[#D6A64A]/40 shadow-md">
               <img
                 src="/biblia-aberta-card.png"
                 alt="Liturgia Diária"

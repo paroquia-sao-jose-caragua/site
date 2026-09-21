@@ -5,6 +5,7 @@ import { ChevronRight, Church, MapPin, Calendar, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useCommunities } from "@/lib/api/communities/use-communities";
 import { apiBaseUrl } from "@/lib/api/utils/api";
+import { formatCommunityMassScheduleSummary } from "@/lib/utils/formatMassSchedules";
 import { CommunityModal } from "./CommunityModal";
 import type { Community } from "@/entities/Community";
 
@@ -130,7 +131,7 @@ export function OurCommunitiesSection() {
                         <Calendar className="w-4 h-4 text-[#B8872E] shrink-0 mt-0.5" />
                         <div>
                           <span className="font-semibold text-[#18351E] block mb-0.5">Missas</span>
-                          <span>Dom 8h, 10h e 19h | Sáb 19h30</span>
+                          <span>{formatCommunityMassScheduleSummary(matriz.massSchedules)}</span>
                         </div>
                       </div>
                     </div>
@@ -151,6 +152,7 @@ export function OurCommunitiesSection() {
             <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
               {otherCommunities.map((item) => {
                 const imageSrc = getImageUrl(item.coverUrl, item.coverId);
+                const massTimesSummary = formatCommunityMassScheduleSummary(item.massSchedules);
                 return (
                   <Link
                     key={item.id}
@@ -183,7 +185,7 @@ export function OurCommunitiesSection() {
                         </div>
                         <div className="flex items-center gap-1.5">
                           <Calendar className="w-3.5 h-3.5 text-[#B8872E] shrink-0" />
-                          <span className="truncate">Missas: Finais de Semana</span>
+                          <span className="truncate">{massTimesSummary}</span>
                         </div>
                       </div>
                     </div>
