@@ -367,6 +367,11 @@ export default function CommunityDetailPage({ params }: PageProps) {
                         <span className="font-semibold text-[#18351E] block text-xs uppercase tracking-wider mb-0.5">
                           Endereço
                         </span>
+                        {community.type === "chapel" && (
+                          <p className="text-xs text-[#736254] font-medium mb-1">
+                            Atendimento via Secretaria Paroquial (Matriz)
+                          </p>
+                        )}
                         <p className="leading-snug">{community.address}</p>
                       </div>
                     </div>
