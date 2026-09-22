@@ -23,6 +23,7 @@ import {
   formatTimesList,
   formatCommunityMassScheduleSummary,
 } from "@/lib/utils/formatMassSchedules";
+import { useParishContact } from "@/lib/api/parish-contact/use-parish-contact";
 
 const getCoverImageUrl = (comm: {
   slug: string;
@@ -83,6 +84,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
   const resolvedParams = use(params);
   const { community, isPending, error } = useCommunityBySlug(resolvedParams.slug);
   const { communities } = useCommunities();
+  const { contact } = useParishContact();
   const photos = community?.photos || [];
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [isDirectionsOpen, setIsDirectionsOpen] = useState(false);
@@ -377,31 +379,31 @@ export default function CommunityDetailPage({ params }: PageProps) {
                     </div>
                   )}
 
-                  {community.phone && (
+                  {(community.phone || contact?.phone) && (
                     <div className="flex items-start gap-3">
                       <Phone className="w-5 h-5 text-[#B8872E] shrink-0 mt-0.5" />
                       <div>
                         <span className="font-semibold text-[#18351E] block text-xs uppercase tracking-wider mb-0.5">
                           Telefone
                         </span>
-                        <p className="leading-snug">{community.phone}</p>
+                        <p className="leading-snug">{community.phone || contact?.phone}</p>
                       </div>
                     </div>
                   )}
 
-                  {community.email && (
+                  {(community.email || contact?.email) && (
                     <div className="flex items-start gap-3">
                       <Mail className="w-5 h-5 text-[#B8872E] shrink-0 mt-0.5" />
                       <div>
                         <span className="font-semibold text-[#18351E] block text-xs uppercase tracking-wider mb-0.5">
                           E-mail
                         </span>
-                        <p className="leading-snug">{community.email}</p>
+                        <p className="leading-snug">{community.email || contact?.email}</p>
                       </div>
                     </div>
                   )}
 
-                  {community.officeHours && (
+                  {(community.officeHours || contact?.officeHours || "Terça a sexta-feira: 09h às 12h e 14h às 17h40\nSábado: 08h às 12h") && (
                     <div className="flex items-start gap-3">
                       <Clock className="w-5 h-5 text-[#B8872E] shrink-0 mt-0.5" />
                       <div>
@@ -409,7 +411,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                           Secretaria
                         </span>
                         <p className="leading-snug whitespace-pre-line">
-                          {community.officeHours}
+                          {community.officeHours || contact?.officeHours || "Terça a sexta-feira: 09h às 12h e 14h às 17h40\nSábado: 08h às 12h"}
                         </p>
                       </div>
                     </div>
