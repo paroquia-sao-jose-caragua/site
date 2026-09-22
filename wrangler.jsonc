@@ -24,6 +24,7 @@
     "enabled": true,
   },
   "vars": {
+    "APP_ENV": "development",
     "CONTACT_EMAIL_TO": "secretaria-dev@paroquiasaojosecaragua.org.br",
     "RESEND_FROM_EMAIL": "Paróquia São José <contato@paroquiasaojosecaragua.org.br>",
   },
@@ -56,6 +57,7 @@
         "enabled": true,
       },
       "vars": {
+        "APP_ENV": "staging",
         "CONTACT_EMAIL_TO": "secretaria-staging@paroquiasaojosecaragua.org.br",
         "RESEND_FROM_EMAIL": "Paróquia São José <contato@paroquiasaojosecaragua.org.br>",
       },
@@ -87,6 +89,7 @@
         "enabled": true,
       },
       "vars": {
+        "APP_ENV": "production",
         "CONTACT_EMAIL_TO": "secretaria@paroquiasaojosecaragua.org.br",
         "RESEND_FROM_EMAIL": "Paróquia São José <contato@paroquiasaojosecaragua.org.br>",
       },

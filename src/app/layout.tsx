@@ -21,6 +21,8 @@ const lora = Lora({
   weight: ["400", "500", "600", "700"],
 });
 
+const isProduction = process.env.APP_ENV === "production";
+
 export const metadata: Metadata = {
   title: {
     default: "Paróquia São José | Caraguatatuba - SP",
@@ -82,6 +84,40 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
+  },
+
+  alternates: {
+    canonical: "https://paroquiasaojosecaragua.org.br",
+  },
+
+  robots: isProduction
+    ? {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          "max-video-preview": -1,
+          "max-image-preview": "large",
+          "max-snippet": -1,
+        },
+      }
+    : {
+        index: false,
+        follow: false,
+        nocache: true,
+        googleBot: {
+          index: false,
+          follow: false,
+          noimageindex: true,
+          "max-video-preview": -1,
+          "max-image-preview": "none",
+          "max-snippet": -1,
+        },
+      },
+
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
 };
 
