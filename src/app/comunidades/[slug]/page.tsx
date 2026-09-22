@@ -88,6 +88,11 @@ export default function CommunityDetailPage({ params }: PageProps) {
   const photos = community?.photos || [];
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [isDirectionsOpen, setIsDirectionsOpen] = useState(false);
+  const [isParishDirectionsOpen, setIsParishDirectionsOpen] = useState(false);
+
+  const parishSecretaryAddress =
+    contact?.address ||
+    "R. Edson dos Santos, 30 — Morro do Algodão, Caraguatatuba - SP, 11671-180";
 
   const otherCommunities = (communities || []).filter(
     (c) => c.slug !== resolvedParams.slug && c.id !== community?.id
@@ -369,11 +374,6 @@ export default function CommunityDetailPage({ params }: PageProps) {
                         <span className="font-semibold text-[#18351E] block text-xs uppercase tracking-wider mb-0.5">
                           Endereço
                         </span>
-                        {community.type === "chapel" && (
-                          <p className="text-xs text-[#736254] font-medium mb-1">
-                            Atendimento via Secretaria Paroquial (Matriz)
-                          </p>
-                        )}
                         <p className="leading-snug">{community.address}</p>
                       </div>
                     </div>
@@ -406,13 +406,28 @@ export default function CommunityDetailPage({ params }: PageProps) {
                   {(community.officeHours || contact?.officeHours || "Terça a sexta-feira: 09h às 12h e 14h às 17h40\nSábado: 08h às 12h") && (
                     <div className="flex items-start gap-3">
                       <Clock className="w-5 h-5 text-[#B8872E] shrink-0 mt-0.5" />
-                      <div>
+                      <div className="flex-1">
                         <span className="font-semibold text-[#18351E] block text-xs uppercase tracking-wider mb-0.5">
                           Secretaria
                         </span>
+                        {community.type === "chapel" && (
+                          <p className="text-xs text-[#736254] font-medium mb-1">
+                            Atendimento via Secretaria Paroquial (Matriz)
+                          </p>
+                        )}
                         <p className="leading-snug whitespace-pre-line">
                           {community.officeHours || contact?.officeHours || "Terça a sexta-feira: 09h às 12h e 14h às 17h40\nSábado: 08h às 12h"}
                         </p>
+                        {community.type === "chapel" && (
+                          <button
+                            type="button"
+                            onClick={() => setIsParishDirectionsOpen(true)}
+                            className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#fbf5eb] border border-[#D6A64A]/60 hover:border-[#B8872E] hover:bg-[#f3ece0] text-[#18351E] text-[11px] font-semibold transition-all cursor-pointer shadow-2xs"
+                          >
+                            <MapPin className="w-3.5 h-3.5 text-[#B8872E]" />
+                            <span>Ver endereço da Secretaria</span>
+                          </button>
+                        )}
                       </div>
                     </div>
                   )}
@@ -699,6 +714,14 @@ export default function CommunityDetailPage({ params }: PageProps) {
               address={community.address}
             />
           )}
+
+          {/* Directions / Endereço da Secretaria (Matriz) Modal */}
+          <DirectionsModal
+            isOpen={isParishDirectionsOpen}
+            onClose={() => setIsParishDirectionsOpen(false)}
+            communityName="Secretaria Paroquial (Matriz São José)"
+            address={parishSecretaryAddress}
+          />
 
           {/* 5. OUTRAS COMUNIDADES */}
           {otherCommunities.length > 0 && (
