@@ -18,7 +18,37 @@ import {
 import { CrossIcon } from "@/components/icons/CrossIcon";
 import { DirectionsModal } from "@/components/DirectionsModal";
 import { useCommunityBySlug } from "@/lib/api/communities/use-community-by-slug";
-import { formatTimesList } from "@/lib/utils/formatMassSchedules";
+import { useCommunities } from "@/lib/api/communities/use-communities";
+import {
+  formatTimesList,
+  formatCommunityMassScheduleSummary,
+} from "@/lib/utils/formatMassSchedules";
+
+const getCoverImageUrl = (comm: {
+  slug: string;
+  coverUrl?: string;
+  coverId?: string;
+}) => {
+  if (comm.coverUrl) return comm.coverUrl;
+  if (comm.coverId) {
+    if (comm.coverId.startsWith("http") || comm.coverId.startsWith("/")) {
+      return comm.coverId;
+    }
+    const apiBaseUrl =
+      process.env.NEXT_PUBLIC_BASE_API_URL ||
+      process.env.NEXT_PUBLIC_API_URL ||
+      "http://localhost:3333";
+    return `${apiBaseUrl}/attachments/${comm.coverId}`;
+  }
+  const localMap: Record<string, string> = {
+    "matriz-sao-jose": "/communities/sao-jose.png",
+    "nossa-senhora-do-rosario": "/communities/nossa-senhora-do-rosario.jpeg",
+    "santa-edwiges": "/communities/santa-edwiges.png",
+    "sagrada-familia": "/communities/sagrada-familia.jpeg",
+    "sagrado-coracao-de-jesus": "/communities/sagrado-coracao-de-jesus.jpeg",
+  };
+  return localMap[comm.slug] || "/communities/sao-jose.png";
+};
 
 const WEEKDAY_FULL = [
   "Domingo",
@@ -52,9 +82,14 @@ interface PageProps {
 export default function CommunityDetailPage({ params }: PageProps) {
   const resolvedParams = use(params);
   const { community, isPending, error } = useCommunityBySlug(resolvedParams.slug);
+  const { communities } = useCommunities();
   const photos = community?.photos || [];
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [isDirectionsOpen, setIsDirectionsOpen] = useState(false);
+
+  const otherCommunities = (communities || []).filter(
+    (c) => c.slug !== resolvedParams.slug && c.id !== community?.id
+  );
 
   useEffect(() => {
     const photosCount = photos.length;
@@ -158,7 +193,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
     : [];
 
   return (
-    <div className="min-h-screen bg-[#fbf6ee] text-[#18351E]">
+    <div className="relative overflow-hidden min-h-screen bg-[#fbf6ee] text-[#18351E] pb-24 md:pb-36">
       <main className="py-8 md:py-14">
         <div className="max-w-7xl mx-auto px-6">
           {/* Breadcrumbs */}
@@ -658,7 +693,94 @@ export default function CommunityDetailPage({ params }: PageProps) {
             />
           )}
 
-          {/* 5. BANNER FAÇA PARTE */}
+          {/* 5. OUTRAS COMUNIDADES */}
+          {otherCommunities.length > 0 && (
+            <div className="mb-16 md:mb-24 pt-12 md:pt-16 border-t border-[#D6A64A]/25">
+              <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10">
+                <div className="flex items-center justify-center gap-3 mb-2">
+                  <span className="h-px w-10 bg-[#B8872E]/40" />
+                  <div className="flex items-center gap-1.5 text-[#B8872E] text-xs font-semibold uppercase tracking-[0.25em]">
+                    <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
+                    <span>CONHEÇA TAMBÉM</span>
+                    <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
+                  </div>
+                  <span className="h-px w-10 bg-[#B8872E]/40" />
+                </div>
+
+                <h2
+                  className="text-2xl md:text-4xl font-semibold text-[#18351E] mb-2"
+                  style={{ fontFamily: "Cormorant Garamond, serif" }}
+                >
+                  Outras comunidades da nossa paróquia
+                </h2>
+
+                <p className="text-xs md:text-sm text-[#5A463B] font-serif leading-relaxed max-w-xl">
+                  Nossa paróquia é uma só família reunida em diversas capelas e igrejas. Conheça os horários de missas e as atividades de cada comunidade.
+                </p>
+              </div>
+
+              {/* Grid Responsivo de Outras Comunidades */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+                {otherCommunities.map((other) => {
+                  const coverUrl = getCoverImageUrl(other);
+                  const isMatriz =
+                    other.type === "parish_church" ||
+                    other.name.toLowerCase().includes("matriz");
+                  const massSummary = formatCommunityMassScheduleSummary(other.massSchedules);
+
+                  return (
+                    <Link
+                      key={other.id}
+                      href={`/comunidades/${other.slug || other.id}`}
+                      className="group bg-[#fbf5eb] border border-[#D6A64A]/30 hover:border-[#B8872E] rounded-3xl p-4 flex flex-col justify-between text-left shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer"
+                    >
+                      <div>
+                        {/* Capa com Badge */}
+                        <div className="h-40 w-full overflow-hidden rounded-2xl bg-[#f3ece0] mb-3.5 relative">
+                          <img
+                            src={coverUrl}
+                            alt={other.name}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                          <div className="absolute top-2.5 left-2.5 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#18351E]/90 backdrop-blur-xs border border-[#D6A64A]/40 text-[#D6A64A] text-[10px] font-semibold tracking-wider uppercase shadow-xs">
+                            <span>{isMatriz ? "✦ Matriz" : "✦ Capela"}</span>
+                          </div>
+                        </div>
+
+                        {/* Nome da Comunidade */}
+                        <h3
+                          className="text-lg font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors leading-snug mb-2.5 line-clamp-2"
+                          style={{ fontFamily: "Cormorant Garamond, serif" }}
+                        >
+                          {other.name}
+                        </h3>
+
+                        {/* Informações Rápidas */}
+                        <div className="space-y-1.5 text-xs text-[#736254] mb-3">
+                          <div className="flex items-start gap-1.5">
+                            <MapPin className="w-3.5 h-3.5 text-[#B8872E] shrink-0 mt-0.5" />
+                            <span className="line-clamp-1">{other.address || "Caraguatatuba / SP"}</span>
+                          </div>
+                          <div className="flex items-start gap-1.5">
+                            <Calendar className="w-3.5 h-3.5 text-[#B8872E] shrink-0 mt-0.5" />
+                            <span className="line-clamp-1">{massSummary}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Link / Ação */}
+                      <div className="flex items-center justify-between text-xs font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors pt-3 border-t border-[#D6A64A]/20 mt-2">
+                        <span>Conhecer comunidade</span>
+                        <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* 6. BANNER FAÇA PARTE */}
           <div className="rounded-3xl bg-[#18351E] text-white p-8 md:p-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
             <div className="space-y-2 z-10 text-center md:text-left">
               <h3
@@ -682,6 +804,24 @@ export default function CommunityDetailPage({ params }: PageProps) {
           </div>
         </div>
       </main>
+
+      {/* Onda decorativa inferior */}
+      <div
+        className="
+          absolute
+          bottom-[-2px]
+          left-0
+          w-[calc(100%+4cm)]
+          max-w-none
+          ml-[-2cm]
+          aspect-[1536/296]
+          bg-[url('/wave-separator.svg')]
+          bg-no-repeat
+          bg-center
+          bg-cover
+          pointer-events-none
+        "
+      />
     </div>
   );
 }

@@ -190,7 +190,12 @@ function mapCalendarToAgendaEvents(calendar: CalendarSchedule[]) {
             : `${date}-${schedule.eventScheduleId}`,
         type: schedule.type,
         name: getScheduleName(schedule),
-        time: `${schedule.startTime} - ${schedule.endTime}`,
+        time:
+          schedule.type === "mass" || (schedule.type === "event" && schedule.eventType === "mass")
+            ? schedule.startTime
+            : schedule.endTime
+              ? `${schedule.startTime} - ${schedule.endTime}`
+              : schedule.startTime,
         communityId: schedule.community.id,
         location: schedule.community.address,
         orientations: schedule?.orientations,

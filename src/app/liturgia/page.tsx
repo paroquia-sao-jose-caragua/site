@@ -399,13 +399,24 @@ export default function LiturgiaPage() {
               </button>
             </div>
 
-            {/* Quote Block */}
+            {/* Salmo em destaque do Dia */}
             <div className="bg-[#f3ece0] border border-[#e8e2d8] rounded-2xl p-5 text-center shadow-inner">
               <Quote className="w-6 h-6 text-[#a6824b] mx-auto mb-2 opacity-60" />
-              <p className="font-serif italic text-sm text-[#4a3f35] leading-relaxed mb-2">
-                &ldquo;Lâmpada para os meus pés é a tua palavra, e luz para o meu caminho.&rdquo;
-              </p>
-              <span className="text-xs font-bold text-[#8c7b6c]">Salmo 119(118),105</span>
+              {isPending ? (
+                <div className="space-y-2 py-2 animate-pulse">
+                  <div className="h-4 bg-[#e8e0d4] rounded w-3/4 mx-auto" />
+                  <div className="h-3 bg-[#e8e0d4] rounded w-1/3 mx-auto" />
+                </div>
+              ) : (
+                <>
+                  <p className="font-serif italic text-sm text-[#4a3f35] leading-relaxed mb-2">
+                    &ldquo;{data?.psalm?.response || data?.psalm?.text?.slice(0, 140) || "Lâmpada para os meus pés é a tua palavra, e luz para o meu caminho."}&rdquo;
+                  </p>
+                  <span className="text-xs font-bold text-[#8c7b6c]">
+                    {data?.psalm?.reference || "Salmo Responsorial"}
+                  </span>
+                </>
+              )}
             </div>
           </div>
         </div>

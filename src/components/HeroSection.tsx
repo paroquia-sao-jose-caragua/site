@@ -182,6 +182,9 @@ function getScheduleId(schedule: Schedule) {
 }
 
 function formatScheduleTime(schedule: Schedule) {
+  if (schedule.type === "mass" || schedule.eventType === "mass") {
+    return schedule.startTime;
+  }
   return schedule.endTime
     ? `${schedule.startTime} - ${schedule.endTime}`
     : schedule.startTime;

@@ -3,6 +3,7 @@
 import type { FormEvent } from "react";
 import { useState } from "react";
 import { MapPin, Clock, Send, CheckCircle, PhoneIcon } from "lucide-react";
+import { useParishContact } from "@/lib/api/parish-contact/use-parish-contact";
 
 function InstagramIcon() {
   return (
@@ -24,7 +25,17 @@ function InstagramIcon() {
   );
 }
 
+function YoutubeIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+    </svg>
+  );
+}
+
 export default function ContactPage() {
+  const { contact, isPending: isContactPending } = useParishContact();
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -347,10 +358,8 @@ export default function ContactPage() {
           </div>
 
           {/* Sidebar */}
-
           <div className="space-y-5">
             {/* WhatsApp */}
-
             <div
               className="
               bg-[#fbf5eb]
@@ -371,7 +380,7 @@ export default function ContactPage() {
                   fontWeight: 600,
                 }}
               >
-                Prefere falar pelo WhatsApp?
+                Prefere falar pelo Telefone?
               </h3>
 
               <p className="text-[#5A463B] leading-relaxed">
@@ -379,7 +388,12 @@ export default function ContactPage() {
               </p>
 
               <a
-                href="https://wa.me/5512981705757"
+                href={
+                  contact?.whatsappUrl ||
+                  (contact?.whatsapp
+                    ? `https://wa.me/55${contact.whatsapp.replace(/\D/g, "")}`
+                    : "https://wa.me/5512981705757")
+                }
                 target="_blank"
                 rel="noopener noreferrer"
                 className="
@@ -396,13 +410,35 @@ export default function ContactPage() {
                 transition-colors
               "
               >
-                <PhoneIcon className="text-[#eeca94]" size={16} />
-                (12) 98170-5757
+                WhatsApp:{" "}
+                {contact?.whatsapp || "(12) 98170-5757"}
               </a>
+
+              {contact?.phone && (
+                <a
+                  href={`tel:${contact.phone.replace(/\D/g, "")}`}
+                  className="
+                  mt-2
+                  flex
+                  items-center
+                  justify-center
+                  gap-2
+                  rounded-xl
+                  border
+                  border-[#D6A64A]/40
+                  text-[#18351E]
+                  py-2.5
+                  text-sm
+                  hover:bg-[#f3ece0]
+                  transition-colors
+                "
+                >
+                  <span>Fixo: {contact.phone}</span>
+                </a>
+              )}
             </div>
 
             {/* Endereço */}
-
             <div
               className="
               bg-[#fbf5eb]
@@ -431,18 +467,13 @@ export default function ContactPage() {
                   </h3>
 
                   <p className="text-[#5A463B] leading-relaxed">
-                    R. Edson dos Santos, 30
-                    <br />
-                    Morro do Algodão
-                    <br />
-                    Caraguatatuba - SP, 11671-180
+                    {contact?.address || "R. Edson dos Santos, 30 — Morro do Algodão, Caraguatatuba - SP, 11671-180"}
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Horários */}
-
             <div
               className="
               bg-[#fbf5eb]
@@ -470,20 +501,24 @@ export default function ContactPage() {
                     Secretaria
                   </h3>
 
-                  <p className="text-[#5A463B] leading-relaxed">
-                    Terça a sexta-feira
-                    <br />
-                    9h às 12h e 14h às 17h40
-                    <br />
-                    <br />
-                    Sábado: 8h às 12h
-                  </p>
+                  {contact?.officeHours ? (
+                    <div className="text-[#5A463B] leading-relaxed space-y-1">
+                      {contact.officeHours.split("\n").map((line, idx) => (
+                        <p key={idx}>{line}</p>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-[#5A463B] leading-relaxed">
+                      Terça a sexta-feira: 09h às 12h e 14h às 17h40
+                      <br />
+                      Sábado: 08h às 12h
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
 
             {/* Redes */}
-
             <div
               className="
               bg-[#fbf5eb]
@@ -508,58 +543,102 @@ export default function ContactPage() {
               </h3>
 
               <div className="space-y-3">
-                <a
-                  href="https://www.facebook.com/parsaojose/?locale=pt_BR"
-                  className="
-                  flex
-                  items-center
-                  gap-3
-                  text-[#5a463b]
-                "
-                >
-                  <span
+                {contact?.facebookUrl && (
+                  <a
+                    href={contact.facebookUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="
-                    size-8
-                    rounded-full
-                    border
-                    border-[#D6A64A]
                     flex
                     items-center
-                    justify-center
-                    text-[#D6A64A]
-                    font-bold
+                    gap-3
+                    text-[#5a463b]
+                    hover:text-[#B8872E]
+                    transition-colors
                   "
                   >
-                    f
-                  </span>
-                  parsaojose
-                </a>
+                    <span
+                      className="
+                      size-8
+                      rounded-full
+                      border
+                      border-[#D6A64A]
+                      flex
+                      items-center
+                      justify-center
+                      text-[#D6A64A]
+                      font-bold
+                    "
+                    >
+                      f
+                    </span>
+                    Facebook Paróquia
+                  </a>
+                )}
 
-                <a
-                  href="https://www.instagram.com/paroquiasaojosecaragua/"
-                  className="
-                  flex
-                  items-center
-                  gap-3
-                  text-[#5a463b]
-                "
-                >
-                  <span
+                {contact?.instagramUrl && (
+                  <a
+                    href={contact.instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="
-                    size-8
-                    rounded-full
-                    border
-                    border-[#D6A64A]
                     flex
                     items-center
-                    justify-center
-                    text-[#D6A64A]
+                    gap-3
+                    text-[#5a463b]
+                    hover:text-[#B8872E]
+                    transition-colors
                   "
                   >
-                    <InstagramIcon />
-                  </span>
-                  paroquiasaojosecaragua
-                </a>
+                    <span
+                      className="
+                      size-8
+                      rounded-full
+                      border
+                      border-[#D6A64A]
+                      flex
+                      items-center
+                      justify-center
+                      text-[#D6A64A]
+                    "
+                    >
+                      <InstagramIcon />
+                    </span>
+                    Instagram Oficial
+                  </a>
+                )}
+
+                {contact?.youtubeUrl && (
+                  <a
+                    href={contact.youtubeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="
+                    flex
+                    items-center
+                    gap-3
+                    text-[#5a463b]
+                    hover:text-[#B8872E]
+                    transition-colors
+                  "
+                  >
+                    <span
+                      className="
+                      size-8
+                      rounded-full
+                      border
+                      border-[#D6A64A]
+                      flex
+                      items-center
+                      justify-center
+                      text-[#D6A64A]
+                    "
+                    >
+                      <YoutubeIcon />
+                    </span>
+                    <span>Canal do YouTube</span>
+                  </a>
+                )}
               </div>
             </div>
           </div>

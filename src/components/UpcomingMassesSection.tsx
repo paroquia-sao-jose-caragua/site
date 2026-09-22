@@ -84,6 +84,9 @@ function getScheduleId(schedule: Schedule) {
 }
 
 function formatScheduleTime(schedule: Schedule) {
+  if (schedule.type === "mass" || schedule.eventType === "mass") {
+    return schedule.startTime;
+  }
   return schedule.endTime
     ? `${schedule.startTime} - ${schedule.endTime}`
     : schedule.startTime;
@@ -224,7 +227,7 @@ export function UpcomingMassesSection() {
                   className="bg-[#fbf5eb] border border-[#D6A64A]/30 rounded-2xl p-6 flex flex-col sm:flex-row gap-6 shadow-sm items-start"
                 >
                   {/* Date Box */}
-                  <div className="flex flex-col items-center justify-center border-r sm:border-r border-[#e8dfd1] pr-0 sm:pr-6 w-full sm:w-28 text-center shrink-0">
+                  <div className="flex flex-col items-center justify-center border-r-0 sm:border-r border-[#e8dfd1] pr-0 sm:pr-6 w-full sm:w-28 text-center shrink-0 bg-[#B8872E]/12 sm:bg-transparent rounded-xl sm:rounded-none py-3 sm:py-0">
                     <span className="text-[10px] font-bold text-[#B8872E] uppercase tracking-wider">
                       {dayName}
                     </span>
@@ -248,8 +251,8 @@ export function UpcomingMassesSection() {
                         onClick={() => setSelectedSchedule(item)}
                         className="w-full text-left flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-[#f4ece1] pb-3 last:border-b-0 gap-2 cursor-pointer hover:bg-[#f3ece0] p-2 rounded-xl transition-all group"
                       >
-                        <div className="flex items-center gap-3">
-                          <span className="text-sm font-bold text-[#B8872E] font-mono bg-[#f3ece0] px-2.5 py-1 rounded-md border border-[#D6A64A]/30 group-hover:bg-[#B8872E] group-hover:text-[#18351E] transition-colors">
+                        <div className="flex items-center gap-3 shrink-0">
+                          <span className="text-sm font-bold text-[#B8872E] font-mono bg-[#B8872E]/15 px-2.5 py-1 rounded-md border border-[#D6A64A]/30 group-hover:bg-[#18351E] group-hover:text-[#eeca94] group-hover:border-[#18351E] transition-colors shrink-0">
                             {item.time}
                           </span>
                           <span className="font-semibold text-sm text-[#18351E] group-hover:text-[#B8872E] transition-colors">
@@ -257,9 +260,9 @@ export function UpcomingMassesSection() {
                           </span>
                         </div>
 
-                        <div className="flex items-center gap-1.5 text-xs text-[#6b5c4d] group-hover:text-[#B8872E] transition-colors">
-                          <MapPin className="w-3.5 h-3.5 text-[#B8872E]" />
-                          <span>{item.location}</span>
+                        <div className="flex items-center sm:justify-end gap-1.5 text-xs text-[#6b5c4d] group-hover:text-[#B8872E] transition-colors sm:text-right sm:ml-auto">
+                          <MapPin className="w-3.5 h-3.5 text-[#B8872E] shrink-0" />
+                          <span className="text-left sm:text-right">{item.location}</span>
                         </div>
                       </button>
                     ))}

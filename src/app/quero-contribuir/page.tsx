@@ -13,16 +13,7 @@ import {
 import { QRCodeSVG } from "qrcode.react";
 import { generatePixPayload } from "@/utils/pix";
 import Link from "next/link";
-
-const PIX_PHONE_KEY = "(12) 98170-5757";
-const PIX_RAW_KEY = "12981705757";
-
-const pixPayload = generatePixPayload({
-  key: PIX_RAW_KEY,
-  name: "Paroquia Sao Jose",
-  city: "Caraguatatuba",
-  txid: "***",
-});
+import { useDonations } from "@/lib/api/donations/use-donations";
 
 function CopyButton({ text, label }: { text: string; label: string }) {
   const [copied, setCopied] = useState(false);
@@ -51,6 +42,39 @@ function CopyButton({ text, label }: { text: string; label: string }) {
 }
 
 export default function ContributePage() {
+  const { donations, isPending } = useDonations();
+
+  const pixKey = donations?.pixKey || "(12) 98170-5757";
+  const pixKeyType = donations?.pixKeyType || "phone";
+  const pixRawKey =
+    pixKeyType === "phone" || pixKeyType === "cnpj"
+      ? pixKey.replace(/\D/g, "")
+      : pixKey;
+  const pixReceiverName = donations?.pixReceiverName || "Paroquia Sao Jose";
+  const pixCity = donations?.pixReceiverCity || "Caraguatatuba";
+
+  const pixPayload = generatePixPayload({
+    key: pixRawKey,
+    name: pixReceiverName,
+    city: pixCity,
+    txid: "***",
+  });
+
+  const getPixKeyTypeLabel = (type: string) => {
+    switch (type) {
+      case "phone":
+        return "Telefone / Celular";
+      case "cnpj":
+        return "CNPJ";
+      case "email":
+        return "E-mail";
+      case "random":
+        return "Chave Aleatória";
+      default:
+        return "Telefone";
+    }
+  };
+
   return (
     <section className="relative overflow-hidden bg-[#fbf5eb]">
       <div className="relative z-10">
@@ -62,7 +86,7 @@ export default function ContributePage() {
               <span>Obras e Missão</span>
             </div>
             <h1 className="max-w-150 text-[#fff8f0] text-3xl lg:text-4xl font-semibold text-center">
-              Contribua com as obras e missões da Paróquia São José
+              {donations?.title || "Contribua com as obras e missões da Paróquia São José"}
             </h1>
             <p
               className="mt-5 text-[#f8f3ece6] text-lg max-w-150 text-center"
@@ -70,8 +94,8 @@ export default function ContributePage() {
                 fontFamily: "Cormorant Garamond, serif",
               }}
             >
-              Cada contribuição é um ato de fé e solidariedade, fortalecendo a
-              missão da paróquia e o trabalho pastoral em nossa comunidade.
+              {donations?.description ||
+                "Cada contribuição é um ato de fé e solidariedade, fortalecendo a missão da paróquia e o trabalho pastoral em nossa comunidade."}
             </p>
           </div>
         </div>
@@ -93,7 +117,7 @@ export default function ContributePage() {
               {/* Phone PIX key */}
               <div className="p-6 border-b border-[#D6A64A]/40">
                 <p className="text-sm text-[#18351E] uppercase tracking-widest mb-4 font-semibold">
-                  Chave PIX — Telefone
+                  Chave PIX — {getPixKeyTypeLabel(pixKeyType)}
                 </p>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                   <div className="flex-1">
@@ -105,44 +129,54 @@ export default function ContributePage() {
                         fontVariantNumeric: "tabular-nums",
                       }}
                     >
-                      {PIX_PHONE_KEY}
+                      {pixKey}
                     </p>
                     <p className="text-[#5A463B]/80 text-[13px] mt-1">
-                      Paróquia São José — Caraguatatuba
+                      {donations?.pixReceiverName
+                        ? `${donations.pixReceiverName} — ${donations?.pixReceiverCity || "Caraguatatuba"}`
+                        : "Paróquia São José — Caraguatatuba"}
                     </p>
                   </div>
-                  <CopyButton text={PIX_RAW_KEY} label="Copiar chave" />
+                  <CopyButton text={pixRawKey} label="Copiar chave" />
                 </div>
               </div>
 
               {/* Bank details */}
               <div className="p-6 border-b border-[#D6A64A]/40">
                 <p className="text-sm text-[#18351E] uppercase tracking-widest mb-4 font-semibold">
-                  Dados Bancários — Santander
+                  Dados Bancários — {donations?.bankName || "Santander"}
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
                   <div>
                     <p className="text-[#5A463B] text-[12px] mb-0.5">CNPJ</p>
                     <p className="text-[#18351E] text-[15px] font-semibold">
-                      03.167.725/0017-24
+                      {donations?.bankCnpj || "03.167.725/0017-24"}
                     </p>
                   </div>
                   <div>
                     <p className="text-[#5A463B] text-[12px] mb-0.5">Agência</p>
                     <p className="text-[#18351E] text-[15px] font-semibold">
-                      4171
+                      {donations?.bankAgency || "4171"}
                     </p>
                   </div>
                   <div>
                     <p className="text-[#5A463B] text-[12px] mb-0.5">
-                      Conta Corrente
+                      {donations?.bankAccountType || "Conta Corrente"}
                     </p>
                     <p className="text-[#18351E] text-[15px] font-semibold">
-                      13002394-1
+                      {donations?.bankAccount || "13002394-1"}
                     </p>
                   </div>
                 </div>
-                <CopyButton text="03.167.725/0017-24" label="Copiar CNPJ" />
+                {donations?.bankBeneficiary && (
+                  <p className="text-xs text-[#5A463B] mb-3">
+                    Favorecido: <span className="font-semibold text-[#18351E]">{donations.bankBeneficiary}</span>
+                  </p>
+                )}
+                <CopyButton
+                  text={donations?.bankCnpj || "03.167.725/0017-24"}
+                  label="Copiar CNPJ"
+                />
               </div>
 
               {/* QR Code */}
@@ -180,14 +214,19 @@ export default function ContributePage() {
                         Envie o comprovante pelo WhatsApp
                       </p>
                       <a
-                        href="https://wa.me/5512981705757"
+                        href={
+                          donations?.receiptWhatsappUrl ||
+                          (donations?.receiptWhatsapp
+                            ? `https://wa.me/55${donations.receiptWhatsapp.replace(/\D/g, "")}`
+                            : "https://wa.me/5512981705757")
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 rounded-xl bg-[#18351E] text-[#eeca94] text-md px-4 py-2 hover:bg-[#27442A] transition-colors"
                         style={{ fontWeight: 500 }}
                       >
                         <PhoneIcon size={15} />
-                        (12) 98170-5757
+                        {donations?.receiptWhatsapp || "(12) 98170-5757"}
                       </a>
                     </div>
                   </div>
@@ -252,12 +291,18 @@ export default function ContributePage() {
                 />
               </div>
             </div>
+            <h3
+              className="text-[#18351E] text-2xl mb-3"
+              style={{
+                fontFamily: "Cormorant Garamond, serif",
+                fontWeight: 600,
+              }}
+            >
+              {donations?.pastoralCenterTitle || "Centro Pastoral da Paróquia São José"}
+            </h3>
             <p className="text-[#5A463B] text-[15px] mb-4 leading-relaxed">
-              Com fé e dedicação, estamos dando vida ao Centro Pastoral da
-              Paróquia São José — um espaço para evangelização, formação e
-              convivência cristã. A boa fé de cada doador permitiu erguermos um
-              local que acolhe a comunidade, promove encontros e fortalece a
-              missão pastoral.
+              {donations?.pastoralCenterDescription ||
+                "Com fé e dedicação, estamos dando vida ao Centro Pastoral da Paróquia São José — um espaço para evangelização, formação e convivência cristã. A boa fé de cada doador permitiu erguermos um local que acolhe a comunidade, promove encontros e fortalece a missão pastoral."}
             </p>
             <Link
               href="/contato"

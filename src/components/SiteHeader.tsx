@@ -31,6 +31,29 @@ const secondaryNavItems = [
   { label: "Contato", to: "/contato", icon: MessageCircle },
 ];
 
+const getCommunityCoverUrl = (comm: {
+  slug: string;
+  coverUrl?: string;
+  coverId?: string;
+}) => {
+  if (comm.coverUrl) return comm.coverUrl;
+  if (comm.coverId) {
+    if (comm.coverId.startsWith("http") || comm.coverId.startsWith("/")) {
+      return comm.coverId;
+    }
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333";
+    return `${apiBaseUrl}/attachments/${comm.coverId}`;
+  }
+  const localMap: Record<string, string> = {
+    "matriz-sao-jose": "/communities/sao-jose.png",
+    "nossa-senhora-do-rosario": "/communities/nossa-senhora-do-rosario.jpeg",
+    "santa-edwiges": "/communities/santa-edwiges.png",
+    "sagrada-familia": "/communities/sagrada-familia.jpeg",
+    "sagrado-coracao-de-jesus": "/communities/sagrado-coracao-de-jesus.jpeg",
+  };
+  return localMap[comm.slug] || "/communities/sao-jose.png";
+};
+
 export function SiteHeader() {
   const pathname = usePathname();
   const { communities } = useCommunities();
@@ -173,9 +196,9 @@ export function SiteHeader() {
 
                 {/* Dropdown Menu Comunidades */}
                 {dropdownOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-72 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-80 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                     <div className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-2xl shadow-xl p-2 text-[#18351E]">
-                      <div className="space-y-0.5 max-h-[360px] overflow-y-auto">
+                      <div className="space-y-1 max-h-[380px] overflow-y-auto">
                         {communities && communities.length > 0 ? (
                           communities.map((comm) => {
                             const isMatriz =
@@ -185,33 +208,38 @@ export function SiteHeader() {
                                 .includes("matriz");
                             const isActiveCommunity =
                               pathname === `/comunidades/${comm.slug}`;
+                            const coverUrl = getCommunityCoverUrl(comm);
 
                             return (
                               <Link
                                 key={comm.id}
                                 href={`/comunidades/${comm.slug}`}
                                 onClick={() => setDropdownOpen(false)}
-                                className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all group/item ${
+                                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all group/item ${
                                   isActiveCommunity
                                     ? "bg-[#18351E] text-[#eeca94]"
                                     : "text-[#18351E] hover:bg-[#18351E] hover:text-[#eeca94]"
                                 }`}
                               >
                                 <div
-                                  className={`size-6.5 rounded-lg flex items-center justify-center shrink-0 ${
+                                  className={`size-9 rounded-lg overflow-hidden shrink-0 border transition-all ${
                                     isActiveCommunity
-                                      ? "bg-[#eeca94]/20 text-[#eeca94]"
-                                      : "bg-[#D6A64A]/20 text-[#B8872E] group-hover/item:bg-[#eeca94]/20 group-hover/item:text-[#eeca94]"
+                                      ? "border-[#eeca94]/60 ring-1 ring-[#eeca94]"
+                                      : "border-[#D6A64A]/30 group-hover/item:border-[#eeca94]/50"
                                   }`}
                                 >
-                                  <Church className="w-3.5 h-3.5" />
+                                  <img
+                                    src={coverUrl}
+                                    alt={comm.name}
+                                    className="w-full h-full object-cover group-hover/item:scale-105 transition-transform duration-300"
+                                  />
                                 </div>
                                 <div className="flex flex-col min-w-0">
-                                  <span className="font-semibold text-xs leading-tight line-clamp-1 font-serif">
+                                  <span className="font-semibold text-[14px] leading-snug line-clamp-1 font-serif">
                                     {comm.name}
                                   </span>
                                   <span
-                                    className={`text-[10px] line-clamp-1 ${
+                                    className={`text-[11.5px] line-clamp-1 ${
                                       isActiveCommunity
                                         ? "text-[#eeca94]/70"
                                         : "text-[#736254] group-hover/item:text-[#eeca94]/70"
@@ -372,17 +400,33 @@ export function SiteHeader() {
                       </button>
 
                       {mobileCommunitiesOpen && (
-                        <div className="bg-[#142d19] py-2 pl-12 pr-6 space-y-1">
-                          {communities?.map((comm) => (
-                            <Link
-                              key={comm.id}
-                              href={`/comunidades/${comm.slug}`}
-                              onClick={() => setMobileOpen(false)}
-                              className="block py-2 text-xs text-[#d6b686]/90 hover:text-white"
-                            >
-                              {comm.name}
-                            </Link>
-                          ))}
+                        <div className="bg-[#142d19] py-2 pl-10 pr-6 space-y-1">
+                          {communities?.map((comm) => {
+                            const coverUrl = getCommunityCoverUrl(comm);
+                            const isActive = pathname === `/comunidades/${comm.slug}`;
+
+                            return (
+                              <Link
+                                key={comm.id}
+                                href={`/comunidades/${comm.slug}`}
+                                onClick={() => setMobileOpen(false)}
+                                className={`flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm transition-colors ${
+                                  isActive
+                                    ? "bg-[#234125] text-[#d6b686]"
+                                    : "text-[#d6b686]/90 hover:text-white hover:bg-white/5"
+                                }`}
+                              >
+                                <div className="size-7 rounded-md overflow-hidden shrink-0 border border-[#d6b686]/30">
+                                  <img
+                                    src={coverUrl}
+                                    alt={comm.name}
+                                    className="w-full h-full object-cover"
+                                  />
+                                </div>
+                                <span className="font-medium text-[13.5px]">{comm.name}</span>
+                              </Link>
+                            );
+                          })}
                         </div>
                       )}
                     </div>

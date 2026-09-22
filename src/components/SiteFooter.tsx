@@ -1,7 +1,10 @@
+"use client";
+
 import { LockIcon, PhoneIcon } from "lucide-react";
 import svgPaths from "../../public/Desktop5/svg-45x3npa3b6";
 import Link from "next/link";
 import { CrossIcon } from "./icons/CrossIcon";
+import { useParishContact } from "@/lib/api/parish-contact/use-parish-contact";
 
 function InstagramIcon() {
   return (
@@ -24,6 +27,8 @@ function InstagramIcon() {
 }
 
 export function SiteFooter() {
+  const { contact } = useParishContact();
+
   return (
     <footer
       id="contato"
@@ -66,19 +71,17 @@ export function SiteFooter() {
 
         <div
           className="
-            flex
-            flex-col
-            items-center
-            md:items-start
-            md:flex-row
-            gap-10
+            grid
+            grid-cols-1
+            md:grid-cols-3
+            gap-20
             md:gap-12
-            justify-between
+            items-start
           "
         >
           {/* Secretaria */}
 
-          <div>
+          <div className="w-full">
             <p
               className="
                 text-[#D6A64A]
@@ -93,26 +96,34 @@ export function SiteFooter() {
               Secretaria
             </p>
 
-            <p
-              className="
-              text-[#F8F3EC]/80
-              leading-relaxed
-              text-center
-              md:text-left
-            "
-            >
-              Terça a sexta-feira:
-              <br />
-              9h às 12h e 14h às 17h40
-              <br />
-              <br />
-              Sábado: 8h às 12h
-            </p>
+            {contact?.officeHours ? (
+              <div className="text-[#F8F3EC]/80 leading-relaxed text-center md:text-left space-y-1">
+                {contact.officeHours.split("\n").map((line, idx) => (
+                  <p key={idx}>{line}</p>
+                ))}
+              </div>
+            ) : (
+              <p
+                className="
+                text-[#F8F3EC]/80
+                leading-relaxed
+                text-center
+                md:text-left
+              "
+              >
+                Terça a sexta-feira:
+                <br />
+                9h às 12h e 14h às 17h40
+                <br />
+                <br />
+                Sábado: 8h às 12h
+              </p>
+            )}
           </div>
 
           {/* Endereço */}
 
-          <div>
+          <div className="w-full">
             <p
               className="
                 text-[#D6A64A]
@@ -133,19 +144,16 @@ export function SiteFooter() {
                 leading-relaxed
                 text-center
                 md:text-left
+                whitespace-pre-line
               "
             >
-              R. Edson dos Santos, 30
-              <br />
-              Morro do Algodão
-              <br />
-              Caraguatatuba - SP, 11671-180
+              {contact?.address || "R. Edson dos Santos, 30\nMorro do Algodão\nCaraguatatuba - SP, 11671-180"}
             </p>
           </div>
 
           {/* Redes */}
 
-          <div>
+          <div className="w-full">
             <p
               className="
                 text-[#D6A64A]
@@ -161,66 +169,87 @@ export function SiteFooter() {
             </p>
 
             <div className="space-y-4 flex flex-col items-center md:items-start">
-              <a
-                href="https://www.facebook.com/parsaojose/?locale=pt_BR"
-                className="
-                  flex
-                  items-center
-                  gap-3
-                  text-[#F8F3EC]/80
-                "
-              >
-                <span
+              {contact?.facebookUrl && (
+                <a
+                  href={contact.facebookUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="
-                    size-8
-                    rounded-full
-                    border
-                    border-[#D6A64A]
                     flex
                     items-center
-                    justify-center
-                    text-[#D6A64A]
-                    font-bold
+                    gap-3
+                    text-[#F8F3EC]/80
+                    hover:text-[#D6A64A]
+                    transition-colors
                   "
                 >
-                  f
-                </span>
-                parsaojose
-              </a>
+                  <span
+                    className="
+                      size-8
+                      rounded-full
+                      border
+                      border-[#D6A64A]
+                      flex
+                      items-center
+                      justify-center
+                      text-[#D6A64A]
+                      font-bold
+                    "
+                  >
+                    f
+                  </span>
+                  Facebook
+                </a>
+              )}
 
-              <a
-                href="https://www.instagram.com/paroquiasaojosecaragua/"
-                className="
-                  flex
-                  items-center
-                  gap-3
-                  text-[#F8F3EC]/80
-                "
-              >
-                <span
+              {contact?.instagramUrl && (
+                <a
+                  href={contact.instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="
-                    size-8
-                    rounded-full
-                    border
-                    border-[#D6A64A]
                     flex
                     items-center
-                    justify-center
-                    text-[#D6A64A]
+                    gap-3
+                    text-[#F8F3EC]/80
+                    hover:text-[#D6A64A]
+                    transition-colors
                   "
                 >
-                  <InstagramIcon />
-                </span>
-                paroquiasaojosecaragua
-              </a>
+                  <span
+                    className="
+                      size-8
+                      rounded-full
+                      border
+                      border-[#D6A64A]
+                      flex
+                      items-center
+                      justify-center
+                      text-[#D6A64A]
+                    "
+                  >
+                    <InstagramIcon />
+                  </span>
+                  Instagram
+                </a>
+              )}
 
               <a
-                href="https://wa.me/5512981705757"
+                href={
+                  contact?.whatsappUrl ||
+                  (contact?.whatsapp
+                    ? `https://wa.me/55${contact.whatsapp.replace(/\D/g, "")}`
+                    : "https://wa.me/5512981705757")
+                }
+                target="_blank"
+                rel="noopener noreferrer"
                 className="
                   flex
                   items-center
                   gap-3
                   text-[#F8F3EC]/80
+                  hover:text-[#D6A64A]
+                  transition-colors
                 "
               >
                 <span
@@ -237,7 +266,7 @@ export function SiteFooter() {
                 >
                   <PhoneIcon className="text-[#D6A64A]" size={14} />
                 </span>
-                (12) 98170-5757
+                {contact?.whatsapp || "(12) 98170-5757"}
               </a>
             </div>
           </div>
