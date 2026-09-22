@@ -8,6 +8,8 @@ import { listActiveAnnouncements } from "@/lib/api/announcements/listActive";
 import { apiBaseUrl } from "@/lib/api/utils/api";
 import type { Announcement } from "@/entities/Announcement";
 
+const SLIDE_INTERVAL_MS = 15000; // 15 segundos
+
 export function AnnouncementsHero() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -22,7 +24,7 @@ export function AnnouncementsHero() {
     if (announcements.length <= 1) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % announcements.length);
-    }, 7000);
+    }, SLIDE_INTERVAL_MS);
     return () => clearInterval(timer);
   }, [announcements.length]);
 
