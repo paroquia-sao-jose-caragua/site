@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import {
   X,
   MapPin,
+  Clock,
   Copy,
   Check,
   ExternalLink,
@@ -16,6 +17,9 @@ interface DirectionsModalProps {
   onClose: () => void;
   communityName: string;
   address: string;
+  officeHours?: string;
+  title?: string;
+  badgeText?: string;
 }
 
 export function DirectionsModal({
@@ -23,6 +27,9 @@ export function DirectionsModal({
   onClose,
   communityName,
   address,
+  officeHours,
+  title = "Como chegar",
+  badgeText = "LOCALIZAÇÃO",
 }: DirectionsModalProps) {
   const [copied, setCopied] = useState(false);
 
@@ -89,14 +96,14 @@ export function DirectionsModal({
           {/* Badge & Icon */}
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#f3ece0] text-[#B8872E] text-xs font-semibold uppercase tracking-wider mb-3 border border-[#D6A64A]/30">
             <MapPin className="w-3.5 h-3.5 text-[#B8872E]" />
-            <span>LOCALIZAÇÃO</span>
+            <span>{badgeText}</span>
           </div>
 
           <h3
             className="text-2xl sm:text-3xl font-semibold text-[#18351E] leading-tight"
             style={{ fontFamily: "Cormorant Garamond, serif" }}
           >
-            Como chegar
+            {title}
           </h3>
 
           <p
@@ -112,6 +119,21 @@ export function DirectionsModal({
             <CrossIcon width={8} height={16} fill="#B8872E" />
             <span className="h-px w-12 bg-[#B8872E]/40" />
           </div>
+
+          {/* Horário de Atendimento Box (Opcional) */}
+          {officeHours && (
+            <div className="rounded-2xl bg-white/90 border border-[#D6A64A]/40 p-4 text-left shadow-xs mb-4">
+              <div className="flex items-center gap-1.5 mb-1.5">
+                <Clock className="w-3.5 h-3.5 text-[#B8872E]" />
+                <span className="text-[11px] font-bold text-[#B8872E] uppercase tracking-wider">
+                  Horário de Atendimento
+                </span>
+              </div>
+              <p className="text-xs sm:text-sm font-medium text-[#18351E] leading-relaxed whitespace-pre-line">
+                {officeHours}
+              </p>
+            </div>
+          )}
 
           {/* Address Box */}
           <div className="rounded-2xl bg-white/90 border border-[#D6A64A]/40 p-5 text-left shadow-xs mb-5">
