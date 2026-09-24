@@ -3,11 +3,14 @@
 import { Suspense, useMemo, useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  MapPin,
-  RefreshCw,
   Calendar,
+  CalendarDays,
   ChevronLeft,
   ChevronRight,
+  Clock,
+  Info,
+  MapPin,
+  Sparkles,
   X,
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
@@ -17,7 +20,6 @@ import type {
   EventSchedule,
   Schedule,
 } from "@/entities/CalendarSchedule";
-import { BotanicalDivider } from "@/components/icons/BotanicalDivider";
 import type { Community } from "@/entities/Community";
 import { ScheduleModal } from "@/components/ScheduleModal";
 import { useCommunities } from "@/lib/api/communities/use-communities";
@@ -194,7 +196,7 @@ function mapCalendarToAgendaEvents(calendar: CalendarSchedule[]) {
           schedule.type === "mass" || (schedule.type === "event" && schedule.eventType === "mass")
             ? schedule.startTime
             : schedule.endTime
-              ? `${schedule.startTime} - ${schedule.endTime}`
+              ? `${schedule.startTime} — ${schedule.endTime}`
               : schedule.startTime,
         communityId: schedule.community.id,
         location: schedule.community.address,
@@ -210,12 +212,6 @@ function mapCalendarToAgendaEvents(calendar: CalendarSchedule[]) {
         description: getScheduleDescription(schedule),
         community: schedule.community,
         isPrecept: schedule.isPrecept,
-        ...(schedule.type === "event"
-          ? {
-              eventType: schedule.eventType,
-              customLocation: schedule?.customLocation,
-            }
-          : {}),
         title: schedule?.title,
         massType: schedule?.massType,
       };
@@ -270,43 +266,41 @@ function MiniCalendar({
   for (let d = 1; d <= daysInMonth; d++) cells.push(d);
 
   return (
-    <div className="bg-[#F8F0E7] border border-[#d6a64a]/50 rounded-2xl p-4 shadow-sm">
+    <div className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-2xl p-4 shadow-sm">
       <div className="flex items-center justify-between mb-3">
         <button
           type="button"
           onClick={prevMonth}
-          className="p-1.5 rounded-lg hover:bg-[#ECD6BD]/50 transition-colors text-[#32402A]/80"
+          className="p-1.5 rounded-lg hover:bg-[#ECD6BD]/40 transition-colors text-[#18351E] cursor-pointer"
         >
-          <ChevronLeft size={15} />
+          <ChevronLeft size={16} />
         </button>
         <span
-          className="text-[13px] text-[#32402A]"
-          style={{ fontWeight: 600 }}
+          className="text-[13px] text-[#18351E] font-semibold"
         >
           {MONTHS_PT[calMonth - 1]} {calYear}
         </span>
         <button
           type="button"
           onClick={nextMonth}
-          className="p-1.5 rounded-lg hover:bg-[#ECD6BD]/50 transition-colors text-[#32402A]/80"
+          className="p-1.5 rounded-lg hover:bg-[#ECD6BD]/40 transition-colors text-[#18351E] cursor-pointer"
         >
-          <ChevronRight size={15} />
+          <ChevronRight size={16} />
         </button>
       </div>
 
-      <div className="grid grid-cols-7 mb-1">
+      <div className="grid grid-cols-7 mb-1.5">
         {WEEKDAYS.map((d) => (
           <div
             key={d}
-            className="text-center text-[10px] text-[#32402A]/80 py-1"
-            style={{ fontWeight: 500 }}
+            className="text-center text-[11px] text-[#5A463B] font-semibold py-1 uppercase tracking-wider"
           >
             {d}
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-7 gap-y-0.5">
+      <div className="grid grid-cols-7 gap-y-1">
         {cells.map((day, i) => {
           if (!day) return <div key={`e-${i}`} />;
           const dateStr = `${calYear}-${String(calMonth).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
@@ -320,18 +314,17 @@ function MiniCalendar({
               type="button"
               onClick={() => onSelect(isSelected ? "" : dateStr)}
               className={[
-                "relative flex flex-col items-center justify-center h-8 w-full rounded-lg text-[12px] transition-all",
+                "relative flex flex-col items-center justify-center h-8 w-full rounded-lg text-[12px] transition-all cursor-pointer",
                 isSelected
-                  ? "bg-[#355231] text-[#ffe7c2]"
+                  ? "bg-[#18351E] text-[#ffe7c2] font-bold shadow-2xs"
                   : isToday
-                    ? "bg-[#ECD6BD]/50 text-[#32402A]"
-                    : "text-[#32402A] hover:bg-[#ECD6BD]/50",
+                    ? "bg-[#ECD6BD]/50 text-[#18351E] font-semibold"
+                    : "text-[#2b2b2b] hover:bg-[#ECD6BD]/30",
               ].join(" ")}
-              style={{ fontWeight: isToday || isSelected ? 600 : 400 }}
             >
               {day}
               {hasEvent && !isSelected && (
-                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 size-0.75 rounded-full bg-[#32402A]/80" />
+                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 size-1 rounded-full bg-[#B8872E]" />
               )}
             </button>
           );
@@ -391,51 +384,113 @@ function EventCard({ event }: EventCardProps) {
 
   const communityName = event.community.name;
   const img = event.community.coverUrl;
+  const isMass = event.type === "mass" || event.eventType === "mass";
 
   return (
-    <div>
-      <button
-        type="button"
+    <>
+      <div
         onClick={() => setSelectedSchedule(event)}
-        className="bg-[#f9efe6] hover:bg-[#ECD6BD]/20 border border-[#d6a64a] rounded-xl px-5 py-4 flex items-start gap-4 hover:border-[#dcc2b5] hover:shadow-sm transition-all cursor-pointer w-full text-left"
+        className="group bg-[#fbf5eb] border border-[#D6A64A]/40 hover:border-[#B8872E] rounded-2xl p-5 sm:p-6 shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col justify-between text-left"
       >
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1.5">
-            <span className="text-[#32402A]/80 text-[13px]">{event.time}</span>
-            {event.recurring && (
-              <span
-                className="inline-flex items-center gap-1 text-[#7b4f37] text-[11px] bg-[#ECD6BD]/20 border border-[#dcc2b5]/60 px-2 py-0.5 rounded-full"
-                style={{ fontWeight: 500 }}
-              >
-                <RefreshCw size={10} />
-                Recorrente
-              </span>
+        <div>
+          {/* Top row: Time pill, Precept badge, Special badges, Community Avatar */}
+          <div className="flex items-start justify-between gap-3 mb-3">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              {/* Horário (sem parecer botão) */}
+              <div className="flex items-center gap-1.5 font-mono text-sm sm:text-base font-bold text-[#18351E]">
+                <Clock className="w-4 h-4 text-[#B8872E]" />
+                <span>{event.time}</span>
+              </div>
+
+              {/* Precept Badge (Em destaque sem badge de recorrência) */}
+              {event.isPrecept && (
+                <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[#18351E] text-[#eeca94] border border-[#d6a64a]/50 shadow-2xs">
+                  ✦ Preceito
+                </span>
+              )}
+
+              {/* Solemnity Badge */}
+              {event.massType === "solemnity" && (
+                <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#ECD6BD]/40 text-[#B8872E] border border-[#D6A64A]/50">
+                  <Sparkles className="w-3 h-3 text-[#B8872E]" />
+                  <span>Solenidade</span>
+                </span>
+              )}
+
+              {/* Devotional Badge */}
+              {event.massType === "devotional" && (
+                <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#f6eff9] text-[#76428a] border border-[#76428a]/30">
+                  <Sparkles className="w-3 h-3 text-[#76428a]" />
+                  <span>Devocional</span>
+                </span>
+              )}
+
+              {/* Event Type Badge if not mass */}
+              {!isMass && event.eventType && (
+                <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#eef5fc] text-[#1e588f] border border-[#1e588f]/30">
+                  <CalendarDays className="w-3 h-3 text-[#1e588f]" />
+                  <span>{getEventTypeLabel(event.eventType)}</span>
+                </span>
+              )}
+            </div>
+
+            {/* Community Avatar / Cover */}
+            {img && (
+              <img
+                src={img}
+                alt={communityName || ""}
+                className="size-10 rounded-full object-cover ring-2 ring-[#D6A64A]/50 shrink-0"
+              />
             )}
           </div>
-          <p
-            className="text-[#32402A] text-[15px] mb-2"
-            style={{ fontWeight: 600 }}
-          >
-            {event.name}
-          </p>
-          {event.description && (
-            <p className="text-[#32402A]/80 text-[13px] mb-2">
-              {event.description}
-            </p>
-          )}
-          <div className="flex items-center gap-1 text-[#A3651B] text-[13px]">
-            <MapPin size={12} />
-            <span>{communityName}</span>
+
+          {/* Title and Orientations */}
+          <div className="space-y-1">
+            <h3
+              className="text-xl sm:text-2xl font-semibold text-[#18351E] leading-snug group-hover:text-[#B8872E] transition-colors"
+              style={{ fontFamily: "Cormorant Garamond, serif" }}
+            >
+              {isMass ? (
+                <>
+                  Santa Missa
+                  {event.massType === "devotional" && event.title
+                    ? ` Devocional — ${event.title}`
+                    : ""}
+                  {event.massType === "solemnity" && event.title
+                    ? ` Solene — ${event.title}`
+                    : ""}
+                  {!event.massType && event.title ? ` — ${event.title}` : ""}
+                </>
+              ) : (
+                event.name
+              )}
+            </h3>
+
+            {(event.orientations || event.description) && (
+              <p className="text-xs sm:text-sm text-[#5A463B] font-serif leading-relaxed line-clamp-2">
+                {event.orientations || event.description}
+              </p>
+            )}
           </div>
         </div>
-        {img && (
-          <img
-            src={img}
-            alt={communityName || ""}
-            className="size-9 rounded-full object-cover ring-2 ring-[#d6a64a] shrink-0 mt-0.5"
-          />
-        )}
-      </button>
+
+        {/* Card Footer: Location & Ver Detalhes (Visualização Pública, sem formato de botão) */}
+        <div className="mt-4 pt-3.5 border-t border-[#D6A64A]/20 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-1.5 text-xs text-[#5A463B]">
+            <MapPin className="w-3.5 h-3.5 text-[#B8872E] shrink-0" />
+            <span className="font-medium text-[#5A463B] group-hover:text-[#18351E] transition-colors truncate max-w-[220px] sm:max-w-[340px]">
+              {event.customLocation
+                ? event.customLocation
+                : `${event.community.type === "parish_church" ? "Paróquia Matriz " : "Capela "} ${communityName}`}
+            </span>
+          </div>
+
+          <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#B8872E] group-hover:text-[#18351E] transition-all shrink-0">
+            <span>Ver detalhes</span>
+            <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+          </span>
+        </div>
+      </div>
 
       {selectedSchedule && (
         <ScheduleModal
@@ -443,7 +498,7 @@ function EventCard({ event }: EventCardProps) {
           onClose={() => setSelectedSchedule(null)}
         />
       )}
-    </div>
+    </>
   );
 }
 
@@ -607,22 +662,28 @@ function AgendaPageContent() {
   const hasFilters = selectedDate !== "" || selectedCommunityId !== "all";
 
   return (
-    <div className="relative overflow-hidden min-h-screen bg-[#F8F0E7]">
+    <div className="relative overflow-hidden min-h-screen bg-[#fbf6ee]">
       {/* Page header */}
-      <div className="relative bg-[#18351e]">
-        <div className="flex flex-col items-start max-w-320 mx-auto px-6 py-6">
-          <div className="flex items-center justify-center gap-1 text-[#d6b686] text-sm mb-4 bg-[#1f3f26] px-3 py-1.5 rounded-full border border-[#eeca94]/20">
-            <Calendar size={16} />
-            <span>Agenda</span>
+      <div className="relative bg-[#18351e] border-b border-[#d6b686]">
+        <div className="flex flex-col items-start max-w-320 mx-auto px-6 py-10 sm:py-12">
+          <div className="flex items-center justify-center gap-1.5 text-[#d6b686] text-xs font-semibold uppercase tracking-wider mb-3 bg-[#1f3f26] px-3.5 py-1.5 rounded-full border border-[#eeca94]/20">
+            <Calendar size={14} />
+            <span>Agenda Pastoral</span>
           </div>
-          <h1 className="text-[#fff8f0] text-3xl lg:text-4xl font-semibold">
+          <h1 className="text-[#fff8f0] text-3xl lg:text-4xl font-semibold leading-tight">
             Programação da Paróquia
           </h1>
+          <p
+            className="mt-2 text-[#f8f3ece6] text-base sm:text-lg max-w-2xl"
+            style={{ fontFamily: "Cormorant Garamond, serif" }}
+          >
+            Acompanhe as celebrações da Santa Missa, solenidades e eventos pastorais de todas as nossas comunidades.
+          </p>
         </div>
       </div>
 
       {/* Month tabs */}
-      <div className="sticky top-24 z-40 bg-[#18351e] border-b border-[#d6b686]">
+      <div className="sticky top-20 z-40 bg-[#18351e] border-b border-[#d6b686]/60 shadow-xs">
         <div className="max-w-320 mx-auto px-6">
           <div className="flex gap-0 overflow-x-auto pb-0 scrollbar-none">
             {visibleMonths.map((m) => (
@@ -633,12 +694,11 @@ function AgendaPageContent() {
                   setSelectedDate("");
                 }}
                 className={[
-                  "px-5 py-3 text-md whitespace-nowrap border-b-2 transition-all shrink-0",
+                  "px-5 py-3 text-sm whitespace-nowrap border-b-2 transition-all shrink-0 cursor-pointer font-medium",
                   selectedMonth === m.value
-                    ? "border-[#d6b686] text-[#d6b686] bg-[#234125]"
-                    : "border-transparent text-[#d6b686] hover:text-[#d6b686] hover:bg-[#234125]/40",
+                    ? "border-[#d6b686] text-[#d6b686] bg-[#234125] font-semibold"
+                    : "border-transparent text-[#d6b686]/80 hover:text-[#d6b686] hover:bg-[#234125]/40",
                 ].join(" ")}
-                style={{ fontWeight: selectedMonth === m.value ? 600 : 400 }}
               >
                 {m.label}
               </button>
@@ -651,7 +711,7 @@ function AgendaPageContent() {
       <div className="max-w-320 mx-auto px-6 pt-8 pb-36">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar */}
-          <div className="w-full lg:w-65 shrink-0 space-y-4 lg:sticky lg:top-[calc(6rem+3.25rem+2rem)] lg:self-start">
+          <div className="w-full lg:w-72 shrink-0 space-y-5 lg:sticky lg:top-36 lg:self-start">
             {/* Mini calendar */}
             <MiniCalendar
               year={currentYear}
@@ -668,41 +728,34 @@ function AgendaPageContent() {
             />
 
             {/* Community filter */}
-            <div className="bg-[#F8F0E7] border border-[#d6a64a]/50 rounded-2xl p-4 shadow-sm">
+            <div className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-2xl p-4 shadow-sm">
               <p
-                className="text-[11px] text-[#18351e] uppercase tracking-widest mb-3"
-                style={{ fontWeight: 600 }}
+                className="text-[11px] text-[#18351e] uppercase tracking-widest mb-3 font-semibold"
               >
-                Comunidade
+                Filtrar por Comunidade
               </p>
               <div className="space-y-1">
                 <button
                   onClick={() => setSelectedCommunityId("all")}
                   className={[
-                    "w-full text-left px-3 py-2 rounded-lg text-[13px] transition-colors",
+                    "w-full text-left px-3 py-2 rounded-xl text-xs transition-colors cursor-pointer",
                     selectedCommunityId === "all"
-                      ? "bg-[#355231] text-[#ffe7c2]"
-                      : "text-[#2b2b2b] hover:bg-[#ECD6BD]/50",
+                      ? "bg-[#18351e] text-[#ffe7c2] font-semibold shadow-2xs"
+                      : "text-[#2b2b2b] hover:bg-[#ECD6BD]/40 font-medium",
                   ].join(" ")}
-                  style={{
-                    fontWeight: selectedCommunityId === "all" ? 600 : 400,
-                  }}
                 >
-                  Todas
+                  Todas as comunidades
                 </button>
                 {communities.map((c) => (
                   <button
                     key={c.id}
                     onClick={() => setSelectedCommunityId(c.id)}
                     className={[
-                      "w-full text-left px-3 py-2 rounded-lg text-[13px] transition-colors flex items-center gap-2",
+                      "w-full text-left px-3 py-2 rounded-xl text-xs transition-colors flex items-center gap-2 cursor-pointer",
                       selectedCommunityId === c.id
-                        ? "bg-[#355231] text-[#ffe7c2]"
-                        : "text-[#2b2b2b] hover:bg-[#ECD6BD]/50",
+                        ? "bg-[#18351e] text-[#ffe7c2] font-semibold shadow-2xs"
+                        : "text-[#2b2b2b] hover:bg-[#ECD6BD]/40 font-medium",
                     ].join(" ")}
-                    style={{
-                      fontWeight: selectedCommunityId === c.id ? 600 : 400,
-                    }}
                   >
                     <span className="truncate">
                       {c.type === "parish_church"
@@ -720,16 +773,15 @@ function AgendaPageContent() {
           <div className="flex-1 min-w-0">
             {/* Active filters bar */}
             {hasFilters && (
-              <div className="flex items-center gap-2 mb-4 flex-wrap">
-                <span className="text-[13px] text-[#32402A]/80">
+              <div className="flex items-center gap-2 mb-6 flex-wrap">
+                <span className="text-xs text-[#5A463B] font-semibold uppercase tracking-wider">
                   Filtros ativos:
                 </span>
                 {selectedDate && (
                   <span
-                    className="inline-flex items-center gap-1.5 bg-[#ECD6BD]/20 border border-[#dcc2b5] text-[#4a2f24] text-[12px] px-3 py-1 rounded-full"
-                    style={{ fontWeight: 500 }}
+                    className="inline-flex items-center gap-1.5 bg-[#fbf5eb] border border-[#D6A64A]/50 text-[#18351E] text-xs px-3 py-1 rounded-xl shadow-2xs font-medium"
                   >
-                    <Calendar size={11} />
+                    <Calendar size={12} className="text-[#B8872E]" />
                     {formatDateLabel(selectedDate).split(",")[0] +
                       ", " +
                       parseDate(selectedDate).getDate() +
@@ -737,30 +789,29 @@ function AgendaPageContent() {
                       MONTHS_PT[parseDate(selectedDate).getMonth()]}
                     <button
                       onClick={() => setSelectedDate("")}
-                      className="ml-1 hover:text-[#7b4f37]"
+                      className="ml-1 text-zinc-400 hover:text-[#18351E] cursor-pointer"
                     >
-                      <X size={11} />
+                      <X size={12} />
                     </button>
                   </span>
                 )}
                 {selectedCommunity && (
                   <span
-                    className="inline-flex items-center gap-1.5 bg-[#ECD6BD]/20 border border-[#dcc2b5] text-[#4a2f24] text-[12px] px-3 py-1 rounded-full"
-                    style={{ fontWeight: 500 }}
+                    className="inline-flex items-center gap-1.5 bg-[#fbf5eb] border border-[#D6A64A]/50 text-[#18351E] text-xs px-3 py-1 rounded-xl shadow-2xs font-medium"
                   >
-                    <MapPin size={11} />
+                    <MapPin size={12} className="text-[#B8872E]" />
                     {selectedCommunity?.name}
                     <button
                       onClick={() => setSelectedCommunityId("all")}
-                      className="ml-1 hover:text-[#7b4f37]"
+                      className="ml-1 text-zinc-400 hover:text-[#18351E] cursor-pointer"
                     >
-                      <X size={11} />
+                      <X size={12} />
                     </button>
                   </span>
                 )}
                 <button
                   onClick={clearFilters}
-                  className="text-[12px] text-[#4a2f24]/80 hover:text-[#4a2f24] transition-colors font-bold"
+                  className="text-xs text-[#B8872E] hover:text-[#18351E] transition-colors font-bold cursor-pointer ml-1"
                 >
                   Limpar tudo
                 </button>
@@ -768,51 +819,37 @@ function AgendaPageContent() {
             )}
 
             {/* Day list */}
-            <div className="space-y-8">
+            <div className="space-y-10">
               {isPending && (
-                <div className="text-center py-16">
+                <div className="bg-[#fbf5eb] border border-[#D6A64A]/30 rounded-3xl p-12 text-center shadow-xs">
                   <div className="relative mx-auto mb-3 w-fit">
                     <Calendar
                       size={40}
-                      className="text-[#caa48f] animate-[softPulse_2s_ease-in-out_infinite]"
+                      className="text-[#B8872E] animate-pulse"
                     />
-
-                    <div className="absolute inset-0 animate-ping opacity-20">
-                      <Calendar size={40} className="text-[#b8896f]" />
-                    </div>
                   </div>
 
                   <p
-                    className="text-[#6b7280] text-[15px]"
-                    style={{ fontWeight: 500 }}
+                    className="text-[#18351E] text-base font-semibold"
                   >
-                    Carregando agenda
-                    <span className="inline-flex ml-1 gap-[2px]">
-                      <span className="animate-bounce [animation-delay:0ms]">
-                        .
-                      </span>
-                      <span className="animate-bounce [animation-delay:150ms]">
-                        .
-                      </span>
-                      <span className="animate-bounce [animation-delay:300ms]">
-                        .
-                      </span>
-                    </span>
+                    Carregando a programação...
+                  </p>
+                  <p className="text-xs text-[#5A463B] mt-1">
+                    Buscando os agendamentos das comunidades
                   </p>
                 </div>
               )}
 
               {!isPending && isError && (
-                <div className="text-center py-16">
-                  <Calendar size={40} className="text-[#dcc2b5] mx-auto mb-3" />
+                <div className="bg-[#fbf5eb] border border-rose-200 rounded-3xl p-12 text-center shadow-xs">
+                  <Calendar size={40} className="text-rose-400 mx-auto mb-3" />
                   <p
-                    className="text-[#6b7280] text-[15px]"
-                    style={{ fontWeight: 500 }}
+                    className="text-zinc-800 text-base font-semibold"
                   >
                     Não foi possível carregar a agenda
                   </p>
-                  <p className="text-[#9ca3af] text-[13px] mt-1">
-                    Tente novamente em alguns instantes
+                  <p className="text-zinc-500 text-xs mt-1">
+                    Tente novamente em alguns instantes.
                   </p>
                 </div>
               )}
@@ -822,28 +859,46 @@ function AgendaPageContent() {
                 datesToShow.map((dateStr) => {
                   const events = eventsByDay.get(dateStr) ?? [];
                   const isToday = dateStr === dayjs().format("YYYY-MM-DD");
+                  const dateObj = parseDate(dateStr);
 
                   return (
-                    <div key={dateStr}>
-                      <div className="flex items-center gap-2 mb-3">
-                        <BotanicalDivider height={30} width={45} />
-                        <h2
-                          className="text-[#32402A] text-[17px]"
-                          style={{ fontWeight: 600 }}
-                        >
-                          {formatDateLabel(dateStr)}
-                        </h2>
-                        {isToday && (
-                          <span
-                            className="text-[11px] bg-[#32402A] text-[#ffe7c2] px-2 py-0.5 rounded-full"
-                            style={{ fontWeight: 500 }}
-                          >
-                            Hoje
-                          </span>
-                        )}
+                    <div key={dateStr} className="space-y-4">
+                      {/* Date Section Header */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#D6A64A]/30">
+                        <div className="flex items-center gap-3">
+                          {/* Mini Calendar Date Badge */}
+                          <div className="flex flex-col items-center justify-center bg-[#fbf5eb] border border-[#D6A64A]/50 rounded-xl px-2.5 py-1 min-w-[52px] shadow-2xs">
+                            <span className="text-[10px] font-bold uppercase text-[#B8872E] tracking-wider font-sans">
+                              {WEEKDAYS[dateObj.getDay()]}
+                            </span>
+                            <span className="text-xl font-bold text-[#18351E] font-mono leading-none">
+                              {dateObj.getDate()}
+                            </span>
+                          </div>
+
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <h2
+                                className="text-xl sm:text-2xl font-semibold text-[#18351E] capitalize"
+                                style={{ fontFamily: "Cormorant Garamond, serif" }}
+                              >
+                                {formatDateLabel(dateStr)}
+                              </h2>
+                              {isToday && (
+                                <span className="text-[11px] bg-[#18351E] text-[#ffe7c2] px-2.5 py-0.5 rounded-full border border-[#D6A64A]/40 font-semibold uppercase tracking-wider">
+                                  Hoje
+                                </span>
+                              )}
+                            </div>
+                            <span className="text-xs text-[#5A463B] font-medium">
+                              {events.length} {events.length === 1 ? "celebração agendada" : "celebrações agendadas"}
+                            </span>
+                          </div>
+                        </div>
                       </div>
 
-                      <div className="space-y-3">
+                      {/* Cards list */}
+                      <div className="space-y-4">
                         {events.map((evt, i) => (
                           <EventCard key={`${evt.id}-${i}`} event={evt} />
                         ))}
@@ -857,26 +912,25 @@ function AgendaPageContent() {
                 datesToShow.every(
                   (d) => (eventsByDay.get(d) ?? []).length === 0,
                 ) && (
-                  <div className="text-center py-16">
-                    <Calendar
-                      size={40}
-                      className="text-[#dcc2b5] mx-auto mb-3"
-                    />
-                    <p
-                      className="text-[#4a2f24]/80 text-[15px]"
-                      style={{ fontWeight: 500 }}
+                  <div className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-3xl p-12 text-center shadow-xs">
+                    <div className="size-16 rounded-2xl bg-[#f3ece0] border border-[#D6A64A]/50 flex items-center justify-center text-[#B8872E] mx-auto mb-4">
+                      <Calendar size={32} />
+                    </div>
+                    <h3
+                      className="text-2xl font-semibold text-[#18351E] mb-2"
+                      style={{ fontFamily: "Cormorant Garamond, serif" }}
                     >
                       Nenhum evento encontrado
-                    </p>
-                    <p className="text-[#4a2f24]/60 text-[13px] mt-1">
-                      Tente outro mês ou remova os filtros
+                    </h3>
+                    <p className="text-sm text-[#5A463B] max-w-md mx-auto mb-6">
+                      Não encontramos celebrações para os filtros selecionados. Tente selecionar outro mês ou limpar os filtros.
                     </p>
                     {hasFilters && (
                       <button
                         onClick={clearFilters}
-                        className="mt-4 text-[#4a2f24]/80 text-[13px] hover:text-[#4a2f24] transition-colors font-bold"
+                        className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#18351E] text-[#eeca94] text-xs font-semibold hover:bg-[#234125] transition-colors cursor-pointer shadow-xs"
                       >
-                        Limpar filtros
+                        Limpar Filtros
                       </button>
                     )}
                   </div>
@@ -886,7 +940,7 @@ function AgendaPageContent() {
         </div>
       </div>
 
-      {/* Onda decorativa inferior */}
+      {/* Decorative wave */}
       <div
         className="
           absolute
@@ -911,11 +965,11 @@ export default function AgendaPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[#fafafa]">
-          <div className="bg-white border-b border-[#e5e7eb]">
-            <div className="max-w-320 mx-auto px-6 py-6">
-              <div className="h-4 w-20 rounded bg-[#f9f5f2]" />
-              <div className="mt-3 h-8 w-72 max-w-full rounded bg-[#f9f5f2]" />
+        <div className="min-h-screen bg-[#fbf6ee]">
+          <div className="bg-[#18351e] border-b border-[#d6b686]">
+            <div className="max-w-320 mx-auto px-6 py-10">
+              <div className="h-4 w-24 rounded bg-[#1f3f26]" />
+              <div className="mt-3 h-8 w-72 max-w-full rounded bg-[#1f3f26]" />
             </div>
           </div>
         </div>

@@ -156,7 +156,7 @@ export function CleroSection() {
             <span className="h-px w-12 bg-[#B8872E]/40" />
             <div className="flex items-center gap-1.5 text-[#B8872E] text-xs font-semibold uppercase tracking-[0.3em]">
               <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
-              <span>NOSSA IGREJA</span>
+              <span>NOSSOS CLÉRIGOS</span>
               <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
             </div>
             <span className="h-px w-12 bg-[#B8872E]/40" />
