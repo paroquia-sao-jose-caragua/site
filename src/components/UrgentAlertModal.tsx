@@ -109,7 +109,7 @@ export function UrgentAlertModal({ alert, isOpen, onClose }: UrgentAlertModalPro
         <div className="p-6 sm:p-8 overflow-y-auto space-y-6">
           {/* Title */}
           <div>
-            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#14201d] leading-tight">
+            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#14201d] leading-tight whitespace-pre-line">
               {alert.modalTitle || alert.text}
             </h2>
             <div className="w-16 h-1 bg-[#B8872E] mt-3 rounded-full" />
@@ -117,11 +117,11 @@ export function UrgentAlertModal({ alert, isOpen, onClose }: UrgentAlertModalPro
 
           {/* Cartaz / Arte / Flyer se houver */}
           {imageUrl && (
-            <div className="w-full rounded-xl overflow-hidden border border-[#d8cbb8] shadow-md bg-stone-100 flex items-center justify-center">
+            <div className="w-full rounded-xl overflow-hidden border border-[#d8cbb8] shadow-md bg-stone-100">
               <img
                 src={imageUrl}
                 alt={alert.modalTitle || "Cartaz de divulgação"}
-                className="w-full max-h-[460px] object-contain"
+                className="w-full h-64 sm:h-80 md:h-[420px] object-cover"
               />
             </div>
           )}
