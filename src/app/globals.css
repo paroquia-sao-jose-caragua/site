@@ -226,3 +226,26 @@ body {
     display: none;
   }
 }
+
+/* Faixa de Alerta / Letreiro Marquee */
+@keyframes ticker {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-ticker {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: ticker 40s linear infinite;
+  will-change: transform;
+}
+
+.ticker-wrapper:hover .animate-ticker,
+.ticker-wrapper:focus-within .animate-ticker {
+  animation-play-state: paused;
+}
+
