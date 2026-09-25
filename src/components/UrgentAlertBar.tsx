@@ -31,18 +31,11 @@ export function UrgentAlertBar() {
     return null;
   }
 
-  const handleDismiss = () => {
-    setIsDismissed(true);
-    const storageKey = `dismissed_alert_${alert.id}_${alert.updatedAt || alert.createdAt || "default"}`;
-    sessionStorage.setItem(storageKey, "true");
-  };
-
   const variantConfigs = {
     alert: {
       barBg: "bg-gradient-to-r from-[#701710] via-[#85261d] to-[#701710] text-[#fff8f2] border-b border-[#a8382c]/40",
       badgeBg: "bg-[#54110a] text-amber-200 border-amber-400/30",
       badgeText: "AVISO URGENTE",
-      icon: AlertTriangle,
       buttonBg: "bg-amber-400 text-stone-950 hover:bg-amber-300 shadow-sm",
       iconPulse: "text-amber-300 animate-pulse",
     },
@@ -50,7 +43,6 @@ export function UrgentAlertBar() {
       barBg: "bg-gradient-to-r from-[#0f2617] via-[#153422] to-[#0f2617] text-[#f4efe6] border-b border-emerald-700/30",
       badgeBg: "bg-[#0b1c11] text-emerald-200 border-emerald-400/30",
       badgeText: "COMUNICADO",
-      icon: Info,
       buttonBg: "bg-[#d4a85c] text-[#0f2617] hover:bg-[#e2bb76] shadow-sm",
       iconPulse: "text-emerald-300",
     },
@@ -58,14 +50,12 @@ export function UrgentAlertBar() {
       barBg: "bg-gradient-to-r from-[#523912] via-[#6e4e1a] to-[#523912] text-[#fff8ed] border-b border-amber-500/40",
       badgeBg: "bg-[#3d2a0d] text-amber-200 border-amber-300/40",
       badgeText: "SOLENIDADE",
-      icon: Sparkles,
       buttonBg: "bg-[#f5d470] text-[#332207] hover:bg-[#fae08f] shadow-sm",
       iconPulse: "text-amber-200 animate-pulse",
     },
   };
 
   const config = variantConfigs[alert.variant] || variantConfigs.alert;
-  const VariantIcon = config.icon;
 
   return (
     <>
@@ -79,7 +69,6 @@ export function UrgentAlertBar() {
             <span
               className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-black tracking-wider uppercase border shadow-2xs ${config.badgeBg}`}
             >
-              <VariantIcon className={`w-3.5 h-3.5 ${config.iconPulse}`} />
               <span className="hidden xs:inline">{config.badgeText}</span>
             </span>
           </div>
@@ -109,15 +98,6 @@ export function UrgentAlertBar() {
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             )}
-
-            <button
-              type="button"
-              onClick={handleDismiss}
-              aria-label="Fechar aviso"
-              className="p-1 rounded-full text-white/70 hover:text-white hover:bg-black/20 transition-colors"
-            >
-              <X className="w-4 h-4" />
-            </button>
           </div>
         </div>
       </aside>
