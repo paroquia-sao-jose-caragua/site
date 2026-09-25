@@ -6,6 +6,7 @@ import {
   X,
   Heart,
   ChevronDown,
+  ChevronRight,
   Church,
   BookOpen,
   Users,
@@ -15,19 +16,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NavLink } from "./ui/nav-link";
 import { useCommunities } from "@/lib/api/communities/use-communities";
+import { useClergy } from "@/lib/api/clergy/use-clergy";
+import { getClergyPhotoUrl, getClergyRoleLabel } from "@/lib/utils/clergy";
 
 const navItems = [
   { label: "Início", to: "/" },
+  { label: "Comunidades", to: "/comunidades", dropdownType: "communities" as const },
+  { label: "Clérigos", to: "/clerigos", dropdownType: "clergy" as const },
   { label: "Liturgia Diária", to: "/liturgia" },
-  { label: "Comunidades", to: "/comunidades", hasDropdown: true },
   { label: "Agenda", to: "/agenda" },
-  { label: "Clérigos", to: "/clerigos" },
   { label: "Contato", to: "/contato" },
 ];
 
 const secondaryNavItems = [
   { label: "Liturgia Diária", to: "/liturgia", icon: BookOpen },
-  { label: "Clérigos", to: "/clerigos", icon: Users },
   { label: "Contato", to: "/contato", icon: MessageCircle },
 ];
 
@@ -57,14 +59,19 @@ const getCommunityCoverUrl = (comm: {
 export function SiteHeader() {
   const pathname = usePathname();
   const { communities } = useCommunities();
+  const { clergy } = useClergy();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileCommunitiesOpen, setMobileCommunitiesOpen] = useState(false);
+  const [mobileClergyOpen, setMobileClergyOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [clergyDropdownOpen, setClergyDropdownOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const clergyDropdownRef = useRef<HTMLDivElement>(null);
   const moreDropdownRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const clergyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const moreTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -90,6 +97,12 @@ export function SiteHeader() {
         setDropdownOpen(false);
       }
       if (
+        clergyDropdownRef.current &&
+        !clergyDropdownRef.current.contains(event.target as Node)
+      ) {
+        setClergyDropdownOpen(false);
+      }
+      if (
         moreDropdownRef.current &&
         !moreDropdownRef.current.contains(event.target as Node)
       ) {
@@ -112,6 +125,17 @@ export function SiteHeader() {
     }, 150);
   };
 
+  const handleClergyMouseEnter = () => {
+    if (clergyTimeoutRef.current) clearTimeout(clergyTimeoutRef.current);
+    setClergyDropdownOpen(true);
+  };
+
+  const handleClergyMouseLeave = () => {
+    clergyTimeoutRef.current = setTimeout(() => {
+      setClergyDropdownOpen(false);
+    }, 150);
+  };
+
   const handleMoreMouseEnter = () => {
     if (moreTimeoutRef.current) clearTimeout(moreTimeoutRef.current);
     setMoreOpen(true);
@@ -124,6 +148,7 @@ export function SiteHeader() {
   };
 
   const isCommunitiesActive = pathname.startsWith("/comunidades");
+  const isClergyActive = pathname.startsWith("/clerigos");
   const isSecondaryActive = secondaryNavItems.some((item) =>
     pathname.startsWith(item.to)
   );
@@ -251,18 +276,126 @@ export function SiteHeader() {
                           </div>
                         )}
                       </div>
+
+                      <div className="pt-1 mt-1 border-t border-[#D6A64A]/20">
+                        <Link
+                          href="/comunidades"
+                          onClick={() => setDropdownOpen(false)}
+                          className="flex items-center justify-between px-3 py-2 text-xs font-semibold text-[#8c6218] hover:text-[#18351E] rounded-lg transition-colors"
+                        >
+                          <span>Ver todas as comunidades</span>
+                          <ChevronRight className="w-3.5 h-3.5" />
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 )}
               </div>
 
-              {/* 3. Clérigos (visível em telas >= 1200px) */}
-              <NavLink
-                href="/clerigos"
-                className="hidden min-[1200px]:inline-flex px-3.5 py-1.5 text-md font-semibold rounded-lg"
+              {/* 3. Clérigos (sempre visível com dropdown) */}
+              <div
+                ref={clergyDropdownRef}
+                className="relative"
+                onMouseEnter={handleClergyMouseEnter}
+                onMouseLeave={handleClergyMouseLeave}
               >
-                Clérigos
-              </NavLink>
+                <button
+                  type="button"
+                  onClick={() => setClergyDropdownOpen(!clergyDropdownOpen)}
+                  className={`px-3.5 py-1.5 text-md font-semibold rounded-lg inline-flex items-center gap-1.5 transition-all duration-200 cursor-pointer ${
+                    isClergyActive
+                      ? "bg-[#B8872E]/15 text-[#8c6218]"
+                      : "text-[#32402A] hover:text-[#B8872E] hover:bg-[#B8872E]/8"
+                  }`}
+                >
+                  <span>Clérigos</span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                      clergyDropdownOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {/* Dropdown Menu Clérigos */}
+                {clergyDropdownOpen && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-80 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                    <div className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-2xl shadow-xl p-2 text-[#18351E]">
+                      <div className="space-y-1 max-h-[380px] overflow-y-auto">
+                        {clergy && clergy.length > 0 ? (
+                          <>
+                            {clergy.map((item) => {
+                              const isActiveClergy =
+                                pathname === `/clerigos/${item.slug}`;
+                              const photoUrl = getClergyPhotoUrl(item);
+                              const role = getClergyRoleLabel(
+                                item.position,
+                                item.roleName,
+                                item.title,
+                              );
+
+                              return (
+                                <Link
+                                  key={item.id}
+                                  href={`/clerigos/${item.slug}`}
+                                  onClick={() => setClergyDropdownOpen(false)}
+                                  className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all group/item ${
+                                    isActiveClergy
+                                      ? "bg-[#18351E] text-[#eeca94]"
+                                      : "text-[#18351E] hover:bg-[#18351E] hover:text-[#eeca94]"
+                                  }`}
+                                >
+                                  <div
+                                    className={`size-9 rounded-lg overflow-hidden shrink-0 border transition-all bg-[#f0e6d6] ${
+                                      isActiveClergy
+                                        ? "border-[#eeca94]/60 ring-1 ring-[#eeca94]"
+                                        : "border-[#D6A64A]/30 group-hover/item:border-[#eeca94]/50"
+                                    }`}
+                                  >
+                                    <img
+                                      src={photoUrl}
+                                      alt={item.name}
+                                      className="w-full h-full object-cover group-hover/item:scale-105 transition-transform duration-300"
+                                    />
+                                  </div>
+                                  <div className="flex flex-col min-w-0">
+                                    <span className="font-semibold text-[14px] leading-snug line-clamp-1 font-serif">
+                                      {item.name}
+                                    </span>
+                                    <span
+                                      className={`text-[11.5px] line-clamp-1 ${
+                                        isActiveClergy
+                                          ? "text-[#eeca94]/70"
+                                          : "text-[#736254] group-hover/item:text-[#eeca94]/70"
+                                      }`}
+                                    >
+                                      {role}
+                                    </span>
+                                  </div>
+                                </Link>
+                              );
+                            })}
+
+                            <div className="pt-1 mt-1 border-t border-[#D6A64A]/20">
+                              <Link
+                                href="/clerigos"
+                                onClick={() => setClergyDropdownOpen(false)}
+                                className="flex items-center justify-between px-3 py-2 text-xs font-semibold text-[#8c6218] hover:text-[#18351E] rounded-lg transition-colors"
+                              >
+                                <span>Ver todos os clérigos</span>
+                                <ChevronRight className="w-3.5 h-3.5" />
+                              </Link>
+                            </div>
+                          </>
+                        ) : (
+                          <div className="p-3 text-center text-xs text-[#736254]">
+                            Carregando clérigos...
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
 
               {/* 4. Liturgia Diária (visível em telas >= 1200px) */}
               <NavLink
@@ -377,7 +510,7 @@ export function SiteHeader() {
           {mobileOpen && (
             <div className="min-[950px]:hidden bg-[#18351e] border-t border-[#BB8835] py-2">
               {navItems.map((item) => {
-                if (item.hasDropdown) {
+                if (item.dropdownType === "communities") {
                   return (
                     <div key={item.label} className="border-b border-[#234125]/40">
                       <button
@@ -427,6 +560,90 @@ export function SiteHeader() {
                               </Link>
                             );
                           })}
+
+                          <div className="pt-1">
+                            <Link
+                              href="/comunidades"
+                              onClick={() => setMobileOpen(false)}
+                              className="block py-2 text-xs font-semibold text-[#e0be8b] hover:underline"
+                            >
+                              Ver todas as comunidades →
+                            </Link>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
+                if (item.dropdownType === "clergy") {
+                  return (
+                    <div key={item.label} className="border-b border-[#234125]/40">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setMobileClergyOpen(!mobileClergyOpen)
+                        }
+                        className={`w-full flex items-center justify-between py-3 pl-10 pr-6 text-[15px] font-medium transition-colors text-left ${
+                          isClergyActive
+                            ? "text-[#d6b686] bg-[#234125]"
+                            : "text-[#d6b686] hover:text-white"
+                        }`}
+                      >
+                        <span>{item.label}</span>
+                        <ChevronDown
+                          className={`w-4 h-4 transition-transform ${
+                            mobileClergyOpen ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+
+                      {mobileClergyOpen && (
+                        <div className="bg-[#142d19] py-2 pl-10 pr-6 space-y-1">
+                          {clergy?.map((member) => {
+                            const photoUrl = getClergyPhotoUrl(member);
+                            const isActive = pathname === `/clerigos/${member.slug}`;
+                            const role = getClergyRoleLabel(
+                              member.position,
+                              member.roleName,
+                              member.title,
+                            );
+
+                            return (
+                              <Link
+                                key={member.id}
+                                href={`/clerigos/${member.slug}`}
+                                onClick={() => setMobileOpen(false)}
+                                className={`flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm transition-colors ${
+                                  isActive
+                                    ? "bg-[#234125] text-[#d6b686]"
+                                    : "text-[#d6b686]/90 hover:text-white hover:bg-white/5"
+                                }`}
+                              >
+                                <div className="size-7 rounded-md overflow-hidden shrink-0 border border-[#d6b686]/30 bg-[#f0e6d6]">
+                                  <img
+                                    src={photoUrl}
+                                    alt={member.name}
+                                    className="w-full h-full object-cover"
+                                  />
+                                </div>
+                                <div className="flex flex-col min-w-0">
+                                  <span className="font-medium text-[13.5px] line-clamp-1">{member.name}</span>
+                                  <span className="text-[11px] text-[#d6b686]/70 line-clamp-1">{role}</span>
+                                </div>
+                              </Link>
+                            );
+                          })}
+
+                          <div className="pt-1">
+                            <Link
+                              href="/clerigos"
+                              onClick={() => setMobileOpen(false)}
+                              className="block py-2 text-xs font-semibold text-[#e0be8b] hover:underline"
+                            >
+                              Ver todos os clérigos →
+                            </Link>
+                          </div>
                         </div>
                       )}
                     </div>

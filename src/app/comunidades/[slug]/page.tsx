@@ -201,7 +201,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
 
   return (
     <div className="relative overflow-hidden min-h-screen bg-[#fbf6ee] text-[#18351E] pb-24 md:pb-36">
-      <main className="py-8 md:py-14">
+      <main className="py-8 md:py-8">
         <div className="max-w-7xl mx-auto px-6">
           {/* Breadcrumbs */}
           <nav className="flex items-center gap-2 text-xs text-[#736254] font-serif mb-8">

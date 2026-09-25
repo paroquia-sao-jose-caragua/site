@@ -2,14 +2,16 @@
 
 /* eslint-disable @next/next/no-img-element */
 
-import { useState } from "react";
-import { X, ChevronRight, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { ChevronRight, Sparkles } from "lucide-react";
 import { CrossIcon } from "./icons/CrossIcon";
 import { useClergy } from "@/lib/api/clergy/use-clergy";
-import { apiBaseUrl } from "@/lib/api/utils/api";
+import { getClergyPhotoUrl, getClergyRoleLabel } from "@/lib/utils/clergy";
+import { cn } from "@/components/ui/utils";
 
 export interface ClergyMember {
   id: string;
+  slug: string;
   img: string;
   role: string;
   name: string;
@@ -18,125 +20,19 @@ export interface ClergyMember {
   isMain?: boolean;
 }
 
-interface CleroModalProps {
-  member: ClergyMember;
-  onClose: () => void;
+export interface CleroSectionProps {
+  className?: string;
 }
 
-export function CleroModal({ member, onClose }: CleroModalProps) {
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
-      <div
-        className="absolute inset-0 bg-[#18351E]/60 backdrop-blur-xs"
-        onClick={onClose}
-      />
-
-      <div className="relative w-full max-w-2xl max-h-[90vh] overflow-hidden rounded-3xl bg-[#fbf5eb] border border-[#D6A64A] shadow-2xl flex flex-col z-10">
-        <div className="h-2 bg-[#B8872E]" />
-
-        <button
-          type="button"
-          onClick={onClose}
-          className="absolute top-5 right-5 size-9 rounded-full bg-[#18351E] text-[#D6A64A] flex items-center justify-center hover:scale-105 transition-transform z-20 cursor-pointer"
-          aria-label="Fechar"
-        >
-          <X size={16} />
-        </button>
-
-        <div className="p-6 md:p-10 overflow-y-auto">
-          <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
-            {/* Foto Portrait */}
-            <div className="w-full md:w-52 shrink-0 flex flex-col items-center">
-              <div className="relative w-40 md:w-full aspect-3/4 rounded-2xl overflow-hidden border-2 border-[#D6A64A]/50 shadow-md bg-gradient-to-b from-[#f8f3eb] to-[#e7dac7] flex items-end justify-center">
-                <img
-                  src={member.img}
-                  alt={member.name}
-                  className="w-full h-full object-cover object-top"
-                />
-              </div>
-            </div>
-
-            {/* Info Right */}
-            <div className="flex-1 text-left">
-              <p className="text-[#B8872E] text-xs font-bold uppercase tracking-[0.25em] mb-1.5">
-                {member.role}
-              </p>
-
-              <h2
-                className="text-[#18351E] text-2xl md:text-3xl font-semibold mb-4"
-                style={{ fontFamily: "Cormorant Garamond, serif" }}
-              >
-                {member.name}
-              </h2>
-
-              <div className="flex items-center gap-3 mb-5">
-                <span className="h-px w-12 bg-[#B8872E]/40" />
-                <CrossIcon width={8} height={16} fill="#B8872E" />
-                <span className="h-px flex-1 bg-[#B8872E]/40" />
-              </div>
-
-              <h3
-                className="text-[#18351E] text-lg font-semibold mb-2"
-                style={{ fontFamily: "Cormorant Garamond, serif" }}
-              >
-                Biografia
-              </h3>
-
-              <p className="text-[#5A463B] text-sm md:text-base leading-relaxed text-justify font-serif">
-                {member.bio || `Biografia de ${member.name} será inserida aqui.`}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-const getFallbackPhoto = (position?: string) => {
-  if (position === "parish_priest") return "/clergies/paroco.png";
-  if (position === "permanent_deacon") return "/clergies/diacono.png";
-  if (position === "diocesan_bishop") return "/clergies/bispo.png";
-  if (position === "supreme_pontiff") return "/clergies/papa.png";
-  return "/clergies/paroco.png";
-};
-
-const getRoleLabel = (position?: string) => {
-  if (position === "parish_priest") return "Pároco";
-  if (position === "permanent_deacon") return "Diácono Permanente";
-  if (position === "diocesan_bishop") return "Bispo Diocesano";
-  if (position === "supreme_pontiff") return "Sumo Pontífice";
-  if (position === "vicar") return "Vigário Paroquial";
-  return "Ministro";
-};
-
-export function CleroSection() {
+export function CleroSection({ className }: CleroSectionProps = {}) {
   const { clergy, isPending } = useClergy();
-  const [selected, setSelected] = useState<ClergyMember | null>(null);
 
   const dynamicMembers: ClergyMember[] = (clergy || []).map((item) => {
-    let imageSrc = item.photoUrl;
-    if (!imageSrc && item.photoId) {
-      imageSrc =
-        item.photoId.startsWith("http://") ||
-        item.photoId.startsWith("https://") ||
-        item.photoId.startsWith("/")
-          ? item.photoId
-          : `${apiBaseUrl}/attachments/${item.photoId}`;
-    }
-    if (!imageSrc) {
-      imageSrc = getFallbackPhoto(item.position);
-    }
-
     return {
       id: item.id,
-      img: imageSrc,
-      role: item.roleName || item.title || getRoleLabel(item.position),
+      slug: item.slug,
+      img: getClergyPhotoUrl(item),
+      role: getClergyRoleLabel(item.position, item.roleName, item.title),
       name: item.name,
       shortIntro: item.shortIntro || undefined,
       bio: item.bio || "",
@@ -148,7 +44,12 @@ export function CleroSection() {
   const otherMembers = dynamicMembers.filter((m) => m.id !== mainMember?.id);
 
   return (
-    <section className="bg-[#fbf6ee] py-16 md:py-24 border-t border-[#e8dfd1]/60">
+    <section
+      className={cn(
+        "bg-[#fbf6ee] py-16 md:py-24 border-t border-[#e8dfd1]/60",
+        className
+      )}
+    >
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
@@ -216,13 +117,12 @@ export function CleroSection() {
             {/* 1. PERFIL PRINCIPAL — PÁROCO */}
             {mainMember && (
               <div className="mb-16">
-                <button
-                  type="button"
-                  onClick={() => setSelected(mainMember)}
+                <Link
+                  href={`/clerigos/${mainMember.slug}`}
                   className="w-full bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-3xl overflow-hidden shadow-xs hover:shadow-lg transition-all flex flex-col md:flex-row items-stretch text-left group cursor-pointer relative"
                 >
-                  {/* Left Photo */}
-                  <div className="w-full h-64 sm:h-72 md:h-auto md:w-80 lg:w-96 shrink-0 relative bg-gradient-to-b from-[#f8f3eb] to-[#e7dac7] border-b md:border-b-0 md:border-r border-[#D6A64A]/20 overflow-hidden flex items-start justify-center">
+                  {/* Left Photo (sem borda aninhada) */}
+                  <div className="w-full h-64 sm:h-72 md:h-auto md:w-80 lg:w-96 shrink-0 relative bg-[#f3ece0] overflow-hidden flex items-start justify-center">
                     <img
                       src={mainMember.img}
                       alt={mainMember.name}
@@ -273,7 +173,7 @@ export function CleroSection() {
                       </div>
                     </div>
                   </div>
-                </button>
+                </Link>
               </div>
             )}
 
@@ -297,10 +197,9 @@ export function CleroSection() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {otherMembers.map((person) => (
-                    <button
+                    <Link
                       key={person.id}
-                      type="button"
-                      onClick={() => setSelected(person)}
+                      href={`/clerigos/${person.slug}`}
                       className="group bg-[#fbf5eb] border border-[#D6A64A]/30 rounded-2xl p-5 flex flex-col items-center text-center shadow-xs hover:shadow-md hover:border-[#B8872E] hover:-translate-y-1.5 transition-all cursor-pointer"
                     >
                       {/* Circular Portrait Photo */}
@@ -330,7 +229,7 @@ export function CleroSection() {
                         <span>Conheça</span>
                         <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                       </div>
-                    </button>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -338,10 +237,6 @@ export function CleroSection() {
           </>
         )}
       </div>
-
-      {selected && (
-        <CleroModal member={selected} onClose={() => setSelected(null)} />
-      )}
     </section>
   );
 }

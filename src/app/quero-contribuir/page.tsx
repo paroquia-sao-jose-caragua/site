@@ -77,33 +77,34 @@ export default function ContributePage() {
   };
 
   return (
-    <section className="relative w-full min-h-screen bg-[#fbf6ee] overflow-hidden pt-16 md:pt-24 pb-24 md:pb-36 border-t border-[#e8dfd1]/60">
+    <section className="relative w-full min-h-screen bg-[#fbf6ee] overflow-hidden pt-8 pb-24 md:pb-36">
       <div className="relative z-10">
-        <div className="max-w-7xl mx-auto px-6 space-y-14">
-          {/* Section Header (Estilo Clérigos) */}
-          <div className="text-center max-w-3xl mx-auto">
-            <div className="flex items-center justify-center gap-3 mb-3">
-              <span className="h-px w-12 bg-[#B8872E]/40" />
-              <div className="flex items-center gap-1.5 text-[#B8872E] text-xs font-semibold uppercase tracking-[0.3em]">
-                <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
-                <span>OBRAS E MISSÃO</span>
-                <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
-              </div>
-              <span className="h-px w-12 bg-[#B8872E]/40" />
-            </div>
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Breadcrumb */}
+          <nav className="text-xs text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
+            <Link href="/" className="hover:text-[#2d261e] transition-colors">
+              Início
+            </Link>
+            <span>&gt;</span>
+            <span className="text-[#2d261e]">Quero Contribuir</span>
+          </nav>
 
-            <h1
-              className="text-3xl md:text-5xl font-semibold text-[#18351E] mb-4"
-              style={{ fontFamily: "Cormorant Garamond, serif" }}
-            >
+          {/* Page Header */}
+          <div className="mb-10">
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#a6824b] uppercase tracking-widest mb-2">
+              <Heart className="w-4 h-4" />
+              <span>OBRAS E MISSÃO</span>
+            </div>
+            <h1 className="text-3xl md:text-5xl font-serif font-bold text-[#18351E]">
               {donations?.title || "Contribua com a Paróquia São José"}
             </h1>
-
-            <p className="text-sm md:text-base text-[#5A463B] font-serif leading-relaxed max-w-2xl mx-auto">
+            <p className="text-sm md:text-base text-[#6b5c4d] mt-2">
               {donations?.description ||
                 "Cada contribuição é um ato de fé e solidariedade, fortalecendo a missão da paróquia e o trabalho pastoral em nossa comunidade."}
             </p>
           </div>
+
+          <div className="space-y-14">
 
           {/* Side-by-side Donation Cards */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
@@ -229,7 +230,7 @@ export default function ContributePage() {
 
                 {/* Bank Account Details Grid */}
                 <div className="bg-[#fbf6ee] border border-[#D6A64A]/40 rounded-2xl p-5 mb-6">
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-4">
+                  <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
                       <p className="text-[#5A463B] text-xs mb-0.5 font-medium">Agência</p>
                       <p className="text-[#18351E] text-base font-bold font-mono">
@@ -357,6 +358,7 @@ export default function ContributePage() {
             <span className="text-md font-medium">
               Que Deus abençoe a sua generosidade!
             </span>
+          </div>
           </div>
         </div>
       </div>
