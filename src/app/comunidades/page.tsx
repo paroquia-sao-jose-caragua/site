@@ -1,24 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { Church, MapPin, ChevronRight, Sparkles, Phone, Clock } from "lucide-react";
-import { CrossIcon } from "@/components/icons/CrossIcon";
+import { Church, MapPin, ChevronRight, Sparkles } from "lucide-react";
 import { useCommunities } from "@/lib/api/communities/use-communities";
 import { apiBaseUrl } from "@/lib/api/utils/api";
-
-function LiturgicalConnector({ label }: { label: string }) {
-  return (
-    <div className="flex flex-col items-center justify-center my-6 md:my-8" aria-hidden="true">
-      <div className="h-6 md:h-10 w-px bg-gradient-to-b from-[#B8872E]/30 via-[#B8872E] to-[#B8872E]" />
-      <div className="my-1.5 px-3.5 py-1 rounded-full bg-[#fbf5eb] border border-[#D6A64A]/50 shadow-xs flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase text-[#8c6218]">
-        <CrossIcon width={8} height={14} fill="#B8872E" />
-        <span>{label}</span>
-        <CrossIcon width={8} height={14} fill="#B8872E" />
-      </div>
-      <div className="h-6 md:h-10 w-px bg-gradient-to-b from-[#B8872E] via-[#B8872E] to-[#B8872E]/30" />
-    </div>
-  );
-}
 
 export default function CommunitiesIndexPage() {
   const { communities, isPending } = useCommunities();
@@ -56,7 +41,7 @@ export default function CommunitiesIndexPage() {
         </nav>
 
         {/* Page Header (alinhado à esquerda seguindo o padrão de Liturgia, Clérigos e Quero Contribuir) */}
-        <div className="mb-10">
+        <div className="mb-12">
           <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#a6824b] uppercase tracking-widest mb-2">
             <Church className="w-4 h-4" />
             <span>COMUNIDADES PAROQUIAIS</span>
@@ -104,195 +89,232 @@ export default function CommunitiesIndexPage() {
             Nenhuma comunidade cadastrada no momento.
           </div>
         ) : (
-          <div className="w-full space-y-4">
+          /* Trilha de Comunhão Paroquial (Left-Rail Timeline) */
+          <div className="w-full space-y-12 md:space-y-16">
             {/* ============================================================== */}
-            {/* NÍVEL 1: IGREJA MATRIZ — SEDE PAROQUIAL E ADMINISTRATIVA       */}
+            {/* GRAU 1: IGREJA MATRIZ — SEDE PAROQUIAL E ADMINISTRATIVA       */}
             {/* ============================================================== */}
             {matriz && (
-              <section aria-labelledby="matriz-section-heading" className="w-full">
-                <div className="mb-6">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="size-9 rounded-xl bg-[#ECD6BD]/50 border border-[#D6A64A]/50 flex items-center justify-center text-[#B8872E] shadow-2xs shrink-0">
-                      <Church className="w-4.5 h-4.5" />
+              <div className="relative pl-10 sm:pl-14 md:pl-16">
+                {/* Linha vertical conectando ao próximo grau */}
+                <div
+                  className="absolute left-4 sm:left-5 top-10 -bottom-12 md:-bottom-16 w-0.5 bg-gradient-to-b from-[#B8872E] via-[#D6A64A]/40 to-[#D6A64A]/30 -translate-x-1/2"
+                  aria-hidden="true"
+                />
+
+                {/* Nó / Ícone na Linha */}
+                <div
+                  className="absolute left-4 sm:left-5 top-0 -translate-x-1/2 size-8 sm:size-10 rounded-full bg-[#fbf6ee] border-2 border-[#B8872E] flex items-center justify-center text-[#B8872E] shadow-xs z-10 ring-4 ring-[#fbf6ee]"
+                  aria-hidden="true"
+                >
+                  <Church className="w-4 h-4 sm:w-5 sm:h-5" />
+                </div>
+
+                <section aria-labelledby="matriz-heading-group">
+                  {/* Cabeçalho do Nível */}
+                  <div className="mb-5 pt-0.5">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#ECD6BD]/60 border border-[#D6A64A]/40 text-[#8c6218] text-[11px] font-bold tracking-wider uppercase mb-1.5">
+                      <span>1º Grau • Sede Paroquial e Administrativa</span>
                     </div>
                     <h2
-                      id="matriz-section-heading"
-                      className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold text-[#18351E]"
+                      id="matriz-heading-group"
+                      className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-[#18351E]"
                     >
-                      Sede Paroquial e Administrativa
+                      Igreja Matriz São José
                     </h2>
+                    <p className="text-xs md:text-sm text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1">
+                      A Igreja Matriz é o coração da vida paroquial. Nela reside o Pároco, funciona a Secretaria Paroquial central e concentram-se as principais celebrações e decisões administrativas que coordenam todas as comunidades do território.
+                    </p>
                   </div>
-                  <p className="text-sm md:text-base text-[#6b5c4d] font-serif max-w-3xl leading-relaxed">
-                    A Igreja Matriz é o coração da vida paroquial. Nela reside o Pároco, funciona a Secretaria Paroquial central e concentram-se as principais celebrações e decisões administrativas que coordenam todas as comunidades do território.
-                  </p>
-                </div>
 
-                <div className="w-full bg-[#fbf5eb] border border-[#D6A64A]/50 rounded-3xl p-6 md:p-8 flex flex-col lg:flex-row items-center lg:items-stretch justify-between gap-6 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 flex-1 w-full">
-                    {/* Foto da Matriz */}
-                    <div className="w-full sm:w-60 md:w-80 h-56 sm:h-64 lg:h-auto shrink-0 rounded-2xl overflow-hidden bg-[#f3ece0] border border-[#D6A64A]/30">
-                      <img
-                        src={getImageUrl(matriz.coverUrl, matriz.coverId)}
-                        alt={matriz.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
+                  {/* Card da Matriz */}
+                  <div className="w-full bg-[#fbf5eb] border border-[#D6A64A]/50 rounded-3xl p-6 md:p-8 flex flex-col lg:flex-row items-center lg:items-stretch justify-between gap-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 flex-1 w-full">
+                      {/* Foto da Matriz */}
+                      <div className="w-full sm:w-60 md:w-80 h-56 sm:h-64 lg:h-auto shrink-0 rounded-2xl overflow-hidden bg-[#f3ece0] border border-[#D6A64A]/30">
+                        <img
+                          src={getImageUrl(matriz.coverUrl, matriz.coverId)}
+                          alt={matriz.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
 
-                    {/* Informações da Matriz */}
-                    <div className="flex-1 text-center sm:text-left flex flex-col justify-between py-1">
-                      <div>
-                        <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#18351E] text-[#eeca94] text-xs font-semibold uppercase tracking-wider mb-2 w-fit mx-auto sm:mx-0">
-                          <Sparkles className="w-3 h-3" />
-                          <span>IGREJA MATRIZ</span>
+                      {/* Informações da Matriz */}
+                      <div className="flex-1 text-center sm:text-left flex flex-col justify-between py-1">
+                        <div>
+                          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#18351E] text-[#eeca94] text-xs font-semibold uppercase tracking-wider mb-2 w-fit mx-auto sm:mx-0">
+                            <Sparkles className="w-3 h-3" />
+                            <span>IGREJA MATRIZ</span>
+                          </div>
+
+                          <h3
+                            id="matriz-heading"
+                            className="text-2xl md:text-3xl lg:text-4xl font-semibold text-[#18351E] mb-2"
+                            style={{ fontFamily: "Cormorant Garamond, serif" }}
+                          >
+                            {matriz.name.toLowerCase().startsWith("igreja") ||
+                            matriz.name.toLowerCase().startsWith("matriz")
+                              ? matriz.name
+                              : `Igreja Matriz ${matriz.name}`}
+                          </h3>
+
+                          {matriz.address && (
+                            <div className="flex items-center gap-1.5 text-xs md:text-sm text-[#736254] font-serif mb-3 justify-center sm:justify-start">
+                              <MapPin className="w-4 h-4 text-[#B8872E] shrink-0" />
+                              <span>{matriz.address}</span>
+                            </div>
+                          )}
+
+                          {matriz.heroSubtitle && (
+                            <p className="text-sm md:text-base text-[#8c6218] font-serif italic max-w-2xl mb-4">
+                              &ldquo;{matriz.heroSubtitle}&rdquo;
+                            </p>
+                          )}
                         </div>
 
-                        <h3
-                          id="matriz-heading"
-                          className="text-2xl md:text-3xl lg:text-4xl font-semibold text-[#18351E] mb-2"
-                          style={{ fontFamily: "Cormorant Garamond, serif" }}
-                        >
-                          {matriz.name.toLowerCase().startsWith("igreja") || matriz.name.toLowerCase().startsWith("matriz")
-                            ? matriz.name
-                            : `Igreja Matriz ${matriz.name}`}
-                        </h3>
-
-                        {matriz.address && (
-                          <div className="flex items-center gap-1.5 text-xs md:text-sm text-[#736254] font-serif mb-3 justify-center sm:justify-start">
-                            <MapPin className="w-4 h-4 text-[#B8872E] shrink-0" />
-                            <span>{matriz.address}</span>
-                          </div>
-                        )}
-
-                        {matriz.heroSubtitle && (
-                          <p className="text-sm md:text-base text-[#8c6218] font-serif italic max-w-2xl mb-4">
-                            &ldquo;{matriz.heroSubtitle}&rdquo;
-                          </p>
-                        )}
-                      </div>
-
-                      {/* Dados de Contato e Secretaria */}
-                      <div className="flex flex-wrap items-center gap-4 text-xs text-[#5A463B] pt-2 border-t border-[#D6A64A]/20">
-                        <span className="text-xs text-[#736254] font-serif">
-                          {matriz.patronName ? `Padroeiro(a): ${matriz.patronName}` : "Administrada pela Matriz"}
-                        </span>
+                        {/* Dados de Contato e Secretaria */}
+                        <div className="flex flex-wrap items-center gap-4 text-xs text-[#5A463B] pt-2 border-t border-[#D6A64A]/20">
+                          <span className="text-xs text-[#736254] font-serif">
+                            {matriz.patronName
+                              ? `Padroeiro(a): ${matriz.patronName}`
+                              : "Administrada pela Matriz"}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Botão de Ação */}
-                  <div className="shrink-0 flex items-center justify-center lg:justify-end w-full lg:w-auto pt-2 lg:pt-0">
-                    <Link
-                      href={`/comunidades/${matriz.slug}`}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#18351E] text-[#eeca94] hover:bg-[#27442A] text-sm font-semibold transition-all shadow-xs group"
-                    >
-                      <span>Conheça a Matriz</span>
-                      <ChevronRight
-                        size={16}
-                        className="group-hover:translate-x-1 transition-transform"
-                      />
-                    </Link>
+                    {/* Botão de Ação */}
+                    <div className="shrink-0 flex items-center justify-center lg:justify-end w-full lg:w-auto pt-2 lg:pt-0">
+                      <Link
+                        href={`/comunidades/${matriz.slug}`}
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#18351E] text-[#eeca94] hover:bg-[#27442A] text-sm font-semibold transition-all shadow-xs group"
+                      >
+                        <span>Conheça a Matriz</span>
+                        <ChevronRight
+                          size={16}
+                          className="group-hover:translate-x-1 transition-transform"
+                        />
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              </section>
-            )}
-
-            {/* CONECTOR LITÚRGICO ENTRE A MATRIZ E AS CAPELAS */}
-            {matriz && chapels.length > 0 && (
-              <LiturgicalConnector label="Comunhão e Cuidado Pastoral" />
+                </section>
+              </div>
             )}
 
             {/* ============================================================== */}
-            {/* NÍVEL 2: CAPELAS E COMUNIDADES NOS BAIRROS                     */}
+            {/* GRAU 2: CAPELAS E COMUNIDADES NOS BAIRROS                     */}
             {/* ============================================================== */}
             {chapels.length > 0 && (
-              <section aria-labelledby="chapels-section-heading" className="w-full">
-                <div className="mb-6">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="size-9 rounded-xl bg-[#ECD6BD]/50 border border-[#D6A64A]/50 flex items-center justify-center text-[#B8872E] shadow-2xs shrink-0">
-                      <Sparkles className="w-4.5 h-4.5" />
+              <div className="relative pl-10 sm:pl-14 md:pl-16">
+                {/* Linha vertical que desce e suaviza ao final */}
+                <div
+                  className="absolute left-4 sm:left-5 top-10 bottom-0 w-0.5 bg-gradient-to-b from-[#B8872E] via-[#D6A64A]/30 to-transparent -translate-x-1/2"
+                  aria-hidden="true"
+                />
+
+                {/* Nó / Ícone na Linha */}
+                <div
+                  className="absolute left-4 sm:left-5 top-0 -translate-x-1/2 size-8 sm:size-10 rounded-full bg-[#fbf6ee] border-2 border-[#B8872E] flex items-center justify-center text-[#B8872E] shadow-xs z-10 ring-4 ring-[#fbf6ee]"
+                  aria-hidden="true"
+                >
+                  <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
+                </div>
+
+                <section aria-labelledby="chapels-heading-group">
+                  {/* Cabeçalho do Nível */}
+                  <div className="mb-5 pt-0.5">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#ECD6BD]/60 border border-[#D6A64A]/40 text-[#8c6218] text-[11px] font-bold tracking-wider uppercase mb-1.5">
+                      <span>2º Grau • Capelas e Comunidades nos Bairros</span>
                     </div>
                     <h2
-                      id="chapels-section-heading"
-                      className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold text-[#18351E]"
+                      id="chapels-heading-group"
+                      className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-[#18351E]"
                     >
-                      Capelas e Comunidades nos Bairros
+                      Capelas e Comunidades
                     </h2>
+                    <p className="text-xs md:text-sm text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1">
+                      As capelas são os braços missionários da Paróquia São José nos bairros. Todas estão sob a responsabilidade pastoral do Pároco e compartilham a administração sacramental e canônica da Matriz, acolhendo os fiéis locais com celebrações, catequese e caridade.
+                    </p>
                   </div>
-                  <p className="text-sm md:text-base text-[#6b5c4d] font-serif max-w-3xl leading-relaxed">
-                    As capelas são os braços missionários da Paróquia São José nos bairros. Todas estão sob a responsabilidade pastoral do Pároco e compartilham a administração sacramental e canônica da Matriz, acolhendo os fiéis locais com celebrações, catequese e caridade.
-                  </p>
-                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-                  {chapels.map((community) => {
-                    const cover = getImageUrl(community.coverUrl, community.coverId);
+                  {/* Grid das Capelas */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                    {chapels.map((community) => {
+                      const cover = getImageUrl(community.coverUrl, community.coverId);
 
-                    return (
-                      <div
-                        key={community.id}
-                        className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-3xl p-6 flex flex-col justify-between hover:shadow-md transition-shadow"
-                      >
-                        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
-                          {/* Foto da Capela */}
-                          <div className="w-full sm:w-28 sm:h-28 md:w-32 md:h-32 shrink-0 h-40 rounded-2xl overflow-hidden border border-[#D6A64A]/30 bg-[#f3ece0]">
-                            <img
-                              src={cover}
-                              alt={community.name}
-                              className="w-full h-full object-cover"
-                            />
+                      return (
+                        <div
+                          key={community.id}
+                          className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-3xl p-6 flex flex-col justify-between hover:shadow-md transition-shadow"
+                        >
+                          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
+                            {/* Foto da Capela */}
+                            <div className="w-full sm:w-28 sm:h-28 md:w-32 md:h-32 shrink-0 h-40 rounded-2xl overflow-hidden border border-[#D6A64A]/30 bg-[#f3ece0]">
+                              <img
+                                src={cover}
+                                alt={community.name}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+
+                            {/* Textos da Capela */}
+                            <div className="flex-1 text-center sm:text-left">
+                              <span className="inline-block text-[11px] font-bold text-[#B8872E] uppercase tracking-wider mb-1">
+                                CAPELA PAROQUIAL
+                              </span>
+
+                              <h3
+                                className="text-2xl font-semibold text-[#18351E] mb-1"
+                                style={{ fontFamily: "Cormorant Garamond, serif" }}
+                              >
+                                {community.name.toLowerCase().startsWith("capela") ||
+                                community.name.toLowerCase().startsWith("comunidade")
+                                  ? community.name
+                                  : `Capela ${community.name}`}
+                              </h3>
+
+                              {community.address && (
+                                <p className="text-xs text-[#736254] font-serif flex items-center gap-1 justify-center sm:justify-start mb-2 line-clamp-1">
+                                  <MapPin className="w-3.5 h-3.5 text-[#B8872E] shrink-0" />
+                                  <span>
+                                    {community.address.split("-")[1]?.trim() ||
+                                      community.address}
+                                  </span>
+                                </p>
+                              )}
+
+                              {community.heroSubtitle && (
+                                <p className="text-xs md:text-sm text-[#8c6218] font-serif italic line-clamp-2 leading-relaxed">
+                                  &ldquo;{community.heroSubtitle}&rdquo;
+                                </p>
+                              )}
+                            </div>
                           </div>
 
-                          {/* Textos da Capela */}
-                          <div className="flex-1 text-center sm:text-left">
-                            <span className="inline-block text-[11px] font-bold text-[#B8872E] uppercase tracking-wider mb-1">
-                              CAPELA PAROQUIAL
+                          {/* Botão de ação */}
+                          <div className="mt-5 pt-4 border-t border-[#D6A64A]/20 flex items-center justify-between">
+                            <span className="text-xs text-[#736254] font-serif">
+                              {community.patronName
+                                ? `Padroeiro(a): ${community.patronName}`
+                                : "Administrada pela Matriz"}
                             </span>
-
-                            <h3
-                              className="text-2xl font-semibold text-[#18351E] mb-1"
-                              style={{ fontFamily: "Cormorant Garamond, serif" }}
+                            <Link
+                              href={`/comunidades/${community.slug}`}
+                              className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#18351E] text-[#eeca94] hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs group"
                             >
-                              {community.name.toLowerCase().startsWith("capela") || community.name.toLowerCase().startsWith("comunidade")
-                                ? community.name
-                                : `Capela ${community.name}`}
-                            </h3>
-
-                            {community.address && (
-                              <p className="text-xs text-[#736254] font-serif flex items-center gap-1 justify-center sm:justify-start mb-2 line-clamp-1">
-                                <MapPin className="w-3.5 h-3.5 text-[#B8872E] shrink-0" />
-                                <span>{community.address.split("-")[1]?.trim() || community.address}</span>
-                              </p>
-                            )}
-
-                            {community.heroSubtitle && (
-                              <p className="text-xs md:text-sm text-[#8c6218] font-serif italic line-clamp-2 leading-relaxed">
-                                &ldquo;{community.heroSubtitle}&rdquo;
-                              </p>
-                            )}
+                              <span>Conheça</span>
+                              <ChevronRight
+                                size={14}
+                                className="group-hover:translate-x-1 transition-transform"
+                              />
+                            </Link>
                           </div>
                         </div>
-
-                        {/* Botão de ação */}
-                        <div className="mt-5 pt-4 border-t border-[#D6A64A]/20 flex items-center justify-between">
-                          <span className="text-xs text-[#736254] font-serif">
-                            {community.patronName ? `Padroeiro(a): ${community.patronName}` : "Administrada pela Matriz"}
-                          </span>
-                          <Link
-                            href={`/comunidades/${community.slug}`}
-                            className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#18351E] text-[#eeca94] hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs group"
-                          >
-                            <span>Conheça</span>
-                            <ChevronRight
-                              size={14}
-                              className="group-hover:translate-x-1 transition-transform"
-                            />
-                          </Link>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </section>
+                      );
+                    })}
+                  </div>
+                </section>
+              </div>
             )}
           </div>
         )}

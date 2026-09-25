@@ -63,15 +63,15 @@ export function UrgentAlertBar() {
         aria-label="Aviso Paroquial Urgente"
         className={`relative z-20 w-full shadow-md select-none transition-all ${config.barBg}`}
       >
-        <div className="w-full mx-auto py-2.5 flex items-center justify-between gap-3 sm:gap-6 cursor-pointer" onClick={() => alert.hasModal && setModalOpen(true)}>
+        <div className="w-full mx-auto py-2.5 sm:py-3 flex items-center justify-between gap-3 sm:gap-6 cursor-pointer" onClick={() => alert.hasModal && setModalOpen(true)}>
           {/* Letreiro Marquee central */}
           <div className="flex-1 overflow-hidden ticker-wrapper relative cursor-pointer" onClick={() => alert.hasModal && setModalOpen(true)}>
-            <div className="animate-ticker text-xs sm:text-sm font-medium tracking-wide">
+            <div className="animate-ticker text-base sm:text-lg font-semibold tracking-wide">
               {/* Repetição para loop contínuo */}
               {[1, 2, 3, 4].map((i) => (
-                <span key={i} className="inline-flex items-center gap-4 pr-4">
+                <span key={i} className="inline-flex items-center gap-6 pr-6">
                   <span>{alert.text}</span>
-                  <span className="opacity-50 text-[10px]">☩</span>
+                  <span className="opacity-60 text-sm sm:text-base">☩</span>
                 </span>
               ))}
              </div>
