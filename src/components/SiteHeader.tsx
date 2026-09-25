@@ -471,7 +471,7 @@ export function SiteHeader() {
                           </div>
                           <div className="flex flex-col min-w-0">
                             <span className="font-semibold text-sm leading-snug font-serif">
-                              Programação Paroquial
+                              Programação da Paróquia
                             </span>
                             <span
                               className={`text-[11.5px] line-clamp-1 ${
@@ -480,7 +480,7 @@ export function SiteHeader() {
                                   : "text-[#736254] group-hover/item:text-[#eeca94]/80"
                               }`}
                             >
-                              Horários de missas e celebrações
+                              Horários de missas e eventos
                             </span>
                           </div>
                         </Link>
