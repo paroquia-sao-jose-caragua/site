@@ -270,7 +270,7 @@ export function UpcomingMassesSection() {
         {isPending ? (
           <div className="space-y-6">
             <div className="h-12 bg-[#fbf5eb] border border-[#D6A64A]/30 rounded-xl animate-pulse w-72" />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 gap-5">
               {[1, 2].map((i) => (
                 <div
                   key={i}
@@ -329,7 +329,7 @@ export function UpcomingMassesSection() {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#D6A64A]/30">
                     <div className="flex items-center gap-3">
                       {/* Mini Calendar Date Badge */}
-                      <div className="flex flex-col items-center justify-center bg-[#fbf5eb] border border-[#D6A64A]/50 rounded-xl px-2.5 py-1 min-w-[52px] shadow-2xs">
+                      <div className="flex flex-col items-center justify-center bg-[#fbf5eb] border border-[#D6A64A]/50 rounded-xl px-3 py-1.5 min-w-[52px] shadow-2xs">
                         <span className="text-[10px] font-bold uppercase text-[#B8872E] tracking-wider font-sans">
                           {WEEKDAYS[dateObj.getDay()]}
                         </span>
@@ -338,7 +338,7 @@ export function UpcomingMassesSection() {
                         </span>
                       </div>
 
-                      <div>
+                      <div className="flex flex-col gap-0.5">
                         <div className="flex items-center gap-2 flex-wrap">
                           <h3
                             className="text-xl sm:text-2xl font-semibold text-[#18351E] capitalize"
@@ -369,11 +369,7 @@ export function UpcomingMassesSection() {
 
                   {/* Cards for this day in responsive grid */}
                   <div
-                    className={`grid gap-5 ${
-                      items.length === 1
-                        ? "grid-cols-1"
-                        : "grid-cols-1 md:grid-cols-2"
-                    }`}
+                    className={"grid gap-5 grid-cols-1"}
                   >
                     {items.map((event) => {
                       const isMass =

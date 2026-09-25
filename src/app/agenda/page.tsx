@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   Calendar,
   CalendarDays,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
   Clock,
@@ -14,6 +15,7 @@ import {
   X,
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { listCalendarSchedules } from "@/lib/api/calendar/list";
 import type {
   CalendarSchedule,
@@ -53,12 +55,16 @@ const MONTHS_PT = [
 function getVisibleMonths() {
   const today = new Date();
   const currentMonth = today.getMonth() + 1;
+  const currentYear = today.getFullYear();
 
   return Array.from({ length: 5 }, (_, index) => {
-    const month = ((currentMonth + index - 1) % 12) + 1;
+    const rawMonth = currentMonth + index;
+    const month = ((rawMonth - 1) % 12) + 1;
+    const year = rawMonth > 12 ? currentYear + 1 : currentYear;
 
     return {
       value: month,
+      year,
       label: MONTHS_PT[month - 1],
     };
   });
@@ -225,6 +231,7 @@ interface MiniCalendarProps {
   selectedDate: string | null;
   eventDates: Set<string>;
   onSelect: (date: string) => void;
+  onMonthChange?: (year: number, month: number) => void;
 }
 
 function MiniCalendar({
@@ -233,6 +240,7 @@ function MiniCalendar({
   selectedDate,
   eventDates,
   onSelect,
+  onMonthChange,
 }: MiniCalendarProps) {
   const [calYear, setCalYear] = useState(year);
   const [calMonth, setCalMonth] = useState(month);
@@ -249,16 +257,26 @@ function MiniCalendar({
   const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
 
   const prevMonth = () => {
+    let nextY = calYear;
+    let nextM = calMonth - 1;
     if (calMonth === 1) {
-      setCalMonth(12);
-      setCalYear((y) => y - 1);
-    } else setCalMonth((m) => m - 1);
+      nextM = 12;
+      nextY = calYear - 1;
+    }
+    setCalMonth(nextM);
+    setCalYear(nextY);
+    onMonthChange?.(nextY, nextM);
   };
   const nextMonth = () => {
+    let nextY = calYear;
+    let nextM = calMonth + 1;
     if (calMonth === 12) {
-      setCalMonth(1);
-      setCalYear((y) => y + 1);
-    } else setCalMonth((m) => m + 1);
+      nextM = 1;
+      nextY = calYear + 1;
+    }
+    setCalMonth(nextM);
+    setCalYear(nextY);
+    onMonthChange?.(nextY, nextM);
   };
 
   const cells: (number | null)[] = [];
@@ -266,17 +284,17 @@ function MiniCalendar({
   for (let d = 1; d <= daysInMonth; d++) cells.push(d);
 
   return (
-    <div className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-2xl p-4 shadow-sm">
-      <div className="flex items-center justify-between mb-3">
+    <div className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-2xl p-4 sm:p-5 shadow-sm">
+      <div className="flex items-center justify-between mb-3.5">
         <button
           type="button"
           onClick={prevMonth}
           className="p-1.5 rounded-lg hover:bg-[#ECD6BD]/40 transition-colors text-[#18351E] cursor-pointer"
         >
-          <ChevronLeft size={16} />
+          <ChevronLeft size={18} />
         </button>
         <span
-          className="text-[13px] text-[#18351E] font-semibold"
+          className="text-sm sm:text-base text-[#18351E] font-bold tracking-tight"
         >
           {MONTHS_PT[calMonth - 1]} {calYear}
         </span>
@@ -285,22 +303,22 @@ function MiniCalendar({
           onClick={nextMonth}
           className="p-1.5 rounded-lg hover:bg-[#ECD6BD]/40 transition-colors text-[#18351E] cursor-pointer"
         >
-          <ChevronRight size={16} />
+          <ChevronRight size={18} />
         </button>
       </div>
 
-      <div className="grid grid-cols-7 mb-1.5">
+      <div className="grid grid-cols-7 mb-2">
         {WEEKDAYS.map((d) => (
           <div
             key={d}
-            className="text-center text-[11px] text-[#5A463B] font-semibold py-1 uppercase tracking-wider"
+            className="text-center text-xs text-[#5A463B] font-bold py-1.5 uppercase tracking-wider"
           >
             {d}
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-7 gap-y-1">
+      <div className="grid grid-cols-7 gap-y-1 sm:gap-y-1.5">
         {cells.map((day, i) => {
           if (!day) return <div key={`e-${i}`} />;
           const dateStr = `${calYear}-${String(calMonth).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
@@ -314,7 +332,7 @@ function MiniCalendar({
               type="button"
               onClick={() => onSelect(isSelected ? "" : dateStr)}
               className={[
-                "relative flex flex-col items-center justify-center h-8 w-full rounded-lg text-[12px] transition-all cursor-pointer",
+                "relative flex flex-col items-center justify-center h-9 sm:h-10 w-full rounded-xl text-sm transition-all cursor-pointer font-medium",
                 isSelected
                   ? "bg-[#18351E] text-[#ffe7c2] font-bold shadow-2xs"
                   : isToday
@@ -324,7 +342,7 @@ function MiniCalendar({
             >
               {day}
               {hasEvent && !isSelected && (
-                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 size-1 rounded-full bg-[#B8872E]" />
+                <span className="absolute bottom-1 sm:bottom-1.5 left-1/2 -translate-x-1/2 size-1.5 rounded-full bg-[#B8872E]" />
               )}
             </button>
           );
@@ -518,11 +536,10 @@ function AgendaPageContent() {
   const visibleMonths = useMemo(() => getVisibleMonths(), []);
   const { communities } = useCommunities();
 
-  const initialMonth = visibleMonths.find((m) => m.value === currentMonth)
-    ? currentMonth
-    : visibleMonths[0].value;
+  const initialMonthObj = visibleMonths.find((m) => m.value === currentMonth) ?? visibleMonths[0];
 
-  const [selectedMonth, setSelectedMonth] = useState(initialMonth);
+  const [selectedMonth, setSelectedMonth] = useState(initialMonthObj.value);
+  const [selectedYear, setSelectedYear] = useState(initialMonthObj.year);
   const [selectedCommunityId, setSelectedCommunityId] = useState("all");
   const [selectedDate, setSelectedDate] = useState<string>("");
 
@@ -538,7 +555,7 @@ function AgendaPageContent() {
     setSelectedCommunityId(param);
   }, [searchParams]);
 
-  const isCurrentMonth = selectedMonth === currentMonth;
+  const isCurrentMonth = selectedMonth === currentMonth && selectedYear === currentYear;
 
   const {
     data: currentData,
@@ -547,14 +564,14 @@ function AgendaPageContent() {
   } = useQuery({
     queryKey: [
       "calendar-schedules",
-      currentYear,
+      selectedYear,
       selectedMonth,
       selectedCommunityId,
     ],
     queryFn: () =>
       listCalendarSchedules({
         month: selectedMonth,
-        year: currentYear,
+        year: selectedYear,
         communityId:
           selectedCommunityId !== "all" ? selectedCommunityId : undefined,
       }),
@@ -595,8 +612,9 @@ function AgendaPageContent() {
 
     if (currentEvents.length === 0 && nextData?.calendar?.length) {
       setSelectedMonth(nextMonth);
+      setSelectedYear(nextYear);
     }
-  }, [currentData, nextData, isCurrentMonth, nextMonth, today]);
+  }, [currentData, nextData, isCurrentMonth, nextMonth, nextYear, today]);
 
   const agendaEvents = useMemo(() => {
     return mapCalendarToAgendaEvents(data?.calendar ?? []);
@@ -606,7 +624,7 @@ function AgendaPageContent() {
     return agendaEvents.filter((e) => {
       const d = parseDate(e.date);
       const monthMatch =
-        d.getMonth() + 1 === selectedMonth && d.getFullYear() === currentYear;
+        d.getMonth() + 1 === selectedMonth && d.getFullYear() === selectedYear;
       const communityMatch = selectedCommunityId
         ? matchesCommunityFilter(e, selectedCommunityId, communities)
         : undefined;
@@ -616,9 +634,9 @@ function AgendaPageContent() {
   }, [
     agendaEvents,
     selectedMonth,
+    selectedYear,
     selectedCommunityId,
     selectedDate,
-    currentYear,
     communities,
   ]);
 
@@ -646,13 +664,13 @@ function AgendaPageContent() {
       const d = parseDate(e.date);
       if (
         d.getMonth() + 1 === selectedMonth &&
-        d.getFullYear() === currentYear
+        d.getFullYear() === selectedYear
       ) {
         s.add(e.date);
       }
     });
     return s;
-  }, [agendaEvents, selectedMonth, currentYear]);
+  }, [agendaEvents, selectedMonth, selectedYear]);
 
   const clearFilters = () => {
     setSelectedDate("");
@@ -662,115 +680,86 @@ function AgendaPageContent() {
   const hasFilters = selectedDate !== "" || selectedCommunityId !== "all";
 
   return (
-    <div className="relative overflow-hidden min-h-screen bg-[#fbf6ee]">
-      {/* Page header */}
-      <div className="relative bg-[#18351e] border-b border-[#d6b686]">
-        <div className="flex flex-col items-start max-w-320 mx-auto px-6 py-10 sm:py-12">
-          <div className="flex items-center justify-center gap-1.5 text-[#d6b686] text-xs font-semibold uppercase tracking-wider mb-3 bg-[#1f3f26] px-3.5 py-1.5 rounded-full border border-[#eeca94]/20">
-            <Calendar size={14} />
-            <span>Agenda Pastoral</span>
+    <main className="relative overflow-hidden bg-[#fbf6ee] min-h-screen py-8">
+      <div className="max-w-7xl mx-auto px-6 mb-32">
+        {/* Breadcrumb */}
+        <nav className="text-xs text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
+          <Link href="/" className="hover:text-[#2d261e] transition-colors">
+            Início
+          </Link>
+          <span>&gt;</span>
+          <span className="text-[#2d261e]">Agenda Pastoral</span>
+        </nav>
+
+        {/* Header Block: Title */}
+        <div className="mb-8 max-w-3xl">
+          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#a6824b] uppercase tracking-widest mb-2">
+            <Calendar className="w-4 h-4" />
+            <span>AGENDA PASTORAL</span>
           </div>
-          <h1 className="text-[#fff8f0] text-3xl lg:text-4xl font-semibold leading-tight">
+          <h1 className="text-3xl md:text-5xl font-serif font-bold text-[#18351E]">
             Programação da Paróquia
           </h1>
-          <p
-            className="mt-2 text-[#f8f3ece6] text-base sm:text-lg max-w-2xl"
-            style={{ fontFamily: "Cormorant Garamond, serif" }}
-          >
-            Acompanhe as celebrações da Santa Missa, solenidades e eventos pastorais de todas as nossas comunidades.
+          <p className="text-sm md:text-base text-[#6b5c4d] mt-2 leading-relaxed">
+            Acompanhe as celebrações, eventos pastorais e missas de todas as nossas comunidades.
           </p>
         </div>
-      </div>
 
-      {/* Month tabs */}
-      <div className="sticky top-20 z-40 bg-[#18351e] border-b border-[#d6b686]/60 shadow-xs">
-        <div className="max-w-320 mx-auto px-6">
-          <div className="flex gap-0 overflow-x-auto pb-0 scrollbar-none">
-            {visibleMonths.map((m) => (
-              <button
-                key={m.value}
-                onClick={() => {
-                  setSelectedMonth(m.value);
-                  setSelectedDate("");
-                }}
-                className={[
-                  "px-5 py-3 text-sm whitespace-nowrap border-b-2 transition-all shrink-0 cursor-pointer font-medium",
-                  selectedMonth === m.value
-                    ? "border-[#d6b686] text-[#d6b686] bg-[#234125] font-semibold"
-                    : "border-transparent text-[#d6b686]/80 hover:text-[#d6b686] hover:bg-[#234125]/40",
-                ].join(" ")}
-              >
-                {m.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Body */}
-      <div className="max-w-320 mx-auto px-6 pt-8 pb-36">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar */}
-          <div className="w-full lg:w-72 shrink-0 space-y-5 lg:sticky lg:top-36 lg:self-start">
-            {/* Mini calendar */}
-            <MiniCalendar
-              year={currentYear}
-              month={selectedMonth}
-              selectedDate={selectedDate}
-              eventDates={eventDatesSet}
-              onSelect={(d) => {
-                setSelectedDate(d);
-                if (d) {
-                  const m = parseInt(d.split("-")[1]);
-                  setSelectedMonth(m);
-                }
-              }}
-            />
-
-            {/* Community filter */}
-            <div className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-2xl p-4 shadow-sm">
-              <p
-                className="text-[11px] text-[#18351e] uppercase tracking-widest mb-3 font-semibold"
-              >
-                Filtrar por Comunidade
-              </p>
-              <div className="space-y-1">
+        {/* Month Selector Bar & Discreet Community Select with separating border */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#D6A64A]/30 mb-8">
+          {/* Month buttons */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
+            {visibleMonths.map((m) => {
+              const isSelected = selectedMonth === m.value && selectedYear === m.year;
+              return (
                 <button
-                  onClick={() => setSelectedCommunityId("all")}
-                  className={[
-                    "w-full text-left px-3 py-2 rounded-xl text-xs transition-colors cursor-pointer",
-                    selectedCommunityId === "all"
-                      ? "bg-[#18351e] text-[#ffe7c2] font-semibold shadow-2xs"
-                      : "text-[#2b2b2b] hover:bg-[#ECD6BD]/40 font-medium",
-                  ].join(" ")}
+                  key={`${m.year}-${m.value}`}
+                  onClick={() => {
+                    setSelectedMonth(m.value);
+                    setSelectedYear(m.year);
+                    setSelectedDate("");
+                  }}
+                  className={`px-4 py-2 rounded-lg text-xs md:text-sm font-medium transition-all whitespace-nowrap cursor-pointer shrink-0 ${
+                    isSelected
+                      ? "bg-[#1b2a26] text-white shadow-xs font-semibold"
+                      : "bg-[#fbf5eb] text-[#6b5c4d] border border-[#e8e2d8] hover:border-[#a6824b] hover:text-[#2d261e]"
+                  }`}
                 >
-                  Todas as comunidades
+                  {m.label}
                 </button>
+              );
+            })}
+          </div>
+
+          {/* Discreet Community Select */}
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="text-xs font-semibold text-[#5A463B] uppercase tracking-wider hidden sm:inline">
+              Comunidade:
+            </span>
+            <div className="relative">
+              <select
+                value={selectedCommunityId}
+                onChange={(e) => setSelectedCommunityId(e.target.value)}
+                className="appearance-none bg-[#fbf5eb] border border-[#D6A64A]/50 text-[#18351E] text-xs sm:text-sm font-medium rounded-xl pl-3 pr-8 py-2 shadow-2xs focus:outline-none focus:ring-1 focus:ring-[#B8872E] hover:border-[#B8872E] transition-colors cursor-pointer"
+                aria-label="Filtrar por comunidade"
+              >
+                <option value="all">Todas as comunidades</option>
                 {communities.map((c) => (
-                  <button
-                    key={c.id}
-                    onClick={() => setSelectedCommunityId(c.id)}
-                    className={[
-                      "w-full text-left px-3 py-2 rounded-xl text-xs transition-colors flex items-center gap-2 cursor-pointer",
-                      selectedCommunityId === c.id
-                        ? "bg-[#18351e] text-[#ffe7c2] font-semibold shadow-2xs"
-                        : "text-[#2b2b2b] hover:bg-[#ECD6BD]/40 font-medium",
-                    ].join(" ")}
-                  >
-                    <span className="truncate">
-                      {c.type === "parish_church"
-                        ? "Paróquia Matriz "
-                        : "Capela "}
-                      {c.name}
-                    </span>
-                  </button>
+                  <option key={c.id} value={c.id}>
+                    {c.type === "parish_church" ? "Paróquia Matriz " : "Capela "}
+                    {c.name}
+                  </option>
                 ))}
-              </div>
+              </select>
+              <ChevronDown className="w-4 h-4 text-[#B8872E] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
           </div>
+        </div>
 
-          {/* Main content */}
-          <div className="flex-1 min-w-0">
+        {/* Content Layout: Cards list (left on desktop) + Sidebar MiniCalendar (right on desktop, top on mobile) */}
+        <div className="flex flex-col lg:flex-row gap-8 items-start justify-between">
+          {/* Main Column: Active filters + Cards list (order-2 on mobile, lg:order-1 on desktop) */}
+          <div className="flex-1 min-w-0 w-full order-2 lg:order-1">
             {/* Active filters bar */}
             {hasFilters && (
               <div className="flex items-center gap-2 mb-6 flex-wrap">
@@ -864,10 +853,10 @@ function AgendaPageContent() {
                   return (
                     <div key={dateStr} className="space-y-4">
                       {/* Date Section Header */}
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#D6A64A]/30">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-[#D6A64A]/30">
                         <div className="flex items-center gap-3">
                           {/* Mini Calendar Date Badge */}
-                          <div className="flex flex-col items-center justify-center bg-[#fbf5eb] border border-[#D6A64A]/50 rounded-xl px-2.5 py-1 min-w-[52px] shadow-2xs">
+                          <div className="flex flex-col items-center justify-center bg-[#fbf5eb] border border-[#D6A64A]/50 rounded-xl px-3 py-1.5 min-w-[52px] shadow-2xs">
                             <span className="text-[10px] font-bold uppercase text-[#B8872E] tracking-wider font-sans">
                               {WEEKDAYS[dateObj.getDay()]}
                             </span>
@@ -876,7 +865,7 @@ function AgendaPageContent() {
                             </span>
                           </div>
 
-                          <div>
+                          <div className="flex flex-col gap-0.5">
                             <div className="flex items-center gap-2">
                               <h2
                                 className="text-xl sm:text-2xl font-semibold text-[#18351E] capitalize"
@@ -937,6 +926,29 @@ function AgendaPageContent() {
                 )}
             </div>
           </div>
+
+          {/* Sidebar: MiniCalendar (order-1 on mobile so it renders before cards; lg:order-2 on desktop so it is on the right) */}
+          <div className="w-full lg:w-80 xl:w-88 shrink-0 lg:sticky lg:top-24 lg:self-start order-1 lg:order-2">
+            <MiniCalendar
+              year={selectedYear}
+              month={selectedMonth}
+              selectedDate={selectedDate}
+              eventDates={eventDatesSet}
+              onMonthChange={(y, m) => {
+                setSelectedYear(y);
+                setSelectedMonth(m);
+                setSelectedDate("");
+              }}
+              onSelect={(d) => {
+                setSelectedDate(d);
+                if (d) {
+                  const parts = d.split("-").map(Number);
+                  setSelectedYear(parts[0]);
+                  setSelectedMonth(parts[1]);
+                }
+              }}
+            />
+          </div>
         </div>
       </div>
 
@@ -957,7 +969,7 @@ function AgendaPageContent() {
           pointer-events-none
         "
       />
-    </div>
+    </main>
   );
 }
 

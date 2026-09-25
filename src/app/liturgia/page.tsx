@@ -43,8 +43,8 @@ export default function LiturgiaPage() {
   const tomorrowDateStr = selectedDate.add(1, "day").format("dddd, D [de] MMMM");
 
   return (
-    <main className="relative overflow-hidden bg-[#fbf6ee] min-h-screen py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto mb-32">
+    <main className="relative overflow-hidden bg-[#fbf6ee] min-h-screen py-8">
+      <div className="max-w-7xl mx-auto px-6 mb-32">
         {/* Breadcrumb */}
         <nav className="text-xs text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
           <Link href="/" className="hover:text-[#2d261e] transition-colors">
@@ -64,7 +64,7 @@ export default function LiturgiaPage() {
                 <BookOpen className="w-4 h-4" />
                 LITURGIA DIÁRIA
               </div>
-              <h1 className="text-3xl md:text-5xl font-serif font-bold text-[#2d261e]">
+              <h1 className="text-3xl md:text-5xl font-serif font-bold text-[#18351E]">
                 Liturgia do Dia
               </h1>
               <p className="text-sm md:text-base text-[#6b5c4d] mt-2">

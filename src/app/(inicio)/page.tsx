@@ -10,7 +10,6 @@ import { CommunityCalloutSection } from "@/components/CommunityCalloutSection";
 export default function HomePage() {
   return (
     <main className="w-full min-h-screen bg-[#fbf6ee]">
-      <UrgentAlertBar />
       <AnnouncementsHero />
       <LiturgyDailySection />
       <OurCommunitiesSection />

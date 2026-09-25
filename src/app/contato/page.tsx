@@ -2,6 +2,7 @@
 
 import type { FormEvent } from "react";
 import { useState } from "react";
+import Link from "next/link";
 import { MapPin, Clock, Send, CheckCircle, PhoneIcon } from "lucide-react";
 import { useParishContact } from "@/lib/api/parish-contact/use-parish-contact";
 
@@ -84,67 +85,37 @@ export default function ContactPage() {
   };
 
   return (
-    <section
-      className="
-      relative
-      overflow-hidden
-      bg-[#fbf5eb]
-    "
-    >
-      <div
-        className="
-        mx-auto
-        relative
-        z-10
-      "
-      >
-        {/* Page header */}
-        <div className="relative bg-[#18351e] border-b border-[#d6b686]">
-          <div className="flex flex-col items-start max-w-[1100px] mx-auto px-6 py-6">
-            <div className="flex items-center justify-center gap-1 text-[#d6b686] text-sm mb-4 bg-[#1f3f26] px-3 py-1.5 rounded-full border border-[#eeca94]/20">
-              <PhoneIcon size={16} fill="#d6b686" />
-              <span>Contato</span>
-            </div>
-            <h1 className="text-[#fff8f0] text-3xl lg:text-4xl font-semibold">
-              Entre em contato conosco
-            </h1>
-            <p
-              className="
-                mt-5
-                text-[#f8f3ece6]
-                text-lg
-                max-w-3xl
-              "
-              style={{
-                fontFamily: "Cormorant Garamond, serif",
-              }}
-            >
-              Estamos à disposição para acolher suas dúvidas, intenções,
-              sugestões e pedidos.
-            </p>
+    <section className="relative overflow-hidden bg-[#fbf6ee] min-h-screen">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-8 pb-36">
+        {/* Breadcrumb */}
+        <nav className="text-xs text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
+          <Link href="/" className="hover:text-[#2d261e] transition-colors">
+            Início
+          </Link>
+          <span>&gt;</span>
+          <span className="text-[#2d261e]">Contato</span>
+        </nav>
+
+        {/* Page Header (estilo liturgia, sem background e sem border-bottom) */}
+        <div className="mb-10">
+          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#a6824b] uppercase tracking-widest mb-2">
+            <PhoneIcon size={14} />
+            <span>CANAL DE CONTATO</span>
           </div>
+          <h1 className="text-3xl md:text-5xl font-serif font-bold text-[#18351E]">
+            Entre em contato conosco
+          </h1>
+          <p className="text-sm md:text-base text-[#6b5c4d] mt-2 max-w-2xl">
+            Estamos à disposição para acolher suas dúvidas, intenções, sugestões e pedidos.
+          </p>
         </div>
 
-        <div className="max-w-[1100px] mx-auto pt-12 pb-36 px-6 grid lg:grid-cols-[1.4fr_420px] gap-8 items-start">
+        {/* Content Grid */}
+        <div className="grid lg:grid-cols-[1.4fr_420px] gap-8 items-start">
           {/* Formulário */}
-
-          <div
-            className="
-              bg-[#fbf5eb]
-              border
-              border-[#D6A64A]
-              rounded-3xl
-              p-8
-              lg:p-10
-            "
-          >
+          <div className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-2xl p-8 lg:p-10 shadow-sm">
             {submitted ? (
-              <div
-                className="
-                bg-[#fbf5eb]
-                text-center
-              "
-              >
+              <div className="bg-[#fbf5eb] text-center">
                 <div
                   className="
                     mx-auto
@@ -360,25 +331,10 @@ export default function ContactPage() {
           {/* Sidebar */}
           <div className="space-y-5">
             {/* WhatsApp */}
-            <div
-              className="
-              bg-[#fbf5eb]
-              border
-              border-[#D6A64A]
-              rounded-3xl
-              p-6
-            "
-            >
+            <div className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-2xl p-6 shadow-sm">
               <h3
-                className="
-                    text-[#18351E]
-                    text-xl
-                    mb-3
-                  "
-                style={{
-                  fontFamily: "Cormorant Garamond, serif",
-                  fontWeight: 600,
-                }}
+                className="text-[#18351E] text-xl mb-3 font-semibold"
+                style={{ fontFamily: "Cormorant Garamond, serif" }}
               >
                 Prefere falar pelo Telefone?
               </h3>
@@ -396,42 +352,15 @@ export default function ContactPage() {
                 }
                 target="_blank"
                 rel="noopener noreferrer"
-                className="
-                mt-4
-                flex
-                items-center
-                justify-center
-                gap-2
-                rounded-xl
-                bg-[#18351E]
-                text-[#eeca94]
-                py-3
-                hover:bg-[#27442A]
-                transition-colors
-              "
+                className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-[#18351E] text-[#eeca94] py-3 hover:bg-[#27442A] transition-colors shadow-2xs font-semibold text-sm"
               >
-                WhatsApp:{" "}
-                {contact?.whatsapp || "(12) 98170-5757"}
+                WhatsApp: {contact?.whatsapp || "(12) 98170-5757"}
               </a>
 
               {contact?.phone && (
                 <a
                   href={`tel:${contact.phone.replace(/\D/g, "")}`}
-                  className="
-                  mt-2
-                  flex
-                  items-center
-                  justify-center
-                  gap-2
-                  rounded-xl
-                  border
-                  border-[#D6A64A]/40
-                  text-[#18351E]
-                  py-2.5
-                  text-sm
-                  hover:bg-[#f3ece0]
-                  transition-colors
-                "
+                  className="mt-2 flex items-center justify-center gap-2 rounded-xl border border-[#D6A64A]/40 text-[#18351E] py-2.5 text-sm hover:bg-[#f3ece0] transition-colors"
                 >
                   <span>Fixo: {contact.phone}</span>
                 </a>
@@ -439,29 +368,14 @@ export default function ContactPage() {
             </div>
 
             {/* Endereço */}
-            <div
-              className="
-              bg-[#fbf5eb]
-              border
-              border-[#D6A64A]
-              rounded-3xl
-              p-6
-            "
-            >
+            <div className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-2xl p-6 shadow-sm">
               <div className="flex items-start gap-3">
                 <MapPin size={18} className="text-[#B8872E] mt-1 shrink-0" />
 
                 <div>
                   <h3
-                    className="
-                    text-[#18351E]
-                    text-xl
-                    mb-3
-                  "
-                    style={{
-                      fontFamily: "Cormorant Garamond, serif",
-                      fontWeight: 600,
-                    }}
+                    className="text-[#18351E] text-xl mb-3 font-semibold"
+                    style={{ fontFamily: "Cormorant Garamond, serif" }}
                   >
                     Endereço
                   </h3>
@@ -474,29 +388,14 @@ export default function ContactPage() {
             </div>
 
             {/* Horários */}
-            <div
-              className="
-              bg-[#fbf5eb]
-              border
-              border-[#D6A64A]
-              rounded-3xl
-              p-6
-            "
-            >
+            <div className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-2xl p-6 shadow-sm">
               <div className="flex items-start gap-3">
                 <Clock size={18} className="text-[#B8872E] mt-1 shrink-0" />
 
                 <div>
                   <h3
-                    className="
-                    text-[#18351E]
-                    text-xl
-                    mb-3
-                  "
-                    style={{
-                      fontFamily: "Cormorant Garamond, serif",
-                      fontWeight: 600,
-                    }}
+                    className="text-[#18351E] text-xl mb-3 font-semibold"
+                    style={{ fontFamily: "Cormorant Garamond, serif" }}
                   >
                     Secretaria
                   </h3>
@@ -519,25 +418,10 @@ export default function ContactPage() {
             </div>
 
             {/* Redes */}
-            <div
-              className="
-              bg-[#fbf5eb]
-              border
-              border-[#D6A64A]
-              rounded-3xl
-              p-6
-            "
-            >
+            <div className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-2xl p-6 shadow-sm">
               <h3
-                className="
-                text-[#18351E]
-                text-xl
-                mb-4
-              "
-                style={{
-                  fontFamily: "Cormorant Garamond, serif",
-                  fontWeight: 600,
-                }}
+                className="text-[#18351E] text-xl mb-4 font-semibold"
+                style={{ fontFamily: "Cormorant Garamond, serif" }}
               >
                 Redes Sociais
               </h3>

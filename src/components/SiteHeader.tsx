@@ -137,7 +137,7 @@ export function SiteHeader() {
           }`}
         >
           <div
-            className={`max-w-320 mx-auto px-6 flex items-center justify-between transition-all duration-300 ease-in-out ${
+            className={`max-w-324 mx-auto px-6 flex items-center justify-between transition-all duration-300 ease-in-out ${
               scrolled ? "h-[72px]" : "h-24"
             }`}
           >
@@ -162,15 +162,7 @@ export function SiteHeader() {
                 Início
               </NavLink>
 
-              {/* 2. Liturgia Diária (visível em telas >= 1200px) */}
-              <NavLink
-                href="/liturgia"
-                className="hidden min-[1200px]:inline-flex px-3.5 py-1.5 text-md font-semibold rounded-lg"
-              >
-                Liturgia Diária
-              </NavLink>
-
-              {/* 3. Comunidades (sempre visível com dropdown) */}
+              {/* 2. Comunidades (sempre visível com dropdown) */}
               <div
                 ref={dropdownRef}
                 className="relative"
@@ -264,20 +256,28 @@ export function SiteHeader() {
                 )}
               </div>
 
-              {/* 4. Agenda (sempre visível) */}
-              <NavLink
-                href="/agenda"
-                className="px-3.5 py-1.5 text-md font-semibold rounded-lg"
-              >
-                Agenda
-              </NavLink>
-
-              {/* 5. Clérigos (visível em telas >= 1200px) */}
+              {/* 3. Clérigos (visível em telas >= 1200px) */}
               <NavLink
                 href="/clerigos"
                 className="hidden min-[1200px]:inline-flex px-3.5 py-1.5 text-md font-semibold rounded-lg"
               >
                 Clérigos
+              </NavLink>
+
+              {/* 4. Liturgia Diária (visível em telas >= 1200px) */}
+              <NavLink
+                href="/liturgia"
+                className="hidden min-[1200px]:inline-flex px-3.5 py-1.5 text-md font-semibold rounded-lg"
+              >
+                Liturgia Diária
+              </NavLink>
+
+              {/* 5. Agenda (sempre visível) */}
+              <NavLink
+                href="/agenda"
+                className="px-3.5 py-1.5 text-md font-semibold rounded-lg"
+              >
+                Agenda
               </NavLink>
 
               {/* 6. Contato (visível em telas >= 1200px) */}

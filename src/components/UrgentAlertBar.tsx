@@ -63,41 +63,19 @@ export function UrgentAlertBar() {
         aria-label="Aviso Paroquial Urgente"
         className={`relative z-20 w-full shadow-md select-none transition-all ${config.barBg}`}
       >
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex items-center justify-between gap-3 sm:gap-6">
-          {/* Badge fixo à esquerda */}
-          <div className="shrink-0 flex items-center gap-2">
-            <span
-              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-black tracking-wider uppercase border shadow-2xs ${config.badgeBg}`}
-            >
-              <span className="hidden xs:inline">{config.badgeText}</span>
-            </span>
-          </div>
-
+        <div className="w-full mx-auto py-2.5 flex items-center justify-between gap-3 sm:gap-6 cursor-pointer" onClick={() => alert.hasModal && setModalOpen(true)}>
           {/* Letreiro Marquee central */}
           <div className="flex-1 overflow-hidden ticker-wrapper relative cursor-pointer" onClick={() => alert.hasModal && setModalOpen(true)}>
             <div className="animate-ticker text-xs sm:text-sm font-medium tracking-wide">
               {/* Repetição para loop contínuo */}
               {[1, 2, 3, 4].map((i) => (
-                <span key={i} className="inline-flex items-center gap-4 pr-12">
+                <span key={i} className="inline-flex items-center gap-4 pr-4">
                   <span>{alert.text}</span>
                   <span className="opacity-50 text-[10px]">☩</span>
                 </span>
               ))}
-            </div>
-          </div>
+             </div>
 
-          {/* Ações à direita */}
-          <div className="shrink-0 flex items-center gap-2 sm:gap-3">
-            {alert.hasModal && (
-              <button
-                type="button"
-                onClick={() => setModalOpen(true)}
-                className={`inline-flex items-center gap-1.5 px-3 py-1 sm:px-3.5 sm:py-1 rounded-full text-xs font-extrabold tracking-wide transition-all transform hover:scale-105 active:scale-95 ${config.buttonBg}`}
-              >
-                <span>{alert.modalButtonText || "Ver Detalhes"}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            )}
           </div>
         </div>
       </aside>
