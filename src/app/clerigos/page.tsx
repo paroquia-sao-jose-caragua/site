@@ -107,7 +107,7 @@ export default function ClerigosPage() {
                     >
                       Igreja Universal
                     </h2>
-                    <p className="text-xs md:text-sm text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1">
+                    <p className="text-sm md:text-base text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1.5">
                       O Santo Padre, Sucessor do Apóstolo Pedro e Bispo de Roma, é o pastor supremo da Igreja e o perpétuo princípio de unidade na fé e na caridade de todos os fiéis.
                     </p>
                   </div>
@@ -158,7 +158,7 @@ export default function ClerigosPage() {
                           <div className="shrink-0 flex items-center justify-center sm:justify-end">
                             <Link
                               href={`/clerigos/${member.slug}`}
-                              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#18351E] text-[#eeca94] hover:bg-[#27442A] text-sm font-semibold transition-all shadow-xs group"
+                              className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs group"
                             >
                               <span>Conheça</span>
                               <ChevronRight
@@ -206,7 +206,7 @@ export default function ClerigosPage() {
                     >
                       Diocese de Caraguatatuba
                     </h2>
-                    <p className="text-xs md:text-sm text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1">
+                    <p className="text-sm md:text-base text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1.5">
                       O Bispo Diocesano é o sucessor dos Apóstolos confiado pelo Santo Padre para pastorear, ensinar e santificar a Diocese de Caraguatatuba, à qual nossa paróquia pertence filialmente.
                     </p>
                   </div>
@@ -257,7 +257,7 @@ export default function ClerigosPage() {
                           <div className="shrink-0 flex items-center justify-center sm:justify-end">
                             <Link
                               href={`/clerigos/${member.slug}`}
-                              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#18351E] text-[#eeca94] hover:bg-[#27442A] text-sm font-semibold transition-all shadow-xs group"
+                              className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs group"
                             >
                               <span>Conheça</span>
                               <ChevronRight
@@ -305,7 +305,7 @@ export default function ClerigosPage() {
                     >
                       Paróquia São José
                     </h2>
-                    <p className="text-xs md:text-sm text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1">
+                    <p className="text-sm md:text-base text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1.5">
                       O Pároco é o pastor próprio designado pelo Bispo Diocesano para pastorear nossa comunidade no Morro do Algodão e em todas as suas capelas, ministrando os sacramentos e a palavra de Deus.
                     </p>
                   </div>
@@ -356,7 +356,7 @@ export default function ClerigosPage() {
                           <div className="shrink-0 flex items-center justify-center sm:justify-end">
                             <Link
                               href={`/clerigos/${member.slug}`}
-                              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#18351E] text-[#eeca94] hover:bg-[#27442A] text-sm font-semibold transition-all shadow-xs group"
+                              className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs group"
                             >
                               <span>Conheça</span>
                               <ChevronRight
@@ -404,7 +404,7 @@ export default function ClerigosPage() {
                     >
                       Diáconos e Vigários Paroquiais
                     </h2>
-                    <p className="text-xs md:text-sm text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1">
+                    <p className="text-sm md:text-base text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1.5">
                       Colaboradores diretos no serviço litúrgico do altar, na proclamação da Palavra e nas obras de caridade e misericórdia junto à nossa comunidade.
                     </p>
                   </div>
@@ -456,12 +456,12 @@ export default function ClerigosPage() {
                           <div className="mt-5 pt-4 border-t border-[#D6A64A]/20 flex items-center justify-end">
                             <Link
                               href={`/clerigos/${member.slug}`}
-                              className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#18351E] text-[#eeca94] hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs group"
+                              className="inline-flex items-center gap-1 text-xs font-semibold text-[#18351E] hover:text-[#B8872E] transition-colors group"
                             >
                               <span>Conheça</span>
                               <ChevronRight
                                 size={14}
-                                className="group-hover:translate-x-1 transition-transform"
+                                className="group-hover:translate-x-0.5 transition-transform"
                               />
                             </Link>
                           </div>

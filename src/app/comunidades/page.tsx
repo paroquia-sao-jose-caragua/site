@@ -122,7 +122,7 @@ export default function CommunitiesIndexPage() {
                     >
                       Igreja Matriz São José
                     </h2>
-                    <p className="text-xs md:text-sm text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1">
+                    <p className="text-sm md:text-base text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1.5">
                       A Igreja Matriz é o coração da vida paroquial. Nela reside o Pároco, funciona a Secretaria Paroquial central e concentram-se as principais celebrações e decisões administrativas que coordenam todas as comunidades do território.
                     </p>
                   </div>
@@ -187,7 +187,7 @@ export default function CommunitiesIndexPage() {
                     <div className="shrink-0 flex items-center justify-center lg:justify-end w-full lg:w-auto pt-2 lg:pt-0">
                       <Link
                         href={`/comunidades/${matriz.slug}`}
-                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#18351E] text-[#eeca94] hover:bg-[#27442A] text-sm font-semibold transition-all shadow-xs group"
+                        className="w-full sm:w-auto h-10 inline-flex items-center justify-center gap-2 px-6 rounded-full bg-[#18351E] text-white hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs group"
                       >
                         <span>Conheça a Matriz</span>
                         <ChevronRight
@@ -232,7 +232,7 @@ export default function CommunitiesIndexPage() {
                     >
                       Capelas e Comunidades
                     </h2>
-                    <p className="text-xs md:text-sm text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1">
+                    <p className="text-sm md:text-base text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1.5">
                       As capelas são os braços missionários da Paróquia São José nos bairros. Todas estão sob a responsabilidade pastoral do Pároco e compartilham a administração sacramental e canônica da Matriz, acolhendo os fiéis locais com celebrações, catequese e caridade.
                     </p>
                   </div>
@@ -300,12 +300,12 @@ export default function CommunitiesIndexPage() {
                             </span>
                             <Link
                               href={`/comunidades/${community.slug}`}
-                              className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#18351E] text-[#eeca94] hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs group"
+                              className="inline-flex items-center gap-1 text-xs font-semibold text-[#18351E] hover:text-[#B8872E] transition-colors group"
                             >
                               <span>Conheça</span>
                               <ChevronRight
                                 size={14}
-                                className="group-hover:translate-x-1 transition-transform"
+                                className="group-hover:translate-x-0.5 transition-transform"
                               />
                             </Link>
                           </div>

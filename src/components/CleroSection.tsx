@@ -234,6 +234,17 @@ export function CleroSection({ className }: CleroSectionProps = {}) {
                 </div>
               </div>
             )}
+
+            {/* Link Ver Todos os Clérigos */}
+            <div className="mt-8 flex justify-end">
+              <Link
+                href="/clerigos"
+                className="text-xs sm:text-sm font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors group"
+              >
+                <span>Ver todos os clérigos</span>
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+            </div>
           </>
         )}
       </div>

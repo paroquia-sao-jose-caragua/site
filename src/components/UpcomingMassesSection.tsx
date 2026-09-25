@@ -260,9 +260,10 @@ export function UpcomingMassesSection() {
 
           <Link
             href="/agenda"
-            className="text-xs font-semibold text-[#B8872E] hover:text-[#18351E] flex items-center gap-1 transition-colors shrink-0"
+            className="text-xs sm:text-sm font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors shrink-0 group"
           >
-            Ver agenda completa <ChevronRight className="w-4 h-4" />
+            <span>Ver agenda completa</span>
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
 
@@ -479,7 +480,7 @@ export function UpcomingMassesSection() {
                               </span>
                             </div>
 
-                            <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#B8872E] group-hover:text-[#18351E] transition-all shrink-0">
+                            <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-all shrink-0">
                               <span>Ver detalhes</span>
                               <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
                             </span>

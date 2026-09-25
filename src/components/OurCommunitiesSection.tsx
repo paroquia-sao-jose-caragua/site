@@ -201,6 +201,17 @@ export function OurCommunitiesSection() {
             </div>
           </div>
         )}
+
+        {/* Link Ver Todas as Comunidades */}
+        <div className="mt-8 flex justify-end">
+          <Link
+            href="/comunidades"
+            className="text-xs sm:text-sm font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors group"
+          >
+            <span>Ver todas as comunidades</span>
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+          </Link>
+        </div>
       </div>
 
       {selected && (
