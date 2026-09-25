@@ -503,7 +503,7 @@ function EventCard({ event }: EventCardProps) {
             </span>
           </div>
 
-          <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#B8872E] group-hover:text-[#18351E] transition-all shrink-0">
+          <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-all shrink-0">
             <span>Ver detalhes</span>
             <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
           </span>

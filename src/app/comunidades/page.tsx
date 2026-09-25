@@ -128,14 +128,17 @@ export default function CommunitiesIndexPage() {
                   </div>
 
                   {/* Card da Matriz */}
-                  <div className="w-full bg-[#fbf5eb] border border-[#D6A64A]/50 rounded-3xl p-6 md:p-8 flex flex-col lg:flex-row items-center lg:items-stretch justify-between gap-6 shadow-sm hover:shadow-md transition-shadow">
+                  <Link
+                    href={`/comunidades/${matriz.slug}`}
+                    className="group block w-full bg-[#fbf5eb] border border-[#D6A64A]/50 hover:border-[#B8872E] rounded-3xl p-6 md:p-8 flex flex-col lg:flex-row items-center lg:items-stretch justify-between gap-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left"
+                  >
                     <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 flex-1 w-full">
                       {/* Foto da Matriz */}
                       <div className="w-full sm:w-60 md:w-80 h-56 sm:h-64 lg:h-auto shrink-0 rounded-2xl overflow-hidden bg-[#f3ece0] border border-[#D6A64A]/30">
                         <img
                           src={getImageUrl(matriz.coverUrl, matriz.coverId)}
                           alt={matriz.name}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       </div>
 
@@ -149,7 +152,7 @@ export default function CommunitiesIndexPage() {
 
                           <h3
                             id="matriz-heading"
-                            className="text-2xl md:text-3xl lg:text-4xl font-semibold text-[#18351E] mb-2"
+                            className="text-2xl md:text-3xl lg:text-4xl font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors mb-2"
                             style={{ fontFamily: "Cormorant Garamond, serif" }}
                           >
                             {matriz.name.toLowerCase().startsWith("igreja") ||
@@ -185,18 +188,17 @@ export default function CommunitiesIndexPage() {
 
                     {/* Botão de Ação */}
                     <div className="shrink-0 flex items-center justify-center lg:justify-end w-full lg:w-auto pt-2 lg:pt-0">
-                      <Link
-                        href={`/comunidades/${matriz.slug}`}
-                        className="w-full sm:w-auto h-10 inline-flex items-center justify-center gap-2 px-6 rounded-full bg-[#18351E] text-white hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs group"
+                      <div
+                        className="w-full sm:w-auto h-10 inline-flex items-center justify-center gap-2 px-6 rounded-full bg-[#18351E] text-white group-hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs"
                       >
                         <span>Conheça a Matriz</span>
                         <ChevronRight
                           size={16}
                           className="group-hover:translate-x-1 transition-transform"
                         />
-                      </Link>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 </section>
               </div>
             )}
@@ -243,9 +245,10 @@ export default function CommunitiesIndexPage() {
                       const cover = getImageUrl(community.coverUrl, community.coverId);
 
                       return (
-                        <div
+                        <Link
                           key={community.id}
-                          className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-3xl p-6 flex flex-col justify-between hover:shadow-md transition-shadow"
+                          href={`/comunidades/${community.slug}`}
+                          className="group bg-[#fbf5eb] border border-[#D6A64A]/40 hover:border-[#B8872E] rounded-3xl p-6 flex flex-col justify-between shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left"
                         >
                           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
                             {/* Foto da Capela */}
@@ -253,7 +256,7 @@ export default function CommunitiesIndexPage() {
                               <img
                                 src={cover}
                                 alt={community.name}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                               />
                             </div>
 
@@ -264,7 +267,7 @@ export default function CommunitiesIndexPage() {
                               </span>
 
                               <h3
-                                className="text-2xl font-semibold text-[#18351E] mb-1"
+                                className="text-2xl font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors mb-1"
                                 style={{ fontFamily: "Cormorant Garamond, serif" }}
                               >
                                 {community.name.toLowerCase().startsWith("capela") ||
@@ -298,18 +301,17 @@ export default function CommunitiesIndexPage() {
                                 ? `Padroeiro(a): ${community.patronName}`
                                 : "Administrada pela Matriz"}
                             </span>
-                            <Link
-                              href={`/comunidades/${community.slug}`}
-                              className="inline-flex items-center gap-1 text-xs font-semibold text-[#18351E] hover:text-[#B8872E] transition-colors group"
+                            <div
+                              className="inline-flex items-center gap-1 text-xs font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors"
                             >
                               <span>Conheça</span>
                               <ChevronRight
                                 size={14}
                                 className="group-hover:translate-x-0.5 transition-transform"
                               />
-                            </Link>
+                            </div>
                           </div>
-                        </div>
+                        </Link>
                       );
                     })}
                   </div>

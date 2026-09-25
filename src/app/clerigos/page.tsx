@@ -121,16 +121,17 @@ export default function ClerigosPage() {
                         member.title,
                       );
                       return (
-                        <div
+                        <Link
                           key={member.id}
-                          className="w-full bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-3xl p-6 md:p-8 flex flex-col sm:flex-row items-center sm:items-stretch justify-between gap-6 shadow-xs hover:shadow-md transition-shadow"
+                          href={`/clerigos/${member.slug}`}
+                          className="group block w-full bg-[#fbf5eb] border border-[#D6A64A]/40 hover:border-[#B8872E] rounded-3xl p-6 md:p-8 flex flex-col sm:flex-row items-center sm:items-stretch justify-between gap-6 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left"
                         >
                           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 flex-1">
                             <div className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 shrink-0 rounded-2xl overflow-hidden bg-[#f3ece0] border border-[#D6A64A]/30">
                               <img
                                 src={getClergyPhotoUrl(member)}
                                 alt={member.name}
-                                className="w-full h-full object-cover object-top"
+                                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                               />
                             </div>
 
@@ -141,7 +142,7 @@ export default function ClerigosPage() {
                               </div>
 
                               <h3
-                                className="text-2xl md:text-3xl lg:text-4xl font-semibold text-[#18351E] mb-1.5"
+                                className="text-2xl md:text-3xl lg:text-4xl font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors mb-1.5"
                                 style={{ fontFamily: "Cormorant Garamond, serif" }}
                               >
                                 {member.name}
@@ -156,18 +157,17 @@ export default function ClerigosPage() {
                           </div>
 
                           <div className="shrink-0 flex items-center justify-center sm:justify-end">
-                            <Link
-                              href={`/clerigos/${member.slug}`}
-                              className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs group"
+                            <div
+                              className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white group-hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs"
                             >
                               <span>Conheça</span>
                               <ChevronRight
                                 size={16}
                                 className="group-hover:translate-x-1 transition-transform"
                               />
-                            </Link>
+                            </div>
                           </div>
-                        </div>
+                        </Link>
                       );
                     })}
                   </div>
@@ -220,16 +220,17 @@ export default function ClerigosPage() {
                         member.title,
                       );
                       return (
-                        <div
+                        <Link
                           key={member.id}
-                          className="w-full bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-3xl p-6 md:p-8 flex flex-col sm:flex-row items-center sm:items-stretch justify-between gap-6 shadow-xs hover:shadow-md transition-shadow"
+                          href={`/clerigos/${member.slug}`}
+                          className="group block w-full bg-[#fbf5eb] border border-[#D6A64A]/40 hover:border-[#B8872E] rounded-3xl p-6 md:p-8 flex flex-col sm:flex-row items-center sm:items-stretch justify-between gap-6 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left"
                         >
                           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 flex-1">
                             <div className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 shrink-0 rounded-2xl overflow-hidden bg-[#f3ece0] border border-[#D6A64A]/30">
                               <img
                                 src={getClergyPhotoUrl(member)}
                                 alt={member.name}
-                                className="w-full h-full object-cover object-top"
+                                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                               />
                             </div>
 
@@ -240,7 +241,7 @@ export default function ClerigosPage() {
                               </div>
 
                               <h3
-                                className="text-2xl md:text-3xl lg:text-4xl font-semibold text-[#18351E] mb-1.5"
+                                className="text-2xl md:text-3xl lg:text-4xl font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors mb-1.5"
                                 style={{ fontFamily: "Cormorant Garamond, serif" }}
                               >
                                 {member.name}
@@ -255,18 +256,17 @@ export default function ClerigosPage() {
                           </div>
 
                           <div className="shrink-0 flex items-center justify-center sm:justify-end">
-                            <Link
-                              href={`/clerigos/${member.slug}`}
-                              className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs group"
+                            <div
+                              className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white group-hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs"
                             >
                               <span>Conheça</span>
                               <ChevronRight
                                 size={16}
                                 className="group-hover:translate-x-1 transition-transform"
                               />
-                            </Link>
+                            </div>
                           </div>
-                        </div>
+                        </Link>
                       );
                     })}
                   </div>
@@ -319,16 +319,17 @@ export default function ClerigosPage() {
                         member.title,
                       );
                       return (
-                        <div
+                        <Link
                           key={member.id}
-                          className="w-full bg-[#fbf5eb] border border-[#D6A64A]/50 rounded-3xl p-6 md:p-8 flex flex-col sm:flex-row items-center sm:items-stretch justify-between gap-6 shadow-sm hover:shadow-md transition-shadow"
+                          href={`/clerigos/${member.slug}`}
+                          className="group block w-full bg-[#fbf5eb] border border-[#D6A64A]/50 hover:border-[#B8872E] rounded-3xl p-6 md:p-8 flex flex-col sm:flex-row items-center sm:items-stretch justify-between gap-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left"
                         >
                           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 flex-1">
                             <div className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 shrink-0 rounded-2xl overflow-hidden bg-[#f3ece0] border border-[#D6A64A]/30">
                               <img
                                 src={getClergyPhotoUrl(member)}
                                 alt={member.name}
-                                className="w-full h-full object-cover object-top"
+                                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                               />
                             </div>
 
@@ -339,7 +340,7 @@ export default function ClerigosPage() {
                               </div>
 
                               <h3
-                                className="text-2xl md:text-3xl lg:text-4xl font-semibold text-[#18351E] mb-1.5"
+                                className="text-2xl md:text-3xl lg:text-4xl font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors mb-1.5"
                                 style={{ fontFamily: "Cormorant Garamond, serif" }}
                               >
                                 {member.name}
@@ -354,18 +355,17 @@ export default function ClerigosPage() {
                           </div>
 
                           <div className="shrink-0 flex items-center justify-center sm:justify-end">
-                            <Link
-                              href={`/clerigos/${member.slug}`}
-                              className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs group"
+                            <div
+                              className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white group-hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs"
                             >
                               <span>Conheça</span>
                               <ChevronRight
                                 size={16}
                                 className="group-hover:translate-x-1 transition-transform"
                               />
-                            </Link>
+                            </div>
                           </div>
-                        </div>
+                        </Link>
                       );
                     })}
                   </div>
@@ -420,16 +420,17 @@ export default function ClerigosPage() {
                       );
 
                       return (
-                        <div
+                        <Link
                           key={member.id}
-                          className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-3xl p-6 flex flex-col justify-between hover:shadow-md transition-shadow"
+                          href={`/clerigos/${member.slug}`}
+                          className="group bg-[#fbf5eb] border border-[#D6A64A]/40 hover:border-[#B8872E] rounded-3xl p-6 flex flex-col justify-between shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left"
                         >
                           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
                             <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-2xl overflow-hidden border border-[#D6A64A]/30 bg-[#f3ece0]">
                               <img
                                 src={photoUrl}
                                 alt={member.name}
-                                className="w-full h-full object-cover object-top"
+                                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                               />
                             </div>
 
@@ -439,7 +440,7 @@ export default function ClerigosPage() {
                               </span>
 
                               <h3
-                                className="text-2xl font-semibold text-[#18351E] mb-1"
+                                className="text-2xl font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors mb-1"
                                 style={{ fontFamily: "Cormorant Garamond, serif" }}
                               >
                                 {member.name}
@@ -454,18 +455,17 @@ export default function ClerigosPage() {
                           </div>
 
                           <div className="mt-5 pt-4 border-t border-[#D6A64A]/20 flex items-center justify-end">
-                            <Link
-                              href={`/clerigos/${member.slug}`}
-                              className="inline-flex items-center gap-1 text-xs font-semibold text-[#18351E] hover:text-[#B8872E] transition-colors group"
+                            <div
+                              className="inline-flex items-center gap-1 text-xs font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors"
                             >
                               <span>Conheça</span>
                               <ChevronRight
                                 size={14}
                                 className="group-hover:translate-x-0.5 transition-transform"
                               />
-                            </Link>
+                            </div>
                           </div>
-                        </div>
+                        </Link>
                       );
                     })}
                   </div>
