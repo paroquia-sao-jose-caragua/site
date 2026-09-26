@@ -22,6 +22,7 @@ import {
   MessageCircle,
   Sparkles,
   Info,
+  CalendarX,
 } from "lucide-react";
 import {
   useAppointmentServices,
@@ -126,6 +127,7 @@ export default function AgendamentosPage() {
   // Queries
   const { data: settings, isLoading: isLoadingSettings } = useAppointmentSettings();
   const { data: services = [], isLoading: isLoadingServices } = useAppointmentServices();
+  const availableServices = services.filter((service) => service.active !== false);
   const { data: agents = [], isLoading: isLoadingAgents } = usePastoralAgents(
     selectedService?.id
   );
@@ -137,6 +139,14 @@ export default function AgendamentosPage() {
   const { communities = [] } = useCommunities();
   const { contact } = useParishContact();
   const createAppointmentMutation = useCreateAppointment();
+
+  const parishWhatsappUrl =
+    contact?.whatsappUrl ||
+    (contact?.whatsapp
+      ? `https://wa.me/55${contact.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(
+          "Olá! Gostaria de informações sobre agendamentos pastorais na Paróquia São José."
+        )}`
+      : "https://wa.me/5512981705757?text=Ol%C3%A1!%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20agendamentos%20pastorais%20na%20Par%C3%B3quia%20S%C3%A3o%20Jos%C3%A9.");
 
   // Format Phone Mask: (12) 98888-8888
   const handlePhoneChange = (val: string) => {
@@ -386,56 +396,74 @@ export default function AgendamentosPage() {
         </div>
 
         {/* Loading Settings Skeleton */}
-        {isLoadingSettings ? (
+        {isLoadingSettings || isLoadingServices ? (
           <div className="max-w-2xl mx-auto py-16 text-center space-y-4">
             <div className="size-10 border-2 border-[#D6A64A] border-t-transparent rounded-full animate-spin mx-auto" />
             <p className="text-xs text-[#8c7b6c]">Verificando disponibilidade de agendamentos...</p>
           </div>
         ) : settings && !settings.enabled ? (
-          <div className="max-w-3xl mx-auto mt-6 bg-white/95 backdrop-blur-xs rounded-3xl border border-[#D6A64A]/40 p-8 md:p-12 shadow-xl shadow-[#D6A64A]/5 text-center relative overflow-hidden">
-            <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#D6A64A] to-transparent" />
-
-            <div className="size-16 md:size-20 mx-auto rounded-2xl bg-[#ECD6BD]/30 border border-[#D6A64A]/40 flex items-center justify-center text-[#B8872E] mb-6 shadow-inner">
-              <AlertCircle className="w-8 h-8 md:w-10 md:h-10 text-[#B8872E]" />
+          <div className="max-w-2xl mx-auto p-8 md:p-12 text-center border border-[#D6A64A]/30 rounded-3xl">
+            <div className="size-16 md:size-20 mx-auto rounded-full bg-[#ECD6BD]/40 flex items-center justify-center text-[#B8872E] mb-6">
+              <AlertCircle className="w-8 h-8 md:w-10 md:h-10 text-[#B8872E]" strokeWidth={1.5} />
             </div>
 
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fbf5eb] border border-[#D6A64A]/40 text-xs font-bold text-[#A67C1E] uppercase tracking-wider mb-4">
-              <span>Comunicado Paroquial</span>
-            </div>
-
-            <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#18351E] mb-4">
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#18351E] mb-3">
               {settings.suspendedTitle || "Agendamentos Temporariamente Suspensos"}
             </h2>
 
-            <p className="text-sm md:text-base text-[#5A463B] leading-relaxed max-w-xl mx-auto mb-8 whitespace-pre-line">
+            <p className="text-sm md:text-base text-[#6b5c4d] max-w-lg mx-auto leading-relaxed mb-8 whitespace-pre-line">
               {settings.suspendedMessage ||
                 "Os agendamentos online estão temporariamente suspensos. Para urgências sacramentais ou informações, favor entrar em contato diretamente com a secretaria paroquial."}
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-6 border-t border-[#ECD6BD]/60">
-              {contact?.whatsappUrl ? (
-                <a
-                  href={contact.whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#18351E] px-5 py-3 text-sm font-semibold text-[#f5ebd7] hover:bg-[#122816] transition-all shadow-md"
-                >
-                  <MessageCircle size={16} className="text-[#D6A64A]" />
-                  <span>Falar com a Secretaria no WhatsApp</span>
-                </a>
-              ) : contact?.phone ? (
-                <a
-                  href={`tel:${contact.phone.replace(/\D/g, "")}`}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#18351E] px-5 py-3 text-sm font-semibold text-[#f5ebd7] hover:bg-[#122816] transition-all shadow-md"
-                >
-                  <Phone size={16} className="text-[#D6A64A]" />
-                  <span>Ligar para a Secretaria: {contact.phone}</span>
-                </a>
-              ) : null}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <a
+                href={parishWhatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#18351E] px-6 py-3 text-sm font-semibold text-[#f5ebd7] hover:bg-[#122816] transition-all shadow-md cursor-pointer"
+              >
+                <MessageCircle size={16} className="text-[#D6A64A]" />
+                <span>Falar com a Secretaria no WhatsApp</span>
+              </a>
 
               <Link
                 href="/agendamentos/acompanhar"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-[#D6A64A]/50 bg-[#fbf5eb] px-5 py-3 text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 transition-colors"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[#ECD6BD]/40 px-6 py-3 text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/70 transition-colors"
+              >
+                <ShieldCheck size={16} className="text-[#B8872E]" />
+                <span>Consultar agendamento existente</span>
+              </Link>
+            </div>
+          </div>
+        ) : availableServices.length === 0 ? (
+          <div className="max-w-2xl mx-auto p-8 md:p-12 text-center border border-[#D6A64A]/30 rounded-3xl">
+            <div className="size-16 md:size-20 mx-auto rounded-full bg-[#ECD6BD]/40 flex items-center justify-center text-[#B8872E] mb-6">
+              <CalendarX className="w-8 h-8 md:w-10 md:h-10 text-[#B8872E]" strokeWidth={1.5} />
+            </div>
+
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#18351E] mb-3">
+              Nenhuma categoria de agendamento disponível
+            </h2>
+
+            <p className="text-sm md:text-base text-[#6b5c4d] max-w-lg mx-auto leading-relaxed mb-8">
+              No momento, não há modalidades ou categorias de atendimento pastoral cadastradas para agendamento online. Para atendimentos sacramentais, confissões ou visitas a enfermos, entre em contato diretamente com a nossa secretaria paroquial.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <a
+                href={parishWhatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#18351E] px-6 py-3 text-sm font-semibold text-[#f5ebd7] hover:bg-[#122816] transition-all shadow-md cursor-pointer"
+              >
+                <MessageCircle size={16} className="text-[#D6A64A]" />
+                <span>Falar com a Secretaria no WhatsApp</span>
+              </a>
+
+              <Link
+                href="/agendamentos/acompanhar"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[#ECD6BD]/40 px-6 py-3 text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/70 transition-colors"
               >
                 <ShieldCheck size={16} className="text-[#B8872E]" />
                 <span>Consultar agendamento existente</span>
@@ -522,7 +550,7 @@ export default function AgendamentosPage() {
               </div>
             ) : (
               <div className="grid md:grid-cols-2 gap-5">
-                {services.map((service) => {
+                {availableServices.map((service) => {
                   const visuals = getServiceVisuals(service);
 
                   return (
