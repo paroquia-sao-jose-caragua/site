@@ -6,6 +6,8 @@ import { UrgentAlertBar } from "@/components/UrgentAlertBar";
 import { SiteFooter } from "@/components/SiteFooter";
 import AppProvider from "@/providers/AppProvider";
 import { ParishSchema } from "@/components/seo/ParishSchema";
+import { PwaNotificationManager } from "@/components/pwa/PwaNotificationManager";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -52,6 +54,14 @@ export const metadata: Metadata = {
 
   metadataBase: new URL("https://paroquiasaojosecaragua.org.br"),
 
+  manifest: "/manifest.webmanifest",
+
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Paróquia São José",
+  },
+
   openGraph: {
     type: "website",
     locale: "pt_BR",
@@ -83,8 +93,15 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512x512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      { url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
 
   alternates: {
@@ -140,9 +157,12 @@ export default function RootLayout({
             <UrgentAlertBar />
             <div className="flex-1">{children}</div>
             <SiteFooter />
+            <PwaNotificationManager />
+            <Toaster richColors position="top-right" />
           </div>
         </AppProvider>
       </body>
     </html>
   );
 }
+
