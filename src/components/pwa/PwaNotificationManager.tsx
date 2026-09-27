@@ -9,9 +9,7 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
-const DEFAULT_VAPID_PUBLIC_KEY =
-  process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY ||
-  "BPLO_Fgp4kZQt31pVnx6fStYUlDplfKT5Mp2JsLKItm4Xh0LVMByUWEgusu1k7_xdnllwMaiTsJvWg54JLD91AU";
+const DEFAULT_VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY as string;
 
 function urlBase64ToUint8Array(base64String: string) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -91,9 +89,7 @@ export function PwaNotificationManager() {
       'serviceWorker' in navigator
     ) {
       navigator.serviceWorker.ready.then(async (registration) => {
-        const rawVapidKey =
-          process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || DEFAULT_VAPID_PUBLIC_KEY;
-        const applicationServerKey = urlBase64ToUint8Array(rawVapidKey);
+        const applicationServerKey = urlBase64ToUint8Array(DEFAULT_VAPID_PUBLIC_KEY);
 
         let subscription = await registration.pushManager.getSubscription();
         if (!subscription) {
@@ -159,19 +155,6 @@ export function PwaNotificationManager() {
     return `${browser} no ${os}`;
   };
 
-  const getApiBaseUrl = () => {
-    if (process.env.NEXT_PUBLIC_API_URL) {
-      return process.env.NEXT_PUBLIC_API_URL;
-    }
-    if (typeof window !== "undefined") {
-      const host = window.location.hostname;
-      if (host === "localhost" || host === "127.0.0.1") {
-        return "http://localhost:3333";
-      }
-    }
-    return "https://api.paroquiasaojosecaragua.org.br";
-  };
-
   const isStandaloneMode = () => {
     if (typeof window === "undefined") return false;
     return (
@@ -232,7 +215,7 @@ export function PwaNotificationManager() {
       return;
     }
 
-    const apiBaseUrl = getApiBaseUrl();
+    const apiBaseUrl = process.env.NEXT_PUBLIC_BASE_API_URL as string;
     const nameToSave = visitorName.trim() || `Fiel (${getDeviceInfo()})`;
 
     try {
@@ -276,9 +259,7 @@ export function PwaNotificationManager() {
         if ("serviceWorker" in navigator) {
           const registration = await navigator.serviceWorker.ready;
 
-          const rawVapidKey =
-            process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || DEFAULT_VAPID_PUBLIC_KEY;
-          const applicationServerKey = urlBase64ToUint8Array(rawVapidKey);
+          const applicationServerKey = urlBase64ToUint8Array(DEFAULT_VAPID_PUBLIC_KEY);
 
           let subscription = await registration.pushManager.getSubscription();
           if (!subscription) {
@@ -317,9 +298,7 @@ export function PwaNotificationManager() {
       const registration = await navigator.serviceWorker.ready;
       let subscription = await registration.pushManager.getSubscription();
 
-      const rawVapidKey =
-        process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || DEFAULT_VAPID_PUBLIC_KEY;
-      const applicationServerKey = urlBase64ToUint8Array(rawVapidKey);
+      const applicationServerKey = urlBase64ToUint8Array(DEFAULT_VAPID_PUBLIC_KEY);
 
       if (!subscription) {
         subscription = await registration.pushManager.subscribe({
