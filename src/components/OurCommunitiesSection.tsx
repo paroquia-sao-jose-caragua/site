@@ -54,7 +54,7 @@ export function OurCommunitiesSection() {
             Onde nossa fé se encontra
           </h2>
 
-          <p className="text-sm md:text-base text-[#5A463B] font-serif leading-relaxed max-w-2xl mx-auto">
+          <p className="text-base text-[#5A463B] font-serif leading-relaxed max-w-2xl mx-auto">
             A Paróquia São José é formada por cinco comunidades, que caminham unidas na mesma fé e no mesmo propósito: servir a Deus e ao próximo.
           </p>
         </div>
@@ -202,13 +202,16 @@ export function OurCommunitiesSection() {
           </div>
         )}
 
-        {/* Link Ver Todas as Comunidades */}
-        <div className="mt-8 flex justify-end">
+        {/* Gatilho: Hierarquia das Comunidades */}
+        <div className="mt-8 pt-6 border-t border-[#D6A64A]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm sm:text-base">
+          <p className="text-[#5A463B] font-serif leading-relaxed">
+            A Paróquia São José é formada pela Igreja Matriz e pelas suas Capelas nos bairros.
+          </p>
           <Link
             href="/comunidades"
-            className="text-xs sm:text-sm font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors group"
+            className="text-sm font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors group shrink-0"
           >
-            <span>Ver todas as comunidades</span>
+            <span>Entenda a hierarquia e veja todas as comunidades</span>
             <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>

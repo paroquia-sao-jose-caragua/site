@@ -30,6 +30,19 @@ export default function ClergyDetailPage({ params }: PageProps) {
     }
   };
 
+  const getClergyHierarchyDesc = (position?: string) => {
+    switch (position) {
+      case "supreme_pontiff":
+        return "O Santo Padre é o Sucessor de Pedro e princípio visível de unidade e comunhão de toda a Igreja Católica Universal.";
+      case "diocesan_bishop":
+        return "O Bispo Diocesano é o pastor próprio e sucessor dos Apóstolos à frente da Diocese de Caraguatatuba.";
+      case "parish_priest":
+        return "O Pároco é o pastor próprio designado para pastorear e coordenar a vida litúrgica e pastoral da Paróquia São José.";
+      default:
+        return "Colaborador sagrado dedicado ao serviço litúrgico do altar, à palavra de Deus e às obras pastorais de caridade.";
+    }
+  };
+
   const bioParagraphs = member?.bio
     ? member.bio.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean)
     : [];
@@ -221,8 +234,18 @@ export default function ClergyDetailPage({ params }: PageProps) {
                       <span className="text-[#5A463B] font-serif">{getMinistryJurisdiction(member.position)}</span>
                     </div>
 
-                    <div className="pt-3 border-t border-[#D6A64A]/20 text-[11.5px] text-[#8c7b6c] italic font-serif">
-                      A serviço do Evangelho e da Igreja Católica.
+                    {/* Hierarquia do Clero */}
+                    <div className="pt-3 border-t border-[#D6A64A]/20 text-sm font-serif text-[#5A463B] space-y-1.5">
+                      <p className="leading-relaxed">
+                        {getClergyHierarchyDesc(member.position)}
+                      </p>
+                      <Link
+                        href="/clerigos"
+                        className="inline-flex items-center gap-1 font-sans text-sm font-semibold text-[#18351E] hover:text-[#B8872E] hover:underline transition-colors group"
+                      >
+                        <span>Entenda a hierarquia do clero</span>
+                        <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -232,7 +255,7 @@ export default function ClergyDetailPage({ params }: PageProps) {
             {/* 3. DEMAIS MINISTROS E PASTORES (Navegação Rápida) */}
             {otherClergy.length > 0 && (
               <section aria-labelledby="other-clergy-heading" className="pt-4 border-t border-[#D6A64A]/30">
-                <div className="mb-6 flex items-center justify-between">
+                <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
                   <div>
                     <h2
                       id="other-clergy-heading"
@@ -241,17 +264,17 @@ export default function ClergyDetailPage({ params }: PageProps) {
                     >
                       Outros Pastores e Ministros
                     </h2>
-                    <p className="text-xs md:text-sm text-[#736254]">
-                      Conheça os demais ministros que servem e guiam a Igreja.
+                    <p className="text-sm md:text-base text-[#736254]">
+                      Conheça os demais ministros que servem e guiam a Igreja na comunhão apostólica.
                     </p>
                   </div>
 
                   <Link
                     href="/clerigos"
-                    className="text-xs md:text-sm font-semibold text-[#8c6218] hover:text-[#18351E] hover:underline transition-colors hidden sm:inline-flex items-center gap-1"
+                    className="text-sm sm:text-base font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors group shrink-0"
                   >
-                    <span>Ver todos</span>
-                    <ChevronRight size={14} />
+                    <span>Entenda a hierarquia e veja todos</span>
+                    <ChevronRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
                   </Link>
                 </div>
 

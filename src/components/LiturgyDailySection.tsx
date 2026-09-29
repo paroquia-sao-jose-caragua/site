@@ -48,9 +48,9 @@ export function LiturgyDailySection() {
                 “Permanecei em mim, e eu permanecerei em vós.”
               </blockquote>
 
-              <p className="text-sm font-semibold text-[#B8872E] mb-3">{gospelRef}</p>
+              <p className="text-md font-semibold text-[#B8872E] mb-3">{gospelRef}</p>
 
-              <p className="text-sm text-[#3E2E25] font-medium mb-8 leading-relaxed max-w-md">
+              <p className="text-md text-[#3E2E25] font-medium mb-8 leading-relaxed max-w-2xl">
                 {formatLiturgyText(gospelSnippet)}
               </p>
 

@@ -434,6 +434,22 @@ export default function CommunityDetailPage({ params }: PageProps) {
                   )}
                 </div>
 
+                {/* Hierarquia Paroquial */}
+                <div className="pt-4 border-t border-[#D6A64A]/20 text-sm font-serif text-[#5A463B] space-y-1.5">
+                  <p className="leading-relaxed">
+                    {community.type === "parish_church"
+                      ? "A Igreja Matriz é a sede pastoral e administrativa de onde parte a coordenação de todas as capelas da paróquia."
+                      : "Esta capela é o braço missionário da Paróquia São José no bairro, sob o pastoreio do Pároco e administração da Matriz."}
+                  </p>
+                  <Link
+                    href="/comunidades"
+                    className="inline-flex items-center gap-1 font-sans text-sm font-semibold text-[#18351E] hover:text-[#B8872E] hover:underline transition-colors group"
+                  >
+                    <span>Entenda a hierarquia das comunidades</span>
+                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  </Link>
+                </div>
+
                 {community.address && (
                   <div className="pt-2">
                     <button
@@ -752,9 +768,17 @@ export default function CommunityDetailPage({ params }: PageProps) {
                   Outras comunidades da nossa paróquia
                 </h2>
 
-                <p className="text-xs md:text-sm text-[#5A463B] font-serif leading-relaxed max-w-xl">
-                  Nossa paróquia é uma só família reunida em diversas capelas e igrejas. Conheça os horários de missas e as atividades de cada comunidade.
+                <p className="text-sm md:text-base text-[#5A463B] font-serif leading-relaxed max-w-xl mb-3">
+                  Nossa paróquia é uma só família reunida em diversas capelas e igrejas, todas articuladas sob o pastoreio da Igreja Matriz.
                 </p>
+
+                <Link
+                  href="/comunidades"
+                  className="text-sm sm:text-base font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors group"
+                >
+                  <span>Entenda a hierarquia e organização das comunidades</span>
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                </Link>
               </div>
 
               {/* Grid Responsivo de Outras Comunidades */}

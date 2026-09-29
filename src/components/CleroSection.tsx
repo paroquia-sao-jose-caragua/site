@@ -235,13 +235,16 @@ export function CleroSection({ className }: CleroSectionProps = {}) {
               </div>
             )}
 
-            {/* Link Ver Todos os Clérigos */}
-            <div className="mt-8 flex justify-end">
+            {/* Gatilho: Hierarquia do Clero e Comunhão Apostólica */}
+            <div className="mt-8 pt-6 border-t border-[#D6A64A]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm sm:text-base">
+              <p className="text-[#5A463B] font-serif leading-relaxed">
+                Conheça a sucessão apostólica que une o Santo Padre, a Diocese e a nossa paróquia.
+              </p>
               <Link
                 href="/clerigos"
-                className="text-xs sm:text-sm font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors group"
+                className="text-sm font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors group shrink-0"
               >
-                <span>Ver todos os clérigos</span>
+                <span>Entenda a hierarquia e veja todos os clérigos</span>
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
