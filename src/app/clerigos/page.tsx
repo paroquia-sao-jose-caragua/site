@@ -29,7 +29,7 @@ export default function ClerigosPage() {
     <main className="relative w-full min-h-screen bg-[#fbf6ee] overflow-hidden pt-8 pb-24 md:pb-36">
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Breadcrumb */}
-        <nav className="text-xs text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
+        <nav className="text-sm text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
           <Link href="/" className="hover:text-[#2d261e] transition-colors">
             Início
           </Link>
@@ -39,7 +39,7 @@ export default function ClerigosPage() {
 
         {/* Page Header (alinhado à esquerda seguindo o padrão das demais páginas) */}
         <div className="mb-12">
-          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#a6824b] uppercase tracking-widest mb-2">
+          <div className="inline-flex items-center gap-1.5 text-sm font-bold text-[#a6824b] uppercase tracking-widest mb-2">
             <Users className="w-4 h-4" />
             <span>NOSSOS CLÉRIGOS</span>
           </div>
@@ -136,7 +136,7 @@ export default function ClerigosPage() {
                             </div>
 
                             <div className="flex-1 text-center sm:text-left flex flex-col justify-center">
-                              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#18351E] text-[#eeca94] text-xs font-semibold uppercase tracking-wider mb-2 w-fit mx-auto sm:mx-0">
+                              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#18351E] text-[#eeca94] text-sm font-semibold uppercase tracking-wider mb-2 w-fit mx-auto sm:mx-0">
                                 <Sparkles className="w-3 h-3" />
                                 <span>{role}</span>
                               </div>
@@ -158,7 +158,7 @@ export default function ClerigosPage() {
 
                           <div className="shrink-0 flex items-center justify-center sm:justify-end">
                             <div
-                              className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white group-hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs"
+                              className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white group-hover:bg-[#27442A] text-sm font-semibold transition-all shadow-xs"
                             >
                               <span>Conheça</span>
                               <ChevronRight
@@ -235,7 +235,7 @@ export default function ClerigosPage() {
                             </div>
 
                             <div className="flex-1 text-center sm:text-left flex flex-col justify-center">
-                              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#18351E] text-[#eeca94] text-xs font-semibold uppercase tracking-wider mb-2 w-fit mx-auto sm:mx-0">
+                              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#18351E] text-[#eeca94] text-sm font-semibold uppercase tracking-wider mb-2 w-fit mx-auto sm:mx-0">
                                 <Sparkles className="w-3 h-3" />
                                 <span>{role}</span>
                               </div>
@@ -257,7 +257,7 @@ export default function ClerigosPage() {
 
                           <div className="shrink-0 flex items-center justify-center sm:justify-end">
                             <div
-                              className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white group-hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs"
+                              className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white group-hover:bg-[#27442A] text-sm font-semibold transition-all shadow-xs"
                             >
                               <span>Conheça</span>
                               <ChevronRight
@@ -334,7 +334,7 @@ export default function ClerigosPage() {
                             </div>
 
                             <div className="flex-1 text-center sm:text-left flex flex-col justify-center">
-                              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#18351E] text-[#eeca94] text-xs font-semibold uppercase tracking-wider mb-2 w-fit mx-auto sm:mx-0">
+                              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#18351E] text-[#eeca94] text-sm font-semibold uppercase tracking-wider mb-2 w-fit mx-auto sm:mx-0">
                                 <Sparkles className="w-3 h-3" />
                                 <span>{role}</span>
                               </div>
@@ -356,7 +356,7 @@ export default function ClerigosPage() {
 
                           <div className="shrink-0 flex items-center justify-center sm:justify-end">
                             <div
-                              className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white group-hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs"
+                              className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white group-hover:bg-[#27442A] text-sm font-semibold transition-all shadow-xs"
                             >
                               <span>Conheça</span>
                               <ChevronRight
@@ -447,7 +447,7 @@ export default function ClerigosPage() {
                               </h3>
 
                               {member.shortIntro && (
-                                <p className="text-xs md:text-sm text-[#736254] font-serif italic line-clamp-2 leading-relaxed">
+                                <p className="text-sm md:text-sm text-[#736254] font-serif italic line-clamp-2 leading-relaxed">
                                   &ldquo;{member.shortIntro}&rdquo;
                                 </p>
                               )}
@@ -456,7 +456,7 @@ export default function ClerigosPage() {
 
                           <div className="mt-5 pt-4 border-t border-[#D6A64A]/20 flex items-center justify-end">
                             <div
-                              className="inline-flex items-center gap-1 text-xs font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors"
+                              className="inline-flex items-center gap-1 text-sm font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors"
                             >
                               <span>Conheça</span>
                               <ChevronRight

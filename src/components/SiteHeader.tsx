@@ -296,7 +296,7 @@ export function SiteHeader() {
                             );
                           })
                         ) : (
-                          <div className="p-3 text-center text-xs text-[#736254]">
+                          <div className="p-3 text-center text-sm text-[#736254]">
                             Carregando comunidades...
                           </div>
                         )}
@@ -306,7 +306,7 @@ export function SiteHeader() {
                         <Link
                           href="/comunidades"
                           onClick={() => setDropdownOpen(false)}
-                          className="flex items-center justify-between px-3 py-2 text-xs font-semibold text-[#8c6218] hover:text-[#18351E] rounded-lg transition-colors"
+                          className="flex items-center justify-between px-3 py-2 text-sm font-semibold text-[#8c6218] hover:text-[#18351E] rounded-lg transition-colors"
                         >
                           <span>Ver todas as comunidades</span>
                           <ChevronRight className="w-3.5 h-3.5" />
@@ -404,7 +404,7 @@ export function SiteHeader() {
                               <Link
                                 href="/clerigos"
                                 onClick={() => setClergyDropdownOpen(false)}
-                                className="flex items-center justify-between px-3 py-2 text-xs font-semibold text-[#8c6218] hover:text-[#18351E] rounded-lg transition-colors"
+                                className="flex items-center justify-between px-3 py-2 text-sm font-semibold text-[#8c6218] hover:text-[#18351E] rounded-lg transition-colors"
                               >
                                 <span>Ver todos os clérigos</span>
                                 <ChevronRight className="w-3.5 h-3.5" />
@@ -412,7 +412,7 @@ export function SiteHeader() {
                             </div>
                           </>
                         ) : (
-                          <div className="p-3 text-center text-xs text-[#736254]">
+                          <div className="p-3 text-center text-sm text-[#736254]">
                             Carregando clérigos...
                           </div>
                         )}
@@ -524,7 +524,7 @@ export function SiteHeader() {
                         <Link
                           href="/agendamentos/acompanhar"
                           onClick={() => setAgendaDropdownOpen(false)}
-                          className="flex items-center justify-between px-3 py-2 text-xs font-semibold text-[#8c6218] hover:text-[#18351E] rounded-lg transition-colors"
+                          className="flex items-center justify-between px-3 py-2 text-sm font-semibold text-[#8c6218] hover:text-[#18351E] rounded-lg transition-colors"
                         >
                           <span>Acompanhar agendamento</span>
                           <ChevronRight className="w-3.5 h-3.5" />
@@ -589,7 +589,7 @@ export function SiteHeader() {
                               key={item.label}
                               href={item.to}
                               onClick={() => setMoreOpen(false)}
-                              className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all group/item ${
+                              className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition-all group/item ${
                                 isActive
                                   ? "bg-[#18351E] text-[#eeca94]"
                                   : "text-[#18351E] hover:bg-[#18351E] hover:text-[#eeca94]"
@@ -604,7 +604,7 @@ export function SiteHeader() {
                               >
                                 <Icon className="w-3.5 h-3.5" />
                               </div>
-                              <span className="font-semibold text-xs font-serif">
+                              <span className="font-semibold text-sm font-serif">
                                 {item.label}
                               </span>
                             </Link>
@@ -704,7 +704,7 @@ export function SiteHeader() {
                             <Link
                               href="/agendamentos/acompanhar"
                               onClick={() => setMobileOpen(false)}
-                              className="block py-2 text-xs font-semibold text-[#e0be8b] hover:underline"
+                              className="block py-2 text-sm font-semibold text-[#e0be8b] hover:underline"
                             >
                               Acompanhar agendamento →
                             </Link>
@@ -770,7 +770,7 @@ export function SiteHeader() {
                             <Link
                               href="/comunidades"
                               onClick={() => setMobileOpen(false)}
-                              className="block py-2 text-xs font-semibold text-[#e0be8b] hover:underline"
+                              className="block py-2 text-sm font-semibold text-[#e0be8b] hover:underline"
                             >
                               Ver todas as comunidades →
                             </Link>
@@ -844,7 +844,7 @@ export function SiteHeader() {
                             <Link
                               href="/clerigos"
                               onClick={() => setMobileOpen(false)}
-                              className="block py-2 text-xs font-semibold text-[#e0be8b] hover:underline"
+                              className="block py-2 text-sm font-semibold text-[#e0be8b] hover:underline"
                             >
                               Ver todos os clérigos →
                             </Link>

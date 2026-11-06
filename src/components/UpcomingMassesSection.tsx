@@ -242,7 +242,7 @@ export function UpcomingMassesSection() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-10">
           <div>
-            <div className="flex items-center gap-2 mb-2 text-[#B8872E] text-xs font-semibold uppercase tracking-[0.25em]">
+            <div className="flex items-center gap-2 mb-2 text-[#B8872E] text-sm font-semibold uppercase tracking-[0.25em]">
               <Calendar className="w-4 h-4 text-[#B8872E]" />
               <span>CELEBRAÇÕES</span>
             </div>
@@ -260,7 +260,7 @@ export function UpcomingMassesSection() {
 
           <Link
             href="/agenda"
-            className="text-xs sm:text-sm font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors shrink-0 group"
+            className="text-sm sm:text-sm font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors shrink-0 group"
           >
             <span>Ver agenda completa</span>
             <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -312,7 +312,7 @@ export function UpcomingMassesSection() {
             </p>
             <Link
               href="/agenda"
-              className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#18351E] text-[#eeca94] text-xs font-semibold hover:bg-[#234125] transition-colors shadow-xs"
+              className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#18351E] text-[#eeca94] text-sm font-semibold hover:bg-[#234125] transition-colors shadow-xs"
             >
               Ver agenda completa <ChevronRight size={14} />
             </Link>
@@ -358,7 +358,7 @@ export function UpcomingMassesSection() {
                             </span>
                           )}
                         </div>
-                        <span className="text-xs text-[#5A463B] font-medium">
+                        <span className="text-sm text-[#5A463B] font-medium">
                           {items.length}{" "}
                           {items.length === 1
                             ? "celebração agendada"
@@ -459,7 +459,7 @@ export function UpcomingMassesSection() {
                               {(event.orientations ||
                                 (event.massType &&
                                   event.massType !== "ordinary")) && (
-                                <p className="text-xs sm:text-sm text-[#5A463B] font-serif leading-relaxed line-clamp-2">
+                                <p className="text-sm sm:text-sm text-[#5A463B] font-serif leading-relaxed line-clamp-2">
                                   {event.orientations ||
                                     (event.massType === "solemnity"
                                       ? "Celebração Solene"
@@ -473,14 +473,14 @@ export function UpcomingMassesSection() {
 
                           {/* Card Footer: Localização e Ver detalhes (limpos, sem visual de botão) */}
                           <div className="mt-4 pt-3.5 border-t border-[#D6A64A]/20 flex items-center justify-between gap-3">
-                            <div className="flex items-center gap-1.5 text-xs text-[#5A463B]">
+                            <div className="flex items-center gap-1.5 text-sm text-[#5A463B]">
                               <MapPin className="w-3.5 h-3.5 text-[#B8872E] shrink-0" />
                               <span className="font-medium text-[#5A463B] group-hover:text-[#18351E] transition-colors truncate max-w-[220px] sm:max-w-[340px]">
                                 {event.location}
                               </span>
                             </div>
 
-                            <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-all shrink-0">
+                            <span className="inline-flex items-center gap-1 text-sm font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-all shrink-0">
                               <span>Ver detalhes</span>
                               <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
                             </span>

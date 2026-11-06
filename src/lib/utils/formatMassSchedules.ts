@@ -11,21 +11,6 @@ const WEEKDAY_FULL = [
   "Sábado",
 ];
 
-const MONTHS_SHORT = [
-  "Jan",
-  "Fev",
-  "Mar",
-  "Abr",
-  "Mai",
-  "Jun",
-  "Jul",
-  "Ago",
-  "Set",
-  "Out",
-  "Nov",
-  "Dez",
-];
-
 export function formatTimeLabel(timeStr: string): string {
   if (!timeStr) return "";
   const [h, m] = timeStr.split(":");
@@ -74,10 +59,8 @@ export function formatCommunityMassScheduleSummary(
       if (!weeklyMap.has(schedule.dayOfWeek)) {
         weeklyMap.set(schedule.dayOfWeek, new Set());
       }
-      for (const t of schedule.times || []) {
-        if (t.startTime) {
-          weeklyMap.get(schedule.dayOfWeek)!.add(t.startTime);
-        }
+      if (schedule.startTime) {
+        weeklyMap.get(schedule.dayOfWeek)!.add(schedule.startTime);
       }
     }
   }
@@ -102,7 +85,7 @@ export function formatCommunityMassScheduleSummary(
   // 2. Missas mensais / devocionais
   for (const schedule of activeSchedules) {
     if (schedule.recurrenceType === "monthly" || schedule.type === "devotional") {
-      const times = (schedule.times || []).map((t) => t.startTime).filter(Boolean).sort();
+      const times = schedule.startTime ? [schedule.startTime] : [];
       if (times.length > 0) {
         if (typeof schedule.dayOfMonth === "number") {
           parts.push(`Dia ${schedule.dayOfMonth} às ${formatTimesList(times)}`);
@@ -116,20 +99,6 @@ export function formatCommunityMassScheduleSummary(
               : `${schedule.weekOfMonth}º`;
           parts.push(`${weekPrefix} ${WEEKDAY_SHORT[schedule.dayOfWeek]} às ${formatTimesList(times)}`);
         }
-      }
-    }
-  }
-
-  // 3. Missas anuais / solenes
-  for (const schedule of activeSchedules) {
-    if (schedule.recurrenceType === "yearly" || schedule.type === "solemnity") {
-      const times = (schedule.times || []).map((t) => t.startTime).filter(Boolean).sort();
-      if (times.length > 0 && typeof schedule.dayOfMonth === "number") {
-        const monthStr =
-          typeof schedule.monthOfYear === "number"
-            ? ` de ${MONTHS_SHORT[schedule.monthOfYear - 1]}`
-            : "";
-        parts.push(`${schedule.dayOfMonth}${monthStr} às ${formatTimesList(times)}`);
       }
     }
   }
@@ -164,10 +133,8 @@ export function formatCommunityMassScheduleDetails(
       if (!weeklyMap.has(schedule.dayOfWeek)) {
         weeklyMap.set(schedule.dayOfWeek, new Set());
       }
-      for (const t of schedule.times || []) {
-        if (t.startTime) {
-          weeklyMap.get(schedule.dayOfWeek)!.add(t.startTime);
-        }
+      if (schedule.startTime) {
+        weeklyMap.get(schedule.dayOfWeek)!.add(schedule.startTime);
       }
     }
   }
@@ -183,7 +150,7 @@ export function formatCommunityMassScheduleDetails(
   // Missas mensais
   for (const schedule of activeSchedules) {
     if (schedule.recurrenceType === "monthly" || schedule.type === "devotional") {
-      const times = (schedule.times || []).map((t) => t.startTime).filter(Boolean).sort();
+      const times = schedule.startTime ? [schedule.startTime] : [];
       if (times.length > 0) {
         const titleSuffix = schedule.title ? ` (${schedule.title})` : "";
         if (typeof schedule.dayOfMonth === "number") {

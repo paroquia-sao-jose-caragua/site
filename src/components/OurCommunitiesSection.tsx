@@ -39,7 +39,7 @@ export function OurCommunitiesSection() {
         <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="flex items-center justify-center gap-3 mb-3">
             <span className="h-px w-12 bg-[#B8872E]/40" />
-            <div className="flex items-center gap-1.5 text-[#B8872E] text-xs font-semibold uppercase tracking-[0.3em]">
+            <div className="flex items-center gap-1.5 text-[#B8872E] text-sm font-semibold uppercase tracking-[0.3em]">
               <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
               <span>NOSSAS COMUNIDADES</span>
               <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
@@ -87,7 +87,7 @@ export function OurCommunitiesSection() {
                     alt={matriz.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#18351E] border border-[#D6A64A]/40 text-[#D6A64A] text-xs font-semibold tracking-wider uppercase shadow-md">
+                  <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#18351E] border border-[#D6A64A]/40 text-[#D6A64A] text-sm font-semibold tracking-wider uppercase shadow-md">
                     <span>✦ COMUNIDADE MATRIZ</span>
                   </div>
                 </div>
@@ -119,7 +119,7 @@ export function OurCommunitiesSection() {
                     </p>
 
                     {/* Address & Mass Info Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4 border-t border-b border-[#D6A64A]/20 mb-6 text-xs text-[#5A463B]">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4 border-t border-b border-[#D6A64A]/20 mb-6 text-sm text-[#5A463B]">
                       <div className="flex items-start gap-2.5">
                         <MapPin className="w-4 h-4 text-[#B8872E] shrink-0 mt-0.5" />
                         <div>
@@ -139,7 +139,7 @@ export function OurCommunitiesSection() {
 
                   {/* Button */}
                   <div>
-                    <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#18351E] text-white text-xs font-semibold group-hover:bg-[#27442A] transition-all shadow-md">
+                    <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#18351E] text-white text-sm font-semibold group-hover:bg-[#27442A] transition-all shadow-md">
                       <span>Saiba mais sobre a comunidade</span>
                       <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -178,7 +178,7 @@ export function OurCommunitiesSection() {
                       </h3>
 
                       {/* Info Lines */}
-                      <div className="space-y-1.5 text-xs text-[#736254] mb-3">
+                      <div className="space-y-1.5 text-sm text-[#736254] mb-3">
                         <div className="flex items-center gap-1.5">
                           <MapPin className="w-3.5 h-3.5 text-[#B8872E] shrink-0" />
                           <span className="truncate">{item.address || "Caraguatatuba / SP"}</span>
@@ -191,7 +191,7 @@ export function OurCommunitiesSection() {
                     </div>
 
                     {/* Link / Button */}
-                    <div className="flex items-center gap-1 text-xs font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors pt-2 border-t border-[#D6A64A]/20">
+                    <div className="flex items-center gap-1 text-sm font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors pt-2 border-t border-[#D6A64A]/20">
                       <span>Saiba mais</span>
                       <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                     </div>

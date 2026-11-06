@@ -81,7 +81,7 @@ export default function ContributePage() {
       <div className="relative z-10">
         <div className="max-w-7xl mx-auto px-6">
           {/* Breadcrumb */}
-          <nav className="text-xs text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
+          <nav className="text-sm text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
             <Link href="/" className="hover:text-[#2d261e] transition-colors">
               Início
             </Link>
@@ -91,7 +91,7 @@ export default function ContributePage() {
 
           {/* Page Header */}
           <div className="mb-10">
-            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#a6824b] uppercase tracking-widest mb-2">
+            <div className="inline-flex items-center gap-1.5 text-sm font-bold text-[#a6824b] uppercase tracking-widest mb-2">
               <Heart className="w-4 h-4" />
               <span>OBRAS E MISSÃO</span>
             </div>
@@ -114,7 +114,7 @@ export default function ContributePage() {
                 {/* Header */}
                 <div className="flex items-center justify-between pb-4 border-b border-[#D6A64A]/30 mb-6">
                   <div>
-                    <span className="text-[#B8872E] text-xs font-bold uppercase tracking-[0.2em] block mb-1">
+                    <span className="text-[#B8872E] text-sm font-bold uppercase tracking-[0.2em] block mb-1">
                       DOAÇÃO INSTANTÂNEA
                     </span>
                     <h2
@@ -133,7 +133,7 @@ export default function ContributePage() {
                 <div className="bg-[#fbf6ee] border border-[#D6A64A]/40 rounded-2xl p-5 mb-6">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                      <p className="text-xs uppercase font-semibold tracking-wider text-[#B8872E] mb-1">
+                      <p className="text-sm uppercase font-semibold tracking-wider text-[#B8872E] mb-1">
                         Chave ({getPixKeyTypeLabel(pixKeyType)})
                       </p>
                       <p
@@ -142,7 +142,7 @@ export default function ContributePage() {
                       >
                         {pixKey}
                       </p>
-                      <p className="text-xs text-[#5A463B] mt-1">
+                      <p className="text-sm text-[#5A463B] mt-1">
                         {donations?.pixReceiverName
                           ? `${donations.pixReceiverName} — ${donations?.pixReceiverCity || "Caraguatatuba"}`
                           : "Paróquia São José — Caraguatatuba"}
@@ -165,7 +165,7 @@ export default function ContributePage() {
                     />
                   </div>
                   <div className="flex flex-col gap-3 flex-1 text-center sm:text-left">
-                    <p className="text-[#5A463B] text-xs sm:text-sm leading-relaxed">
+                    <p className="text-[#5A463B] text-sm sm:text-sm leading-relaxed">
                       Abra o app do seu banco, escolha <strong>Pix → Pagar com QR Code</strong> e aponte a câmera, ou copie o código Pix abaixo.
                     </p>
                     <div>
@@ -181,10 +181,10 @@ export default function ContributePage() {
               {/* WhatsApp Confirmation */}
               <div className="bg-[#ECD6BD]/20 border border-[#D6A64A]/40 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-2">
                 <div>
-                  <p className="text-xs font-bold text-[#18351E] uppercase tracking-wider">
+                  <p className="text-sm font-bold text-[#18351E] uppercase tracking-wider">
                     Envio de Comprovante
                   </p>
-                  <p className="text-xs text-[#5A463B]">
+                  <p className="text-sm text-[#5A463B]">
                     Confirme sua intenção ou dízimo pelo WhatsApp da paróquia.
                   </p>
                 </div>
@@ -197,7 +197,7 @@ export default function ContributePage() {
                   }
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#18351E] text-[#eeca94] text-xs sm:text-sm px-4 py-2 hover:bg-[#27442A] transition-colors shrink-0 font-medium"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#18351E] text-[#eeca94] text-sm sm:text-sm px-4 py-2 hover:bg-[#27442A] transition-colors shrink-0 font-medium"
                 >
                   <PhoneIcon size={14} />
                   <span>{donations?.receiptWhatsapp || "(12) 98170-5757"}</span>
@@ -211,7 +211,7 @@ export default function ContributePage() {
                 {/* Header */}
                 <div className="flex items-center justify-between pb-4 border-b border-[#D6A64A]/30 mb-6">
                   <div>
-                    <span className="text-[#B8872E] text-xs font-bold uppercase tracking-[0.2em] block mb-1">
+                    <span className="text-[#B8872E] text-sm font-bold uppercase tracking-[0.2em] block mb-1">
                       TRANSFERÊNCIA BANCÁRIA
                     </span>
                     <h2
@@ -222,7 +222,7 @@ export default function ContributePage() {
                     </h2>
                   </div>
                   <div className="text-right">
-                    <span className="text-xs font-bold text-[#18351E] bg-[#fbf6ee] border border-[#D6A64A]/40 rounded-xl px-3 py-1.5 inline-block shadow-2xs">
+                    <span className="text-sm font-bold text-[#18351E] bg-[#fbf6ee] border border-[#D6A64A]/40 rounded-xl px-3 py-1.5 inline-block shadow-2xs">
                       {donations?.bankName || "Santander"}
                     </span>
                   </div>
@@ -232,13 +232,13 @@ export default function ContributePage() {
                 <div className="bg-[#fbf6ee] border border-[#D6A64A]/40 rounded-2xl p-5 mb-6">
                   <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
-                      <p className="text-[#5A463B] text-xs mb-0.5 font-medium">Agência</p>
+                      <p className="text-[#5A463B] text-sm mb-0.5 font-medium">Agência</p>
                       <p className="text-[#18351E] text-base font-bold font-mono">
                         {donations?.bankAgency || "4171"}
                       </p>
                     </div>
                     <div>
-                      <p className="text-[#5A463B] text-xs mb-0.5 font-medium">
+                      <p className="text-[#5A463B] text-sm mb-0.5 font-medium">
                         {donations?.bankAccountType || "Conta Corrente"}
                       </p>
                       <p className="text-[#18351E] text-base font-bold font-mono">
@@ -246,7 +246,7 @@ export default function ContributePage() {
                       </p>
                     </div>
                     <div className="col-span-2 sm:col-span-1">
-                      <p className="text-[#5A463B] text-xs mb-0.5 font-medium">CNPJ</p>
+                      <p className="text-[#5A463B] text-sm mb-0.5 font-medium">CNPJ</p>
                       <p className="text-[#18351E] text-sm sm:text-base font-bold font-mono">
                         {donations?.bankCnpj || "03.167.725/0017-24"}
                       </p>
@@ -255,7 +255,7 @@ export default function ContributePage() {
 
                   {donations?.bankBeneficiary && (
                     <div className="border-t border-[#D6A64A]/30 pt-3 mb-3">
-                      <p className="text-xs text-[#5A463B]">
+                      <p className="text-sm text-[#5A463B]">
                         Favorecido:{" "}
                         <span className="font-semibold text-[#18351E]">
                           {donations.bankBeneficiary}
@@ -275,7 +275,7 @@ export default function ContributePage() {
                 {/* Outras Formas de Contribuir */}
                 <div className="mt-8">
                   <div className="mb-4">
-                    <span className="text-[#B8872E] text-xs font-bold uppercase tracking-[0.2em] block mb-1">
+                    <span className="text-[#B8872E] text-sm font-bold uppercase tracking-[0.2em] block mb-1">
                       OUTRAS FORMAS DE CONTRIBUIR
                     </span>
                     <h3
@@ -294,7 +294,7 @@ export default function ContributePage() {
                       >
                         Doação em Espécie
                       </h4>
-                      <p className="text-[#5A463B] text-xs leading-relaxed">
+                      <p className="text-[#5A463B] text-sm leading-relaxed">
                         Faça sua doação diretamente na secretaria da paróquia nos horários de atendimento.
                       </p>
                     </div>
@@ -305,7 +305,7 @@ export default function ContributePage() {
                       >
                         Apoio Pastoral
                       </h4>
-                      <p className="text-[#5A463B] text-xs leading-relaxed">
+                      <p className="text-[#5A463B] text-sm leading-relaxed">
                         Sua contribuição ajuda a manter a Paróquia São José e suas atividades de evangelização.
                       </p>
                     </div>
@@ -326,7 +326,7 @@ export default function ContributePage() {
                 />
               </div>
               <div className="lg:col-span-7 flex flex-col justify-center">
-                <span className="text-[#B8872E] text-xs font-bold uppercase tracking-[0.25em] block mb-2">
+                <span className="text-[#B8872E] text-sm font-bold uppercase tracking-[0.25em] block mb-2">
                   OBRA EM DESTAQUE
                 </span>
                 <h3

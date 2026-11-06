@@ -46,7 +46,7 @@ export default function LiturgiaPage() {
     <main className="relative overflow-hidden bg-[#fbf6ee] min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-6 mb-32">
         {/* Breadcrumb */}
-        <nav className="text-xs text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
+        <nav className="text-sm text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
           <Link href="/" className="hover:text-[#2d261e] transition-colors">
             Início
           </Link>
@@ -60,7 +60,7 @@ export default function LiturgiaPage() {
           <div className="lg:col-span-2 space-y-6">
             {/* Page Header */}
             <div>
-              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#a6824b] uppercase tracking-widest mb-2">
+              <div className="inline-flex items-center gap-1.5 text-sm font-bold text-[#a6824b] uppercase tracking-widest mb-2">
                 <BookOpen className="w-4 h-4" />
                 LITURGIA DIÁRIA
               </div>
@@ -100,7 +100,7 @@ export default function LiturgiaPage() {
             <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-[#e8e2d8]">
               <button
                 onClick={() => setActiveTab("first")}
-                className={`px-4 py-2 rounded-lg text-xs md:text-sm font-medium transition-all whitespace-nowrap ${
+                className={`px-4 py-2 rounded-lg text-sm md:text-sm font-medium transition-all whitespace-nowrap ${
                   activeTab === "first"
                     ? "bg-[#1b2a26] text-white shadow"
                     : "bg-[#fbf5eb] text-[#6b5c4d] border border-[#e8e2d8] hover:border-[#a6824b]"
@@ -112,7 +112,7 @@ export default function LiturgiaPage() {
               {data?.secondReading && (
                 <button
                   onClick={() => setActiveTab("second")}
-                  className={`px-4 py-2 rounded-lg text-xs md:text-sm font-medium transition-all whitespace-nowrap ${
+                  className={`px-4 py-2 rounded-lg text-sm md:text-sm font-medium transition-all whitespace-nowrap ${
                     activeTab === "second"
                       ? "bg-[#1b2a26] text-white shadow"
                       : "bg-[#fbf5eb] text-[#6b5c4d] border border-[#e8e2d8] hover:border-[#a6824b]"
@@ -124,7 +124,7 @@ export default function LiturgiaPage() {
 
               <button
                 onClick={() => setActiveTab("psalm")}
-                className={`px-4 py-2 rounded-lg text-xs md:text-sm font-medium transition-all whitespace-nowrap ${
+                className={`px-4 py-2 rounded-lg text-sm md:text-sm font-medium transition-all whitespace-nowrap ${
                   activeTab === "psalm"
                     ? "bg-[#1b2a26] text-white shadow"
                     : "bg-[#fbf5eb] text-[#6b5c4d] border border-[#e8e2d8] hover:border-[#a6824b]"
@@ -135,7 +135,7 @@ export default function LiturgiaPage() {
 
               <button
                 onClick={() => setActiveTab("gospel")}
-                className={`px-4 py-2 rounded-lg text-xs md:text-sm font-medium transition-all whitespace-nowrap ${
+                className={`px-4 py-2 rounded-lg text-sm md:text-sm font-medium transition-all whitespace-nowrap ${
                   activeTab === "gospel"
                     ? "bg-[#1b2a26] text-white shadow"
                     : "bg-[#fbf5eb] text-[#6b5c4d] border border-[#e8e2d8] hover:border-[#a6824b]"
@@ -144,21 +144,10 @@ export default function LiturgiaPage() {
                 Evangelho
               </button>
 
-              <button
-                onClick={() => setActiveTab("reflection")}
-                className={`px-4 py-2 rounded-lg text-xs md:text-sm font-medium transition-all whitespace-nowrap ${
-                  activeTab === "reflection"
-                    ? "bg-[#1b2a26] text-white shadow"
-                    : "bg-[#fbf5eb] text-[#6b5c4d] border border-[#e8e2d8] hover:border-[#a6824b]"
-                }`}
-              >
-                Reflexão
-              </button>
-
               {data?.saint && (
                 <button
                   onClick={() => setActiveTab("saint")}
-                  className={`px-4 py-2 rounded-lg text-xs md:text-sm font-medium transition-all whitespace-nowrap ${
+                  className={`px-4 py-2 rounded-lg text-sm md:text-sm font-medium transition-all whitespace-nowrap ${
                     activeTab === "saint"
                       ? "bg-[#1b2a26] text-white shadow"
                       : "bg-[#fbf5eb] text-[#6b5c4d] border border-[#e8e2d8] hover:border-[#a6824b]"
@@ -180,13 +169,13 @@ export default function LiturgiaPage() {
                   {/* Tab 1: First Reading */}
                   {activeTab === "first" && (
                     <article className="prose max-w-none text-[#332b22]">
-                      <span className="text-xs font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
+                      <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
                         1ª LEITURA
                       </span>
                       <h2 className="text-xl md:text-2xl font-serif font-bold text-[#2d261e] mb-4">
                         {data?.firstReading?.title || "Primeira Leitura"}
                       </h2>
-                      <p className="text-xs font-semibold text-[#8c7b6c] mb-6">
+                      <p className="text-sm font-semibold text-[#8c7b6c] mb-6">
                         {data?.firstReading?.reference}
                       </p>
 
@@ -207,13 +196,13 @@ export default function LiturgiaPage() {
                   {/* Tab 2: Second Reading */}
                   {activeTab === "second" && data?.secondReading && (
                     <article className="prose max-w-none text-[#332b22]">
-                      <span className="text-xs font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
+                      <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
                         2ª LEITURA
                       </span>
                       <h2 className="text-xl md:text-2xl font-serif font-bold text-[#2d261e] mb-4">
                         {data.secondReading.title}
                       </h2>
-                      <p className="text-xs font-semibold text-[#8c7b6c] mb-6">
+                      <p className="text-sm font-semibold text-[#8c7b6c] mb-6">
                         {data.secondReading.reference}
                       </p>
 
@@ -230,13 +219,13 @@ export default function LiturgiaPage() {
                   {/* Tab 3: Psalm */}
                   {activeTab === "psalm" && (
                     <article className="prose max-w-none text-[#332b22]">
-                      <span className="text-xs font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
+                      <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
                         SALMO RESPONSORIAL
                       </span>
                       <h2 className="text-xl md:text-2xl font-serif font-bold text-[#2d261e] mb-4">
                         Salmo Responsorial
                       </h2>
-                      <p className="text-xs font-semibold text-[#8c7b6c] mb-6">
+                      <p className="text-sm font-semibold text-[#8c7b6c] mb-6">
                         {data?.psalm?.reference}
                       </p>
 
@@ -255,13 +244,13 @@ export default function LiturgiaPage() {
                   {/* Tab 4: Gospel */}
                   {activeTab === "gospel" && (
                     <article className="prose max-w-none text-[#332b22]">
-                      <span className="text-xs font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
+                      <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
                         EVANGELHO
                       </span>
                       <h2 className="text-xl md:text-2xl font-serif font-bold text-[#2d261e] mb-4">
                         {data?.gospel?.title || "Evangelho do Dia"}
                       </h2>
-                      <p className="text-xs font-semibold text-[#8c7b6c] mb-6">
+                      <p className="text-sm font-semibold text-[#8c7b6c] mb-6">
                         {data?.gospel?.reference}
                       </p>
 
@@ -275,26 +264,10 @@ export default function LiturgiaPage() {
                     </article>
                   )}
 
-                  {/* Tab 5: Reflection */}
-                  {activeTab === "reflection" && (
-                    <article className="prose max-w-none text-[#332b22]">
-                      <span className="text-xs font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
-                        REFLEXÃO DA PALAVRA
-                      </span>
-                      <h2 className="text-xl md:text-2xl font-serif font-bold text-[#2d261e] mb-6">
-                        Reflexão Completa
-                      </h2>
-                      <div className="text-sm md:text-base leading-relaxed space-y-4 text-[#332b22] whitespace-pre-line">
-                        {data?.reflection?.text ||
-                          "A promessa da nova aliança revela o coração misericordioso de Deus, que renova o nosso ser e nos convida a vivenciar sua palavra no cotidiano com amor e entrega."}
-                      </div>
-                    </article>
-                  )}
-
-                  {/* Tab 6: Saint of the Day */}
+                  {/* Tab 5: Saint of the Day */}
                   {activeTab === "saint" && data?.saint && (
                     <article className="prose max-w-none text-[#332b22]">
-                      <span className="text-xs font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
+                      <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
                         SANTOS DO DIA
                       </span>
                       <h2 className="text-xl md:text-2xl font-serif font-bold text-[#2d261e] mb-4">
@@ -334,7 +307,7 @@ export default function LiturgiaPage() {
                   <BookOpen className="w-4 h-4 text-[#a6824b] mt-0.5 shrink-0" />
                   <div>
                     <span className="font-bold text-[#2d261e] block">1ª Leitura</span>
-                    <span className="text-[#6b5c4d] text-xs md:text-sm">{data?.firstReading?.reference || "Primeira Leitura"}</span>
+                    <span className="text-[#6b5c4d] text-sm md:text-sm">{data?.firstReading?.reference || "Primeira Leitura"}</span>
                   </div>
                 </div>
 
@@ -343,7 +316,7 @@ export default function LiturgiaPage() {
                     <BookOpen className="w-4 h-4 text-[#a6824b] mt-0.5 shrink-0" />
                     <div>
                       <span className="font-bold text-[#2d261e] block">2ª Leitura</span>
-                      <span className="text-[#6b5c4d] text-xs md:text-sm">{data.secondReading.reference}</span>
+                      <span className="text-[#6b5c4d] text-sm md:text-sm">{data.secondReading.reference}</span>
                     </div>
                   </div>
                 )}
@@ -352,7 +325,7 @@ export default function LiturgiaPage() {
                   <Quote className="w-4 h-4 text-[#a6824b] mt-0.5 shrink-0" />
                   <div>
                     <span className="font-bold text-[#2d261e] block">Salmo</span>
-                    <span className="text-[#6b5c4d] text-xs md:text-sm">{data?.psalm?.reference || "Salmo"}</span>
+                    <span className="text-[#6b5c4d] text-sm md:text-sm">{data?.psalm?.reference || "Salmo"}</span>
                   </div>
                 </div>
 
@@ -360,7 +333,7 @@ export default function LiturgiaPage() {
                   <BookOpen className="w-4 h-4 text-[#a6824b] mt-0.5 shrink-0" />
                   <div>
                     <span className="font-bold text-[#2d261e] block">Evangelho</span>
-                    <span className="text-[#6b5c4d] text-xs md:text-sm">{data?.gospel?.reference || "Evangelho"}</span>
+                    <span className="text-[#6b5c4d] text-sm md:text-sm">{data?.gospel?.reference || "Evangelho"}</span>
                   </div>
                 </div>
               </div>
@@ -412,7 +385,7 @@ export default function LiturgiaPage() {
                   <p className="font-serif italic text-sm text-[#4a3f35] leading-relaxed mb-2">
                     &ldquo;{data?.psalm?.response || data?.psalm?.text?.slice(0, 140) || "Lâmpada para os meus pés é a tua palavra, e luz para o meu caminho."}&rdquo;
                   </p>
-                  <span className="text-xs font-bold text-[#8c7b6c]">
+                  <span className="text-sm font-bold text-[#8c7b6c]">
                     {data?.psalm?.reference || "Salmo Responsorial"}
                   </span>
                 </>

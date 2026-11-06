@@ -146,7 +146,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
           </p>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#18351E] text-white text-xs font-semibold hover:bg-[#27442A] transition-all"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#18351E] text-white text-sm font-semibold hover:bg-[#27442A] transition-all"
           >
             <span>Voltar ao início</span>
           </Link>
@@ -170,10 +170,8 @@ export default function CommunityDetailPage({ params }: PageProps) {
       if (!weeklyScheduleMap.has(s.dayOfWeek)) {
         weeklyScheduleMap.set(s.dayOfWeek, new Set());
       }
-      for (const t of s.times || []) {
-        if (t.startTime) {
-          weeklyScheduleMap.get(s.dayOfWeek)!.add(t.startTime);
-        }
+      if (s.startTime) {
+        weeklyScheduleMap.get(s.dayOfWeek)!.add(s.startTime);
       }
     }
   }
@@ -188,10 +186,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
 
   const devotionalSchedules = (community.massSchedules || []).filter(
     (s) =>
-      (s.type === "devotional" ||
-        s.type === "solemnity" ||
-        s.recurrenceType === "monthly" ||
-        s.recurrenceType === "yearly") &&
+      (s.type === "devotional" || s.recurrenceType === "monthly") &&
       s.active !== false
   );
 
@@ -204,7 +199,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
       <main className="py-8 md:py-8">
         <div className="max-w-7xl mx-auto px-6">
           {/* Breadcrumbs */}
-          <nav className="flex items-center gap-2 text-xs text-[#736254] font-serif mb-8">
+          <nav className="flex items-center gap-2 text-sm text-[#736254] font-serif mb-8">
             <Link href="/" className="hover:text-[#B8872E] transition-colors">
               Início
             </Link>
@@ -225,7 +220,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-16 md:mb-20">
             {/* Left Info */}
             <div className="lg:col-span-6 space-y-5">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fbf5eb] border border-[#D6A64A]/40 text-[#B8872E] text-xs font-semibold tracking-widest uppercase">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fbf5eb] border border-[#D6A64A]/40 text-[#B8872E] text-sm font-semibold tracking-widest uppercase">
                 <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
                 <span>{community.type === "parish_church" ? "IGREJA MATRIZ" : "COMUNIDADE"}</span>
               </div>
@@ -246,7 +241,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
               <div className="flex flex-wrap items-center gap-4 pt-3">
                 <a
                   href="#horarios"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#18351E] text-white text-xs font-semibold hover:bg-[#27442A] transition-all shadow-md"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#18351E] text-white text-sm font-semibold hover:bg-[#27442A] transition-all shadow-md"
                 >
                   <Calendar className="w-4 h-4 text-[#D6A64A]" />
                   <span>Ver horários de missa</span>
@@ -256,7 +251,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                   <button
                     type="button"
                     onClick={() => setIsDirectionsOpen(true)}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#fbf5eb] border border-[#D6A64A] text-[#18351E] text-xs font-semibold hover:bg-[#f3ece0] transition-all shadow-xs cursor-pointer"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#fbf5eb] border border-[#D6A64A] text-[#18351E] text-sm font-semibold hover:bg-[#f3ece0] transition-all shadow-xs cursor-pointer"
                   >
                     <MapPin className="w-4 h-4 text-[#B8872E]" />
                     <span>Como chegar</span>
@@ -285,7 +280,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
               <div>
                 <div className="flex items-center gap-3 mb-3">
                   <span className="h-px w-8 bg-[#B8872E]/40" />
-                  <span className="text-[#B8872E] text-xs font-bold uppercase tracking-[0.25em]">
+                  <span className="text-[#B8872E] text-sm font-bold uppercase tracking-[0.25em]">
                     SOBRE A COMUNIDADE
                   </span>
                 </div>
@@ -347,7 +342,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                       {community.patronName}
                     </h3>
                     {community.patronDescription && (
-                      <p className="text-xs text-[#5A463B] font-serif leading-relaxed">
+                      <p className="text-sm text-[#5A463B] font-serif leading-relaxed">
                         {community.patronDescription}
                       </p>
                     )}
@@ -371,7 +366,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                     <div className="flex items-start gap-3">
                       <MapPin className="w-5 h-5 text-[#B8872E] shrink-0 mt-0.5" />
                       <div>
-                        <span className="font-semibold text-[#18351E] block text-xs uppercase tracking-wider mb-0.5">
+                        <span className="font-semibold text-[#18351E] block text-sm uppercase tracking-wider mb-0.5">
                           Endereço
                         </span>
                         <p className="leading-snug">{community.address}</p>
@@ -383,7 +378,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                     <div className="flex items-start gap-3">
                       <Phone className="w-5 h-5 text-[#B8872E] shrink-0 mt-0.5" />
                       <div>
-                        <span className="font-semibold text-[#18351E] block text-xs uppercase tracking-wider mb-0.5">
+                        <span className="font-semibold text-[#18351E] block text-sm uppercase tracking-wider mb-0.5">
                           Telefone
                         </span>
                         <p className="leading-snug">{community.phone || contact?.phone}</p>
@@ -395,7 +390,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                     <div className="flex items-start gap-3">
                       <Mail className="w-5 h-5 text-[#B8872E] shrink-0 mt-0.5" />
                       <div>
-                        <span className="font-semibold text-[#18351E] block text-xs uppercase tracking-wider mb-0.5">
+                        <span className="font-semibold text-[#18351E] block text-sm uppercase tracking-wider mb-0.5">
                           E-mail
                         </span>
                         <p className="leading-snug">{community.email || contact?.email}</p>
@@ -407,7 +402,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                     <div className="flex items-start gap-3">
                       <Clock className="w-5 h-5 text-[#B8872E] shrink-0 mt-0.5" />
                       <div className="flex-1 min-w-0">
-                        <span className="font-semibold text-[#18351E] block text-xs uppercase tracking-wider mb-0.5">
+                        <span className="font-semibold text-[#18351E] block text-sm uppercase tracking-wider mb-0.5">
                           Secretaria
                         </span>
                         {community.type === "chapel" ? (
@@ -418,7 +413,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                             <button
                               type="button"
                               onClick={() => setIsParishDirectionsOpen(true)}
-                              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#B8872E] hover:text-[#18351E] hover:underline cursor-pointer transition-colors pt-0.5"
+                              className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#B8872E] hover:text-[#18351E] hover:underline cursor-pointer transition-colors pt-0.5"
                             >
                               <Clock className="w-3.5 h-3.5" />
                               <span>Ver horário e endereço</span>
@@ -455,7 +450,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                     <button
                       type="button"
                       onClick={() => setIsDirectionsOpen(true)}
-                      className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-[#fbf5eb] border border-[#D6A64A] text-[#18351E] text-xs font-semibold hover:bg-[#f3ece0] transition-all cursor-pointer"
+                      className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-[#fbf5eb] border border-[#D6A64A] text-[#18351E] text-sm font-semibold hover:bg-[#f3ece0] transition-all cursor-pointer"
                     >
                       <MapPin className="w-4 h-4 text-[#B8872E]" />
                       <span>Como chegar</span>
@@ -471,7 +466,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
             <div className="mb-8">
               <div className="flex items-center gap-3 mb-2">
                 <span className="h-px w-8 bg-[#B8872E]/40" />
-                <span className="text-[#B8872E] text-xs font-bold uppercase tracking-[0.25em]">
+                <span className="text-[#B8872E] text-sm font-bold uppercase tracking-[0.25em]">
                   CELEBRAÇÕES
                 </span>
               </div>
@@ -506,7 +501,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                           <span className="font-serif text-[#18351E] font-medium">
                             {WEEKDAY_FULL[day]}
                           </span>
-                          <span className="font-mono text-xs font-semibold text-[#B8872E] bg-[#f9f3e9] px-3 py-1 rounded-full border border-[#D6A64A]/30">
+                          <span className="font-mono text-sm font-semibold text-[#B8872E] bg-[#f9f3e9] px-3 py-1 rounded-full border border-[#D6A64A]/30">
                             {formatTimesList(times)}
                           </span>
                         </div>
@@ -533,12 +528,10 @@ export default function CommunityDetailPage({ params }: PageProps) {
 
                   <div className="divide-y divide-[#D6A64A]/20">
                     {devotionalSchedules.map((dev, devIdx) => {
-                      const times = (dev.times || []).map((t) => t.startTime).filter(Boolean).sort();
+                      const times = dev.startTime ? [dev.startTime] : [];
                       let recurrenceLabel = "";
 
-                      if (typeof dev.dayOfMonth === "number" && typeof dev.monthOfYear === "number") {
-                        recurrenceLabel = `${dev.dayOfMonth} de ${MONTHS_FULL[dev.monthOfYear - 1]}`;
-                      } else if (typeof dev.dayOfMonth === "number") {
+                      if (typeof dev.dayOfMonth === "number") {
                         recurrenceLabel = `Dia ${dev.dayOfMonth} de cada mês`;
                       } else if (
                         typeof dev.weekOfMonth === "number" &&
@@ -570,7 +563,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                               </span>
                             )}
                           </div>
-                          <span className="font-mono text-xs font-semibold text-[#B8872E] bg-[#f9f3e9] px-3 py-1 rounded-full border border-[#D6A64A]/30 shrink-0 self-start sm:self-auto text-center">
+                          <span className="font-mono text-sm font-semibold text-[#B8872E] bg-[#f9f3e9] px-3 py-1 rounded-full border border-[#D6A64A]/30 shrink-0 self-start sm:self-auto text-center">
                             {fullBadge}
                           </span>
                         </div>
@@ -587,7 +580,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
             <div className="mb-16 md:mb-24">
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <span className="text-[#B8872E] text-xs font-bold uppercase tracking-[0.25em] block mb-1">
+                  <span className="text-[#B8872E] text-sm font-bold uppercase tracking-[0.25em] block mb-1">
                     GALERIA
                   </span>
                   <h2
@@ -598,7 +591,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                   </h2>
                 </div>
 
-                <span className="text-xs font-bold text-[#B8872E] uppercase tracking-widest hidden sm:inline-flex items-center gap-1">
+                <span className="text-sm font-bold text-[#B8872E] uppercase tracking-widest hidden sm:inline-flex items-center gap-1">
                   <span>{photos.length} fotos</span>
                 </span>
               </div>
@@ -642,7 +635,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                 className="flex items-center justify-between w-full max-w-5xl mx-auto z-10 text-white/90"
                 onClick={(e) => e.stopPropagation()}
               >
-                <span className="text-xs font-mono tracking-wider bg-white/10 px-3 py-1 rounded-full border border-white/10">
+                <span className="text-sm font-mono tracking-wider bg-white/10 px-3 py-1 rounded-full border border-white/10">
                   {lightboxIndex + 1} / {photos.length}
                 </span>
 
@@ -714,7 +707,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                     {photos[lightboxIndex].caption}
                   </p>
                 ) : (
-                  <span className="text-xs text-white/60 font-serif">
+                  <span className="text-sm text-white/60 font-serif">
                     {community.name}
                   </span>
                 )}
@@ -753,7 +746,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
               <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10">
                 <div className="flex items-center justify-center gap-3 mb-2">
                   <span className="h-px w-10 bg-[#B8872E]/40" />
-                  <div className="flex items-center gap-1.5 text-[#B8872E] text-xs font-semibold uppercase tracking-[0.25em]">
+                  <div className="flex items-center gap-1.5 text-[#B8872E] text-sm font-semibold uppercase tracking-[0.25em]">
                     <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
                     <span>CONHEÇA TAMBÉM</span>
                     <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
@@ -818,7 +811,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                         </h3>
 
                         {/* Informações Rápidas */}
-                        <div className="space-y-1.5 text-xs text-[#736254] mb-3">
+                        <div className="space-y-1.5 text-sm text-[#736254] mb-3">
                           <div className="flex items-start gap-1.5">
                             <MapPin className="w-3.5 h-3.5 text-[#B8872E] shrink-0 mt-0.5" />
                             <span className="line-clamp-1">{other.address || "Caraguatatuba / SP"}</span>
@@ -831,7 +824,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                       </div>
 
                       {/* Link / Ação */}
-                      <div className="flex items-center justify-between text-xs font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors pt-3 border-t border-[#D6A64A]/20 mt-2">
+                      <div className="flex items-center justify-between text-sm font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors pt-3 border-t border-[#D6A64A]/20 mt-2">
                         <span>Conhecer comunidade</span>
                         <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </div>
@@ -858,7 +851,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
 
             <Link
               href="/contato"
-              className="z-10 inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#B8872E] hover:bg-[#a37625] text-white text-xs font-semibold transition-all shadow-md shrink-0"
+              className="z-10 inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#B8872E] hover:bg-[#a37625] text-white text-sm font-semibold transition-all shadow-md shrink-0"
             >
               <MessageCircle className="w-4 h-4 text-white" />
               <span>Falar com a secretaria</span>

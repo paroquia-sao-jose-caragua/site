@@ -230,6 +230,7 @@ interface MiniCalendarProps {
   month: number;
   selectedDate: string | null;
   eventDates: Set<string>;
+  preceptDates?: Set<string>;
   onSelect: (date: string) => void;
   onMonthChange?: (year: number, month: number) => void;
 }
@@ -239,6 +240,7 @@ function MiniCalendar({
   month,
   selectedDate,
   eventDates,
+  preceptDates,
   onSelect,
   onMonthChange,
 }: MiniCalendarProps) {
@@ -311,7 +313,7 @@ function MiniCalendar({
         {WEEKDAYS.map((d) => (
           <div
             key={d}
-            className="text-center text-xs text-[#5A463B] font-bold py-1.5 uppercase tracking-wider"
+            className="text-center text-sm text-[#5A463B] font-bold py-1.5 uppercase tracking-wider"
           >
             {d}
           </div>
@@ -325,6 +327,7 @@ function MiniCalendar({
           const isSelected = selectedDate === dateStr;
           const isToday = dateStr === todayStr;
           const hasEvent = eventDates.has(dateStr);
+          const hasPrecept = preceptDates?.has(dateStr);
 
           return (
             <button
@@ -337,7 +340,9 @@ function MiniCalendar({
                   ? "bg-[#18351E] text-[#ffe7c2] font-bold shadow-2xs"
                   : isToday
                     ? "bg-[#ECD6BD]/50 text-[#18351E] font-semibold"
-                    : "text-[#2b2b2b] hover:bg-[#ECD6BD]/30",
+                    : hasPrecept
+                      ? "text-[#18351E] font-bold bg-[#f3ece0]/60 hover:bg-[#ECD6BD]/40"
+                      : "text-[#2b2b2b] hover:bg-[#ECD6BD]/30",
               ].join(" ")}
             >
               {day}
@@ -485,7 +490,7 @@ function EventCard({ event }: EventCardProps) {
             </h3>
 
             {(event.orientations || event.description) && (
-              <p className="text-xs sm:text-sm text-[#5A463B] font-serif leading-relaxed line-clamp-2">
+              <p className="text-sm sm:text-sm text-[#5A463B] font-serif leading-relaxed line-clamp-2">
                 {event.orientations || event.description}
               </p>
             )}
@@ -494,7 +499,7 @@ function EventCard({ event }: EventCardProps) {
 
         {/* Card Footer: Location & Ver Detalhes (Visualização Pública, sem formato de botão) */}
         <div className="mt-4 pt-3.5 border-t border-[#D6A64A]/20 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-1.5 text-xs text-[#5A463B]">
+          <div className="flex items-center gap-1.5 text-sm text-[#5A463B]">
             <MapPin className="w-3.5 h-3.5 text-[#B8872E] shrink-0" />
             <span className="font-medium text-[#5A463B] group-hover:text-[#18351E] transition-colors truncate max-w-[220px] sm:max-w-[340px]">
               {event.customLocation
@@ -503,7 +508,7 @@ function EventCard({ event }: EventCardProps) {
             </span>
           </div>
 
-          <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-all shrink-0">
+          <span className="inline-flex items-center gap-1 text-sm font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-all shrink-0">
             <span>Ver detalhes</span>
             <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
           </span>
@@ -658,6 +663,36 @@ function AgendaPageContent() {
     return Array.from(eventsByDay.keys()).sort();
   }, [eventsByDay, selectedDate]);
 
+  const dayMetaByDate = useMemo(() => {
+    const map = new Map<
+      string,
+      {
+        isPreceptDay?: boolean;
+      }
+    >();
+    const allDays = [
+      ...(currentData?.calendar ?? []),
+      ...(nextData?.calendar ?? []),
+    ];
+    allDays.forEach((day) => {
+      const dateStr = day.date.slice(0, 10);
+      map.set(dateStr, {
+        isPreceptDay: day.isPreceptDay,
+      });
+    });
+    return map;
+  }, [currentData?.calendar, nextData?.calendar]);
+
+  const preceptDatesSet = useMemo(() => {
+    const s = new Set<string>();
+    dayMetaByDate.forEach((meta, d) => {
+      if (meta.isPreceptDay) {
+        s.add(d);
+      }
+    });
+    return s;
+  }, [dayMetaByDate]);
+
   const eventDatesSet = useMemo(() => {
     const s = new Set<string>();
     agendaEvents.forEach((e) => {
@@ -683,7 +718,7 @@ function AgendaPageContent() {
     <main className="relative overflow-hidden bg-[#fbf6ee] min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-6 mb-32">
         {/* Breadcrumb */}
-        <nav className="text-xs text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
+        <nav className="text-sm text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
           <Link href="/" className="hover:text-[#2d261e] transition-colors">
             Início
           </Link>
@@ -693,7 +728,7 @@ function AgendaPageContent() {
 
         {/* Header Block: Title */}
         <div className="mb-8 max-w-3xl">
-          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#a6824b] uppercase tracking-widest mb-2">
+          <div className="inline-flex items-center gap-1.5 text-sm font-bold text-[#a6824b] uppercase tracking-widest mb-2">
             <Calendar className="w-4 h-4" />
             <span>AGENDA PASTORAL</span>
           </div>
@@ -719,7 +754,7 @@ function AgendaPageContent() {
                     setSelectedYear(m.year);
                     setSelectedDate("");
                   }}
-                  className={`px-4 py-2 rounded-lg text-xs md:text-sm font-medium transition-all whitespace-nowrap cursor-pointer shrink-0 ${
+                  className={`px-4 py-2 rounded-lg text-sm md:text-sm font-medium transition-all whitespace-nowrap cursor-pointer shrink-0 ${
                     isSelected
                       ? "bg-[#1b2a26] text-white shadow-xs font-semibold"
                       : "bg-[#fbf5eb] text-[#6b5c4d] border border-[#e8e2d8] hover:border-[#a6824b] hover:text-[#2d261e]"
@@ -733,14 +768,14 @@ function AgendaPageContent() {
 
           {/* Discreet Community Select */}
           <div className="flex items-center gap-2 shrink-0">
-            <span className="text-xs font-semibold text-[#5A463B] uppercase tracking-wider hidden sm:inline">
+            <span className="text-sm font-semibold text-[#5A463B] uppercase tracking-wider hidden sm:inline">
               Comunidade:
             </span>
             <div className="relative">
               <select
                 value={selectedCommunityId}
                 onChange={(e) => setSelectedCommunityId(e.target.value)}
-                className="appearance-none bg-[#fbf5eb] border border-[#D6A64A]/50 text-[#18351E] text-xs sm:text-sm font-medium rounded-xl pl-3 pr-8 py-2 shadow-2xs focus:outline-none focus:ring-1 focus:ring-[#B8872E] hover:border-[#B8872E] transition-colors cursor-pointer"
+                className="appearance-none bg-[#fbf5eb] border border-[#D6A64A]/50 text-[#18351E] text-sm sm:text-sm font-medium rounded-xl pl-3 pr-8 py-2 shadow-2xs focus:outline-none focus:ring-1 focus:ring-[#B8872E] hover:border-[#B8872E] transition-colors cursor-pointer"
                 aria-label="Filtrar por comunidade"
               >
                 <option value="all">Todas as comunidades</option>
@@ -763,12 +798,12 @@ function AgendaPageContent() {
             {/* Active filters bar */}
             {hasFilters && (
               <div className="flex items-center gap-2 mb-6 flex-wrap">
-                <span className="text-xs text-[#5A463B] font-semibold uppercase tracking-wider">
+                <span className="text-sm text-[#5A463B] font-semibold uppercase tracking-wider">
                   Filtros ativos:
                 </span>
                 {selectedDate && (
                   <span
-                    className="inline-flex items-center gap-1.5 bg-[#fbf5eb] border border-[#D6A64A]/50 text-[#18351E] text-xs px-3 py-1 rounded-xl shadow-2xs font-medium"
+                    className="inline-flex items-center gap-1.5 bg-[#fbf5eb] border border-[#D6A64A]/50 text-[#18351E] text-sm px-3 py-1 rounded-xl shadow-2xs font-medium"
                   >
                     <Calendar size={12} className="text-[#B8872E]" />
                     {formatDateLabel(selectedDate).split(",")[0] +
@@ -786,7 +821,7 @@ function AgendaPageContent() {
                 )}
                 {selectedCommunity && (
                   <span
-                    className="inline-flex items-center gap-1.5 bg-[#fbf5eb] border border-[#D6A64A]/50 text-[#18351E] text-xs px-3 py-1 rounded-xl shadow-2xs font-medium"
+                    className="inline-flex items-center gap-1.5 bg-[#fbf5eb] border border-[#D6A64A]/50 text-[#18351E] text-sm px-3 py-1 rounded-xl shadow-2xs font-medium"
                   >
                     <MapPin size={12} className="text-[#B8872E]" />
                     {selectedCommunity?.name}
@@ -800,7 +835,7 @@ function AgendaPageContent() {
                 )}
                 <button
                   onClick={clearFilters}
-                  className="text-xs text-[#B8872E] hover:text-[#18351E] transition-colors font-bold cursor-pointer ml-1"
+                  className="text-sm text-[#B8872E] hover:text-[#18351E] transition-colors font-bold cursor-pointer ml-1"
                 >
                   Limpar tudo
                 </button>
@@ -823,7 +858,7 @@ function AgendaPageContent() {
                   >
                     Carregando a programação...
                   </p>
-                  <p className="text-xs text-[#5A463B] mt-1">
+                  <p className="text-sm text-[#5A463B] mt-1">
                     Buscando os agendamentos das comunidades
                   </p>
                 </div>
@@ -837,7 +872,7 @@ function AgendaPageContent() {
                   >
                     Não foi possível carregar a agenda
                   </p>
-                  <p className="text-zinc-500 text-xs mt-1">
+                  <p className="text-zinc-500 text-sm mt-1">
                     Tente novamente em alguns instantes.
                   </p>
                 </div>
@@ -849,6 +884,7 @@ function AgendaPageContent() {
                   const events = eventsByDay.get(dateStr) ?? [];
                   const isToday = dateStr === dayjs().format("YYYY-MM-DD");
                   const dateObj = parseDate(dateStr);
+                  const dayMeta = dayMetaByDate.get(dateStr);
 
                   return (
                     <div key={dateStr} className="space-y-4">
@@ -866,7 +902,7 @@ function AgendaPageContent() {
                           </div>
 
                           <div className="flex flex-col gap-0.5">
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 flex-wrap">
                               <h2
                                 className="text-xl sm:text-2xl font-semibold text-[#18351E] capitalize"
                                 style={{ fontFamily: "Cormorant Garamond, serif" }}
@@ -878,8 +914,13 @@ function AgendaPageContent() {
                                   Hoje
                                 </span>
                               )}
+                              {dayMeta?.isPreceptDay && (
+                                <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#18351E]/10 text-[#18351E] border border-[#18351E]/20">
+                                  ✦ Preceito
+                                </span>
+                              )}
                             </div>
-                            <span className="text-xs text-[#5A463B] font-medium">
+                            <span className="text-sm text-[#5A463B] font-medium">
                               {events.length} {events.length === 1 ? "celebração agendada" : "celebrações agendadas"}
                             </span>
                           </div>
@@ -917,7 +958,7 @@ function AgendaPageContent() {
                     {hasFilters && (
                       <button
                         onClick={clearFilters}
-                        className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#18351E] text-[#eeca94] text-xs font-semibold hover:bg-[#234125] transition-colors cursor-pointer shadow-xs"
+                        className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#18351E] text-[#eeca94] text-sm font-semibold hover:bg-[#234125] transition-colors cursor-pointer shadow-xs"
                       >
                         Limpar Filtros
                       </button>
@@ -934,6 +975,7 @@ function AgendaPageContent() {
               month={selectedMonth}
               selectedDate={selectedDate}
               eventDates={eventDatesSet}
+              preceptDates={preceptDatesSet}
               onMonthChange={(y, m) => {
                 setSelectedYear(y);
                 setSelectedMonth(m);

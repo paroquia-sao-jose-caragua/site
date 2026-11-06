@@ -1,10 +1,3 @@
-export type MassScheduleTime = {
-  id: string;
-  scheduleId: string;
-  startTime: string; // "09:00", "19:30"
-  endTime?: string;
-};
-
 export type CommunityMassSchedule = {
   id: string;
   communityId: string;
@@ -12,17 +5,16 @@ export type CommunityMassSchedule = {
   type: "ordinary" | "devotional" | "solemnity";
   orientations?: string;
   isPrecept: boolean;
-  recurrenceType: "weekly" | "monthly" | "yearly";
+  recurrenceType: "weekly" | "monthly";
   dayOfWeek?: number;
   dayOfMonth?: number;
   weekOfMonth?: number;
-  monthOfYear?: number;
   active: boolean;
   startDate?: string;
   endDate?: string;
   createdAt: string;
   updatedAt?: string;
-  times: MassScheduleTime[];
+  startTime: string; // "09:00", "19:30"
 };
 
 export type CommunityPhoto = {

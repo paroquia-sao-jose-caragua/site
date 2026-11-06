@@ -29,7 +29,7 @@ export default function ClerigosPage() {
     <main className="relative w-full min-h-screen bg-[#fbf6ee] overflow-hidden pt-8 pb-24 md:pb-36">
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Breadcrumb */}
-        <nav className="text-xs text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
+        <nav className="text-sm text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
           <Link href="/" className="hover:text-[#2d261e] transition-colors">
             Início
           </Link>
@@ -39,7 +39,7 @@ export default function ClerigosPage() {
 
         {/* Page Header (alinhado à esquerda seguindo o padrão das demais páginas) */}
         <div className="mb-12">
-          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#a6824b] uppercase tracking-widest mb-2">
+          <div className="inline-flex items-center gap-1.5 text-sm font-bold text-[#a6824b] uppercase tracking-widest mb-2">
             <Users className="w-4 h-4" />
             <span>NOSSOS CLÉRIGOS</span>
           </div>
@@ -107,7 +107,7 @@ export default function ClerigosPage() {
                     >
                       Igreja Universal
                     </h2>
-                    <p className="text-xs md:text-sm text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1">
+                    <p className="text-sm md:text-sm text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1">
                       O Santo Padre, Sucessor do Apóstolo Pedro e Bispo de Roma, é o pastor supremo da Igreja e o perpétuo princípio de unidade na fé e na caridade de todos os fiéis.
                     </p>
                   </div>
@@ -135,7 +135,7 @@ export default function ClerigosPage() {
                             </div>
 
                             <div className="flex-1 text-center sm:text-left flex flex-col justify-center">
-                              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#18351E] text-[#eeca94] text-xs font-semibold uppercase tracking-wider mb-2 w-fit mx-auto sm:mx-0">
+                              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#18351E] text-[#eeca94] text-sm font-semibold uppercase tracking-wider mb-2 w-fit mx-auto sm:mx-0">
                                 <Sparkles className="w-3 h-3" />
                                 <span>{role}</span>
                               </div>
@@ -206,7 +206,7 @@ export default function ClerigosPage() {
                     >
                       Diocese de Caraguatatuba
                     </h2>
-                    <p className="text-xs md:text-sm text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1">
+                    <p className="text-sm md:text-sm text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1">
                       O Bispo Diocesano é o sucessor dos Apóstolos confiado pelo Santo Padre para pastorear, ensinar e santificar a Diocese de Caraguatatuba, à qual nossa paróquia pertence filialmente.
                     </p>
                   </div>
@@ -234,7 +234,7 @@ export default function ClerigosPage() {
                             </div>
 
                             <div className="flex-1 text-center sm:text-left flex flex-col justify-center">
-                              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#18351E] text-[#eeca94] text-xs font-semibold uppercase tracking-wider mb-2 w-fit mx-auto sm:mx-0">
+                              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#18351E] text-[#eeca94] text-sm font-semibold uppercase tracking-wider mb-2 w-fit mx-auto sm:mx-0">
                                 <Sparkles className="w-3 h-3" />
                                 <span>{role}</span>
                               </div>
@@ -305,7 +305,7 @@ export default function ClerigosPage() {
                     >
                       Paróquia São José
                     </h2>
-                    <p className="text-xs md:text-sm text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1">
+                    <p className="text-sm md:text-sm text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1">
                       O Pároco é o pastor próprio designado pelo Bispo Diocesano para pastorear nossa comunidade no Morro do Algodão e em todas as suas capelas, ministrando os sacramentos e a palavra de Deus.
                     </p>
                   </div>
@@ -333,7 +333,7 @@ export default function ClerigosPage() {
                             </div>
 
                             <div className="flex-1 text-center sm:text-left flex flex-col justify-center">
-                              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#18351E] text-[#eeca94] text-xs font-semibold uppercase tracking-wider mb-2 w-fit mx-auto sm:mx-0">
+                              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#18351E] text-[#eeca94] text-sm font-semibold uppercase tracking-wider mb-2 w-fit mx-auto sm:mx-0">
                                 <Sparkles className="w-3 h-3" />
                                 <span>{role}</span>
                               </div>
@@ -404,7 +404,7 @@ export default function ClerigosPage() {
                     >
                       Diáconos e Vigários Paroquiais
                     </h2>
-                    <p className="text-xs md:text-sm text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1">
+                    <p className="text-sm md:text-sm text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1">
                       Colaboradores diretos no serviço litúrgico do altar, na proclamação da Palavra e nas obras de caridade e misericórdia junto à nossa comunidade.
                     </p>
                   </div>
@@ -446,7 +446,7 @@ export default function ClerigosPage() {
                               </h3>
 
                               {member.shortIntro && (
-                                <p className="text-xs md:text-sm text-[#736254] font-serif italic line-clamp-2 leading-relaxed">
+                                <p className="text-sm md:text-sm text-[#736254] font-serif italic line-clamp-2 leading-relaxed">
                                   &ldquo;{member.shortIntro}&rdquo;
                                 </p>
                               )}
@@ -456,7 +456,7 @@ export default function ClerigosPage() {
                           <div className="mt-5 pt-4 border-t border-[#D6A64A]/20 flex items-center justify-end">
                             <Link
                               href={`/clerigos/${member.slug}`}
-                              className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#18351E] text-[#eeca94] hover:bg-[#27442A] text-xs font-semibold transition-all shadow-xs group"
+                              className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#18351E] text-[#eeca94] hover:bg-[#27442A] text-sm font-semibold transition-all shadow-xs group"
                             >
                               <span>Conheça</span>
                               <ChevronRight

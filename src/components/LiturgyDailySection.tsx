@@ -36,7 +36,7 @@ export function LiturgyDailySection() {
             </div>
 
             <div className="relative z-10 w-full max-w-xl">
-              <div className="flex items-center gap-2 text-[#B8872E] text-xs font-semibold uppercase tracking-[0.25em] mb-4">
+              <div className="flex items-center gap-2 text-[#B8872E] text-sm font-semibold uppercase tracking-[0.25em] mb-4">
                 <BookOpen className="w-4 h-4 text-[#B8872E]" />
                 <span>PALAVRA DO DIA</span>
               </div>
@@ -67,7 +67,7 @@ export function LiturgyDailySection() {
           <div className="border-2 border-[#D6A64A]/60 rounded-2xl p-6 md:p-10 flex flex-col justify-center items-center text-center hover:shadow-sm transition-shadow">
             <CalendarIcon className="text-[#b8872e] w-7 h-7 mb-3" />
 
-            <span className="text-xs font-semibold text-[#B8872E] uppercase tracking-[0.25em] mb-3">
+            <span className="text-sm font-semibold text-[#B8872E] uppercase tracking-[0.25em] mb-3">
               LITURGIA DIÁRIA
             </span>
 

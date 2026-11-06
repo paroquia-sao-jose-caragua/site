@@ -411,7 +411,7 @@ export function PwaNotificationManager() {
               <h4 className="font-serif text-sm font-semibold text-[#f8f0e7]">
                 Instale o App da Paróquia
               </h4>
-              <p className="mt-1 text-xs text-stone-200">
+              <p className="mt-1 text-sm text-stone-200">
                 Acesse horários de missas, liturgia e comunidades direto da tela
                 inicial.
               </p>
@@ -419,14 +419,14 @@ export function PwaNotificationManager() {
                 <button
                   type="button"
                   onClick={handleInstallClick}
-                  className="rounded-lg bg-[#d4a85c] px-3 py-1.5 text-xs font-semibold text-stone-950 transition hover:bg-[#c3974b] active:scale-95 cursor-pointer"
+                  className="rounded-lg bg-[#d4a85c] px-3 py-1.5 text-sm font-semibold text-stone-950 transition hover:bg-[#c3974b] active:scale-95 cursor-pointer"
                 >
                   Instalar Agora
                 </button>
                 <button
                   type="button"
                   onClick={dismissInstallBanner}
-                  className="rounded-lg px-2 py-1.5 text-xs text-stone-300 hover:text-white cursor-pointer"
+                  className="rounded-lg px-2 py-1.5 text-sm text-stone-300 hover:text-white cursor-pointer"
                 >
                   Depois
                 </button>
@@ -452,7 +452,7 @@ export function PwaNotificationManager() {
               <h4 className="font-serif text-sm font-semibold text-white">
                 Receba Notificações Paroquiais
               </h4>
-              <p className="mt-1 text-xs text-stone-300">
+              <p className="mt-1 text-sm text-stone-300">
                 Fique por dentro dos avisos, horários de missas e celebrações.
               </p>
 
@@ -463,7 +463,7 @@ export function PwaNotificationManager() {
                   placeholder="Seu nome (opcional)"
                   value={visitorName}
                   onChange={(e) => setVisitorName(e.target.value)}
-                  className="w-full rounded-lg border border-stone-700 bg-stone-800 py-1.5 pl-8 pr-3 text-xs text-white placeholder-stone-400 focus:border-[#d4a85c] focus:outline-none"
+                  className="w-full rounded-lg border border-stone-700 bg-stone-800 py-1.5 pl-8 pr-3 text-sm text-white placeholder-stone-400 focus:border-[#d4a85c] focus:outline-none"
                 />
               </div>
 
@@ -472,14 +472,14 @@ export function PwaNotificationManager() {
                   type="button"
                   disabled={isSubmitting}
                   onClick={handleRequestNotification}
-                  className="rounded-lg bg-[#7f1d1d] px-3 py-1.5 text-xs font-semibold text-white border border-[#d4a85c]/40 hover:bg-[#6b1818] active:scale-95 disabled:opacity-50 cursor-pointer"
+                  className="rounded-lg bg-[#7f1d1d] px-3 py-1.5 text-sm font-semibold text-white border border-[#d4a85c]/40 hover:bg-[#6b1818] active:scale-95 disabled:opacity-50 cursor-pointer"
                 >
                   {isSubmitting ? "Ativando..." : "Ativar Notificações"}
                 </button>
                 <button
                   type="button"
                   onClick={dismissNotificationBanner}
-                  className="rounded-lg px-2 py-1.5 text-xs text-stone-400 hover:text-white cursor-pointer"
+                  className="rounded-lg px-2 py-1.5 text-sm text-stone-400 hover:text-white cursor-pointer"
                 >
                   Agora Não
                 </button>
@@ -516,7 +516,7 @@ export function PwaNotificationManager() {
                 <h3 className="font-serif text-lg font-bold text-[#f8f0e7]">
                   Notificações & Aplicativo
                 </h3>
-                <p className="text-xs text-stone-300">
+                <p className="text-sm text-stone-300">
                   Paróquia São José de Caraguatatuba
                 </p>
               </div>
@@ -526,19 +526,19 @@ export function PwaNotificationManager() {
               {/* Notification Status Card */}
               <div className="rounded-xl border border-white/10 bg-black/20 p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-[#d4a85c]">
+                  <span className="text-sm font-semibold uppercase tracking-wider text-[#d4a85c]">
                     Status das Notificações
                   </span>
                   {notificationPermission === "granted" ? (
-                    <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-400">
+                    <span className="inline-flex items-center gap-1 text-sm font-bold text-emerald-400">
                       <CheckCircle2 className="h-3.5 w-3.5" /> Ativadas
                     </span>
                   ) : notificationPermission === "denied" ? (
-                    <span className="inline-flex items-center gap-1 text-xs font-bold text-rose-400">
+                    <span className="inline-flex items-center gap-1 text-sm font-bold text-rose-400">
                       <ShieldAlert className="h-3.5 w-3.5" /> Bloqueadas
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 text-xs font-bold text-amber-300">
+                    <span className="inline-flex items-center gap-1 text-sm font-bold text-amber-300">
                       <Sparkles className="h-3.5 w-3.5" /> Pendente
                     </span>
                   )}
@@ -546,7 +546,7 @@ export function PwaNotificationManager() {
 
                 {notificationPermission === "granted" ? (
                   <div className="space-y-3">
-                    <p className="text-xs text-stone-300">
+                    <p className="text-sm text-stone-300">
                       As notificações estão totalmente ativas neste dispositivo!
                     </p>
 
@@ -557,14 +557,14 @@ export function PwaNotificationManager() {
                         placeholder="Atualizar seu nome"
                         value={visitorName}
                         onChange={(e) => setVisitorName(e.target.value)}
-                        className="w-full rounded-lg border border-stone-700 bg-stone-900 py-1.5 pl-8 pr-3 text-xs text-white placeholder-stone-400 focus:border-[#d4a85c] focus:outline-none"
+                        className="w-full rounded-lg border border-stone-700 bg-stone-900 py-1.5 pl-8 pr-3 text-sm text-white placeholder-stone-400 focus:border-[#d4a85c] focus:outline-none"
                       />
                     </div>
 
                     <button
                       type="button"
                       onClick={handleTestNotification}
-                      className="w-full flex items-center justify-center gap-2 rounded-lg bg-[#7f1d1d] py-2 text-xs font-semibold text-white border border-[#d4a85c]/40 hover:bg-[#6b1818] transition active:scale-95 cursor-pointer"
+                      className="w-full flex items-center justify-center gap-2 rounded-lg bg-[#7f1d1d] py-2 text-sm font-semibold text-white border border-[#d4a85c]/40 hover:bg-[#6b1818] transition active:scale-95 cursor-pointer"
                     >
                       <Send className="h-3.5 w-3.5 text-[#d4a85c]" />
                       Enviar Notificação de Teste
@@ -572,7 +572,7 @@ export function PwaNotificationManager() {
                   </div>
                 ) : notificationPermission === "denied" ? (
                   <div className="space-y-2">
-                    <p className="text-xs text-rose-200 leading-relaxed">
+                    <p className="text-sm text-rose-200 leading-relaxed">
                       As notificações foram bloqueadas no seu navegador. Para
                       reativar, clique no **ícone de cadeado 🔒** ao lado da URL
                       na barra do navegador e altere "Notificações" para
@@ -581,7 +581,7 @@ export function PwaNotificationManager() {
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    <p className="text-xs text-stone-300">
+                    <p className="text-sm text-stone-300">
                       Ative as notificações para receber avisos de missas, eventos
                       e comunicados paroquiais.
                     </p>
@@ -593,7 +593,7 @@ export function PwaNotificationManager() {
                         placeholder="Seu nome (opcional)"
                         value={visitorName}
                         onChange={(e) => setVisitorName(e.target.value)}
-                        className="w-full rounded-lg border border-stone-700 bg-stone-900 py-1.5 pl-8 pr-3 text-xs text-white placeholder-stone-400 focus:border-[#d4a85c] focus:outline-none"
+                        className="w-full rounded-lg border border-stone-700 bg-stone-900 py-1.5 pl-8 pr-3 text-sm text-white placeholder-stone-400 focus:border-[#d4a85c] focus:outline-none"
                       />
                     </div>
 
@@ -601,7 +601,7 @@ export function PwaNotificationManager() {
                       type="button"
                       disabled={isSubmitting}
                       onClick={handleRequestNotification}
-                      className="w-full flex items-center justify-center gap-2 rounded-lg bg-[#d4a85c] py-2 text-xs font-semibold text-stone-950 hover:bg-[#c3974b] transition active:scale-95 disabled:opacity-50 cursor-pointer"
+                      className="w-full flex items-center justify-center gap-2 rounded-lg bg-[#d4a85c] py-2 text-sm font-semibold text-stone-950 hover:bg-[#c3974b] transition active:scale-95 disabled:opacity-50 cursor-pointer"
                     >
                       <Bell className="h-4 w-4" />
                       {isSubmitting ? "Ativando..." : "Ativar Notificações Agora"}
@@ -613,11 +613,11 @@ export function PwaNotificationManager() {
               {/* PWA Install Card */}
               <div className="rounded-xl border border-white/10 bg-black/20 p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-[#d4a85c]">
+                  <span className="text-sm font-semibold uppercase tracking-wider text-[#d4a85c]">
                     Aplicativo Paroquial (PWA)
                   </span>
                 </div>
-                <p className="text-xs text-stone-300 mb-3">
+                <p className="text-sm text-stone-300 mb-3">
                   Instale o site da Paróquia como aplicativo direto no seu celular
                   ou computador.
                 </p>
@@ -625,7 +625,7 @@ export function PwaNotificationManager() {
                 <button
                   type="button"
                   onClick={handleInstallClick}
-                  className="w-full flex items-center justify-center gap-2 rounded-lg border border-[#d4a85c]/40 bg-white/10 py-2 text-xs font-semibold text-white hover:bg-white/20 transition active:scale-95 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 rounded-lg border border-[#d4a85c]/40 bg-white/10 py-2 text-sm font-semibold text-white hover:bg-white/20 transition active:scale-95 cursor-pointer"
                 >
                   <Download className="h-4 w-4 text-[#d4a85c]" />
                   Instalar Aplicativo
@@ -637,7 +637,7 @@ export function PwaNotificationManager() {
               <button
                 type="button"
                 onClick={() => setModalOpen(false)}
-                className="rounded-lg px-4 py-1.5 text-xs text-stone-300 hover:text-white border border-white/10 cursor-pointer"
+                className="rounded-lg px-4 py-1.5 text-sm text-stone-300 hover:text-white border border-white/10 cursor-pointer"
               >
                 Fechar
               </button>

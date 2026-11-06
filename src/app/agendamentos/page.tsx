@@ -362,7 +362,7 @@ export default function AgendamentosPage() {
     <section className="relative overflow-hidden bg-[#fbf6ee] min-h-screen">
       <div className="relative z-10 max-w-7xl mx-auto px-6 pt-8 pb-36">
         {/* Breadcrumb */}
-        <nav className="text-xs text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
+        <nav className="text-sm text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
           <Link href="/" className="hover:text-[#2d261e] transition-colors">
             Início
           </Link>
@@ -373,7 +373,7 @@ export default function AgendamentosPage() {
         {/* Page Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
-            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#a6824b] uppercase tracking-widest mb-2">
+            <div className="inline-flex items-center gap-1.5 text-sm font-bold text-[#a6824b] uppercase tracking-widest mb-2">
               <CalendarIcon size={14} />
               <span>ATENDIMENTO E VISITAS PASTORAIS</span>
             </div>
@@ -399,7 +399,7 @@ export default function AgendamentosPage() {
         {isLoadingSettings || isLoadingServices ? (
           <div className="max-w-2xl mx-auto py-16 text-center space-y-4">
             <div className="size-10 border-2 border-[#D6A64A] border-t-transparent rounded-full animate-spin mx-auto" />
-            <p className="text-xs text-[#8c7b6c]">Verificando disponibilidade de agendamentos...</p>
+            <p className="text-sm text-[#8c7b6c]">Verificando disponibilidade de agendamentos...</p>
           </div>
         ) : settings && !settings.enabled ? (
           <div className="max-w-2xl mx-auto p-8 md:p-12 text-center border border-[#D6A64A]/30 rounded-3xl">
@@ -496,7 +496,7 @@ export default function AgendamentosPage() {
                     }`}
                   >
                     <div
-                      className={`size-8 md:size-9 rounded-full flex items-center justify-center font-bold text-xs md:text-sm mb-1.5 transition-all ${
+                      className={`size-8 md:size-9 rounded-full flex items-center justify-center font-bold text-sm md:text-sm mb-1.5 transition-all ${
                         isActive
                           ? "bg-[#18351E] text-[#eeca94] ring-2 ring-[#B8872E] ring-offset-2 ring-offset-[#fbf6ee]"
                           : isPassed
@@ -507,7 +507,7 @@ export default function AgendamentosPage() {
                       {isPassed ? <Check size={14} /> : item.step}
                     </div>
                     <span
-                      className={`text-[11px] md:text-xs font-semibold ${
+                      className={`text-[11px] md:text-sm font-semibold ${
                         isActive
                           ? "text-[#18351E]"
                           : isPassed
@@ -573,7 +573,7 @@ export default function AgendamentosPage() {
                               {visuals.highlightBadge}
                             </span>
                           </div>
-                          <span className="text-xs font-semibold text-[#8c7b6c] flex items-center gap-1 shrink-0">
+                          <span className="text-sm font-semibold text-[#8c7b6c] flex items-center gap-1 shrink-0">
                             <Clock size={12} />
                             {service.defaultDurationMinutes} min
                           </span>
@@ -612,7 +612,7 @@ export default function AgendamentosPage() {
               <div>
                 <button
                   onClick={() => setCurrentStep(1)}
-                  className="inline-flex items-center gap-1 text-xs text-[#8c7b6c] hover:text-[#18351E] font-medium mb-1 cursor-pointer"
+                  className="inline-flex items-center gap-1 text-sm text-[#8c7b6c] hover:text-[#18351E] font-medium mb-1 cursor-pointer"
                 >
                   <ChevronLeft size={14} /> Voltar aos serviços
                 </button>
@@ -672,7 +672,7 @@ export default function AgendamentosPage() {
                         )}
                       </div>
 
-                      <span className="text-xs font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
+                      <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
                         {agent.actingRole}
                       </span>
 
@@ -685,7 +685,7 @@ export default function AgendamentosPage() {
                       </h3>
 
                       {agent.community && (
-                        <p className="text-xs text-[#5A463B] mt-1 flex items-center gap-1">
+                        <p className="text-sm text-[#5A463B] mt-1 flex items-center gap-1">
                           <MapPin size={12} className="text-[#B8872E]" />
                           {agent.community.name}
                         </p>
@@ -710,7 +710,7 @@ export default function AgendamentosPage() {
               <div>
                 <button
                   onClick={() => setCurrentStep(2)}
-                  className="inline-flex items-center gap-1 text-xs text-[#8c7b6c] hover:text-[#18351E] font-medium mb-1 cursor-pointer"
+                  className="inline-flex items-center gap-1 text-sm text-[#8c7b6c] hover:text-[#18351E] font-medium mb-1 cursor-pointer"
                 >
                   <ChevronLeft size={14} /> Trocar agente
                 </button>
@@ -728,7 +728,7 @@ export default function AgendamentosPage() {
 
             {/* Date Selector Carousel / Grid */}
             <div>
-              <label className="block text-xs font-bold text-[#a6824b] uppercase tracking-wider mb-2">
+              <label className="block text-sm font-bold text-[#a6824b] uppercase tracking-wider mb-2">
                 Escolha a data
               </label>
               <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 gap-2.5">
@@ -773,7 +773,7 @@ export default function AgendamentosPage() {
                 >
                   Horários disponíveis para {formatDateDisplay(selectedDate)}
                 </h3>
-                <span className="text-xs text-[#8c7b6c] flex items-center gap-1">
+                <span className="text-sm text-[#8c7b6c] flex items-center gap-1">
                   <Clock size={13} /> {selectedService.defaultDurationMinutes} min por atendimento
                 </span>
               </div>
@@ -790,7 +790,7 @@ export default function AgendamentosPage() {
                   <p className="text-base font-semibold text-[#18351E]">
                     Não há horários disponíveis para esta data.
                   </p>
-                  <p className="text-xs text-[#5A463B] mt-1">
+                  <p className="text-sm text-[#5A463B] mt-1">
                     Por favor, selecione outro dia acima para ver as vagas abertas.
                   </p>
                 </div>
@@ -828,7 +828,7 @@ export default function AgendamentosPage() {
               <div>
                 <button
                   onClick={() => setCurrentStep(3)}
-                  className="inline-flex items-center gap-1 text-xs text-[#8c7b6c] hover:text-[#18351E] font-medium mb-1 cursor-pointer"
+                  className="inline-flex items-center gap-1 text-sm text-[#8c7b6c] hover:text-[#18351E] font-medium mb-1 cursor-pointer"
                 >
                   <ChevronLeft size={14} /> Trocar horário
                 </button>
@@ -856,7 +856,7 @@ export default function AgendamentosPage() {
 
               {/* Se for Presencial: Dados do Fiel */}
               <div className="space-y-4">
-                <h3 className="text-xs font-bold text-[#a6824b] uppercase tracking-wider">
+                <h3 className="text-sm font-bold text-[#a6824b] uppercase tracking-wider">
                   {selectedService.requiresAddress ? "Dados de Quem Solicita a Visita" : "Dados do Fiel"}
                 </h3>
 
@@ -896,7 +896,7 @@ export default function AgendamentosPage() {
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-[#18351E] mb-1.5">
-                      E-mail <span className="text-xs text-[#8c7b6c]">(Opcional)</span>
+                      E-mail <span className="text-sm text-[#8c7b6c]">(Opcional)</span>
                     </label>
                     <input
                       type="email"
@@ -910,7 +910,7 @@ export default function AgendamentosPage() {
                   {selectedService.requiresAddress ? (
                     <div>
                       <label className="block text-sm font-medium text-[#18351E] mb-1.5">
-                        Grau de Parentesco / Relação <span className="text-xs text-[#8c7b6c]">(Opcional)</span>
+                        Grau de Parentesco / Relação <span className="text-sm text-[#8c7b6c]">(Opcional)</span>
                       </label>
                       <input
                         type="text"
@@ -923,7 +923,7 @@ export default function AgendamentosPage() {
                   ) : (
                     <div>
                       <label className="block text-sm font-medium text-[#18351E] mb-1.5">
-                        Comunidade que frequenta <span className="text-xs text-[#8c7b6c]">(Opcional)</span>
+                        Comunidade que frequenta <span className="text-sm text-[#8c7b6c]">(Opcional)</span>
                       </label>
                       <select
                         value={communityId}
@@ -945,7 +945,7 @@ export default function AgendamentosPage() {
               {/* Se for Visita Domiciliar: Dados do Enfermo e Endereço */}
               {selectedService.requiresAddress && (
                 <div className="space-y-4 pt-4 border-t border-[#D6A64A]/20">
-                  <h3 className="text-xs font-bold text-[#a6824b] uppercase tracking-wider">
+                  <h3 className="text-sm font-bold text-[#a6824b] uppercase tracking-wider">
                     Dados do Enfermo / Idoso e Local da Visita
                   </h3>
 
@@ -976,7 +976,7 @@ export default function AgendamentosPage() {
                           onChange={(e) => setIsBedridden(e.target.checked)}
                           className="size-4 accent-[#18351E]"
                         />
-                        <span className="text-xs font-medium text-[#18351E]">Está acamado</span>
+                        <span className="text-sm font-medium text-[#18351E]">Está acamado</span>
                       </label>
 
                       <label className="flex items-center gap-2.5 p-3 rounded-xl border border-[#D6A64A]/30 bg-[#fbf6ee] cursor-pointer hover:border-[#B8872E]">
@@ -986,7 +986,7 @@ export default function AgendamentosPage() {
                           onChange={(e) => setCanSwallowHost(e.target.checked)}
                           className="size-4 accent-[#18351E]"
                         />
-                        <span className="text-xs font-medium text-[#18351E]">Engole hóstia</span>
+                        <span className="text-sm font-medium text-[#18351E]">Engole hóstia</span>
                       </label>
 
                       <label className="flex items-center gap-2.5 p-3 rounded-xl border border-[#D6A64A]/30 bg-[#fbf6ee] cursor-pointer hover:border-[#B8872E]">
@@ -996,7 +996,7 @@ export default function AgendamentosPage() {
                           onChange={(e) => setIsLucid(e.target.checked)}
                           className="size-4 accent-[#18351E]"
                         />
-                        <span className="text-xs font-medium text-[#18351E]">Está lúcido</span>
+                        <span className="text-sm font-medium text-[#18351E]">Está lúcido</span>
                       </label>
                     </div>
                   </div>
@@ -1005,7 +1005,7 @@ export default function AgendamentosPage() {
                   <div className="grid md:grid-cols-3 gap-4 pt-2">
                     <div>
                       <label className="block text-sm font-medium text-[#18351E] mb-1.5">
-                        CEP <span className="text-xs text-[#8c7b6c]">(Preenche automático)</span>
+                        CEP <span className="text-sm text-[#8c7b6c]">(Preenche automático)</span>
                       </label>
                       <input
                         type="text"
@@ -1062,7 +1062,7 @@ export default function AgendamentosPage() {
 
                     <div>
                       <label className="block text-sm font-medium text-[#18351E] mb-1.5">
-                        Complemento <span className="text-xs text-[#8c7b6c]">(Opcional)</span>
+                        Complemento <span className="text-sm text-[#8c7b6c]">(Opcional)</span>
                       </label>
                       <input
                         type="text"
@@ -1092,7 +1092,7 @@ export default function AgendamentosPage() {
               {/* Observação / Motivo */}
               <div className="pt-2">
                 <label className="block text-sm font-medium text-[#18351E] mb-1.5">
-                  Observações ou Intenção Particular <span className="text-xs text-[#8c7b6c]">(Opcional e confidencial)</span>
+                  Observações ou Intenção Particular <span className="text-sm text-[#8c7b6c]">(Opcional e confidencial)</span>
                 </label>
                 <textarea
                   rows={3}
@@ -1157,7 +1157,7 @@ export default function AgendamentosPage() {
                   <span className="text-base font-bold text-[#18351E] block">
                     {selectedService.title}
                   </span>
-                  <span className="text-xs text-[#5A463B]">
+                  <span className="text-sm text-[#5A463B]">
                     {selectedService.requiresAddress ? "Visita Domiciliar" : "Atendimento Presencial"} ({selectedService.defaultDurationMinutes} min)
                   </span>
                 </div>
@@ -1170,7 +1170,7 @@ export default function AgendamentosPage() {
                     {selectedAgent.title ? `${selectedAgent.title} ` : ""}
                     {selectedAgent.name}
                   </span>
-                  <span className="text-xs text-[#5A463B]">{selectedAgent.actingRole}</span>
+                  <span className="text-sm text-[#5A463B]">{selectedAgent.actingRole}</span>
                 </div>
               </div>
 
@@ -1181,7 +1181,7 @@ export default function AgendamentosPage() {
                   <span className="text-sm font-bold text-[#18351E] block">
                     {formatDateDisplay(selectedDate)} às {selectedSlot.startTime} (até {selectedSlot.endTime})
                   </span>
-                  <span className="text-xs text-[#5A463B]">
+                  <span className="text-sm text-[#5A463B]">
                     Horário de Brasília (America/Sao_Paulo)
                   </span>
                 </div>
@@ -1189,28 +1189,28 @@ export default function AgendamentosPage() {
 
               {/* Solicitante */}
               <div className="text-sm space-y-1">
-                <span className="text-xs font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
+                <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
                   Solicitante
                 </span>
                 <p className="text-[#18351E] font-semibold">
                   {requesterName} {requesterRelationship ? `(${requesterRelationship})` : ""}
                 </p>
-                <p className="text-xs text-[#5A463B]">WhatsApp: {requesterPhone}</p>
-                {requesterEmail && <p className="text-xs text-[#5A463B]">E-mail: {requesterEmail}</p>}
+                <p className="text-sm text-[#5A463B]">WhatsApp: {requesterPhone}</p>
+                {requesterEmail && <p className="text-sm text-[#5A463B]">E-mail: {requesterEmail}</p>}
               </div>
 
               {/* Se for Visita Domiciliar */}
               {selectedService.requiresAddress && (
                 <div className="pt-3 border-t border-[#D6A64A]/20 text-sm space-y-1">
-                  <span className="text-xs font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
+                  <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
                     Enfermo & Endereço da Visita
                   </span>
                   <p className="text-[#18351E] font-semibold">Enfermo(a): {patientName}</p>
-                  <p className="text-xs text-[#5A463B]">
+                  <p className="text-sm text-[#5A463B]">
                     {street}, {number} {complement ? `(${complement})` : ""} — {neighborhood} {cep ? `— CEP ${cep}` : ""}
                   </p>
                   {referencePoint && (
-                    <p className="text-xs text-[#8c7b6c] italic">Ref: {referencePoint}</p>
+                    <p className="text-sm text-[#8c7b6c] italic">Ref: {referencePoint}</p>
                   )}
                   <div className="flex gap-2 pt-1 text-[11px] text-[#5A463B]">
                     {isBedridden && <span className="bg-[#f0e7d8] px-2 py-0.5 rounded">Acamado</span>}
@@ -1276,12 +1276,12 @@ export default function AgendamentosPage() {
               {/* Caixa de Token / Código de Acompanhamento */}
               <div className="mt-8 p-5 bg-[#fbf6ee] border border-[#D6A64A]/50 rounded-2xl text-left">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold text-[#a6824b] uppercase tracking-wider">
+                  <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider">
                     Seu Código de Acompanhamento
                   </span>
                   <button
                     onClick={handleCopyToken}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-[#18351E] hover:text-[#B8872E] cursor-pointer"
+                    className="inline-flex items-center gap-1 text-sm font-semibold text-[#18351E] hover:text-[#B8872E] cursor-pointer"
                   >
                     {copiedToken ? <Check size={12} className="text-green-600" /> : <Copy size={12} />}
                     {copiedToken ? "Copiado!" : "Copiar Código"}
@@ -1299,7 +1299,7 @@ export default function AgendamentosPage() {
                 <div className="mt-3 pt-3 border-t border-[#D6A64A]/20 flex flex-wrap items-center justify-between gap-2">
                   <button
                     onClick={handleCopyLink}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#18351E] hover:text-[#B8872E] bg-[#fbf5eb] px-3 py-1.5 rounded-lg border border-[#D6A64A]/40 cursor-pointer"
+                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#18351E] hover:text-[#B8872E] bg-[#fbf5eb] px-3 py-1.5 rounded-lg border border-[#D6A64A]/40 cursor-pointer"
                   >
                     {copiedLink ? <Check size={12} className="text-green-600" /> : <Copy size={12} />}
                     {copiedLink ? "Link Copiado!" : "Copiar Link de Acompanhamento"}
@@ -1307,7 +1307,7 @@ export default function AgendamentosPage() {
 
                   <Link
                     href={`/agendamentos/acompanhar?token=${createdAppointment.accessToken}`}
-                    className="text-xs font-bold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1"
+                    className="text-sm font-bold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1"
                   >
                     Abrir página de acompanhamento <ChevronRight size={14} />
                   </Link>
@@ -1315,7 +1315,7 @@ export default function AgendamentosPage() {
               </div>
 
               {/* Resumo do Atendimento */}
-              <div className="mt-6 p-4 rounded-xl bg-[#fbf6ee] border border-[#D6A64A]/30 text-left text-xs text-[#5A463B] space-y-1.5">
+              <div className="mt-6 p-4 rounded-xl bg-[#fbf6ee] border border-[#D6A64A]/30 text-left text-sm text-[#5A463B] space-y-1.5">
                 <div className="flex justify-between">
                   <span className="font-semibold text-[#18351E]">Atendimento:</span>
                   <span>{selectedService?.title}</span>

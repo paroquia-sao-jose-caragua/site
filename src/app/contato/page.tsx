@@ -88,7 +88,7 @@ export default function ContactPage() {
     <section className="relative overflow-hidden bg-[#fbf6ee] min-h-screen">
       <div className="relative z-10 max-w-7xl mx-auto px-6 pt-8 pb-36">
         {/* Breadcrumb */}
-        <nav className="text-xs text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
+        <nav className="text-sm text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
           <Link href="/" className="hover:text-[#2d261e] transition-colors">
             Início
           </Link>
@@ -98,7 +98,7 @@ export default function ContactPage() {
 
         {/* Page Header (estilo liturgia, sem background e sem border-bottom) */}
         <div className="mb-10">
-          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#a6824b] uppercase tracking-widest mb-2">
+          <div className="inline-flex items-center gap-1.5 text-sm font-bold text-[#a6824b] uppercase tracking-widest mb-2">
             <PhoneIcon size={14} />
             <span>CANAL DE CONTATO</span>
           </div>

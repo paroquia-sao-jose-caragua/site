@@ -57,7 +57,7 @@ export function LatestNewsSection() {
 
           <Link
             href="/agenda"
-            className="text-xs font-semibold text-[#B8872E] hover:text-[#18351E] flex items-center gap-1 transition-colors"
+            className="text-sm font-semibold text-[#B8872E] hover:text-[#18351E] flex items-center gap-1 transition-colors"
           >
             Ver todas as notícias <ChevronRight className="w-4 h-4" />
           </Link>
@@ -91,7 +91,7 @@ export function LatestNewsSection() {
                     {item.title}
                   </h3>
 
-                  <p className="text-xs text-[#5A463B] line-clamp-2 leading-relaxed mb-4">
+                  <p className="text-sm text-[#5A463B] line-clamp-2 leading-relaxed mb-4">
                     {item.description}
                   </p>
                 </div>

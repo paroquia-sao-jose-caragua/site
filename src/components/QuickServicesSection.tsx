@@ -27,7 +27,7 @@ export function QuickServicesSection() {
                 <div className="w-12 h-12 rounded-xl bg-[#fbf6ee] border border-[#e8dfd1] flex items-center justify-center text-[#B8872E] mb-3 group-hover:bg-[#18351E] group-hover:text-[#D6A64A] transition-colors">
                   <Icon className="w-5 h-5" />
                 </div>
-                <span className="text-xs font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors">
+                <span className="text-sm font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors">
                   {item.label}
                 </span>
               </Link>

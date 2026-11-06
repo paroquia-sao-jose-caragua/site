@@ -94,7 +94,7 @@ export function DirectionsModal({
 
         <div className="p-6 sm:p-8 text-center">
           {/* Badge & Icon */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#f3ece0] text-[#B8872E] text-xs font-semibold uppercase tracking-wider mb-3 border border-[#D6A64A]/30">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#f3ece0] text-[#B8872E] text-sm font-semibold uppercase tracking-wider mb-3 border border-[#D6A64A]/30">
             <MapPin className="w-3.5 h-3.5 text-[#B8872E]" />
             <span>{badgeText}</span>
           </div>
@@ -129,7 +129,7 @@ export function DirectionsModal({
                   Horário de Atendimento
                 </span>
               </div>
-              <p className="text-xs sm:text-sm font-medium text-[#18351E] leading-relaxed whitespace-pre-line">
+              <p className="text-sm sm:text-sm font-medium text-[#18351E] leading-relaxed whitespace-pre-line">
                 {officeHours}
               </p>
             </div>
@@ -149,7 +149,7 @@ export function DirectionsModal({
               <button
                 type="button"
                 onClick={handleCopyAddress}
-                className={`w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                className={`w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
                   copied
                     ? "bg-emerald-50 border border-emerald-400 text-emerald-800"
                     : "bg-[#fbf5eb] border border-[#D6A64A] text-[#18351E] hover:bg-[#f3ece0]"
@@ -176,7 +176,7 @@ export function DirectionsModal({
               href={mapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-full bg-[#18351E] hover:bg-[#27442A] text-white text-xs sm:text-sm font-semibold transition-all shadow-md cursor-pointer"
+              className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-full bg-[#18351E] hover:bg-[#27442A] text-white text-sm sm:text-sm font-semibold transition-all shadow-md cursor-pointer"
             >
               <Navigation className="w-4 h-4 text-[#D6A64A]" />
               <span>Abrir no Google Maps</span>

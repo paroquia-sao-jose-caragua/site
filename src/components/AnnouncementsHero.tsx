@@ -97,7 +97,7 @@ export function AnnouncementsHero() {
           {hasDynamicSlide ? (
             <>
               {slide.badgeText && (
-                <div className="flex items-center gap-2 text-[#d4a359] text-xs font-semibold uppercase tracking-[0.25em] mb-4">
+                <div className="flex items-center gap-2 text-[#d4a359] text-sm font-semibold uppercase tracking-[0.25em] mb-4">
                   <Sparkles className="w-4 h-4 text-[#d4a359]" />
                   <span>{slide.badgeText}</span>
                   <span className="h-px w-8 bg-[#d4a359]/60 inline-block" />
@@ -127,7 +127,7 @@ export function AnnouncementsHero() {
             </>
           ) : (
             <>
-              <div className="flex items-center gap-2 text-[#d4a359] text-xs font-semibold uppercase tracking-[0.25em] mb-4">
+              <div className="flex items-center gap-2 text-[#d4a359] text-sm font-semibold uppercase tracking-[0.25em] mb-4">
                 <Sparkles className="w-4 h-4 text-[#d4a359]" />
                 <span>Diocese de Caraguatatuba</span>
                 <span className="h-px w-8 bg-[#d4a359]/60 inline-block" />

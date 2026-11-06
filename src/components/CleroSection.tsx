@@ -55,7 +55,7 @@ export function CleroSection({ className }: CleroSectionProps = {}) {
         <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="flex items-center justify-center gap-3 mb-3">
             <span className="h-px w-12 bg-[#B8872E]/40" />
-            <div className="flex items-center gap-1.5 text-[#B8872E] text-xs font-semibold uppercase tracking-[0.3em]">
+            <div className="flex items-center gap-1.5 text-[#B8872E] text-sm font-semibold uppercase tracking-[0.3em]">
               <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
               <span>NOSSOS CLÉRIGOS</span>
               <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
@@ -128,7 +128,7 @@ export function CleroSection({ className }: CleroSectionProps = {}) {
                       alt={mainMember.name}
                       className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#18351E] border border-[#D6A64A]/40 text-[#D6A64A] text-xs font-semibold tracking-wider uppercase shadow-md">
+                    <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#18351E] border border-[#D6A64A]/40 text-[#D6A64A] text-sm font-semibold tracking-wider uppercase shadow-md">
                       <span>✦ {mainMember.role.toUpperCase()}</span>
                     </div>
                   </div>
@@ -136,7 +136,7 @@ export function CleroSection({ className }: CleroSectionProps = {}) {
                   {/* Right Info Content */}
                   <div className="p-6 md:p-10 flex-1 flex flex-col justify-between relative z-10">
                     <div>
-                      <div className="flex items-center gap-2 text-[#B8872E] text-xs font-bold uppercase tracking-[0.25em] mb-2">
+                      <div className="flex items-center gap-2 text-[#B8872E] text-sm font-bold uppercase tracking-[0.25em] mb-2">
                         <CrossIcon fill="#B8872E" width={10} height={18} />
                         <span>{mainMember.role.toUpperCase()}</span>
                       </div>
@@ -149,7 +149,7 @@ export function CleroSection({ className }: CleroSectionProps = {}) {
                       </h3>
 
                       {mainMember.shortIntro && (
-                        <p className="text-xs md:text-sm font-semibold text-[#B8872E] uppercase tracking-wider mb-4">
+                        <p className="text-sm md:text-sm font-semibold text-[#B8872E] uppercase tracking-wider mb-4">
                           {mainMember.shortIntro}
                         </p>
                       )}
@@ -160,14 +160,14 @@ export function CleroSection({ className }: CleroSectionProps = {}) {
 
                       {/* Subtle St. Joseph lily / decoration text */}
                       <div className="flex items-center gap-3 my-6 py-4 border-t border-b border-[#D6A64A]/20">
-                        <span className="text-xs text-[#8c7b6c] font-serif italic">
+                        <span className="text-sm text-[#8c7b6c] font-serif italic">
                           “São José, homem justo e fiel, rogai por nós.”
                         </span>
                       </div>
                     </div>
 
                     <div>
-                      <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#18351E] text-white text-xs font-semibold group-hover:bg-[#27442A] transition-all shadow-md">
+                      <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#18351E] text-white text-sm font-semibold group-hover:bg-[#27442A] transition-all shadow-md">
                         <span>Conheça sua história completa</span>
                         <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </div>
@@ -181,7 +181,7 @@ export function CleroSection({ className }: CleroSectionProps = {}) {
             {otherMembers.length > 0 && (
               <div>
                 <div className="mb-8">
-                  <span className="text-[#B8872E] text-xs font-bold uppercase tracking-[0.25em] block mb-1">
+                  <span className="text-[#B8872E] text-sm font-bold uppercase tracking-[0.25em] block mb-1">
                     OUTROS MINISTROS E PASTORES
                   </span>
                   <h3
@@ -212,7 +212,7 @@ export function CleroSection({ className }: CleroSectionProps = {}) {
                       </div>
 
                       {/* Role / Categoria */}
-                      <p className="text-[#B8872E] text-xs uppercase tracking-[0.2em] font-semibold mb-1">
+                      <p className="text-[#B8872E] text-sm uppercase tracking-[0.2em] font-semibold mb-1">
                         {person.role}
                       </p>
 
@@ -225,7 +225,7 @@ export function CleroSection({ className }: CleroSectionProps = {}) {
                       </h4>
 
                       {/* Action Link */}
-                      <div className="flex items-center gap-1 text-xs font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors mt-auto pt-3 border-t border-[#D6A64A]/20 w-full justify-center">
+                      <div className="flex items-center gap-1 text-sm font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors mt-auto pt-3 border-t border-[#D6A64A]/20 w-full justify-center">
                         <span>Conheça</span>
                         <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                       </div>

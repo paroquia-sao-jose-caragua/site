@@ -55,7 +55,7 @@ export default function ClergyDetailPage({ params }: PageProps) {
     <main className="relative w-full min-h-screen bg-[#fbf6ee] overflow-hidden pt-8 pb-24 md:pb-36">
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Breadcrumbs */}
-        <nav className="text-xs text-[#8c7b6c] mb-8 flex items-center gap-2 font-medium flex-wrap">
+        <nav className="text-sm text-[#8c7b6c] mb-8 flex items-center gap-2 font-medium flex-wrap">
           <Link href="/" className="hover:text-[#2d261e] transition-colors">
             Início
           </Link>
@@ -108,7 +108,7 @@ export default function ClergyDetailPage({ params }: PageProps) {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               {/* Esquerda: Informações do Clérigo */}
               <div className="lg:col-span-7 space-y-5">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#fbf5eb] border border-[#D6A64A]/40 text-[#B8872E] text-xs font-semibold tracking-widest uppercase">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#fbf5eb] border border-[#D6A64A]/40 text-[#B8872E] text-sm font-semibold tracking-widest uppercase">
                   <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
                   <span>{role}</span>
                 </div>
@@ -129,7 +129,7 @@ export default function ClergyDetailPage({ params }: PageProps) {
                 <div className="flex flex-wrap items-center gap-4 pt-3">
                   <a
                     href="#biografia"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#18351E] text-white text-xs font-semibold hover:bg-[#27442A] transition-all shadow-md cursor-pointer"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#18351E] text-white text-sm font-semibold hover:bg-[#27442A] transition-all shadow-md cursor-pointer"
                   >
                     <BookOpen className="w-4 h-4 text-[#D6A64A]" />
                     <span>Ver biografia</span>
@@ -140,7 +140,7 @@ export default function ClergyDetailPage({ params }: PageProps) {
                     member.position === "vicar") && (
                     <Link
                       href="/contato"
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#fbf5eb] border border-[#D6A64A] text-[#18351E] text-xs font-semibold hover:bg-[#f3ece0] transition-all shadow-xs"
+                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#fbf5eb] border border-[#D6A64A] text-[#18351E] text-sm font-semibold hover:bg-[#f3ece0] transition-all shadow-xs"
                     >
                       <MessageCircle className="w-4 h-4 text-[#B8872E]" />
                       <span>Falar com a secretaria</span>
@@ -158,7 +158,7 @@ export default function ClergyDetailPage({ params }: PageProps) {
                     className="w-full h-full object-cover object-top"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-                  <div className="absolute bottom-4 left-4 right-4 text-white text-xs font-serif italic">
+                  <div className="absolute bottom-4 left-4 right-4 text-white text-sm font-serif italic">
                     {getMinistryJurisdiction(member.position)}
                   </div>
                 </div>
@@ -172,7 +172,7 @@ export default function ClergyDetailPage({ params }: PageProps) {
                 <div>
                   <div className="flex items-center gap-3 mb-3">
                     <span className="h-px w-8 bg-[#B8872E]/40" />
-                    <span className="text-[#B8872E] text-xs font-bold uppercase tracking-[0.25em]">
+                    <span className="text-[#B8872E] text-sm font-bold uppercase tracking-[0.25em]">
                       HISTÓRIA E MINISTÉRIO
                     </span>
                   </div>
@@ -202,7 +202,7 @@ export default function ClergyDetailPage({ params }: PageProps) {
                 <div className="pt-2">
                   <Link
                     href="/clerigos"
-                    className="inline-flex items-center gap-2 text-xs font-semibold text-[#8c6218] hover:text-[#18351E] transition-colors"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-[#8c6218] hover:text-[#18351E] transition-colors"
                   >
                     <ArrowLeft size={14} />
                     <span>Voltar para todos os clérigos</span>
@@ -225,12 +225,12 @@ export default function ClergyDetailPage({ params }: PageProps) {
 
                   <div className="space-y-3.5 text-sm">
                     <div>
-                      <span className="text-xs text-[#8c7b6c] uppercase tracking-wider block font-medium">Ofício / Função</span>
+                      <span className="text-sm text-[#8c7b6c] uppercase tracking-wider block font-medium">Ofício / Função</span>
                       <span className="font-semibold text-[#18351E] text-base">{role}</span>
                     </div>
 
                     <div>
-                      <span className="text-xs text-[#8c7b6c] uppercase tracking-wider block font-medium">Jurisdição</span>
+                      <span className="text-sm text-[#8c7b6c] uppercase tracking-wider block font-medium">Jurisdição</span>
                       <span className="text-[#5A463B] font-serif">{getMinistryJurisdiction(member.position)}</span>
                     </div>
 
@@ -311,7 +311,7 @@ export default function ClergyDetailPage({ params }: PageProps) {
                           >
                             {item.name}
                           </h3>
-                          <span className="text-xs text-[#8c6218] font-medium flex items-center gap-1 mt-0.5">
+                          <span className="text-sm text-[#8c6218] font-medium flex items-center gap-1 mt-0.5">
                             <span>Conheça</span>
                             <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
                           </span>

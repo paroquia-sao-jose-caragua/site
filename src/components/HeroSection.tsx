@@ -521,7 +521,7 @@ export function HeroSection() {
                               </p>
                             </div>
                             <p
-                              className="flex-1 text-[#A3651B] text-xs sm:text-right"
+                              className="flex-1 text-[#A3651B] text-sm sm:text-right"
                               style={{ fontWeight: 400 }}
                             >
                               <span>

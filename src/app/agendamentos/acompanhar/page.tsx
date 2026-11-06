@@ -96,28 +96,28 @@ function TrackAppointmentContent() {
     switch (status) {
       case "pending":
         return (
-          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-amber-100 text-amber-900 border border-amber-300">
             <Clock size={14} />
             <span>Pendente (Aguardando confirmação)</span>
           </div>
         );
       case "confirmed":
         return (
-          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-900 border border-emerald-300">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-emerald-100 text-emerald-900 border border-emerald-300">
             <CheckCircle2 size={14} />
             <span>Confirmado</span>
           </div>
         );
       case "completed":
         return (
-          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-blue-100 text-blue-900 border border-blue-300">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-blue-100 text-blue-900 border border-blue-300">
             <CheckCircle2 size={14} />
             <span>Realizado</span>
           </div>
         );
       case "cancelled":
         return (
-          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-rose-100 text-rose-900 border border-rose-300">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-rose-100 text-rose-900 border border-rose-300">
             <XCircle size={14} />
             <span>Cancelado</span>
           </div>
@@ -129,7 +129,7 @@ function TrackAppointmentContent() {
     <div className="space-y-8">
       {/* Search Bar / Input Token */}
       <div className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-2xl p-6 shadow-sm max-w-2xl">
-        <label className="block text-xs font-bold text-[#a6824b] uppercase tracking-wider mb-2">
+        <label className="block text-sm font-bold text-[#a6824b] uppercase tracking-wider mb-2">
           Código de Acompanhamento
         </label>
         <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row gap-3">
@@ -162,7 +162,7 @@ function TrackAppointmentContent() {
           <AlertCircle size={20} className="shrink-0 text-rose-600 mt-0.5" />
           <div>
             <h4 className="font-bold text-base text-rose-900 mb-1">Agendamento não localizado</h4>
-            <p className="text-xs leading-relaxed">
+            <p className="text-sm leading-relaxed">
               Não encontramos nenhum atendimento com o código informado. Por favor, verifique se o código foi digitado corretamente ou entre em contato com a secretaria paroquial.
             </p>
           </div>
@@ -172,7 +172,7 @@ function TrackAppointmentContent() {
           {/* Top Status & Service */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#D6A64A]/20 pb-4">
             <div>
-              <span className="text-xs font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
+              <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
                 {appointment.service?.category === "home_visit"
                   ? "Visita Pastoral a Domicílio"
                   : "Atendimento Presencial"}
@@ -193,11 +193,11 @@ function TrackAppointmentContent() {
             <div className="flex items-start gap-3">
               <CalendarIcon className="w-5 h-5 text-[#B8872E] shrink-0 mt-0.5" />
               <div>
-                <span className="text-xs text-[#5A463B] block">Data e Horário</span>
+                <span className="text-sm text-[#5A463B] block">Data e Horário</span>
                 <span className="font-bold text-[#18351E] block text-sm">
                   {formatDateDisplay(appointment.appointmentDate)}
                 </span>
-                <span className="text-xs font-semibold text-[#18351E]">
+                <span className="text-sm font-semibold text-[#18351E]">
                   {appointment.startTime} às {appointment.endTime}
                 </span>
               </div>
@@ -206,12 +206,12 @@ function TrackAppointmentContent() {
             <div className="flex items-start gap-3">
               <User className="w-5 h-5 text-[#B8872E] shrink-0 mt-0.5" />
               <div>
-                <span className="text-xs text-[#5A463B] block">Clérigo / Agente</span>
+                <span className="text-sm text-[#5A463B] block">Clérigo / Agente</span>
                 <span className="font-bold text-[#18351E] block text-sm">
                   {appointment.agent?.title ? `${appointment.agent.title} ` : ""}
                   {appointment.agent?.name}
                 </span>
-                <span className="text-xs text-[#5A463B]">
+                <span className="text-sm text-[#5A463B]">
                   {appointment.agent?.actingRole}
                 </span>
               </div>
@@ -219,8 +219,8 @@ function TrackAppointmentContent() {
           </div>
 
           {/* Solicitante */}
-          <div className="text-xs space-y-1.5 text-[#5A463B]">
-            <span className="text-xs font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
+          <div className="text-sm space-y-1.5 text-[#5A463B]">
+            <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
               Fiel / Solicitante
             </span>
             <p className="font-semibold text-[#18351E] text-sm">
@@ -232,8 +232,8 @@ function TrackAppointmentContent() {
 
           {/* Se for Visita a Enfermo */}
           {appointment.patientName && (
-            <div className="p-4 bg-[#fbf6ee] border border-[#D6A64A]/30 rounded-xl text-xs space-y-2 text-[#5A463B]">
-              <span className="text-xs font-bold text-[#a6824b] uppercase tracking-wider block">
+            <div className="p-4 bg-[#fbf6ee] border border-[#D6A64A]/30 rounded-xl text-sm space-y-2 text-[#5A463B]">
+              <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block">
                 Dados da Visita Domiciliar
               </span>
               <p className="font-semibold text-[#18351E] text-sm">
@@ -271,7 +271,7 @@ function TrackAppointmentContent() {
 
           {/* Cancellation Notice */}
           {appointment.status === "cancelled" && appointment.cancellationReason && (
-            <div className="p-3.5 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800">
+            <div className="p-3.5 bg-rose-50 border border-rose-200 rounded-xl text-sm text-rose-800">
               <span className="font-bold">Motivo do cancelamento:</span> {appointment.cancellationReason}
             </div>
           )}
@@ -291,7 +291,7 @@ function TrackAppointmentContent() {
                   description: appointment.requesterNotes,
                 })
               }
-              className="inline-flex items-center gap-1.5 rounded-xl border border-[#D6A64A]/50 bg-[#fbf6ee] px-4 py-2.5 text-xs font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[#D6A64A]/50 bg-[#fbf6ee] px-4 py-2.5 text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 transition-colors cursor-pointer"
             >
               <Download size={14} className="text-[#B8872E]" />
               <span>Baixar Calendário (.ics)</span>
@@ -309,7 +309,7 @@ function TrackAppointmentContent() {
                 }
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-xl bg-[#18351E] px-4 py-2.5 text-xs font-semibold text-[#eeca94] hover:bg-[#27442A] transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-[#18351E] px-4 py-2.5 text-sm font-semibold text-[#eeca94] hover:bg-[#27442A] transition-colors cursor-pointer"
               >
                 <MessageCircle size={14} />
                 <span>WhatsApp</span>
@@ -319,7 +319,7 @@ function TrackAppointmentContent() {
                 <button
                   type="button"
                   onClick={() => setIsCancelModalOpen(true)}
-                  className="rounded-xl border border-rose-300 text-rose-700 bg-rose-50/50 hover:bg-rose-100 px-4 py-2.5 text-xs font-semibold transition-colors cursor-pointer"
+                  className="rounded-xl border border-rose-300 text-rose-700 bg-rose-50/50 hover:bg-rose-100 px-4 py-2.5 text-sm font-semibold transition-colors cursor-pointer"
                 >
                   Cancelar Agendamento
                 </button>
@@ -348,18 +348,18 @@ function TrackAppointmentContent() {
               </button>
             </div>
 
-            <p className="text-xs text-[#5A463B] leading-relaxed">
+            <p className="text-sm text-[#5A463B] leading-relaxed">
               Você tem certeza que deseja cancelar este atendimento? O horário ficará disponível para outro paroquiano.
             </p>
 
             {cancelError && (
-              <div className="p-3 bg-rose-50 border border-rose-300 rounded-xl text-xs text-rose-800">
+              <div className="p-3 bg-rose-50 border border-rose-300 rounded-xl text-sm text-rose-800">
                 {cancelError}
               </div>
             )}
 
             <div>
-              <label className="block text-xs font-bold text-[#18351E] mb-1.5">
+              <label className="block text-sm font-bold text-[#18351E] mb-1.5">
                 Motivo do Cancelamento <span className="text-red-600">*</span>
               </label>
               <textarea
@@ -368,7 +368,7 @@ function TrackAppointmentContent() {
                 value={cancelReason}
                 onChange={(e) => setCancelReason(e.target.value)}
                 placeholder="Ex.: Imprevisto de trabalho, melhora do enfermo..."
-                className="w-full rounded-xl border border-[#D6A64A]/40 bg-[#fbf6ee] px-3.5 py-2.5 text-xs text-[#18351E] outline-none focus:border-[#B8872E] resize-none"
+                className="w-full rounded-xl border border-[#D6A64A]/40 bg-[#fbf6ee] px-3.5 py-2.5 text-sm text-[#18351E] outline-none focus:border-[#B8872E] resize-none"
               />
             </div>
 
@@ -376,7 +376,7 @@ function TrackAppointmentContent() {
               <button
                 type="button"
                 onClick={() => setIsCancelModalOpen(false)}
-                className="rounded-xl border border-[#D6A64A]/40 text-[#18351E] px-4 py-2 text-xs font-semibold hover:bg-[#ECD6BD]/40 cursor-pointer"
+                className="rounded-xl border border-[#D6A64A]/40 text-[#18351E] px-4 py-2 text-sm font-semibold hover:bg-[#ECD6BD]/40 cursor-pointer"
               >
                 Voltar
               </button>
@@ -385,7 +385,7 @@ function TrackAppointmentContent() {
                 type="button"
                 disabled={cancelAppointmentMutation.isPending}
                 onClick={handleConfirmCancel}
-                className="rounded-xl bg-rose-700 text-white hover:bg-rose-800 px-5 py-2 text-xs font-semibold cursor-pointer shadow-xs disabled:opacity-60"
+                className="rounded-xl bg-rose-700 text-white hover:bg-rose-800 px-5 py-2 text-sm font-semibold cursor-pointer shadow-xs disabled:opacity-60"
               >
                 {cancelAppointmentMutation.isPending ? "Cancelando..." : "Confirmar Cancelamento"}
               </button>
@@ -402,7 +402,7 @@ export default function TrackAppointmentPage() {
     <section className="relative overflow-hidden bg-[#fbf6ee] min-h-screen">
       <div className="relative z-10 max-w-7xl mx-auto px-6 pt-8 pb-36">
         {/* Breadcrumb */}
-        <nav className="text-xs text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
+        <nav className="text-sm text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
           <Link href="/" className="hover:text-[#2d261e] transition-colors">
             Início
           </Link>
@@ -416,7 +416,7 @@ export default function TrackAppointmentPage() {
 
         {/* Page Header */}
         <div className="mb-8">
-          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#a6824b] uppercase tracking-widest mb-2">
+          <div className="inline-flex items-center gap-1.5 text-sm font-bold text-[#a6824b] uppercase tracking-widest mb-2">
             <ShieldCheck size={14} />
             <span>PORTAL DO FIEL</span>
           </div>
