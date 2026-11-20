@@ -58,7 +58,7 @@ export function LiturgyDailySection() {
                 href="/liturgia"
                 className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-[#18351E] hover:bg-[#27442A] text-[#eeca94] font-semibold text-sm transition-all shadow-md hover:shadow-lg"
               >
-                Ler reflexão completa
+                Ler Palavra do Dia
               </Link>
             </div>
           </div>
