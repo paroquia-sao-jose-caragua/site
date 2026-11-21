@@ -64,7 +64,7 @@ export function DirectionsModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+      className="fixed inset-0 z-40 flex items-center justify-center p-0 sm:p-6"
       role="dialog"
       aria-modal="true"
     >
@@ -76,23 +76,23 @@ export function DirectionsModal({
 
       {/* Modal Card */}
       <div
-        className="relative w-full max-w-lg overflow-hidden rounded-3xl bg-[#FBF8F3] border border-[#D6A64A]/60 shadow-2xl flex flex-col z-10 animate-in zoom-in-95 duration-200"
+        className="relative w-full h-full sm:h-auto sm:max-w-lg sm:max-h-[90vh] overflow-hidden rounded-none sm:rounded-3xl bg-[#FBF8F3] border-0 sm:border sm:border-[#D6A64A]/60 shadow-2xl flex flex-col z-10 animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Gold Border */}
-        <div className="h-2 bg-[#B8872E] w-full" />
+        <div className="h-2 bg-[#B8872E] w-full shrink-0" />
 
         {/* Close Button */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 size-9 rounded-full bg-[#18351E] text-[#D6A64A] flex items-center justify-center hover:scale-105 transition-all shadow-md cursor-pointer"
+          className="absolute top-4 right-4 z-10 p-2 text-[#5A463B] hover:text-[#18351E] transition-colors cursor-pointer"
           aria-label="Fechar"
         >
-          <X size={16} />
+          <X size={22} />
         </button>
 
-        <div className="p-6 sm:p-8 text-center">
+        <div className="p-6 pb-24 sm:p-8 sm:pb-8 text-center flex-1 min-h-0 overflow-y-auto">
           {/* Badge & Icon */}
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#f3ece0] text-[#B8872E] text-sm font-semibold uppercase tracking-wider mb-3 border border-[#D6A64A]/30">
             <MapPin className="w-3.5 h-3.5 text-[#B8872E]" />

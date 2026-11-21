@@ -81,7 +81,7 @@ export default function ContributePage() {
       <div className="relative z-10">
         <div className="max-w-7xl mx-auto px-6">
           {/* Breadcrumb */}
-          <nav className="text-sm text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
+          <nav className="text-sm text-[#8c7b6c] mb-2 flex items-center gap-2 font-medium">
             <Link href="/" className="hover:text-[#2d261e] transition-colors">
               Início
             </Link>
@@ -91,10 +91,6 @@ export default function ContributePage() {
 
           {/* Page Header */}
           <div className="mb-10">
-            <div className="inline-flex items-center gap-1.5 text-sm font-bold text-[#a6824b] uppercase tracking-widest mb-2">
-              <Heart className="w-4 h-4" />
-              <span>OBRAS E MISSÃO</span>
-            </div>
             <h1 className="text-3xl md:text-5xl font-serif font-bold text-[#18351E]">
               {donations?.title || "Contribua com a Paróquia São José"}
             </h1>

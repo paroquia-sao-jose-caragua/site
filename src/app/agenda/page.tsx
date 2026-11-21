@@ -24,6 +24,7 @@ import type {
 } from "@/entities/CalendarSchedule";
 import type { Community } from "@/entities/Community";
 import { ScheduleModal } from "@/components/ScheduleModal";
+import { AgendaMobileCalendar } from "@/components/agenda/AgendaMobileCalendar";
 import { useCommunities } from "@/lib/api/communities/use-communities";
 import dayjs from "dayjs";
 
@@ -718,7 +719,7 @@ function AgendaPageContent() {
     <main className="relative overflow-hidden bg-[#fbf6ee] min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-6 mb-32">
         {/* Breadcrumb */}
-        <nav className="text-sm text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
+        <nav className="text-sm text-[#8c7b6c] mb-2 flex items-center gap-2 font-medium">
           <Link href="/" className="hover:text-[#2d261e] transition-colors">
             Início
           </Link>
@@ -728,10 +729,6 @@ function AgendaPageContent() {
 
         {/* Header Block: Title */}
         <div className="mb-8 max-w-3xl">
-          <div className="inline-flex items-center gap-1.5 text-sm font-bold text-[#a6824b] uppercase tracking-widest mb-2">
-            <Calendar className="w-4 h-4" />
-            <span>AGENDA PASTORAL</span>
-          </div>
           <h1 className="text-3xl md:text-5xl font-serif font-bold text-[#18351E]">
             Programação da Paróquia
           </h1>
@@ -740,8 +737,8 @@ function AgendaPageContent() {
           </p>
         </div>
 
-        {/* Month Selector Bar & Discreet Community Select with separating border */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#D6A64A]/30 mb-8">
+        {/* Month Selector Bar & Discreet Community Select with separating border (Desktop only) */}
+        <div className="hidden lg:flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#D6A64A]/30 mb-8">
           {/* Month buttons */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
             {visibleMonths.map((m) => {
@@ -963,28 +960,52 @@ function AgendaPageContent() {
             </div>
           </div>
 
-          {/* Sidebar: MiniCalendar (order-1 on mobile so it renders before cards; lg:order-2 on desktop so it is on the right) */}
+          {/* Sidebar: AgendaMobileCalendar on mobile, MiniCalendar on desktop */}
           <div className="w-full lg:w-80 xl:w-88 shrink-0 lg:sticky lg:top-24 lg:self-start order-1 lg:order-2">
-            <MiniCalendar
-              year={selectedYear}
-              month={selectedMonth}
-              selectedDate={selectedDate}
-              eventDates={eventDatesSet}
-              preceptDates={preceptDatesSet}
-              onMonthChange={(y, m) => {
-                setSelectedYear(y);
-                setSelectedMonth(m);
-                setSelectedDate("");
-              }}
-              onSelect={(d) => {
-                setSelectedDate(d);
-                if (d) {
-                  const parts = d.split("-").map(Number);
-                  setSelectedYear(parts[0]);
-                  setSelectedMonth(parts[1]);
-                }
-              }}
-            />
+            <div className="lg:hidden">
+              <AgendaMobileCalendar
+                year={selectedYear}
+                month={selectedMonth}
+                selectedDate={selectedDate}
+                eventDates={eventDatesSet}
+                preceptDates={preceptDatesSet}
+                onMonthChange={(y, m) => {
+                  setSelectedYear(y);
+                  setSelectedMonth(m);
+                }}
+                onSelect={(d) => {
+                  setSelectedDate(d);
+                  if (d) {
+                    const parts = d.split("-").map(Number);
+                    setSelectedYear(parts[0]);
+                    setSelectedMonth(parts[1]);
+                  }
+                }}
+              />
+            </div>
+
+            <div className="hidden lg:block">
+              <MiniCalendar
+                year={selectedYear}
+                month={selectedMonth}
+                selectedDate={selectedDate}
+                eventDates={eventDatesSet}
+                preceptDates={preceptDatesSet}
+                onMonthChange={(y, m) => {
+                  setSelectedYear(y);
+                  setSelectedMonth(m);
+                  setSelectedDate("");
+                }}
+                onSelect={(d) => {
+                  setSelectedDate(d);
+                  if (d) {
+                    const parts = d.split("-").map(Number);
+                    setSelectedYear(parts[0]);
+                    setSelectedMonth(parts[1]);
+                  }
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>

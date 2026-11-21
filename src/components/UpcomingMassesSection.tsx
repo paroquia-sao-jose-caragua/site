@@ -45,6 +45,21 @@ const MONTHS_PT = [
   "Dezembro",
 ];
 
+const MONTHS_PT_SHORT = [
+  "Jan",
+  "Fev",
+  "Mar",
+  "Abr",
+  "Mai",
+  "Jun",
+  "Jul",
+  "Ago",
+  "Set",
+  "Out",
+  "Nov",
+  "Dez",
+];
+
 function parseDate(str: string) {
   const [y, m, d] = str.split("-").map(Number);
   return new Date(y, m - 1, d);
@@ -55,6 +70,14 @@ function formatDateLabel(dateStr: string) {
   const weekday = WEEKDAYS_FULL[d.getDay()];
   const day = d.getDate();
   const month = MONTHS_PT[d.getMonth()];
+  return `${weekday}, ${day} de ${month}`;
+}
+
+function formatShortDateLabel(dateStr: string) {
+  const d = parseDate(dateStr);
+  const weekday = WEEKDAYS[d.getDay()];
+  const day = d.getDate();
+  const month = MONTHS_PT_SHORT[d.getMonth()];
   return `${weekday}, ${day} de ${month}`;
 }
 
@@ -343,18 +366,13 @@ export function UpcomingMassesSection() {
                             className="text-xl sm:text-2xl font-semibold text-[#18351E] capitalize"
                             style={{ fontFamily: "Cormorant Garamond, serif" }}
                           >
-                            {formatDateLabel(dateStr)}
+                            <span className="sm:hidden">
+                              {formatShortDateLabel(dateStr)}
+                            </span>
+                            <span className="hidden sm:inline">
+                              {formatDateLabel(dateStr)}
+                            </span>
                           </h3>
-                          {isToday && (
-                            <span className="text-[11px] bg-[#18351E] text-[#ffe7c2] px-2.5 py-0.5 rounded-full border border-[#D6A64A]/40 font-semibold uppercase tracking-wider">
-                              Hoje
-                            </span>
-                          )}
-                          {isTomorrow && (
-                            <span className="text-[11px] bg-[#f3ece0] text-[#18351E] px-2.5 py-0.5 rounded-full border border-[#D6A64A]/40 font-semibold uppercase tracking-wider">
-                              Amanhã
-                            </span>
-                          )}
                         </div>
                         <span className="text-sm text-[#5A463B] font-medium">
                           {items.length}{" "}

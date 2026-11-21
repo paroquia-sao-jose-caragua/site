@@ -4,6 +4,7 @@ import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { UrgentAlertBar } from "@/components/UrgentAlertBar";
 import { SiteFooter } from "@/components/SiteFooter";
+import { MobileBottomNav } from "@/components/MobileBottomNav";
 import AppProvider from "@/providers/AppProvider";
 import { ParishSchema } from "@/components/seo/ParishSchema";
 import { PwaNotificationManager } from "@/components/pwa/PwaNotificationManager";
@@ -152,11 +153,12 @@ export default function RootLayout({
         <ParishSchema />
 
         <AppProvider>
-          <div className="min-h-screen flex flex-col bg-[#f8f0e7]">
+          <div className="min-h-screen flex flex-col bg-[#f8f0e7] pb-16 min-[950px]:pb-0">
             <SiteHeader />
             <UrgentAlertBar />
             <div className="flex-1">{children}</div>
             <SiteFooter />
+            <MobileBottomNav />
             <PwaNotificationManager />
             <Toaster richColors position="top-right" />
           </div>

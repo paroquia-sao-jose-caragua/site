@@ -28,7 +28,7 @@ export interface CommunityDetail {
   patronDescription: string;
   patronImage: string;
   address: string;
-  phone: string;
+  phone?: string;
   email: string;
   officeHours: string;
   massSchedule: { day: string; times: string }[];
@@ -56,7 +56,6 @@ export const communitiesDetailData: Record<string, CommunityDetail> = {
     patronDescription: "Esposo de Maria e protetor da Igreja",
     patronImage: "/clergies/paroco.png",
     address: "R. Edson dos Santos, 30 - Morro do Algodão, Caraguatatuba - SP, 11671-180",
-    phone: "(12) 3883-4888",
     email: "contato@paroquiasaojosecaragua.org.br",
     officeHours:
       "Segunda a Sexta: 08h às 12h e 13h às 17h\nSábado: 08h às 12h",
@@ -132,7 +131,6 @@ export const communitiesDetailData: Record<string, CommunityDetail> = {
     patronImage: "/communities/nossa-senhora-do-rosario.jpeg",
     address:
       "Av. Manoel Avelino dos Santos, 100 — Praia das Palmeiras, Caraguatatuba - SP, 11666-251",
-    phone: "(12) 3883-4888",
     email: "contato@paroquiasaojosecaragua.org.br",
     officeHours: "Atendimento via Secretaria Paroquial (Matriz)",
     massSchedule: [
@@ -179,7 +177,6 @@ export const communitiesDetailData: Record<string, CommunityDetail> = {
     patronImage: "/communities/santa-edwiges.png",
     address:
       "Praça Engenheiro Marino Parolari, 40 — Porto Novo, Caraguatatuba - SP, 11667-255",
-    phone: "(12) 3883-4888",
     email: "contato@paroquiasaojosecaragua.org.br",
     officeHours: "Atendimento via Secretaria Paroquial (Matriz)",
     massSchedule: [
@@ -240,7 +237,6 @@ export const communitiesDetailData: Record<string, CommunityDetail> = {
     patronImage: "/communities/sagrada-familia.jpeg",
     address:
       "Rua José de Almeida, 211 — Praia das Palmeiras, Caraguatatuba - SP, 11666-480",
-    phone: "(12) 3883-4888",
     email: "contato@paroquiasaojosecaragua.org.br",
     officeHours: "Atendimento via Secretaria Paroquial (Matriz)",
     massSchedule: [{ day: "Sábado", times: "18h00" }],
@@ -294,7 +290,6 @@ export const communitiesDetailData: Record<string, CommunityDetail> = {
     patronImage: "/communities/sagrado-coracao-de-jesus.jpeg",
     address:
       "Av. Albert Charles Hanciau, 566 — Pontal de Santa Marina, Caraguatatuba - SP, 11672-050",
-    phone: "(12) 3883-4888",
     email: "contato@paroquiasaojosecaragua.org.br",
     officeHours: "Atendimento via Secretaria Paroquial (Matriz)",
     massSchedule: [

@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Users, ChevronRight, Sparkles, Globe, Shield, Church } from "lucide-react";
-import { CrossIcon } from "@/components/icons/CrossIcon";
+import { ChevronRight, Sparkles } from "lucide-react";
 import { useClergy } from "@/lib/api/clergy/use-clergy";
 import { getClergyPhotoUrl, getClergyRoleLabel } from "@/lib/utils/clergy";
 
@@ -29,7 +28,7 @@ export default function ClerigosPage() {
     <main className="relative w-full min-h-screen bg-[#fbf6ee] overflow-hidden pt-8 pb-24 md:pb-36">
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Breadcrumb */}
-        <nav className="text-sm text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
+        <nav className="text-sm text-[#8c7b6c] mb-2 flex items-center gap-2 font-medium">
           <Link href="/" className="hover:text-[#2d261e] transition-colors">
             Início
           </Link>
@@ -39,10 +38,6 @@ export default function ClerigosPage() {
 
         {/* Page Header (alinhado à esquerda seguindo o padrão das demais páginas) */}
         <div className="mb-12">
-          <div className="inline-flex items-center gap-1.5 text-sm font-bold text-[#a6824b] uppercase tracking-widest mb-2">
-            <Users className="w-4 h-4" />
-            <span>NOSSOS CLÉRIGOS</span>
-          </div>
           <h1 className="text-3xl md:text-5xl font-serif font-bold text-[#18351E]">
             Quem nos conduz na fé
           </h1>
@@ -80,27 +75,32 @@ export default function ClerigosPage() {
             {/* GRAU 1: IGREJA UNIVERSAL — SÉ APOSTÓLICA (Papa)               */}
             {/* ============================================================== */}
             {pontiffs.length > 0 && (
-              <div className="relative pl-10 sm:pl-14 md:pl-16">
+              <div className="relative sm:pl-14 md:pl-16">
                 {/* Linha vertical conectando ao próximo grau */}
                 <div
-                  className="absolute left-4 sm:left-5 top-10 -bottom-12 md:-bottom-16 w-0.5 bg-gradient-to-b from-[#B8872E] via-[#D6A64A]/40 to-[#D6A64A]/30 -translate-x-1/2"
+                  className="hidden sm:block absolute left-4 sm:left-5 top-10 -bottom-12 md:-bottom-16 w-0.5 bg-gradient-to-b from-[#B8872E] via-[#D6A64A]/40 to-[#D6A64A]/30 -translate-x-1/2"
                   aria-hidden="true"
                 />
 
-                {/* Nó / Ícone na Linha */}
+                {/* Nó / Numeral Romano na Linha */}
                 <div
-                  className="absolute left-4 sm:left-5 top-0 -translate-x-1/2 size-8 sm:size-10 rounded-full bg-[#fbf6ee] border-2 border-[#B8872E] flex items-center justify-center text-[#B8872E] shadow-xs z-10 ring-4 ring-[#fbf6ee]"
+                  className="hidden sm:flex absolute left-4 sm:left-5 top-0 -translate-x-1/2 size-8 sm:size-10 rounded-full bg-[#ECD6BD]/75 items-center justify-center text-[#8c6218] z-10 ring-4 ring-[#fbf6ee]"
                   aria-hidden="true"
                 >
-                  <Globe className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span
+                    className="text-base sm:text-lg font-bold leading-none"
+                    style={{ fontFamily: "Cormorant Garamond, serif" }}
+                  >
+                    I
+                  </span>
                 </div>
 
                 <section aria-labelledby="pontiff-heading-group">
                   {/* Cabeçalho do Nível */}
                   <div className="mb-5 pt-0.5">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#ECD6BD]/60 border border-[#D6A64A]/40 text-[#8c6218] text-[11px] font-bold tracking-wider uppercase mb-1.5">
-                      <span>1º Grau • Sé Apostólica de Roma</span>
-                    </div>
+                    <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
+                      1º Grau • Sé Apostólica de Roma
+                    </span>
                     <h2
                       id="pontiff-heading-group"
                       className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-[#18351E]"
@@ -124,10 +124,10 @@ export default function ClerigosPage() {
                         <Link
                           key={member.id}
                           href={`/clerigos/${member.slug}`}
-                          className="group block w-full bg-[#fbf5eb] border border-[#D6A64A]/40 hover:border-[#B8872E] rounded-3xl p-6 md:p-8 flex flex-col sm:flex-row items-center sm:items-stretch justify-between gap-6 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left"
+                          className="group w-full bg-[#fbf5eb] border border-[#D6A64A]/40 hover:border-[#B8872E] rounded-3xl p-6 md:p-8 flex flex-col sm:flex-row items-center sm:items-stretch justify-between gap-6 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left"
                         >
                           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 flex-1">
-                            <div className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 shrink-0 rounded-2xl overflow-hidden bg-[#f3ece0] border border-[#D6A64A]/30">
+                            <div className="w-44 h-44 shrink-0 rounded-2xl overflow-hidden bg-[#f3ece0] border border-[#D6A64A]/30">
                               <img
                                 src={getClergyPhotoUrl(member)}
                                 alt={member.name}
@@ -136,8 +136,7 @@ export default function ClerigosPage() {
                             </div>
 
                             <div className="flex-1 text-center sm:text-left flex flex-col justify-center">
-                              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#18351E] text-[#eeca94] text-sm font-semibold uppercase tracking-wider mb-2 w-fit mx-auto sm:mx-0">
-                                <Sparkles className="w-3 h-3" />
+                              <div className="text-[#B8872E] text-sm font-semibold tracking-widest uppercase mb-2 w-fit mx-auto sm:mx-0">
                                 <span>{role}</span>
                               </div>
 
@@ -157,9 +156,7 @@ export default function ClerigosPage() {
                           </div>
 
                           <div className="shrink-0 flex items-center justify-center sm:justify-end">
-                            <div
-                              className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white group-hover:bg-[#27442A] text-sm font-semibold transition-all shadow-xs"
-                            >
+                            <div className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white group-hover:bg-[#27442A] text-sm font-semibold transition-all shadow-xs">
                               <span>Conheça</span>
                               <ChevronRight
                                 size={16}
@@ -179,27 +176,32 @@ export default function ClerigosPage() {
             {/* GRAU 2: IGREJA PARTICULAR — DIOCESE (Bispo Diocesano)         */}
             {/* ============================================================== */}
             {bishops.length > 0 && (
-              <div className="relative pl-10 sm:pl-14 md:pl-16">
+              <div className="relative sm:pl-14 md:pl-16">
                 {/* Linha vertical conectando ao próximo grau */}
                 <div
-                  className="absolute left-4 sm:left-5 top-10 -bottom-12 md:-bottom-16 w-0.5 bg-gradient-to-b from-[#B8872E] via-[#D6A64A]/40 to-[#D6A64A]/30 -translate-x-1/2"
+                  className="hidden sm:block absolute left-4 sm:left-5 top-10 -bottom-12 md:-bottom-16 w-0.5 bg-gradient-to-b from-[#B8872E] via-[#D6A64A]/40 to-[#D6A64A]/30 -translate-x-1/2"
                   aria-hidden="true"
                 />
 
-                {/* Nó / Ícone na Linha */}
+                {/* Nó / Numeral Romano na Linha */}
                 <div
-                  className="absolute left-4 sm:left-5 top-0 -translate-x-1/2 size-8 sm:size-10 rounded-full bg-[#fbf6ee] border-2 border-[#B8872E] flex items-center justify-center text-[#B8872E] shadow-xs z-10 ring-4 ring-[#fbf6ee]"
+                  className="hidden sm:flex absolute left-4 sm:left-5 top-0 -translate-x-1/2 size-8 sm:size-10 rounded-full bg-[#ECD6BD]/75 items-center justify-center text-[#8c6218] z-10 ring-4 ring-[#fbf6ee]"
                   aria-hidden="true"
                 >
-                  <Shield className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span
+                    className="text-base sm:text-lg font-bold leading-none"
+                    style={{ fontFamily: "Cormorant Garamond, serif" }}
+                  >
+                    II
+                  </span>
                 </div>
 
                 <section aria-labelledby="bishop-heading-group">
                   {/* Cabeçalho do Nível */}
                   <div className="mb-5 pt-0.5">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#ECD6BD]/60 border border-[#D6A64A]/40 text-[#8c6218] text-[11px] font-bold tracking-wider uppercase mb-1.5">
-                      <span>2º Grau • Igreja Particular</span>
-                    </div>
+                    <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
+                      2º Grau • Igreja Particular
+                    </span>
                     <h2
                       id="bishop-heading-group"
                       className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-[#18351E]"
@@ -223,10 +225,10 @@ export default function ClerigosPage() {
                         <Link
                           key={member.id}
                           href={`/clerigos/${member.slug}`}
-                          className="group block w-full bg-[#fbf5eb] border border-[#D6A64A]/40 hover:border-[#B8872E] rounded-3xl p-6 md:p-8 flex flex-col sm:flex-row items-center sm:items-stretch justify-between gap-6 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left"
+                          className="group w-full bg-[#fbf5eb] border border-[#D6A64A]/40 hover:border-[#B8872E] rounded-3xl p-6 md:p-8 flex flex-col sm:flex-row items-center sm:items-stretch justify-between gap-6 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left"
                         >
                           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 flex-1">
-                            <div className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 shrink-0 rounded-2xl overflow-hidden bg-[#f3ece0] border border-[#D6A64A]/30">
+                            <div className="w-44 h-44 shrink-0 rounded-2xl overflow-hidden bg-[#f3ece0] border border-[#D6A64A]/30">
                               <img
                                 src={getClergyPhotoUrl(member)}
                                 alt={member.name}
@@ -235,8 +237,7 @@ export default function ClerigosPage() {
                             </div>
 
                             <div className="flex-1 text-center sm:text-left flex flex-col justify-center">
-                              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#18351E] text-[#eeca94] text-sm font-semibold uppercase tracking-wider mb-2 w-fit mx-auto sm:mx-0">
-                                <Sparkles className="w-3 h-3" />
+                              <div className="text-[#B8872E] text-sm font-semibold tracking-widest uppercase mb-2 w-fit mx-auto sm:mx-0">
                                 <span>{role}</span>
                               </div>
 
@@ -256,9 +257,7 @@ export default function ClerigosPage() {
                           </div>
 
                           <div className="shrink-0 flex items-center justify-center sm:justify-end">
-                            <div
-                              className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white group-hover:bg-[#27442A] text-sm font-semibold transition-all shadow-xs"
-                            >
+                            <div className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white group-hover:bg-[#27442A] text-sm font-semibold transition-all shadow-xs">
                               <span>Conheça</span>
                               <ChevronRight
                                 size={16}
@@ -278,27 +277,32 @@ export default function ClerigosPage() {
             {/* GRAU 3: COMUNIDADE PAROQUIAL — PARÓQUIA SÃO JOSÉ (Pároco)      */}
             {/* ============================================================== */}
             {parishPriests.length > 0 && (
-              <div className="relative pl-10 sm:pl-14 md:pl-16">
+              <div className="relative sm:pl-14 md:pl-16">
                 {/* Linha vertical conectando ao próximo grau */}
                 <div
-                  className="absolute left-4 sm:left-5 top-10 -bottom-12 md:-bottom-16 w-0.5 bg-gradient-to-b from-[#B8872E] via-[#D6A64A]/40 to-[#D6A64A]/30 -translate-x-1/2"
+                  className="hidden sm:block absolute left-4 sm:left-5 top-10 -bottom-12 md:-bottom-16 w-0.5 bg-gradient-to-b from-[#B8872E] via-[#D6A64A]/40 to-[#D6A64A]/30 -translate-x-1/2"
                   aria-hidden="true"
                 />
 
-                {/* Nó / Ícone na Linha */}
+                {/* Nó / Numeral Romano na Linha */}
                 <div
-                  className="absolute left-4 sm:left-5 top-0 -translate-x-1/2 size-8 sm:size-10 rounded-full bg-[#fbf6ee] border-2 border-[#B8872E] flex items-center justify-center text-[#B8872E] shadow-xs z-10 ring-4 ring-[#fbf6ee]"
+                  className="hidden sm:flex absolute left-4 sm:left-5 top-0 -translate-x-1/2 size-8 sm:size-10 rounded-full bg-[#ECD6BD]/75 items-center justify-center text-[#8c6218] z-10 ring-4 ring-[#fbf6ee]"
                   aria-hidden="true"
                 >
-                  <Church className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span
+                    className="text-base sm:text-lg font-bold leading-none"
+                    style={{ fontFamily: "Cormorant Garamond, serif" }}
+                  >
+                    III
+                  </span>
                 </div>
 
                 <section aria-labelledby="parish-heading-group">
                   {/* Cabeçalho do Nível */}
                   <div className="mb-5 pt-0.5">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#ECD6BD]/60 border border-[#D6A64A]/40 text-[#8c6218] text-[11px] font-bold tracking-wider uppercase mb-1.5">
-                      <span>3º Grau • Sede Paroquial</span>
-                    </div>
+                    <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
+                      3º Grau • Sede Paroquial
+                    </span>
                     <h2
                       id="parish-heading-group"
                       className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-[#18351E]"
@@ -322,10 +326,10 @@ export default function ClerigosPage() {
                         <Link
                           key={member.id}
                           href={`/clerigos/${member.slug}`}
-                          className="group block w-full bg-[#fbf5eb] border border-[#D6A64A]/50 hover:border-[#B8872E] rounded-3xl p-6 md:p-8 flex flex-col sm:flex-row items-center sm:items-stretch justify-between gap-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left"
+                          className="group w-full bg-[#fbf5eb] border border-[#D6A64A]/40 hover:border-[#B8872E] rounded-3xl p-6 md:p-8 flex flex-col sm:flex-row items-center sm:items-stretch justify-between gap-6 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left"
                         >
                           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 flex-1">
-                            <div className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 shrink-0 rounded-2xl overflow-hidden bg-[#f3ece0] border border-[#D6A64A]/30">
+                            <div className="w-44 h-44 shrink-0 rounded-2xl overflow-hidden bg-[#f3ece0] border border-[#D6A64A]/30">
                               <img
                                 src={getClergyPhotoUrl(member)}
                                 alt={member.name}
@@ -334,8 +338,7 @@ export default function ClerigosPage() {
                             </div>
 
                             <div className="flex-1 text-center sm:text-left flex flex-col justify-center">
-                              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#18351E] text-[#eeca94] text-sm font-semibold uppercase tracking-wider mb-2 w-fit mx-auto sm:mx-0">
-                                <Sparkles className="w-3 h-3" />
+                              <div className="text-[#B8872E] text-sm font-semibold tracking-widest uppercase mb-2 w-fit mx-auto sm:mx-0">
                                 <span>{role}</span>
                               </div>
 
@@ -355,9 +358,7 @@ export default function ClerigosPage() {
                           </div>
 
                           <div className="shrink-0 flex items-center justify-center sm:justify-end">
-                            <div
-                              className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white group-hover:bg-[#27442A] text-sm font-semibold transition-all shadow-xs"
-                            >
+                            <div className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white group-hover:bg-[#27442A] text-sm font-semibold transition-all shadow-xs">
                               <span>Conheça</span>
                               <ChevronRight
                                 size={16}
@@ -377,27 +378,32 @@ export default function ClerigosPage() {
             {/* GRAU 4: SERVIÇO DO ALTAR & CARIDADE (Vigários e Diáconos)      */}
             {/* ============================================================== */}
             {assistants.length > 0 && (
-              <div className="relative pl-10 sm:pl-14 md:pl-16">
+              <div className="relative sm:pl-14 md:pl-16">
                 {/* Linha vertical que desce e suaviza ao final */}
                 <div
-                  className="absolute left-4 sm:left-5 top-10 bottom-0 w-0.5 bg-gradient-to-b from-[#B8872E] via-[#D6A64A]/30 to-transparent -translate-x-1/2"
+                  className="hidden sm:block absolute left-4 sm:left-5 top-10 bottom-0 w-0.5 bg-gradient-to-b from-[#B8872E] via-[#D6A64A]/30 to-transparent -translate-x-1/2"
                   aria-hidden="true"
                 />
 
-                {/* Nó / Ícone na Linha */}
+                {/* Nó / Numeral Romano na Linha */}
                 <div
-                  className="absolute left-4 sm:left-5 top-0 -translate-x-1/2 size-8 sm:size-10 rounded-full bg-[#fbf6ee] border-2 border-[#B8872E] flex items-center justify-center text-[#B8872E] shadow-xs z-10 ring-4 ring-[#fbf6ee]"
+                  className="hidden sm:flex absolute left-4 sm:left-5 top-0 -translate-x-1/2 size-8 sm:size-10 rounded-full bg-[#ECD6BD]/75 items-center justify-center text-[#8c6218] z-10 ring-4 ring-[#fbf6ee]"
                   aria-hidden="true"
                 >
-                  <CrossIcon width={10} height={16} fill="#B8872E" />
+                  <span
+                    className="text-base sm:text-lg font-bold leading-none"
+                    style={{ fontFamily: "Cormorant Garamond, serif" }}
+                  >
+                    IV
+                  </span>
                 </div>
 
                 <section aria-labelledby="assistants-heading-group">
                   {/* Cabeçalho do Nível */}
                   <div className="mb-5 pt-0.5">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#ECD6BD]/60 border border-[#D6A64A]/40 text-[#8c6218] text-[11px] font-bold tracking-wider uppercase mb-1.5">
-                      <span>Ministério Sagrado • Serviço & Caridade</span>
-                    </div>
+                    <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
+                      Ministério Sagrado • Serviço &amp; Caridade
+                    </span>
                     <h2
                       id="assistants-heading-group"
                       className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-[#18351E]"
@@ -426,7 +432,7 @@ export default function ClerigosPage() {
                           className="group bg-[#fbf5eb] border border-[#D6A64A]/40 hover:border-[#B8872E] rounded-3xl p-6 flex flex-col justify-between shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left"
                         >
                           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
-                            <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-2xl overflow-hidden border border-[#D6A64A]/30 bg-[#f3ece0]">
+                            <div className="w-28 h-28 shrink-0 rounded-2xl overflow-hidden border border-[#D6A64A]/30 bg-[#f3ece0]">
                               <img
                                 src={photoUrl}
                                 alt={member.name}
@@ -454,14 +460,14 @@ export default function ClerigosPage() {
                             </div>
                           </div>
 
-                          <div className="mt-5 pt-4 border-t border-[#D6A64A]/20 flex items-center justify-end">
+                          <div className="mt-5 pt-4 border-t border-[#D6A64A]/20 flex items-center justify-center sm:justify-end">
                             <div
-                              className="inline-flex items-center gap-1 text-sm font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors"
+                              className="h-10 inline-flex items-center gap-2 px-6 rounded-full bg-[#18351E] text-white group-hover:bg-[#27442A] text-sm font-semibold transition-all shadow-xs"
                             >
                               <span>Conheça</span>
                               <ChevronRight
-                                size={14}
-                                className="group-hover:translate-x-0.5 transition-transform"
+                                size={16}
+                                className="group-hover:translate-x-1 transition-transform"
                               />
                             </div>
                           </div>

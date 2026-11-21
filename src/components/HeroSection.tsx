@@ -540,8 +540,7 @@ export function HeroSection() {
             {!isPending && !isError && Object.keys(schedule).length > 0 && (
               <Link
                 href="/agenda"
-                className="mt-6 inline-flex items-center gap-1 text-[#32402A] text-[14px] hover:text-[#BB8835] transition-colors"
-                style={{ fontWeight: 500 }}
+                className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-[#c69247] hover:bg-[#b07d35] text-[#14201d] border border-[#D6A64A]/40 font-semibold text-sm transition-all shadow-md hover:shadow-lg"
               >
                 Ver Programação Completa
                 <ChevronRight size={15} />

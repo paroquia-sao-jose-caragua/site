@@ -6,7 +6,6 @@ import {
   MapPin,
   Calendar,
   Phone,
-  Mail,
   Clock,
   Sparkles,
   ChevronRight,
@@ -222,7 +221,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
             <div className="lg:col-span-6 space-y-5">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fbf5eb] border border-[#D6A64A]/40 text-[#B8872E] text-sm font-semibold tracking-widest uppercase">
                 <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
-                <span>{community.type === "parish_church" ? "IGREJA MATRIZ" : "COMUNIDADE"}</span>
+                <span>{community.type === "parish_church" ? "IGREJA MATRIZ" : "CAPELA"}</span>
               </div>
 
               <h1
@@ -238,10 +237,10 @@ export default function CommunityDetailPage({ params }: PageProps) {
                 </p>
               )}
 
-              <div className="flex flex-wrap items-center gap-4 pt-3">
+              <div className="flex flex-col min-[550px]:flex-row min-[600px]:flex-wrap items-stretch min-[600px]:items-center gap-3 sm:gap-4 pt-3">
                 <a
                   href="#horarios"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#18351E] text-white text-sm font-semibold hover:bg-[#27442A] transition-all shadow-md"
+                  className="inline-flex items-center justify-center gap-2 w-full min-[550px]:flex-1 min-[600px]:flex-initial min-[600px]:w-auto px-6 py-3 rounded-full bg-[#18351E] text-white text-sm font-semibold hover:bg-[#27442A] transition-all shadow-md"
                 >
                   <Calendar className="w-4 h-4 text-[#D6A64A]" />
                   <span>Ver horários de missa</span>
@@ -251,7 +250,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                   <button
                     type="button"
                     onClick={() => setIsDirectionsOpen(true)}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#fbf5eb] border border-[#D6A64A] text-[#18351E] text-sm font-semibold hover:bg-[#f3ece0] transition-all shadow-xs cursor-pointer"
+                    className="inline-flex items-center justify-center gap-2 w-full min-[550px]:flex-1 min-[600px]:flex-initial min-[600px]:w-auto px-6 py-3 rounded-full bg-[#fbf5eb] border border-[#D6A64A] text-[#18351E] text-sm font-semibold hover:bg-[#f3ece0] transition-all shadow-xs cursor-pointer"
                   >
                     <MapPin className="w-4 h-4 text-[#B8872E]" />
                     <span>Como chegar</span>
@@ -333,7 +332,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                   </div>
                   <div>
                     <span className="text-[10px] font-bold text-[#B8872E] uppercase tracking-widest block">
-                      PADROEIRO(A)
+                      PADROEIRO
                     </span>
                     <h3
                       className="text-xl font-semibold text-[#18351E]"
@@ -386,14 +385,24 @@ export default function CommunityDetailPage({ params }: PageProps) {
                     </div>
                   )}
 
-                  {(community.email || contact?.email) && (
+                  {(contact?.whatsapp || contact?.whatsappUrl) && (
                     <div className="flex items-start gap-3">
-                      <Mail className="w-5 h-5 text-[#B8872E] shrink-0 mt-0.5" />
+                      <MessageCircle className="w-5 h-5 text-[#B8872E] shrink-0 mt-0.5" />
                       <div>
                         <span className="font-semibold text-[#18351E] block text-sm uppercase tracking-wider mb-0.5">
-                          E-mail
+                          WhatsApp
                         </span>
-                        <p className="leading-snug">{community.email || contact?.email}</p>
+                        <a
+                          href={
+                            contact?.whatsappUrl ||
+                            `https://wa.me/55${(contact?.whatsapp || "").replace(/\D/g, "")}`
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="leading-snug text-[#5A463B] hover:text-[#18351E] hover:underline transition-colors"
+                        >
+                          {contact?.whatsapp || "(12) 98170-5757"}
+                        </a>
                       </div>
                     </div>
                   )}

@@ -313,7 +313,7 @@ export function SiteFooter() {
               }}
               className="text-[#eeca94] text-sm flex items-center gap-2 border border-[#D6A64A]/30 rounded-full px-5 py-2.5 hover:bg-[#D6A64A]/10 transition-colors cursor-pointer font-semibold"
             >
-              <Bell size={16} className="text-[#eeca94]" /> Notificações & App
+              <Bell size={16} className="text-[#eeca94]" />Baixar Aplicativo
             </button>
             <a
               href="https://panel.paroquiasaojosecaragua.org.br"
@@ -321,7 +321,7 @@ export function SiteFooter() {
               rel="noopener noreferrer"
               className="text-[#eeca94] text-sm flex items-center gap-2 border border-[#D6A64A]/30 rounded-full px-5 py-2.5 hover:bg-[#D6A64A]/10 transition-colors font-semibold"
             >
-              <MonitorIcon size={16} className="text-[#eeca94]" /> Acessar Painel
+              <MonitorIcon size={16} className="text-[#eeca94]" />Abrir Painel
             </a>
           </div>
         </div>

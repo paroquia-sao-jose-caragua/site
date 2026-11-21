@@ -359,7 +359,7 @@ export default function AgendamentosPage() {
 
   return (
     <section className="relative overflow-hidden bg-[#fbf6ee] min-h-screen">
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-36">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-44 min-[950px]:pb-36">
         {/* Breadcrumb */}
         <nav className="text-sm text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
           <Link href="/" className="hover:text-[#2d261e] transition-colors">

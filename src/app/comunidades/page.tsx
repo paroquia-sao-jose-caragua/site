@@ -32,7 +32,7 @@ export default function CommunitiesIndexPage() {
     <main className="relative w-full min-h-screen bg-[#fbf6ee] overflow-hidden pt-8 pb-24 md:pb-36">
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Breadcrumb */}
-        <nav className="text-sm text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
+        <nav className="text-sm text-[#8c7b6c] mb-2 flex items-center gap-2 font-medium">
           <Link href="/" className="hover:text-[#2d261e] transition-colors">
             Início
           </Link>
@@ -42,10 +42,6 @@ export default function CommunitiesIndexPage() {
 
         {/* Page Header (alinhado à esquerda seguindo o padrão de Liturgia, Clérigos e Quero Contribuir) */}
         <div className="mb-12">
-          <div className="inline-flex items-center gap-1.5 text-sm font-bold text-[#a6824b] uppercase tracking-widest mb-2">
-            <Church className="w-4 h-4" />
-            <span>COMUNIDADES PAROQUIAIS</span>
-          </div>
           <h1 className="text-3xl md:text-5xl font-serif font-bold text-[#18351E]">
             Nossas Comunidades de Fé
           </h1>
@@ -95,32 +91,37 @@ export default function CommunitiesIndexPage() {
             {/* GRAU 1: IGREJA MATRIZ — SEDE PAROQUIAL E ADMINISTRATIVA       */}
             {/* ============================================================== */}
             {matriz && (
-              <div className="relative pl-10 sm:pl-14 md:pl-16">
+              <div className="relative sm:pl-14 md:pl-16">
                 {/* Linha vertical conectando ao próximo grau */}
                 <div
-                  className="absolute left-4 sm:left-5 top-10 -bottom-12 md:-bottom-16 w-0.5 bg-gradient-to-b from-[#B8872E] via-[#D6A64A]/40 to-[#D6A64A]/30 -translate-x-1/2"
+                  className="hidden sm:block absolute left-4 sm:left-5 top-10 -bottom-12 md:-bottom-16 w-0.5 bg-gradient-to-b from-[#B8872E] via-[#D6A64A]/40 to-[#D6A64A]/30 -translate-x-1/2"
                   aria-hidden="true"
                 />
 
-                {/* Nó / Ícone na Linha */}
+                {/* Nó / Numeral Romano na Linha */}
                 <div
-                  className="absolute left-4 sm:left-5 top-0 -translate-x-1/2 size-8 sm:size-10 rounded-full bg-[#fbf6ee] border-2 border-[#B8872E] flex items-center justify-center text-[#B8872E] shadow-xs z-10 ring-4 ring-[#fbf6ee]"
+                  className="hidden sm:flex absolute left-4 sm:left-5 top-0 -translate-x-1/2 size-8 sm:size-10 rounded-full bg-[#ECD6BD]/75 items-center justify-center text-[#8c6218] z-10 ring-4 ring-[#fbf6ee]"
                   aria-hidden="true"
                 >
-                  <Church className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span
+                    className="text-base sm:text-lg font-bold leading-none"
+                    style={{ fontFamily: "Cormorant Garamond, serif" }}
+                  >
+                    I
+                  </span>
                 </div>
 
                 <section aria-labelledby="matriz-heading-group">
                   {/* Cabeçalho do Nível */}
                   <div className="mb-5 pt-0.5">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#ECD6BD]/60 border border-[#D6A64A]/40 text-[#8c6218] text-[11px] font-bold tracking-wider uppercase mb-1.5">
-                      <span>1º Grau • Sede Paroquial e Administrativa</span>
-                    </div>
+                    <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
+                      1º Grau • Sede Paroquial e Administrativa
+                    </span>
                     <h2
                       id="matriz-heading-group"
                       className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-[#18351E]"
                     >
-                      Igreja Matriz São José
+                      Igreja Matriz
                     </h2>
                     <p className="text-sm md:text-base text-[#6b5c4d] font-serif max-w-3xl leading-relaxed mt-1.5">
                       A Igreja Matriz é o coração da vida paroquial. Nela reside o Pároco, funciona a Secretaria Paroquial central e concentram-se as principais celebrações e decisões administrativas que coordenam todas as comunidades do território.
@@ -145,20 +146,12 @@ export default function CommunitiesIndexPage() {
                       {/* Informações da Matriz */}
                       <div className="flex-1 text-center sm:text-left flex flex-col justify-between py-1">
                         <div>
-                          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#18351E] text-[#eeca94] text-sm font-semibold uppercase tracking-wider mb-2 w-fit mx-auto sm:mx-0">
-                            <Sparkles className="w-3 h-3" />
-                            <span>IGREJA MATRIZ</span>
-                          </div>
-
                           <h3
                             id="matriz-heading"
                             className="text-2xl md:text-3xl lg:text-4xl font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors mb-2"
                             style={{ fontFamily: "Cormorant Garamond, serif" }}
                           >
-                            {matriz.name.toLowerCase().startsWith("igreja") ||
-                            matriz.name.toLowerCase().startsWith("matriz")
-                              ? matriz.name
-                              : `Igreja Matriz ${matriz.name}`}
+                            {matriz.name}
                           </h3>
 
                           {matriz.address && (
@@ -179,7 +172,7 @@ export default function CommunitiesIndexPage() {
                         <div className="flex flex-wrap items-center gap-4 text-sm text-[#5A463B] pt-2 border-t border-[#D6A64A]/20">
                           <span className="text-sm text-[#736254] font-serif">
                             {matriz.patronName
-                              ? `Padroeiro(a): ${matriz.patronName}`
+                              ? `Padroeiro: ${matriz.patronName}`
                               : "Administrada pela Matriz"}
                           </span>
                         </div>
@@ -207,27 +200,32 @@ export default function CommunitiesIndexPage() {
             {/* GRAU 2: CAPELAS E COMUNIDADES NOS BAIRROS                     */}
             {/* ============================================================== */}
             {chapels.length > 0 && (
-              <div className="relative pl-10 sm:pl-14 md:pl-16">
+              <div className="relative sm:pl-14 md:pl-16">
                 {/* Linha vertical que desce e suaviza ao final */}
                 <div
-                  className="absolute left-4 sm:left-5 top-10 bottom-0 w-0.5 bg-gradient-to-b from-[#B8872E] via-[#D6A64A]/30 to-transparent -translate-x-1/2"
+                  className="hidden sm:block absolute left-4 sm:left-5 top-10 bottom-0 w-0.5 bg-gradient-to-b from-[#B8872E] via-[#D6A64A]/30 to-transparent -translate-x-1/2"
                   aria-hidden="true"
                 />
 
-                {/* Nó / Ícone na Linha */}
+                {/* Nó / Numeral Romano na Linha */}
                 <div
-                  className="absolute left-4 sm:left-5 top-0 -translate-x-1/2 size-8 sm:size-10 rounded-full bg-[#fbf6ee] border-2 border-[#B8872E] flex items-center justify-center text-[#B8872E] shadow-xs z-10 ring-4 ring-[#fbf6ee]"
+                  className="hidden sm:flex absolute left-4 sm:left-5 top-0 -translate-x-1/2 size-8 sm:size-10 rounded-full bg-[#ECD6BD]/75 items-center justify-center text-[#8c6218] z-10 ring-4 ring-[#fbf6ee]"
                   aria-hidden="true"
                 >
-                  <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span
+                    className="text-base sm:text-lg font-bold leading-none"
+                    style={{ fontFamily: "Cormorant Garamond, serif" }}
+                  >
+                    II
+                  </span>
                 </div>
 
                 <section aria-labelledby="chapels-heading-group">
                   {/* Cabeçalho do Nível */}
                   <div className="mb-5 pt-0.5">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#ECD6BD]/60 border border-[#D6A64A]/40 text-[#8c6218] text-[11px] font-bold tracking-wider uppercase mb-1.5">
-                      <span>2º Grau • Capelas e Comunidades nos Bairros</span>
-                    </div>
+                    <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
+                      2º Grau • Capelas e Comunidades nos Bairros
+                    </span>
                     <h2
                       id="chapels-heading-group"
                       className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-[#18351E]"
@@ -262,18 +260,11 @@ export default function CommunitiesIndexPage() {
 
                             {/* Textos da Capela */}
                             <div className="flex-1 text-center sm:text-left">
-                              <span className="inline-block text-[11px] font-bold text-[#B8872E] uppercase tracking-wider mb-1">
-                                CAPELA PAROQUIAL
-                              </span>
-
                               <h3
                                 className="text-2xl font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors mb-1"
                                 style={{ fontFamily: "Cormorant Garamond, serif" }}
                               >
-                                {community.name.toLowerCase().startsWith("capela") ||
-                                community.name.toLowerCase().startsWith("comunidade")
-                                  ? community.name
-                                  : `Capela ${community.name}`}
+                                {community.name}
                               </h3>
 
                               {community.address && (
@@ -295,19 +286,19 @@ export default function CommunitiesIndexPage() {
                           </div>
 
                           {/* Botão de ação */}
-                          <div className="mt-5 pt-4 border-t border-[#D6A64A]/20 flex items-center justify-between">
+                          <div className="mt-5 pt-4 border-t border-[#D6A64A]/20 flex flex-col sm:flex-row items-center justify-between gap-3">
                             <span className="text-sm text-[#736254] font-serif">
                               {community.patronName
-                                ? `Padroeiro(a): ${community.patronName}`
+                                ? `Padroeiro: ${community.patronName}`
                                 : "Administrada pela Matriz"}
                             </span>
                             <div
-                              className="inline-flex items-center gap-1 text-sm font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors"
+                              className="w-full sm:w-auto h-10 inline-flex items-center justify-center gap-2 px-6 rounded-full bg-[#18351E] text-white group-hover:bg-[#27442A] text-sm font-semibold transition-all shadow-xs"
                             >
                               <span>Conheça</span>
                               <ChevronRight
-                                size={14}
-                                className="group-hover:translate-x-0.5 transition-transform"
+                                size={16}
+                                className="group-hover:translate-x-1 transition-transform"
                               />
                             </div>
                           </div>

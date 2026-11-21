@@ -40,7 +40,7 @@ export function OurCommunitiesSection() {
           <div className="flex items-center justify-center gap-3 mb-3">
             <span className="h-px w-12 bg-[#B8872E]/40" />
             <div className="flex items-center gap-1.5 text-[#B8872E] text-sm font-semibold uppercase tracking-[0.3em]">
-              <span>NOSSAS COMUNIDADES</span>
+              <span><span className="hidden md:inline-block">NOSSAS </span>COMUNIDADES</span>
             </div>
             <span className="h-px w-12 bg-[#B8872E]/40" />
           </div>
@@ -138,7 +138,7 @@ export function OurCommunitiesSection() {
                   {/* Button */}
                   <div>
                     <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#18351E] text-white text-sm font-semibold group-hover:bg-[#27442A] transition-all shadow-md">
-                      <span>Saiba mais sobre a comunidade</span>
+                      <span>Saiba mais sobre a Matriz</span>
                       <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>

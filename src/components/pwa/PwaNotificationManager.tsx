@@ -498,8 +498,8 @@ export function PwaNotificationManager() {
 
       {/* Interactive Manual Dialog Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-in fade-in">
-          <div className="relative w-full max-w-md rounded-2xl border border-[#d4a85c]/40 bg-[#18351E] p-6 text-white shadow-2xl">
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/60 backdrop-blur-xs p-0 sm:p-4 animate-in fade-in">
+          <div className="relative w-full h-full sm:h-auto sm:max-w-md sm:max-h-[90vh] overflow-y-auto rounded-none sm:rounded-2xl border-0 sm:border sm:border-[#d4a85c]/40 bg-[#18351E] p-6 pb-24 sm:pb-6 text-white shadow-2xl">
             <button
               type="button"
               onClick={() => setModalOpen(false)}

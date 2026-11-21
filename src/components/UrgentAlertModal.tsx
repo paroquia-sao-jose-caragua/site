@@ -74,7 +74,7 @@ export function UrgentAlertModal({ alert, isOpen, onClose }: UrgentAlertModalPro
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto animate-in fade-in duration-200"
+      className="fixed inset-0 z-40 flex items-center justify-center p-0 sm:p-6 overflow-y-auto animate-in fade-in duration-200"
     >
       {/* Backdrop */}
       <div
@@ -83,9 +83,9 @@ export function UrgentAlertModal({ alert, isOpen, onClose }: UrgentAlertModalPro
       />
 
       {/* Modal Container */}
-      <div className="relative w-full max-w-2xl bg-[#fbf6ee] rounded-2xl shadow-2xl border border-[#d8cbb8] overflow-hidden z-10 my-8 flex flex-col max-h-[90vh]">
+      <div className="relative w-full h-full sm:h-auto sm:max-w-2xl bg-[#fbf6ee] rounded-none sm:rounded-2xl shadow-2xl border-0 sm:border sm:border-[#d8cbb8] overflow-hidden z-10 sm:my-8 flex flex-col sm:max-h-[90vh]">
         {/* Header Bar */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#e5d8c5] bg-[#f4ebe0]/80">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#e5d8c5] bg-[#f4ebe0]/80 shrink-0">
           <div className="flex items-center gap-2">
             <span
               className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold tracking-wider border shadow-2xs ${currentVariant.badge}`}
@@ -98,7 +98,7 @@ export function UrgentAlertModal({ alert, isOpen, onClose }: UrgentAlertModalPro
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-stone-500 hover:text-stone-900 hover:bg-stone-200/60 transition-colors"
+            className="p-1.5 text-[#5A463B] hover:text-[#18351E] transition-colors cursor-pointer"
             aria-label="Fechar janela"
           >
             <X className="w-5 h-5" />
@@ -106,7 +106,7 @@ export function UrgentAlertModal({ alert, isOpen, onClose }: UrgentAlertModalPro
         </div>
 
         {/* Content Body */}
-        <div className="p-6 sm:p-8 overflow-y-auto space-y-6">
+        <div className="p-6 sm:p-8 flex-1 min-h-0 overflow-y-auto space-y-6">
           {/* Title */}
           <div>
             <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#14201d] leading-tight whitespace-pre-line">
@@ -133,7 +133,7 @@ export function UrgentAlertModal({ alert, isOpen, onClose }: UrgentAlertModalPro
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 bg-[#f4ebe0] border-t border-[#e5d8c5] flex flex-col-reverse sm:flex-row items-center justify-end gap-3">
+        <div className="px-6 py-4 pb-24 sm:pb-4 bg-[#f4ebe0] border-t border-[#e5d8c5] flex flex-col-reverse sm:flex-row items-center justify-end gap-3 shrink-0">
           <button
             type="button"
             onClick={onClose}

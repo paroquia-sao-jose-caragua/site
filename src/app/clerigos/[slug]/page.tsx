@@ -76,7 +76,7 @@ export default function ClergyDetailPage({ params }: PageProps) {
                 <div className="h-6 w-32 bg-zinc-200/60 rounded-full" />
                 <div className="h-12 w-3/4 bg-zinc-200/60 rounded" />
                 <div className="h-6 w-1/2 bg-zinc-200/60 rounded" />
-                <div className="h-10 w-44 bg-zinc-200/60 rounded-full pt-4" />
+                <div className="hidden sm:block h-10 w-44 bg-zinc-200/60 rounded-full pt-4" />
               </div>
               <div className="lg:col-span-5 flex justify-center lg:justify-end">
                 <div className="aspect-[3/4] w-full max-w-sm bg-zinc-200/60 rounded-3xl" />
@@ -105,7 +105,7 @@ export default function ClergyDetailPage({ params }: PageProps) {
         ) : (
           <div className="space-y-16 md:space-y-20">
             {/* 1. HERO HEADER (estilo Comunidades: Título à esquerda, Foto à direita) */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div className="gap-0 grid grid-cols-1 lg:grid-cols-12 sm:gap-8 lg:gap-12 items-center">
               {/* Esquerda: Informações do Clérigo */}
               <div className="lg:col-span-7 space-y-5">
                 <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#fbf5eb] border border-[#D6A64A]/40 text-[#B8872E] text-sm font-semibold tracking-widest uppercase">
@@ -126,7 +126,7 @@ export default function ClergyDetailPage({ params }: PageProps) {
                   </p>
                 )}
 
-                <div className="flex flex-wrap items-center gap-4 pt-3">
+                <div className="hidden sm:flex flex-wrap items-center gap-4 pt-3">
                   <a
                     href="#biografia"
                     className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#18351E] text-white text-sm font-semibold hover:bg-[#27442A] transition-all shadow-md cursor-pointer"

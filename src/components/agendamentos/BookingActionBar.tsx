@@ -26,7 +26,7 @@ export function BookingActionBar({
     : "";
 
   return (
-    <div className="fixed bottom-0 inset-x-0 z-40 bg-[#fbf6ee]/95 backdrop-blur-md border-t border-[#D6A64A]/35 shadow-[0_-4px_20px_rgba(24,53,30,0.06)]">
+    <div className="fixed bottom-16 min-[950px]:bottom-0 inset-x-0 z-30 bg-[#fbf6ee]/95 backdrop-blur-md border-t border-[#D6A64A]/35 shadow-[0_-4px_20px_rgba(24,53,30,0.06)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 sm:py-4 flex items-center justify-between md:grid md:grid-cols-3 gap-3">
         <div className="md:justify-self-start">
           {currentStep > 1 ? (

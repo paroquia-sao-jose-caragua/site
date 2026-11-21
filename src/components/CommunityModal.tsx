@@ -79,12 +79,12 @@ export function CommunityModal({ community, onClose }: CommunityModalProps) {
       className="
         fixed
         inset-0
-        z-52
+        z-40
         flex
         items-center
         justify-center
-        p-5
-        max-h-screen
+        p-0
+        sm:p-5
       "
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
@@ -132,13 +132,17 @@ export function CommunityModal({ community, onClose }: CommunityModalProps) {
         className="
           relative
           w-full
-          max-w-md
-          max-h-[90vh]
+          h-full
+          sm:h-auto
+          sm:max-w-md
+          sm:max-h-[90vh]
           overflow-hidden
-          rounded-3xl
+          rounded-none
+          sm:rounded-3xl
           bg-[#FBF8F3]
-          border
-          border-[#D6A64A]
+          border-0
+          sm:border
+          sm:border-[#D6A64A]
           shadow-2xl
           flex
           flex-col
@@ -149,35 +153,38 @@ export function CommunityModal({ community, onClose }: CommunityModalProps) {
           className="
             h-2
             bg-[#B8872E]
+            shrink-0
           "
         />
 
         <button
           type="button"
           onClick={onClose}
+          aria-label="Fechar detalhes"
           className="
             absolute
-            top-5
-            right-5
-            size-9
-            rounded-full
-            bg-[#18351E]
-            text-[#D6A64A]
-            flex
-            items-center
-            justify-center
-            hover:scale-105
-            transition
+            top-4
+            right-4
+            z-10
+            p-2
+            text-[#5A463B]
+            hover:text-[#18351E]
+            transition-colors
+            cursor-pointer
           "
         >
-          <X size={16} />
+          <X size={22} />
         </button>
 
         <div
           className="
-            p-4
+            p-6
+            pb-24
             sm:p-8
+            sm:pb-8
             text-center
+            flex-1
+            min-h-0
             overflow-y-auto
           "
         >

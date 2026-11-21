@@ -2,8 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import {
-  Menu,
-  X,
   Heart,
   ChevronDown,
   ChevronRight,
@@ -60,10 +58,6 @@ export function SiteHeader() {
   const pathname = usePathname();
   const { communities } = useCommunities();
   const { clergy } = useClergy();
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileCommunitiesOpen, setMobileCommunitiesOpen] = useState(false);
-  const [mobileClergyOpen, setMobileClergyOpen] = useState(false);
-  const [mobileAgendaOpen, setMobileAgendaOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [clergyDropdownOpen, setClergyDropdownOpen] = useState(false);
   const [agendaDropdownOpen, setAgendaDropdownOpen] = useState(false);
@@ -163,7 +157,7 @@ export function SiteHeader() {
   );
 
   return (
-    <header className="sticky top-0 z-50">
+    <header className="sticky top-0 z-30">
       <div className="flex items-start">
         <div
           className={'relative flex-1 bg-[#fbf5eb] min-w-0 border-b border-[#D6A64A] transition-all duration-300 ease-in-out shadow-md bg-[#fbf5eb]/95 backdrop-blur-md'}
@@ -242,7 +236,7 @@ export function SiteHeader() {
                                 }`}
                               >
                                 <div
-                                  className={`size-9 rounded-lg overflow-hidden shrink-0 border transition-all ${
+                                  className={`size-11 rounded-lg overflow-hidden shrink-0 border transition-all ${
                                     isActiveCommunity
                                       ? "border-[#eeca94]/60 ring-1 ring-[#eeca94]"
                                       : "border-[#D6A64A]/30 group-hover/item:border-[#eeca94]/50"
@@ -255,11 +249,11 @@ export function SiteHeader() {
                                   />
                                 </div>
                                 <div className="flex flex-col min-w-0">
-                                  <span className="font-semibold text-[14px] leading-snug line-clamp-1 font-serif">
+                                  <span className="font-semibold text-md leading-snug line-clamp-1 font-serif">
                                     {comm.name}
                                   </span>
                                   <span
-                                    className={`text-[11.5px] line-clamp-1 ${
+                                    className={`text-sm line-clamp-1 ${
                                       isActiveCommunity
                                         ? "text-[#eeca94]/70"
                                         : "text-[#736254] group-hover/item:text-[#eeca94]/70"
@@ -348,7 +342,7 @@ export function SiteHeader() {
                                   }`}
                                 >
                                   <div
-                                    className={`size-9 rounded-lg overflow-hidden shrink-0 border transition-all bg-[#f0e6d6] ${
+                                    className={`size-11 rounded-lg overflow-hidden shrink-0 border transition-all bg-[#f0e6d6] ${
                                       isActiveClergy
                                         ? "border-[#eeca94]/60 ring-1 ring-[#eeca94]"
                                         : "border-[#D6A64A]/30 group-hover/item:border-[#eeca94]/50"
@@ -357,15 +351,15 @@ export function SiteHeader() {
                                     <img
                                       src={photoUrl}
                                       alt={item.name}
-                                      className="w-full h-full object-cover group-hover/item:scale-105 transition-transform duration-300"
+                                      className="w-full h-full object-cover object-top group-hover/item:scale-105 transition-transform duration-300"
                                     />
                                   </div>
                                   <div className="flex flex-col min-w-0">
-                                    <span className="font-semibold text-[14px] leading-snug line-clamp-1 font-serif">
+                                    <span className="font-semibold text-md leading-snug line-clamp-1 font-serif">
                                       {item.name}
                                     </span>
                                     <span
-                                      className={`text-[11.5px] line-clamp-1 ${
+                                      className={`text-sm line-clamp-1 ${
                                         isActiveClergy
                                           ? "text-[#eeca94]/70"
                                           : "text-[#736254] group-hover/item:text-[#eeca94]/70"
@@ -435,24 +429,24 @@ export function SiteHeader() {
                           className={`flex items-start gap-3 p-3 rounded-xl transition-all group/item ${
                             pathname === "/agenda"
                               ? "bg-[#18351E] text-[#eeca94]"
-                              : "text-[#18351E] hover:bg-[#18351E] hover:text-[#eeca94]"
+                              : "bg-[#B8872E]/8 text-[#18351E] hover:bg-[#18351E] hover:text-[#eeca94]"
                           }`}
                         >
                           <div
-                            className={`p-2 rounded-lg shrink-0 ${
+                            className={`p-2.5 rounded-lg shrink-0 ${
                               pathname === "/agenda"
                                 ? "bg-[#27442A] text-[#eeca94]"
-                                : "bg-[#fbf6ee] text-[#B8872E] group-hover/item:bg-[#27442A] group-hover/item:text-[#eeca94]"
+                                : "bg-[#D6A64A]/20 text-[#B8872E] group-hover/item:bg-[#27442A] group-hover/item:text-[#eeca94]"
                             }`}
                           >
-                            <Calendar className="w-4 h-4" />
+                            <Calendar className="w-5 h-5" />
                           </div>
                           <div className="flex flex-col min-w-0">
-                            <span className="font-semibold text-sm leading-snug font-serif">
+                            <span className="font-semibold text-md leading-snug font-serif">
                               Programação da Paróquia
                             </span>
                             <span
-                              className={`text-[11.5px] line-clamp-1 ${
+                              className={`text-sm line-clamp-1 ${
                                 pathname === "/agenda"
                                   ? "text-[#eeca94]/80"
                                   : "text-[#736254] group-hover/item:text-[#eeca94]/80"
@@ -469,24 +463,24 @@ export function SiteHeader() {
                           className={`flex items-start gap-3 p-3 rounded-xl transition-all group/item ${
                             pathname === "/agendamentos"
                               ? "bg-[#18351E] text-[#eeca94]"
-                              : "text-[#18351E] hover:bg-[#18351E] hover:text-[#eeca94]"
+                              : "bg-[#B8872E]/8 text-[#18351E] hover:bg-[#18351E] hover:text-[#eeca94]"
                           }`}
                         >
                           <div
-                            className={`p-2 rounded-lg shrink-0 ${
+                            className={`p-2.5 rounded-lg shrink-0 ${
                               pathname === "/agendamentos"
                                 ? "bg-[#27442A] text-[#eeca94]"
-                                : "bg-[#fbf6ee] text-[#B8872E] group-hover/item:bg-[#27442A] group-hover/item:text-[#eeca94]"
+                                : "bg-[#D6A64A]/20 text-[#B8872E] group-hover/item:bg-[#27442A] group-hover/item:text-[#eeca94]"
                             }`}
                           >
-                            <CalendarCheck className="w-4 h-4" />
+                            <CalendarCheck className="w-5 h-5" />
                           </div>
                           <div className="flex flex-col min-w-0">
-                            <span className="font-semibold text-sm leading-snug font-serif">
+                            <span className="font-semibold text-md leading-snug font-serif">
                               Agendar Atendimento
                             </span>
                             <span
-                              className={`text-[11.5px] line-clamp-1 ${
+                              className={`text-sm line-clamp-1 ${
                                 pathname === "/agendamentos"
                                   ? "text-[#eeca94]/80"
                                   : "text-[#736254] group-hover/item:text-[#eeca94]/80"
@@ -567,22 +561,22 @@ export function SiteHeader() {
                               key={item.label}
                               href={item.to}
                               onClick={() => setMoreOpen(false)}
-                              className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition-all group/item ${
+                              className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-md transition-all group/item ${
                                 isActive
                                   ? "bg-[#18351E] text-[#eeca94]"
                                   : "text-[#18351E] hover:bg-[#18351E] hover:text-[#eeca94]"
                               }`}
                             >
                               <div
-                                className={`size-6.5 rounded-lg flex items-center justify-center shrink-0 ${
+                                className={`size-8 rounded-lg flex items-center justify-center shrink-0 ${
                                   isActive
                                     ? "bg-[#eeca94]/20 text-[#eeca94]"
                                     : "bg-[#D6A64A]/20 text-[#B8872E] group-hover/item:bg-[#eeca94]/20 group-hover/item:text-[#eeca94]"
                                 }`}
                               >
-                                <Icon className="w-3.5 h-3.5" />
+                                <Icon className="w-4 h-4" />
                               </div>
-                              <span className="font-semibold text-sm font-serif">
+                              <span className="font-semibold text-md font-serif">
                                 {item.label}
                               </span>
                             </Link>
@@ -603,268 +597,7 @@ export function SiteHeader() {
                 Quero contribuir
               </Link>
             </nav>
-
-            <button
-              className="min-[950px]:hidden text-[#314523] p-2 rounded-lg hover:bg-white/10 transition-colors"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Menu"
-            >
-              {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
           </div>
-
-          {/* Mobile Menu */}
-          {mobileOpen && (
-            <div className="min-[950px]:hidden bg-[#18351e] border-t border-[#BB8835] py-2">
-              {navItems.map((item) => {
-                if (item.dropdownType === "agenda") {
-                  return (
-                    <div key={item.label} className="border-b border-[#234125]/40">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setMobileAgendaOpen(!mobileAgendaOpen)
-                        }
-                        className={`w-full flex items-center justify-between py-3 pl-10 pr-6 text-[15px] font-medium transition-colors text-left ${
-                          isAgendaActive
-                            ? "text-[#d6b686] bg-[#234125]"
-                            : "text-[#d6b686] hover:text-white"
-                        }`}
-                      >
-                        <span>{item.label}</span>
-                        <ChevronDown
-                          className={`w-4 h-4 transition-transform ${
-                            mobileAgendaOpen ? "rotate-180" : ""
-                          }`}
-                        />
-                      </button>
-
-                      {mobileAgendaOpen && (
-                        <div className="bg-[#142d19] py-2 pl-10 pr-6 space-y-1">
-                          <Link
-                            href="/agenda"
-                            onClick={() => setMobileOpen(false)}
-                            className={`flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm transition-colors ${
-                              pathname === "/agenda"
-                                ? "bg-[#234125] text-[#d6b686]"
-                                : "text-[#d6b686]/90 hover:text-white hover:bg-white/5"
-                            }`}
-                          >
-                            <div className="size-7 rounded-md overflow-hidden shrink-0 flex items-center justify-center bg-[#234125] text-[#d6b686] border border-[#d6b686]/30">
-                              <Calendar className="w-4 h-4" />
-                            </div>
-                            <div className="flex flex-col min-w-0">
-                              <span className="font-medium text-[13.5px]">Programação Paroquial</span>
-                              <span className="text-[11px] text-[#d6b686]/70">Horários de missas e celebrações</span>
-                            </div>
-                          </Link>
-
-                          <Link
-                            href="/agendamentos"
-                            onClick={() => setMobileOpen(false)}
-                            className={`flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm transition-colors ${
-                              pathname === "/agendamentos"
-                                ? "bg-[#234125] text-[#d6b686]"
-                                : "text-[#d6b686]/90 hover:text-white hover:bg-white/5"
-                            }`}
-                          >
-                            <div className="size-7 rounded-md overflow-hidden shrink-0 flex items-center justify-center bg-[#234125] text-[#d6b686] border border-[#d6b686]/30">
-                              <CalendarCheck className="w-4 h-4" />
-                            </div>
-                            <div className="flex flex-col min-w-0">
-                              <span className="font-medium text-[13.5px]">Agendar Atendimento</span>
-                              <span className="text-[11px] text-[#d6b686]/70">Confissões e visitas pastorais</span>
-                            </div>
-                          </Link>
-
-                          <div className="pt-1 mt-1 border-t border-[#234125]/60">
-                            <Link
-                              href="/agendamentos/acompanhar"
-                              onClick={() => setMobileOpen(false)}
-                              className="block py-2 text-sm font-semibold text-[#e0be8b] hover:underline"
-                            >
-                              Acompanhar agendamento →
-                            </Link>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                }
-
-                if (item.dropdownType === "communities") {
-                  return (
-                    <div key={item.label} className="border-b border-[#234125]/40">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setMobileCommunitiesOpen(!mobileCommunitiesOpen)
-                        }
-                        className={`w-full flex items-center justify-between py-3 pl-10 pr-6 text-[15px] font-medium transition-colors text-left ${
-                          isCommunitiesActive
-                            ? "text-[#d6b686] bg-[#234125]"
-                            : "text-[#d6b686] hover:text-white"
-                        }`}
-                      >
-                        <span>{item.label}</span>
-                        <ChevronDown
-                          className={`w-4 h-4 transition-transform ${
-                            mobileCommunitiesOpen ? "rotate-180" : ""
-                          }`}
-                        />
-                      </button>
-
-                      {mobileCommunitiesOpen && (
-                        <div className="bg-[#142d19] py-2 pl-10 pr-6 space-y-1">
-                          {communities?.map((comm) => {
-                            const coverUrl = getCommunityCoverUrl(comm);
-                            const isActive = pathname === `/comunidades/${comm.slug}`;
-
-                            return (
-                              <Link
-                                key={comm.id}
-                                href={`/comunidades/${comm.slug}`}
-                                onClick={() => setMobileOpen(false)}
-                                className={`flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm transition-colors ${
-                                  isActive
-                                    ? "bg-[#234125] text-[#d6b686]"
-                                    : "text-[#d6b686]/90 hover:text-white hover:bg-white/5"
-                                }`}
-                              >
-                                <div className="size-7 rounded-md overflow-hidden shrink-0 border border-[#d6b686]/30">
-                                  <img
-                                    src={coverUrl}
-                                    alt={comm.name}
-                                    className="w-full h-full object-cover"
-                                  />
-                                </div>
-                                <span className="font-medium text-[13.5px]">{comm.name}</span>
-                              </Link>
-                            );
-                          })}
-
-                          <div className="pt-1">
-                            <Link
-                              href="/comunidades"
-                              onClick={() => setMobileOpen(false)}
-                              className="block py-2 text-sm font-semibold text-[#e0be8b] hover:underline"
-                            >
-                              Ver todas as comunidades →
-                            </Link>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                }
-
-                if (item.dropdownType === "clergy") {
-                  return (
-                    <div key={item.label} className="border-b border-[#234125]/40">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setMobileClergyOpen(!mobileClergyOpen)
-                        }
-                        className={`w-full flex items-center justify-between py-3 pl-10 pr-6 text-[15px] font-medium transition-colors text-left ${
-                          isClergyActive
-                            ? "text-[#d6b686] bg-[#234125]"
-                            : "text-[#d6b686] hover:text-white"
-                        }`}
-                      >
-                        <span>{item.label}</span>
-                        <ChevronDown
-                          className={`w-4 h-4 transition-transform ${
-                            mobileClergyOpen ? "rotate-180" : ""
-                          }`}
-                        />
-                      </button>
-
-                      {mobileClergyOpen && (
-                        <div className="bg-[#142d19] py-2 pl-10 pr-6 space-y-1">
-                          {clergy?.map((member) => {
-                            const photoUrl = getClergyPhotoUrl(member);
-                            const isActive = pathname === `/clerigos/${member.slug}`;
-                            const role = getClergyRoleLabel(
-                              member.position,
-                              member.roleName,
-                              member.title,
-                            );
-
-                            return (
-                              <Link
-                                key={member.id}
-                                href={`/clerigos/${member.slug}`}
-                                onClick={() => setMobileOpen(false)}
-                                className={`flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm transition-colors ${
-                                  isActive
-                                    ? "bg-[#234125] text-[#d6b686]"
-                                    : "text-[#d6b686]/90 hover:text-white hover:bg-white/5"
-                                }`}
-                              >
-                                <div className="size-7 rounded-md overflow-hidden shrink-0 border border-[#d6b686]/30 bg-[#f0e6d6]">
-                                  <img
-                                    src={photoUrl}
-                                    alt={member.name}
-                                    className="w-full h-full object-cover"
-                                  />
-                                </div>
-                                <div className="flex flex-col min-w-0">
-                                  <span className="font-medium text-[13.5px] line-clamp-1">{member.name}</span>
-                                  <span className="text-[11px] text-[#d6b686]/70 line-clamp-1">{role}</span>
-                                </div>
-                              </Link>
-                            );
-                          })}
-
-                          <div className="pt-1">
-                            <Link
-                              href="/clerigos"
-                              onClick={() => setMobileOpen(false)}
-                              className="block py-2 text-sm font-semibold text-[#e0be8b] hover:underline"
-                            >
-                              Ver todos os clérigos →
-                            </Link>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                }
-
-                return (
-                  <NavLink
-                    key={item.label}
-                    href={item.to}
-                    end={item.to === "/"}
-                    onClick={() => setMobileOpen(false)}
-                    className={({ isActive }) =>
-                      [
-                        "block py-3 text-[15px] transition-colors pl-10 pr-6",
-                        isActive
-                          ? "text-[#d6b686] bg-[#234125]"
-                          : "text-[#d6b686] hover:text-white",
-                      ].join(" ")
-                    }
-                    style={{ fontWeight: 500 }}
-                  >
-                    {item.label}
-                  </NavLink>
-                );
-              })}
-
-              <div className="py-4">
-                <Link
-                  href="/quero-contribuir"
-                  onClick={() => setMobileOpen(false)}
-                  className="inline-flex items-center justify-center gap-2 bg-[#e0be8b] hover:bg-[#d4a359] text-[#18351E] text-sm font-semibold ml-8 px-5 py-2.5 rounded-full transition-colors shadow-sm"
-                >
-                  <Heart size={14} className="fill-[#18351E] text-[#18351E]" />
-                  Quero contribuir
-                </Link>
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </header>

@@ -46,7 +46,7 @@ export default function LiturgiaPage() {
     <main className="relative overflow-hidden bg-[#fbf6ee] min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-6 mb-32">
         {/* Breadcrumb */}
-        <nav className="text-sm text-[#8c7b6c] mb-6 flex items-center gap-2 font-medium">
+        <nav className="text-sm text-[#8c7b6c] mb-2 flex items-center gap-2 font-medium">
           <Link href="/" className="hover:text-[#2d261e] transition-colors">
             Início
           </Link>
@@ -60,10 +60,6 @@ export default function LiturgiaPage() {
           <div className="lg:col-span-2 space-y-6">
             {/* Page Header */}
             <div>
-              <div className="inline-flex items-center gap-1.5 text-sm font-bold text-[#a6824b] uppercase tracking-widest mb-2">
-                <BookOpen className="w-4 h-4" />
-                LITURGIA DIÁRIA
-              </div>
               <h1 className="text-3xl md:text-5xl font-serif font-bold text-[#18351E]">
                 Liturgia do Dia
               </h1>

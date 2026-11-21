@@ -100,7 +100,6 @@ export function AnnouncementsHero() {
                 <div className="flex items-center gap-2 text-[#d4a359] text-sm font-semibold uppercase tracking-[0.25em] mb-4">
                   <span className="h-px w-8 bg-[#d4a359]/60 inline-block" />
                   <span>{slide.badgeText}</span>
-                  <span className="h-px w-8 bg-[#d4a359]/60 inline-block" />
                 </div>
               )}
 
@@ -128,25 +127,24 @@ export function AnnouncementsHero() {
           ) : (
             <>
               <div className="flex items-center gap-2 text-[#d4a359] text-sm font-semibold uppercase tracking-[0.25em] mb-4">
-                <Sparkles className="w-4 h-4 text-[#d4a359]" />
-                <span>Diocese de Caraguatatuba</span>
                 <span className="h-px w-8 bg-[#d4a359]/60 inline-block" />
+                <span>MISSA DO PADROEIRO</span>
               </div>
 
               <h1 className="text-4xl md:text-6xl font-serif font-semibold text-[#fbf5eb] tracking-tight leading-[1.1] mb-5 drop-shadow-md">
-                Paróquia São José
+                Missa em Honra a São José
               </h1>
 
               <p className="text-base md:text-lg text-[#e6ded1] font-sans mb-8 leading-relaxed max-w-lg drop-shadow">
-                Uma comunidade de fé, esperança e amor no coração do Litoral Norte. Conheça nossos horários de missas e pastorais.
+                Todo dia 19. Venha celebrar conosco na Paróquia Matriz. Traga suas intenções de oração e fortaleça sua devoção ao Glorioso São José.
               </p>
 
               <div>
                 <Link
-                  href="/comunidades"
-                  className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-[#18351E] hover:bg-[#27442A] text-[#eeca94] border border-[#D6A64A]/40 font-semibold text-sm transition-all shadow-md hover:shadow-lg"
+                  href="/agenda"
+                  className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-[#c69247] hover:bg-[#b07d35] text-[#14201d] border border-[#D6A64A]/40 font-semibold text-sm transition-all shadow-md hover:shadow-lg"
                 >
-                  Conheça Nossas Comunidades
+                  Ver Programação Completa
                 </Link>
               </div>
             </>
