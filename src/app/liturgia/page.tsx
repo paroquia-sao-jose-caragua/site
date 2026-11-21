@@ -179,10 +179,6 @@ export default function LiturgiaPage() {
                         {data?.firstReading?.reference}
                       </p>
 
-                      <div className="bg-[#f3ece0] border-l-4 border-[#a6824b] p-4 rounded-r-lg italic text-[#4a3f35] font-serif text-sm md:text-base mb-6">
-                        {formatLiturgyText(data?.firstReading?.text?.slice(0, 180))}...
-                      </div>
-
                       <div className="text-sm md:text-base leading-relaxed space-y-4 whitespace-pre-line text-[#332b22]">
                         {formatLiturgyText(data?.firstReading?.text)}
                       </div>

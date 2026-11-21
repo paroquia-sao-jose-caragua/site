@@ -6,7 +6,7 @@ import React from "react";
  */
 export function formatLiturgyText(
   text: string | undefined | null,
-  verseClassName = "font-bold text-[#a6824b] font-sans inline-block mr-1 ml-0.5"
+  verseClassName = "font-bold text-[#a6824b] font-sans inline-block mr-1 ml-0.5 mb-0"
 ): React.ReactNode {
   if (!text) return null;
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { BookOpen, Calendar as CalendarIcon } from "lucide-react";
+import { BookOpen, Quote } from "lucide-react";
 import Link from "next/link";
 import { getDailyLiturgy } from "@/lib/api/liturgy/getDaily";
 import { formatLiturgyText } from "@/utils/formatLiturgyText";
@@ -63,27 +63,55 @@ export function LiturgyDailySection() {
             </div>
           </div>
 
-          {/* Card 2: Liturgia Diária (1 column) */}
-          <div className="border-2 border-[#D6A64A]/60 rounded-2xl p-6 md:p-10 flex flex-col justify-center items-center text-center hover:shadow-sm transition-shadow">
-            <CalendarIcon className="text-[#b8872e] w-7 h-7 mb-3" />
+          {/* Card 2: Leituras do Dia (1 column) */}
+          <div className="bg-[#fbf5eb] border border-[#e8e2d8] rounded-2xl p-5 shadow-sm space-y-4">
+            <h4 className="font-serif font-bold text-[#2d261e] text-lg border-b border-[#e8e2d8] pb-3">
+              Leituras do Dia
+            </h4>
 
-            <span className="text-sm font-semibold text-[#B8872E] uppercase tracking-[0.25em] mb-3">
-              LITURGIA DIÁRIA
-            </span>
+            <div className="space-y-3 text-sm">
+              <div className="flex items-start gap-3 p-2.5 rounded-lg bg-[#f3ece0]">
+                <BookOpen className="w-4 h-4 text-[#a6824b] mt-0.5 shrink-0" />
+                <div>
+                  <span className="font-bold text-[#2d261e] block">1ª Leitura</span>
+                  <span className="text-[#6b5c4d] text-sm md:text-sm">
+                    {data?.firstReading?.reference || "Primeira Leitura"}
+                  </span>
+                </div>
+              </div>
 
-            <h3
-              className="text-2xl font-semibold text-[#18351E] mb-8 max-w-xs"
-              style={{ fontFamily: "Cormorant Garamond, serif" }}
-            >
-              Acompanhe a Liturgia todos os dias
-            </h3>
+              {data?.secondReading && (
+                <div className="flex items-start gap-3 p-2.5 rounded-lg bg-[#f3ece0]">
+                  <BookOpen className="w-4 h-4 text-[#a6824b] mt-0.5 shrink-0" />
+                  <div>
+                    <span className="font-bold text-[#2d261e] block">2ª Leitura</span>
+                    <span className="text-[#6b5c4d] text-sm md:text-sm">
+                      {data.secondReading.reference}
+                    </span>
+                  </div>
+                </div>
+              )}
 
-            <Link
-              href="/liturgia"
-              className="w-full max-w-xs inline-flex items-center justify-center px-6 py-3 rounded-lg border border-[#B8872E] text-[#B8872E] hover:bg-[#B8872E] hover:text-white font-semibold text-sm transition-all"
-            >
-              Acessar Liturgia
-            </Link>
+              <div className="flex items-start gap-3 p-2.5 rounded-lg bg-[#f3ece0]">
+                <Quote className="w-4 h-4 text-[#a6824b] mt-0.5 shrink-0" />
+                <div>
+                  <span className="font-bold text-[#2d261e] block">Salmo</span>
+                  <span className="text-[#6b5c4d] text-sm md:text-sm">
+                    {data?.psalm?.reference || "Salmo"}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3 p-2.5 rounded-lg bg-[#f3ece0]">
+                <BookOpen className="w-4 h-4 text-[#a6824b] mt-0.5 shrink-0" />
+                <div>
+                  <span className="font-bold text-[#2d261e] block">Evangelho</span>
+                  <span className="text-[#6b5c4d] text-sm md:text-sm">
+                    {data?.gospel?.reference || "Evangelho"}
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
