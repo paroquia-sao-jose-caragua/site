@@ -63,18 +63,18 @@ export function LiturgyDailySection() {
 
           {/* Direita: Card Leituras do Dia */}
           <div className="bg-[#fbf5eb]/95 backdrop-blur-xs border border-[#e8e2d8] rounded-2xl p-5 shadow-sm space-y-4">
-            <h4 className="font-serif font-bold text-[#2d261e] text-lg border-b border-[#e8e2d8] pb-3">
+            <h4 className="font-serif font-bold text-[#2d261e] text-xl border-b border-[#e8e2d8] pb-3">
               Leituras do Dia
             </h4>
 
-            <div className="space-y-3 text-sm">
+            <div className="space-y-3 text-md">
               <div className="flex items-start gap-3 p-2.5 rounded-lg bg-[#f3ece0]">
                 <BookOpen className="w-4 h-4 text-[#a6824b] mt-0.5 shrink-0" />
                 <div>
                   <span className="font-bold text-[#2d261e] block">
                     1ª Leitura
                   </span>
-                  <span className="text-[#6b5c4d] text-sm">
+                  <span className="text-[#6b5c4d] text-md">
                     {data?.firstReading?.reference || "Primeira Leitura"}
                   </span>
                 </div>
@@ -87,7 +87,7 @@ export function LiturgyDailySection() {
                     <span className="font-bold text-[#2d261e] block">
                       2ª Leitura
                     </span>
-                    <span className="text-[#6b5c4d] text-sm">
+                    <span className="text-[#6b5c4d] text-md">
                       {data.secondReading.reference}
                     </span>
                   </div>
@@ -98,7 +98,7 @@ export function LiturgyDailySection() {
                 <Quote className="w-4 h-4 text-[#a6824b] mt-0.5 shrink-0" />
                 <div>
                   <span className="font-bold text-[#2d261e] block">Salmo</span>
-                  <span className="text-[#6b5c4d] text-sm">
+                  <span className="text-[#6b5c4d] text-md">
                     {data?.psalm?.reference || "Salmo"}
                   </span>
                 </div>
@@ -110,7 +110,7 @@ export function LiturgyDailySection() {
                   <span className="font-bold text-[#2d261e] block">
                     Evangelho
                   </span>
-                  <span className="text-[#6b5c4d] text-sm">
+                  <span className="text-[#6b5c4d] text-md">
                     {data?.gospel?.reference || "Evangelho"}
                   </span>
                 </div>

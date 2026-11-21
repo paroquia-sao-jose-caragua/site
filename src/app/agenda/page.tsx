@@ -754,7 +754,7 @@ function AgendaPageContent() {
                     setSelectedYear(m.year);
                     setSelectedDate("");
                   }}
-                  className={`px-4 py-2 rounded-lg text-sm md:text-sm font-medium transition-all whitespace-nowrap cursor-pointer shrink-0 ${
+                  className={`px-4 py-2 rounded-lg text-md font-medium transition-all whitespace-nowrap cursor-pointer shrink-0 ${
                     isSelected
                       ? "bg-[#1b2a26] text-white shadow-xs font-semibold"
                       : "bg-[#fbf5eb] text-[#6b5c4d] border border-[#e8e2d8] hover:border-[#a6824b] hover:text-[#2d261e]"
