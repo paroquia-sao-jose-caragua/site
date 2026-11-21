@@ -7,9 +7,7 @@ import {
   Heart,
   ChevronDown,
   ChevronRight,
-  Church,
   BookOpen,
-  Users,
   MessageCircle,
   Calendar,
   CalendarCheck,
@@ -66,7 +64,6 @@ export function SiteHeader() {
   const [mobileCommunitiesOpen, setMobileCommunitiesOpen] = useState(false);
   const [mobileClergyOpen, setMobileClergyOpen] = useState(false);
   const [mobileAgendaOpen, setMobileAgendaOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [clergyDropdownOpen, setClergyDropdownOpen] = useState(false);
   const [agendaDropdownOpen, setAgendaDropdownOpen] = useState(false);
@@ -79,19 +76,6 @@ export function SiteHeader() {
   const clergyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const agendaTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const moreTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 30) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   // Close dropdowns on click outside
   useEffect(() => {
@@ -182,22 +166,16 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50">
       <div className="flex items-start">
         <div
-          className={`relative flex-1 bg-[#fbf5eb] min-w-0 border-b border-[#D6A64A] transition-all duration-300 ease-in-out ${
-            scrolled ? "shadow-md bg-[#fbf5eb]/95 backdrop-blur-md" : ""
-          }`}
+          className={'relative flex-1 bg-[#fbf5eb] min-w-0 border-b border-[#D6A64A] transition-all duration-300 ease-in-out shadow-md bg-[#fbf5eb]/95 backdrop-blur-md'}
         >
           <div
-            className={`max-w-324 mx-auto px-6 flex items-center justify-between transition-all duration-300 ease-in-out ${
-              scrolled ? "h-[72px]" : "h-24"
-            }`}
+            className={'max-w-324 mx-auto px-6 flex items-center justify-between transition-all duration-300 ease-in-out h-[72px]'}
           >
             <Link href="/" className="flex items-center gap-3 shrink-0">
               <img
                 src="/logo-mark.png"
                 alt="Paróquia São José"
-                className={`w-auto transition-all duration-300 ease-in-out object-contain ${
-                  scrolled ? "h-14" : "h-20"
-                }`}
+                className={'w-auto transition-all duration-300 ease-in-out object-contain h-14'}
               />
             </Link>
 
