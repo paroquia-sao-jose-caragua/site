@@ -23,12 +23,14 @@ function capitalizeFirst(value: string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-function formatLiturgyDate(date: dayjs.Dayjs, shortWeekday = false) {
+function formatLiturgyDate(date: dayjs.Dayjs, compact = false) {
   const weekday = capitalizeFirst(
-    date.format(shortWeekday ? "ddd" : "dddd").replace(".", "")
+    date.format(compact ? "ddd" : "dddd").replace(".", "")
   );
   const day = date.format("D");
-  const month = capitalizeFirst(date.format("MMMM"));
+  const month = capitalizeFirst(
+    date.format(compact ? "MMM" : "MMMM").replace(".", "")
+  );
   const year = date.format("YYYY");
   return `${weekday}, ${day} de ${month} de ${year}`;
 }
@@ -121,7 +123,7 @@ export default function LiturgiaPage() {
             </div>
 
             {/* Date Selector Header */}
-            <div className="flex items-center justify-between gap-3 bg-[#fbf5eb] border-y border-[#D6A64A]/30 px-4 py-3 w-full">
+            <div className="flex items-center justify-between gap-3 bg-[#fbf5eb] border-y border-[#D6A64A]/30 px-4 py-3 w-[calc(100%_+_36px)] ml-[-18px]">
               <button
                 onClick={handlePrevDay}
                 className="p-1.5 rounded-lg text-[#8c7b6c] hover:bg-[#fbf6ee] hover:text-[#2d261e] transition-colors cursor-pointer"
@@ -201,7 +203,7 @@ export default function LiturgiaPage() {
                         {data?.firstReading?.reference}
                       </p>
 
-                      <div className="text-md leading-relaxed space-y-4 whitespace-pre-line text-[#332b22]">
+                      <div className="text-lg sm:text-md leading-relaxed space-y-4 whitespace-pre-line text-[#332b22]">
                         {formatLiturgyText(data?.firstReading?.text)}
                       </div>
 
@@ -221,7 +223,7 @@ export default function LiturgiaPage() {
                         {data.secondReading.reference}
                       </p>
 
-                      <div className="text-md leading-relaxed space-y-4 whitespace-pre-line text-[#332b22]">
+                      <div className="text-lg sm:text-md leading-relaxed space-y-4 whitespace-pre-line text-[#332b22]">
                         {formatLiturgyText(data.secondReading.text)}
                       </div>
 
@@ -247,7 +249,7 @@ export default function LiturgiaPage() {
                         </div>
                       )}
 
-                      <div className="text-md leading-relaxed space-y-4 whitespace-pre-line text-[#332b22] font-serif">
+                      <div className="text-lg sm:text-md leading-relaxed space-y-4 whitespace-pre-line text-[#332b22] font-serif">
                         {formatLiturgyText(data?.psalm?.text)}
                       </div>
                     </article>
@@ -265,7 +267,7 @@ export default function LiturgiaPage() {
                         {data?.gospel?.reference}
                       </p>
 
-                      <div className="text-md leading-relaxed space-y-4 whitespace-pre-line text-[#332b22]">
+                      <div className="text-lg sm:text-md leading-relaxed space-y-4 whitespace-pre-line text-[#332b22]">
                         {formatLiturgyText(data?.gospel?.text)}
                       </div>
 

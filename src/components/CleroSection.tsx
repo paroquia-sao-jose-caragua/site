@@ -146,19 +146,13 @@ export function CleroSection({ className }: CleroSectionProps = {}) {
                         {mainMember.name}
                       </h3>
 
-                      {mainMember.shortIntro && (
-                        <p className="text-sm md:text-sm font-semibold text-[#B8872E] uppercase tracking-wider mb-4">
-                          {mainMember.shortIntro}
-                        </p>
-                      )}
-
-                      <p className="text-sm md:text-base text-[#5A463B] font-serif leading-relaxed mb-6 max-w-xl line-clamp-4 md:line-clamp-5 overflow-hidden text-ellipsis">
+                      <p className="text-md text-[#5A463B] font-serif leading-relaxed mb-6 max-w-xl line-clamp-4 md:line-clamp-5 overflow-hidden text-ellipsis">
                         {mainMember.bio}
                       </p>
 
                       {/* Subtle St. Joseph lily / decoration text */}
                       <div className="flex items-center gap-3 my-6 py-4 border-t border-b border-[#D6A64A]/20">
-                        <span className="text-sm text-[#8c7b6c] font-serif italic">
+                        <span className="text-md text-[#8c7b6c] font-serif italic">
                           “São José, homem justo e fiel, rogai por nós.”
                         </span>
                       </div>

@@ -463,7 +463,7 @@ export function UpcomingMassesSection() {
                           </div>
 
                           {/* Card Footer: Localização e Ver detalhes (limpos, sem visual de botão) */}
-                          <div className="mt-4 pt-3.5 border-t border-[#D6A64A]/20 flex items-center justify-between gap-3">
+                          <div className="mt-4 pt-3.5 border-t border-[#D6A64A]/20 flex flex-wrap items-center justify-between gap-3">
                             <div className="flex items-center gap-1.5 text-sm text-[#5A463B]">
                               <MapPin className="w-3.5 h-3.5 text-[#B8872E] shrink-0" />
                               <span className="font-medium text-[#5A463B] group-hover:text-[#18351E] transition-colors truncate max-w-[220px] sm:max-w-[340px]">

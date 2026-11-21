@@ -84,9 +84,9 @@ function parseDate(str: string) {
   return new Date(y, m - 1, d);
 }
 
-function formatDateLabel(dateStr: string) {
+function formatDateLabel(dateStr: string, fullWeekday = true) {
   const d = parseDate(dateStr);
-  const weekday = WEEKDAYS_FULL[d.getDay()];
+  const weekday = (fullWeekday ? WEEKDAYS_FULL : WEEKDAYS)[d.getDay()];
   const day = d.getDate();
   const month = MONTHS_PT[d.getMonth()];
   return `${weekday}, ${day} de ${month}`;
@@ -499,7 +499,7 @@ function EventCard({ event }: EventCardProps) {
         </div>
 
         {/* Card Footer: Location & Ver Detalhes (Visualização Pública, sem formato de botão) */}
-        <div className="mt-4 pt-3.5 border-t border-[#D6A64A]/20 flex items-center justify-between gap-3">
+        <div className="mt-4 pt-3.5 border-t border-[#D6A64A]/20 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-1.5 text-sm text-[#5A463B]">
             <MapPin className="w-3.5 h-3.5 text-[#B8872E] shrink-0" />
             <span className="font-medium text-[#5A463B] group-hover:text-[#18351E] transition-colors truncate max-w-[220px] sm:max-w-[340px]">
@@ -740,21 +740,22 @@ function AgendaPageContent() {
         {/* Month Selector Bar & Discreet Community Select with separating border (Desktop only) */}
         <div className="hidden lg:flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#D6A64A]/30 mb-8">
           {/* Month buttons */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
             {visibleMonths.map((m) => {
               const isSelected = selectedMonth === m.value && selectedYear === m.year;
               return (
                 <button
                   key={`${m.year}-${m.value}`}
+                  type="button"
                   onClick={() => {
                     setSelectedMonth(m.value);
                     setSelectedYear(m.year);
                     setSelectedDate("");
                   }}
-                  className={`px-4 py-2 rounded-lg text-md font-medium transition-all whitespace-nowrap cursor-pointer shrink-0 ${
+                  className={`px-3.5 py-1.5 rounded-lg text-md transition-all duration-200 whitespace-nowrap cursor-pointer shrink-0 ${
                     isSelected
-                      ? "bg-[#1b2a26] text-white shadow-xs font-semibold"
-                      : "bg-[#fbf5eb] text-[#6b5c4d] border border-[#e8e2d8] hover:border-[#a6824b] hover:text-[#2d261e]"
+                      ? "bg-[#B8872E]/15 text-[#8c6218] font-semibold"
+                      : "text-[#32402A] font-medium hover:text-[#B8872E] hover:bg-[#B8872E]/8"
                   }`}
                 >
                   {m.label}
@@ -879,7 +880,6 @@ function AgendaPageContent() {
                 !isError &&
                 datesToShow.map((dateStr) => {
                   const events = eventsByDay.get(dateStr) ?? [];
-                  const isToday = dateStr === dayjs().format("YYYY-MM-DD");
                   const dateObj = parseDate(dateStr);
                   const dayMeta = dayMetaByDate.get(dateStr);
 
@@ -901,16 +901,16 @@ function AgendaPageContent() {
                           <div className="flex flex-col gap-0.5">
                             <div className="flex items-center gap-2 flex-wrap">
                               <h2
-                                className="text-xl sm:text-2xl font-semibold text-[#18351E] capitalize"
+                                className="text-xl sm:text-2xl font-semibold text-[#18351E]"
                                 style={{ fontFamily: "Cormorant Garamond, serif" }}
                               >
-                                {formatDateLabel(dateStr)}
-                              </h2>
-                              {isToday && (
-                                <span className="text-[11px] bg-[#18351E] text-[#ffe7c2] px-2.5 py-0.5 rounded-full border border-[#D6A64A]/40 font-semibold uppercase tracking-wider">
-                                  Hoje
+                                <span className="sm:hidden">
+                                  {formatDateLabel(dateStr, false)}
                                 </span>
-                              )}
+                                <span className="hidden sm:inline">
+                                  {formatDateLabel(dateStr, true)}
+                                </span>
+                              </h2>
                             </div>
                             <span className="text-sm text-[#5A463B] font-medium">
                               {events.length} {events.length === 1 ? "celebração agendada" : "celebrações agendadas"}

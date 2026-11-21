@@ -112,7 +112,7 @@ export function OurCommunitiesSection() {
                     </div>
 
                     {/* Description */}
-                    <p className="text-sm text-[#5A463B] leading-relaxed mb-6 font-serif">
+                    <p className="text-md text-[#5A463B] leading-relaxed mb-6 font-serif">
                       É na {matriz.name} que tudo começou. Aqui, nossa paróquia tem sua sede e realiza as principais celebrações e atividades pastorais.
                     </p>
 
@@ -169,7 +169,7 @@ export function OurCommunitiesSection() {
 
                       {/* Title */}
                       <h3
-                        className="text-base font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors leading-snug mb-2 line-clamp-2"
+                        className="text-lg font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors leading-snug mb-2 line-clamp-2"
                         style={{ fontFamily: "Cormorant Garamond, serif" }}
                       >
                         {item.name}
@@ -201,12 +201,12 @@ export function OurCommunitiesSection() {
         )}
 
         {/* Gatilho: Hierarquia das Comunidades */}
-        <div className="mt-8 flex flex-col sm:flex-row sm:items-center justify-end gap-3 text-sm sm:text-base">
+        <div className="mt-8 flex flex-col sm:flex-row sm:items-center justify-end gap-3">
           <Link
             href="/comunidades"
             className="text-md font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors group shrink-0"
           >
-            <span>Entenda a hierarquia e veja todas as comunidades</span>
+            <span>Entenda a hierarquia na paróquia</span>
             <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
