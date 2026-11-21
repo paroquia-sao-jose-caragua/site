@@ -46,7 +46,7 @@ function VaticanNewsReflectionCard() {
       <div className="flex items-center gap-3.5 min-w-0">
         <div className="size-14 rounded-xl overflow-hidden shrink-0 border border-[#D6A64A]/30">
           <img
-            src="/vatican-news-logo-icon.png"
+            src="/vatican-news-logoicon.png"
             alt="Vatican News"
             className="w-full h-full object-cover"
           />

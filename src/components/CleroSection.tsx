@@ -201,7 +201,7 @@ export function CleroSection({ className }: CleroSectionProps = {}) {
                       className="group bg-[#fbf5eb] border border-[#D6A64A]/30 rounded-2xl p-5 flex flex-col items-center text-center shadow-xs hover:shadow-md hover:border-[#B8872E] hover:-translate-y-1.5 transition-all cursor-pointer"
                     >
                       {/* Circular Portrait Photo */}
-                      <div className="relative w-36 h-36 aspect-square mb-4 overflow-hidden rounded-full border-2 border-[#D6A64A]/50 shadow-sm bg-gradient-to-b from-[#f8f3eb] to-[#e7dac7] flex items-end justify-center">
+                      <div className="relative w-36 h-36 aspect-square mb-4 overflow-hidden rounded-full border border-[#D6A64A]/30 bg-gradient-to-b from-[#f8f3eb] to-[#e7dac7] flex items-end justify-center">
                         <img
                           src={person.img}
                           alt={person.name}

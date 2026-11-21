@@ -2,7 +2,7 @@
 
 import { use } from "react";
 import Link from "next/link";
-import { ChevronRight, ArrowLeft, Sparkles, BookOpen, MessageCircle } from "lucide-react";
+import { ChevronRight, ArrowLeft, Sparkles, BookOpen, ExternalLink } from "lucide-react";
 import { CrossIcon } from "@/components/icons/CrossIcon";
 import { useClergyBySlug } from "@/lib/api/clergy/use-clergy-by-slug";
 import { getClergyPhotoUrl, getClergyRoleLabel } from "@/lib/utils/clergy";
@@ -105,7 +105,7 @@ export default function ClergyDetailPage({ params }: PageProps) {
         ) : (
           <div className="space-y-16 md:space-y-20">
             {/* 1. HERO HEADER (estilo Comunidades: Título à esquerda, Foto à direita) */}
-            <div className="gap-0 grid grid-cols-1 lg:grid-cols-12 sm:gap-8 lg:gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
               {/* Esquerda: Informações do Clérigo */}
               <div className="lg:col-span-7 space-y-5">
                 <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#fbf5eb] border border-[#D6A64A]/40 text-[#B8872E] text-sm font-semibold tracking-widest uppercase">
@@ -126,32 +126,94 @@ export default function ClergyDetailPage({ params }: PageProps) {
                   </p>
                 )}
 
-                <div className="hidden sm:flex flex-wrap items-center gap-4 pt-3">
-                  <a
-                    href="#biografia"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#18351E] text-white text-sm font-semibold hover:bg-[#27442A] transition-all shadow-md cursor-pointer"
-                  >
-                    <BookOpen className="w-4 h-4 text-[#D6A64A]" />
-                    <span>Ver biografia</span>
-                  </a>
-
-                  {(member.position === "parish_priest" ||
-                    member.position === "permanent_deacon" ||
-                    member.position === "vicar") && (
-                    <Link
-                      href="/contato"
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#fbf5eb] border border-[#D6A64A] text-[#18351E] text-sm font-semibold hover:bg-[#f3ece0] transition-all shadow-xs"
+                {member.position === "supreme_pontiff" ? (
+                  <div className="pt-3 max-w-md">
+                    <a
+                      href="https://www.vaticannews.va/pt/papa.html"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center justify-between gap-4 bg-[#fbf5eb] border border-[#D6A64A]/40 hover:border-[#B8872E] rounded-2xl p-4 sm:p-5 shadow-xs hover:shadow-md transition-all no-underline"
                     >
-                      <MessageCircle className="w-4 h-4 text-[#B8872E]" />
-                      <span>Falar com a secretaria</span>
-                    </Link>
-                  )}
-                </div>
+                      <div className="flex items-center gap-3.5 min-w-0">
+                        <div className="size-14 rounded-xl overflow-hidden shrink-0 border border-[#D6A64A]/30">
+                          <img
+                            src="/vatican-news-logoicon.png"
+                            alt="Vatican News"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+
+                        <div className="min-w-0">
+                          <span className="text-[11px] font-bold uppercase tracking-wider text-[#B8872E] block">
+                            Vatican News
+                          </span>
+                          <span className="font-serif font-bold text-[#18351E] text-lg leading-snug group-hover:text-[#8c6218] transition-colors block">
+                            Notícias do Santo Padre
+                          </span>
+                          <span className="text-xs text-[#6b5c4d] truncate block">
+                            Acessar página oficial do Papa
+                          </span>
+                        </div>
+                      </div>
+
+                      <ExternalLink
+                        size={18}
+                        className="text-[#B8872E] shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+                      />
+                    </a>
+                  </div>
+                ) : member.position === "diocesan_bishop" ? (
+                  <div className="pt-3 max-w-md">
+                    <a
+                      href="https://dicaragua.org.br/o-bispo/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center justify-between gap-4 bg-[#fbf5eb] border border-[#D6A64A]/40 hover:border-[#B8872E] rounded-2xl p-4 sm:p-5 shadow-xs hover:shadow-md transition-all no-underline"
+                    >
+                      <div className="flex items-center gap-3.5 min-w-0">
+                        <div className="size-14 rounded-xl overflow-hidden shrink-0 border border-[#D6A64A]/30 bg-white p-1 flex items-center justify-center">
+                          <img
+                            src="/diocese-logoicon.webp"
+                            alt="Diocese de Caraguatatuba"
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+
+                        <div className="min-w-0">
+                          <span className="text-[11px] font-bold uppercase tracking-wider text-[#B8872E] block">
+                            Diocese de Caraguatatuba
+                          </span>
+                          <span className="font-serif font-bold text-[#18351E] text-lg leading-snug group-hover:text-[#8c6218] transition-colors block">
+                            O Bispo Diocesano
+                          </span>
+                          <span className="text-xs text-[#6b5c4d] truncate block">
+                            Acessar página oficial na Diocese
+                          </span>
+                        </div>
+                      </div>
+
+                      <ExternalLink
+                        size={18}
+                        className="text-[#B8872E] shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+                      />
+                    </a>
+                  </div>
+                ) : (
+                  <div className="hidden sm:flex flex-wrap items-center gap-4 pt-3">
+                    <a
+                      href="#biografia"
+                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#18351E] text-white text-sm font-semibold hover:bg-[#27442A] transition-all shadow-md cursor-pointer"
+                    >
+                      <BookOpen className="w-4 h-4 text-[#D6A64A]" />
+                      <span>Ver biografia</span>
+                    </a>
+                  </div>
+                )}
               </div>
 
               {/* Direita: Foto do Clérigo (sem borda aninhada) */}
               <div className="lg:col-span-5 flex justify-center lg:justify-end">
-                <div className="relative aspect-[3/4] w-full max-w-sm rounded-3xl overflow-hidden border border-[#D6A64A]/40 shadow-xl bg-[#f3ece0]">
+                <div className="relative h-72 sm:h-auto sm:aspect-[3/4] w-full max-w-sm rounded-3xl overflow-hidden border border-[#D6A64A]/40 shadow-xl bg-[#f3ece0]">
                   <img
                     src={getClergyPhotoUrl(member)}
                     alt={member.name}
@@ -252,7 +314,7 @@ export default function ClergyDetailPage({ params }: PageProps) {
                     className="text-2xl md:text-4xl font-semibold text-[#18351E] mb-2"
                     style={{ fontFamily: "Cormorant Garamond, serif" }}
                   >
-                    Outros Pastores e Ministros
+                    Outros Ministros e Pastores
                   </h2>
 
                   <p className="text-lg text-[#5A463B] font-serif leading-relaxed max-w-xl mb-3">
@@ -261,14 +323,12 @@ export default function ClergyDetailPage({ params }: PageProps) {
                 </div>
 
                 <div
-                  className={`grid grid-cols-1 gap-4 md:gap-5 ${
+                  className={`grid grid-cols-1 gap-6 ${
                     otherClergy.length === 1
                       ? "max-w-md mx-auto"
                       : otherClergy.length === 2
                       ? "sm:grid-cols-2"
-                      : otherClergy.length === 3
-                      ? "sm:grid-cols-2 lg:grid-cols-3"
-                      : "sm:grid-cols-2 lg:grid-cols-4"
+                      : "sm:grid-cols-2 lg:grid-cols-3"
                   }`}
                 >
                   {otherClergy.map((item) => {
@@ -278,16 +338,15 @@ export default function ClergyDetailPage({ params }: PageProps) {
                       item.roleName,
                       item.title,
                     );
-                    const summaryText = item.shortIntro || item.bio;
 
                     return (
                       <Link
                         key={item.id}
                         href={`/clerigos/${item.slug}`}
-                        className="group bg-[#fbf5eb] border border-[#D6A64A]/30 hover:border-[#B8872E] rounded-3xl p-4 flex items-stretch gap-4 text-left shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer"
+                        className="group bg-[#fbf5eb] border border-[#D6A64A]/30 rounded-2xl p-5 flex flex-col items-center text-center shadow-xs hover:shadow-md hover:border-[#B8872E] hover:-translate-y-1.5 transition-all cursor-pointer"
                       >
-                        {/* Foto retrato à esquerda */}
-                        <div className="w-28 sm:w-32 aspect-[3/4] shrink-0 overflow-hidden rounded-2xl bg-gradient-to-b from-[#f8f3eb] to-[#e7dac7]">
+                        {/* Circular Portrait Photo */}
+                        <div className="relative w-36 h-36 aspect-square mb-4 overflow-hidden rounded-full border border-[#D6A64A]/30 bg-gradient-to-b from-[#f8f3eb] to-[#e7dac7] flex items-end justify-center">
                           <img
                             src={photoUrl}
                             alt={item.name}
@@ -295,31 +354,23 @@ export default function ClergyDetailPage({ params }: PageProps) {
                           />
                         </div>
 
-                        {/* Conteúdo à direita */}
-                        <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
-                          <div>
-                            <span className="block text-[10.5px] font-bold text-[#B8872E] uppercase tracking-wider mb-0.5 truncate">
-                              {itemRole}
-                            </span>
+                        {/* Role / Categoria */}
+                        <p className="text-[#B8872E] text-sm uppercase tracking-[0.2em] font-semibold mb-1">
+                          {itemRole}
+                        </p>
 
-                            <h3
-                              className="text-lg font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors leading-snug line-clamp-2"
-                              style={{ fontFamily: "Cormorant Garamond, serif" }}
-                            >
-                              {item.name}
-                            </h3>
+                        {/* Name */}
+                        <h3
+                          className="text-[#18351E] text-lg font-semibold leading-snug group-hover:text-[#B8872E] transition-colors mb-4 line-clamp-1"
+                          style={{ fontFamily: "Cormorant Garamond, serif" }}
+                        >
+                          {item.name}
+                        </h3>
 
-                            {summaryText && (
-                              <p className="text-xs sm:text-sm text-[#736254] line-clamp-2 mt-1.5">
-                                {summaryText}
-                              </p>
-                            )}
-                          </div>
-
-                          <div className="flex items-center justify-between text-xs sm:text-sm font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors pt-2.5 border-t border-[#D6A64A]/20 mt-2">
-                            <span>Conheça</span>
-                            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                          </div>
+                        {/* Action Link */}
+                        <div className="flex items-center gap-1 text-sm font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors mt-auto pt-3 border-t border-[#D6A64A]/20 w-full justify-center">
+                          <span>Conheça</span>
+                          <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                         </div>
                       </Link>
                     );
