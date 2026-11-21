@@ -2,8 +2,8 @@
 
 import {
   ArrowLeft,
+  CalendarClock,
   Check,
-  Clock,
   Copy,
   Download,
   MessageCircle,
@@ -45,45 +45,35 @@ export function StepConfirmation({
 
   return (
     <div className="space-y-5">
-      <div className="rounded-3xl bg-white/95 border border-[#D6A64A]/35 p-6 sm:p-10 shadow-xs text-center">
-      <div className="size-14 text-[#8c5e2a] flex items-center justify-center mx-auto mb-4">
-        <Clock size={48} strokeWidth={1} />
+      <div className="rounded-3xl bg-[#FDFBF7] border border-[#D6A64A]/35 p-6 sm:p-10 shadow-xs text-center">
+      <div className="size-12 rounded-xl bg-[#ECD6BD]/75 text-[#8c6218] flex items-center justify-center mx-auto mb-4">
+        <CalendarClock size={24} strokeWidth={1.75} />
       </div>
 
       <h2
-        className="text-3xl sm:text-4xl font-semibold text-[#18351E]"
+        className="text-2xl sm:text-4xl font-semibold text-[#18351E]"
         style={{ fontFamily: "Cormorant Garamond, serif" }}
       >
-        Solicitação Aguardando Confirmação
+        Aguardando Confirmação
       </h2>
 
       <p className="text-md sm:text-base text-[#5A463B] max-w-lg mx-auto mt-3 leading-relaxed">
-        Seu pedido ainda está{" "}
-        <strong className="text-[#18351E]">pendente de aprovação</strong>. Assim que for confirmado pela paróquia, avisaremos pelo WhatsApp informado{" "}
+         Assim que o seu pedido for confirmado pela paróquia, avisaremos pelo WhatsApp informado{" "}
         {requesterPhone}.
-      </p>
-
-      {/* Link de Acompanhamento */}
-      <button
-        type="button"
-        onClick={onCopyLink}
-        className="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-[#18351E] text-[#eeca94] px-5 py-2.5 text-sm font-semibold hover:bg-[#27442A] transition-colors cursor-pointer"
-      >
-        {copiedLink ? <Check size={15} /> : <Copy size={15} />}
-        <span>
-          {copiedLink ? "Link copiado!" : "Copiar link de acompanhamento"}
-        </span>
-      </button>
-
-      <p
-        className="text-base sm:text-lg italic text-[#8c5e2a] mt-5"
-        style={{ fontFamily: "Cormorant Garamond, serif" }}
-      >
-        &ldquo;Vinde a mim, todos vós que estais cansados.&rdquo; — Mt 11,28
       </p>
 
       {/* Ações finais */}
       <div className="mt-7 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 flex-wrap">
+        <button
+          type="button"
+          onClick={onCopyLink}
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-[#18351E] text-[#eeca94] px-5 py-2.5 text-sm font-semibold hover:bg-[#27442A] transition-colors cursor-pointer"
+        >
+          {copiedLink ? <Check size={15} /> : <Copy size={15} />}
+          <span>
+            {copiedLink ? "Link copiado!" : "Copiar link de acompanhamento"}
+          </span>
+        </button>
         <button
           type="button"
           onClick={() =>
@@ -98,29 +88,26 @@ export function StepConfirmation({
               description: createdAppointment.requesterNotes,
             })
           }
-          className="inline-flex items-center justify-center gap-2 rounded-full border border-[#D6A64A]/50 bg-white px-5 py-2.5 text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 transition-colors cursor-pointer"
+          className="inline-flex items-center justify-center gap-2 rounded-full border border-[#D6A64A]/50 bg-[#fbf6ee] px-5 py-2.5 text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 transition-colors cursor-pointer"
         >
           <Download size={15} className="text-[#B8872E]" />
           <span>Salvar lembrete no calendário</span>
         </button>
+      </div>
+      </div>
 
-        <a
-          href={whatsappSupportUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-2 rounded-full border border-[#D6A64A]/50 bg-white px-5 py-2.5 text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 transition-colors cursor-pointer"
+      <div className="flex flex-col items-center">
+        <p
+          className="text-base sm:text-lg italic text-[#8c5e2a] mt-5 mb-8 text-center"
+          style={{ fontFamily: "Cormorant Garamond, serif" }}
         >
-          <MessageCircle size={15} className="text-[#B8872E]" />
-          <span>WhatsApp da Secretaria</span>
-        </a>
-      </div>
-      </div>
+          &ldquo;Vinde a mim, todos vós que estais cansados.&rdquo; — Mt 11,28
+        </p>
 
-      <div className="flex justify-center">
         <button
           type="button"
           onClick={onReset}
-          className="group inline-flex items-center gap-2 text-sm font-semibold text-[#5A463B] hover:text-[#18351E] transition-colors cursor-pointer py-1"
+          className="group inline-flex items-center gap-2 text-md font-semibold text-[#5A463B] hover:text-[#18351E] transition-colors cursor-pointer py-1"
         >
           <ArrowLeft
             size={16}

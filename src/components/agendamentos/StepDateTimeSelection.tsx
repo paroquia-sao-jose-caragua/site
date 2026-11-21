@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, Info, MapPin, MessageCircle } from "lucide-react";
+import { AlertCircle, Clock, Info, MapPin, MessageCircle } from "lucide-react";
 import type {
   AppointmentService,
   AvailableSlot,
@@ -23,6 +23,21 @@ interface StepDateTimeSelectionProps {
   onSelectSlot: (slot: AvailableSlot) => void;
   parishWhatsappUrl: string;
   onBack: () => void;
+  validationSection?: "agents" | "calendar" | "slots" | null;
+  validationMessage?: string;
+}
+
+function SectionAlert({ message }: { message?: string }) {
+  if (!message) return null;
+  return (
+    <div
+      role="alert"
+      className="rounded-xl border border-[#B8872E]/50 bg-[#ECD6BD]/45 px-4 py-3 text-sm font-medium text-[#18351E] flex items-center gap-2"
+    >
+      <AlertCircle size={16} className="shrink-0 text-[#B8872E]" />
+      <span>{message}</span>
+    </div>
+  );
 }
 
 export function StepDateTimeSelection({
@@ -39,6 +54,8 @@ export function StepDateTimeSelection({
   onSelectSlot,
   parishWhatsappUrl,
   onBack,
+  validationSection,
+  validationMessage,
 }: StepDateTimeSelectionProps) {
   const agentNameDisplay = selectedAgent
     ? `${selectedAgent.title ? `${selectedAgent.title} ` : ""}${selectedAgent.name}`
@@ -61,9 +78,9 @@ export function StepDateTimeSelection({
       </div>
 
       {isLoadingAgents ? (
-        <div className="h-64 rounded-3xl bg-white/80 border border-[#D6A64A]/20 animate-pulse" />
+        <div className="h-64 rounded-3xl bg-[#FDFBF7]/80 border border-[#D6A64A]/20 animate-pulse" />
       ) : agents.length === 0 ? (
-        <div className="bg-white/95 border border-[#D6A64A]/40 rounded-3xl p-8 text-center">
+        <div className="bg-[#FDFBF7] border border-[#D6A64A]/40 rounded-3xl p-8 text-center">
           <Info size={36} className="text-[#B8872E] mx-auto mb-3" />
           <h3 className="text-lg font-semibold text-[#18351E]">
             Nenhum agente pastoral com horários abertos
@@ -94,10 +111,13 @@ export function StepDateTimeSelection({
         <>
           {/* Seletor de Agente (exibido quando há mais de 1 agente disponível) */}
           {agents.length > 1 && (
-            <div className="space-y-2.5">
+            <div id="booking-step-agents" className="space-y-2.5 scroll-mt-24">
               <span className="text-xs font-bold uppercase tracking-wider text-[#8c7b6c] block">
                 Quem irá lhe atender
               </span>
+              {validationSection === "agents" && (
+                <SectionAlert message={validationMessage} />
+              )}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {agents.map((agent) => {
                   const isSelected = selectedAgent?.id === agent.id;
@@ -108,8 +128,8 @@ export function StepDateTimeSelection({
                       onClick={() => onSelectAgent(agent)}
                       className={`flex items-center gap-3 rounded-2xl border p-3.5 text-left transition-all cursor-pointer ${
                         isSelected
-                          ? "bg-[#18351E] text-[#eeca94] border-[#18351E] shadow-xs"
-                          : "bg-white/95 border-[#D6A64A]/35 text-[#18351E] hover:border-[#B8872E]"
+                          ? "bg-[#ECD6BD]/60 text-[#18351E] border-[#D6A64A]/40 shadow-xs"
+                          : "bg-[#FDFBF7] border-[#D6A64A]/35 text-[#18351E] hover:border-[#B8872E]"
                       }`}
                     >
                       <div className="min-w-0">
@@ -119,7 +139,7 @@ export function StepDateTimeSelection({
                         </span>
                         <span
                           className={`text-xs block truncate ${
-                            isSelected ? "text-[#eeca94]/80" : "text-[#5A463B]"
+                            isSelected ? "text-[#5A463B]" : "text-[#5A463B]"
                           }`}
                         >
                           {agent.actingRole}
@@ -127,7 +147,7 @@ export function StepDateTimeSelection({
                         {agent.community && (
                           <span
                             className={`text-[11px] flex items-center gap-1 mt-0.5 truncate ${
-                              isSelected ? "text-[#eeca94]/70" : "text-[#8c7b6c]"
+                              isSelected ? "text-[#736254]" : "text-[#8c7b6c]"
                             }`}
                           >
                             <MapPin size={10} />
@@ -145,27 +165,45 @@ export function StepDateTimeSelection({
           {/* Faixa horizontal de dias + Grade de horários */}
           {selectedAgent && (
             <div className="space-y-5">
-              <BookingCalendar
-                agentId={selectedAgent.id}
-                serviceId={selectedService.id}
-                selectedDate={selectedDate}
-                onSelectDate={onSelectDate}
-              />
+              <div id="booking-step-calendar" className="space-y-2.5 scroll-mt-24">
+                {validationSection === "calendar" && (
+                  <SectionAlert message={validationMessage} />
+                )}
+                <BookingCalendar
+                  agentId={selectedAgent.id}
+                  serviceId={selectedService.id}
+                  selectedDate={selectedDate}
+                  onSelectDate={onSelectDate}
+                />
+              </div>
 
-              <div className="rounded-3xl bg-white/95 border border-[#D6A64A]/30 p-5 sm:p-6 shadow-2xs space-y-4">
+              <div id="booking-step-slots" className="space-y-4 scroll-mt-24">
+                {validationSection === "slots" && (
+                  <SectionAlert message={validationMessage} />
+                )}
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h3 className="text-sm sm:text-base font-semibold text-[#18351E] capitalize">
+                  <h3 className="text-base sm:text-lg font-bold text-[#18351E]">
                     {selectedDate
                       ? `Horários para ${formatLongDatePtBr(selectedDate)}`
                       : "Selecione uma data"}
                   </h3>
-                  <span className="text-xs text-[#8c7b6c] inline-flex items-center gap-1">
-                    <Clock size={12} />
+                  <span className="text-sm font-medium text-[#8c7b6c] inline-flex items-center gap-1.5">
+                    <Clock size={14} />
                     {selectedService.defaultDurationMinutes} min
                   </span>
                 </div>
 
-                {isLoadingSlots ? (
+                {!selectedDate ? (
+                  <div className="rounded-2xl bg-[#FDFBF7] border border-[#D6A64A]/25 p-5 text-center">
+                    <Clock size={22} className="text-[#a6824b] mx-auto mb-1.5 opacity-70" />
+                    <p className="text-sm font-semibold text-[#18351E]">
+                      Nenhuma data selecionada
+                    </p>
+                    <p className="text-xs text-[#5A463B] mt-0.5">
+                      Escolha uma data disponível no calendário acima para ver os horários.
+                    </p>
+                  </div>
+                ) : isLoadingSlots ? (
                   <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2.5">
                     {[1, 2, 3, 4, 5].map((i) => (
                       <div
@@ -195,8 +233,8 @@ export function StepDateTimeSelection({
                           onClick={() => onSelectSlot(slot)}
                           className={`rounded-full border py-2.5 px-4 text-sm font-semibold transition-all cursor-pointer text-center ${
                             isSelected
-                              ? "bg-[#18351E] text-[#eeca94] border-[#18351E] shadow-xs"
-                              : "bg-[#fbf6ee] border-[#D6A64A]/35 text-[#18351E] hover:border-[#B8872E] hover:bg-[#ECD6BD]/40"
+                              ? "bg-[#ECD6BD]/60 text-[#18351E] border-[#D6A64A]/40 shadow-xs"
+                              : "bg-[#FDFBF7] border-[#D6A64A]/35 text-[#18351E] hover:border-[#B8872E] hover:bg-[#ECD6BD]/40"
                           }`}
                         >
                           {slot.startTime}

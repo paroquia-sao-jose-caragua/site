@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import {
-  Calendar as CalendarIcon,
   ChevronLeft,
   ChevronRight,
   BookOpen,
@@ -18,6 +17,20 @@ import { getDailyLiturgy } from "@/lib/api/liturgy/getDaily";
 import { formatLiturgyText } from "@/utils/formatLiturgyText";
 
 dayjs.locale("pt-br");
+
+function capitalizeFirst(value: string) {
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function formatLiturgyDate(date: dayjs.Dayjs, shortWeekday = false) {
+  const weekday = capitalizeFirst(
+    date.format(shortWeekday ? "ddd" : "dddd").replace(".", "")
+  );
+  const day = date.format("D");
+  const month = capitalizeFirst(date.format("MMMM"));
+  const year = date.format("YYYY");
+  return `${weekday}, ${day} de ${month} de ${year}`;
+}
 
 type TabType = "first" | "second" | "psalm" | "gospel" | "reflection" | "saint";
 
@@ -69,23 +82,27 @@ export default function LiturgiaPage() {
             </div>
 
             {/* Date Selector Header */}
-            <div className="flex items-center gap-3 bg-[#fbf5eb] border border-[#e8e2d8] rounded-xl px-4 py-3 w-fit shadow-sm">
+            <div className="flex items-center justify-between gap-3 bg-[#fbf5eb] border-y border-[#D6A64A]/30 px-4 py-3 w-full">
               <button
                 onClick={handlePrevDay}
-                className="p-1.5 rounded-lg text-[#8c7b6c] hover:bg-[#fbf6ee] hover:text-[#2d261e] transition-colors"
+                className="p-1.5 rounded-lg text-[#8c7b6c] hover:bg-[#fbf6ee] hover:text-[#2d261e] transition-colors cursor-pointer"
                 title="Dia anterior"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
 
-              <div className="flex items-center gap-2 text-md  font-serif font-semibold text-[#2d261e]">
-                <CalendarIcon className="w-4 h-4 text-[#a6824b]" />
-                <span className="capitalize">{selectedDate.format("dddd, D [de] MMMM [de] YYYY")}</span>
+              <div className="flex items-center gap-2 text-md font-serif font-semibold text-[#2d261e]">
+                <span className="sm:hidden">
+                  {formatLiturgyDate(selectedDate, true)}
+                </span>
+                <span className="hidden sm:inline">
+                  {formatLiturgyDate(selectedDate, false)}
+                </span>
               </div>
 
               <button
                 onClick={handleNextDay}
-                className="p-1.5 rounded-lg text-[#8c7b6c] hover:bg-[#fbf6ee] hover:text-[#2d261e] transition-colors"
+                className="p-1.5 rounded-lg text-[#8c7b6c] hover:bg-[#fbf6ee] hover:text-[#2d261e] transition-colors cursor-pointer"
                 title="Próximo dia"
               >
                 <ChevronRight className="w-5 h-5" />
@@ -93,69 +110,41 @@ export default function LiturgiaPage() {
             </div>
 
             {/* Tabs Bar */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-[#e8e2d8]">
-              <button
-                onClick={() => setActiveTab("first")}
-                className={`px-4 py-2 rounded-lg text-md font-medium transition-all whitespace-nowrap ${
-                  activeTab === "first"
-                    ? "bg-[#1b2a26] text-white shadow"
-                    : "bg-[#fbf5eb] text-[#6b5c4d] border border-[#e8e2d8] hover:border-[#a6824b]"
-                }`}
-              >
-                1ª Leitura
-              </button>
-
-              {data?.secondReading && (
-                <button
-                  onClick={() => setActiveTab("second")}
-                  className={`px-4 py-2 rounded-lg text-md font-medium transition-all whitespace-nowrap ${
-                    activeTab === "second"
-                      ? "bg-[#1b2a26] text-white shadow"
-                      : "bg-[#fbf5eb] text-[#6b5c4d] border border-[#e8e2d8] hover:border-[#a6824b]"
-                  }`}
-                >
-                  2ª Leitura
-                </button>
-              )}
-
-              <button
-                onClick={() => setActiveTab("psalm")}
-                className={`px-4 py-2 rounded-lg text-md font-medium transition-all whitespace-nowrap ${
-                  activeTab === "psalm"
-                    ? "bg-[#1b2a26] text-white shadow"
-                    : "bg-[#fbf5eb] text-[#6b5c4d] border border-[#e8e2d8] hover:border-[#a6824b]"
-                }`}
-              >
-                Salmo
-              </button>
-
-              <button
-                onClick={() => setActiveTab("gospel")}
-                className={`px-4 py-2 rounded-lg text-md font-medium transition-all whitespace-nowrap ${
-                  activeTab === "gospel"
-                    ? "bg-[#1b2a26] text-white shadow"
-                    : "bg-[#fbf5eb] text-[#6b5c4d] border border-[#e8e2d8] hover:border-[#a6824b]"
-                }`}
-              >
-                Evangelho
-              </button>
-
-              {data?.saint && (
-                <button
-                  onClick={() => setActiveTab("saint")}
-                  className={`px-4 py-2 rounded-lg text-md font-medium transition-all whitespace-nowrap ${
-                    activeTab === "saint"
-                      ? "bg-[#1b2a26] text-white shadow"
-                      : "bg-[#fbf5eb] text-[#6b5c4d] border border-[#e8e2d8] hover:border-[#a6824b]"
-                  }`}
-                >
-                  Santos do Dia
-                </button>
-              )}
+            <div className="flex items-center gap-1.5 overflow-x-auto">
+              {[
+                { id: "first" as const, label: "1ª Leitura", visible: true },
+                {
+                  id: "second" as const,
+                  label: "2ª Leitura",
+                  visible: Boolean(data?.secondReading),
+                },
+                { id: "psalm" as const, label: "Salmo", visible: true },
+                { id: "gospel" as const, label: "Evangelho", visible: true },
+                {
+                  id: "saint" as const,
+                  label: "Santos do Dia",
+                  visible: Boolean(data?.saint),
+                },
+              ]
+                .filter((tab) => tab.visible)
+                .map((tab) => (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`px-3.5 py-1.5 rounded-lg text-md transition-all duration-200 whitespace-nowrap cursor-pointer ${
+                      activeTab === tab.id
+                        ? "bg-[#B8872E]/15 text-[#8c6218] font-semibold"
+                        : "text-[#32402A] font-medium hover:text-[#B8872E] hover:bg-[#B8872E]/8"
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
             </div>
 
-            {/* Reading Content Card */}
-            <div className="bg-[#fbf5eb] border border-[#e8e2d8] rounded-2xl p-6 md:p-8 shadow-sm">
+            {/* Reading Content */}
+            <div>
               {isPending ? (
                 <div className="py-16 text-center text-[#8c7b6c] text-sm">
                   Carregando leituras da Liturgia...
@@ -165,13 +154,10 @@ export default function LiturgiaPage() {
                   {/* Tab 1: First Reading */}
                   {activeTab === "first" && (
                     <article className="prose max-w-none text-[#332b22]">
-                      <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
-                        1ª LEITURA
-                      </span>
-                      <h2 className="text-xl md:text-2xl font-serif font-bold text-[#2d261e] mb-4">
+                      <h2 className="text-xl md:text-2xl font-serif font-bold text-[#2d261e] mb-1.5">
                         {data?.firstReading?.title || "Primeira Leitura"}
                       </h2>
-                      <p className="text-md font-semibold text-[#8c7b6c] mb-6">
+                      <p className="text-md font-bold text-[#a6824b] tracking-wider mb-4">
                         {data?.firstReading?.reference}
                       </p>
 
@@ -188,13 +174,10 @@ export default function LiturgiaPage() {
                   {/* Tab 2: Second Reading */}
                   {activeTab === "second" && data?.secondReading && (
                     <article className="prose max-w-none text-[#332b22]">
-                      <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
-                        2ª LEITURA
-                      </span>
-                      <h2 className="text-xl md:text-2xl font-serif font-bold text-[#2d261e] mb-4">
+                      <h2 className="text-xl md:text-2xl font-serif font-bold text-[#2d261e] mb-1.5">
                         {data.secondReading.title}
                       </h2>
-                      <p className="text-md font-semibold text-[#8c7b6c] mb-6">
+                      <p className="text-md font-bold text-[#a6824b] tracking-wider mb-4">
                         {data.secondReading.reference}
                       </p>
 
@@ -211,13 +194,10 @@ export default function LiturgiaPage() {
                   {/* Tab 3: Psalm */}
                   {activeTab === "psalm" && (
                     <article className="prose max-w-none text-[#332b22]">
-                      <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
-                        SALMO RESPONSORIAL
-                      </span>
-                      <h2 className="text-xl md:text-2xl font-serif font-bold text-[#2d261e] mb-4">
+                      <h2 className="text-xl md:text-2xl font-serif font-bold text-[#2d261e] mb-1.5">
                         Salmo Responsorial
                       </h2>
-                      <p className="text-md font-semibold text-[#8c7b6c] mb-6">
+                      <p className="text-md font-bold text-[#a6824b] tracking-wider mb-4">
                         {data?.psalm?.reference}
                       </p>
 
@@ -236,13 +216,12 @@ export default function LiturgiaPage() {
                   {/* Tab 4: Gospel */}
                   {activeTab === "gospel" && (
                     <article className="prose max-w-none text-[#332b22]">
-                      <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
-                        EVANGELHO
-                      </span>
-                      <h2 className="text-xl md:text-2xl font-serif font-bold text-[#2d261e] mb-4">
-                        {data?.gospel?.title || "Evangelho do Dia"}
+                      <h2 className="text-xl md:text-2xl font-serif font-bold text-[#2d261e] mb-1.5">
+                        {(data?.gospel?.title || "Evangelho do Dia")
+                          .replace(/\s*✠\s*/g, " ")
+                          .trim()}
                       </h2>
-                      <p className="text-md font-semibold text-[#8c7b6c] mb-6">
+                      <p className="text-md font-bold text-[#a6824b] tracking-wider mb-4">
                         {data?.gospel?.reference}
                       </p>
 
@@ -259,9 +238,6 @@ export default function LiturgiaPage() {
                   {/* Tab 5: Saint of the Day */}
                   {activeTab === "saint" && data?.saint && (
                     <article className="prose max-w-none text-[#332b22]">
-                      <span className="text-sm font-bold text-[#a6824b] uppercase tracking-wider block mb-1">
-                        SANTOS DO DIA
-                      </span>
                       <h2 className="text-xl md:text-2xl font-serif font-bold text-[#2d261e] mb-4">
                         {data.saint.name}
                       </h2>

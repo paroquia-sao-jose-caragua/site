@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import {
   Calendar as CalendarIcon,
@@ -29,7 +29,10 @@ import { BookingActionBar } from "@/components/agendamentos/BookingActionBar";
 import { StepServiceSelection } from "@/components/agendamentos/StepServiceSelection";
 import { StepDateTimeSelection } from "@/components/agendamentos/StepDateTimeSelection";
 import { StepTopicNotes } from "@/components/agendamentos/StepTopicNotes";
-import { StepRequesterForm } from "@/components/agendamentos/StepRequesterForm";
+import {
+  StepRequesterForm,
+  type RequesterFieldErrorKey,
+} from "@/components/agendamentos/StepRequesterForm";
 import { StepConfirmation } from "@/components/agendamentos/StepConfirmation";
 
 function getFirstAvailableDateStr(): string {
@@ -102,6 +105,13 @@ export default function AgendamentosPage() {
 
   // Ephemeral UI state
   const [formError, setFormError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<
+    Partial<Record<RequesterFieldErrorKey, string>>
+  >({});
+  const [stepValidation, setStepValidation] = useState<{
+    section: "services" | "agents" | "calendar" | "slots";
+    message: string;
+  } | null>(null);
   const [copiedLink, setCopiedLink] = useState(false);
 
   // Queries
@@ -134,19 +144,17 @@ export default function AgendamentosPage() {
       (!selectedAgent || selectedAgent.id !== agents[0].id)
     ) {
       setSelectedAgent(agents[0]);
-      if (!selectedDate) {
-        setSelectedDate(getFirstAvailableDateStr());
-      }
     }
-  }, [
-    currentStep,
-    isLoadingAgents,
-    agents,
-    selectedAgent,
-    selectedDate,
-    setSelectedAgent,
-    setSelectedDate,
-  ]);
+  }, [currentStep, isLoadingAgents, agents, selectedAgent, setSelectedAgent]);
+
+  // Scroll smoothly to top when changing step
+  const prevStepRef = useRef<number | null>(null);
+  useEffect(() => {
+    if (prevStepRef.current !== null && prevStepRef.current !== currentStep) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    prevStepRef.current = currentStep;
+  }, [currentStep]);
 
   // Combined notes for summary and API submission
   const combinedNotes = useMemo(() => {
@@ -210,53 +218,67 @@ export default function AgendamentosPage() {
     setSelectedService(service);
     setSelectedAgent(null);
     setSelectedSlot(null);
-    setSelectedDate(getFirstAvailableDateStr());
+    setSelectedDate("");
     setFormError("");
+    setFieldErrors({});
+    setStepValidation(null);
   };
 
   const handleSelectAgent = (agent: PastoralAgent) => {
     setSelectedAgent(agent);
     setSelectedSlot(null);
-    if (!selectedDate) {
-      setSelectedDate(getFirstAvailableDateStr());
-    }
+    setStepValidation(null);
   };
 
   const handleSelectDate = (dateStr: string) => {
     setSelectedDate(dateStr);
     setSelectedSlot(null);
+    setStepValidation(null);
   };
 
   const handleSubmitForm = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError("");
+    const nextErrors: Partial<Record<RequesterFieldErrorKey, string>> = {};
 
     if (!requesterName.trim()) {
-      setFormError("Por favor, preencha o seu nome completo.");
-      return;
+      nextErrors.requesterName = "Por favor, preencha o seu nome completo.";
     }
     if (
       !requesterPhone.trim() ||
       requesterPhone.replace(/\D/g, "").length < 10
     ) {
-      setFormError("Por favor, informe um WhatsApp válido com DDD.");
-      return;
+      nextErrors.requesterPhone = "Por favor, informe um WhatsApp válido com DDD.";
     }
 
     if (selectedService?.requiresAddress) {
       if (!patientName.trim()) {
-        setFormError(
-          "Por favor, informe o nome do enfermo ou idoso acamado."
-        );
-        return;
+        nextErrors.patientName =
+          "Por favor, informe o nome do enfermo ou idoso.";
       }
-      if (!street.trim() || !number.trim() || !neighborhood.trim()) {
-        setFormError(
-          "Por favor, informe o endereço completo (Rua, Número e Bairro)."
-        );
-        return;
+      if (!street.trim()) {
+        nextErrors.street = "Por favor, informe a rua ou avenida.";
+      }
+      if (!number.trim()) {
+        nextErrors.number = "Informe o número.";
+      }
+      if (!neighborhood.trim()) {
+        nextErrors.neighborhood = "Informe o bairro.";
       }
     }
+
+    if (Object.keys(nextErrors).length > 0) {
+      setFieldErrors(nextErrors);
+      const firstKey = Object.keys(nextErrors)[0] as RequesterFieldErrorKey;
+      const inputEl = document.getElementById(`field-${firstKey}`);
+      if (inputEl) {
+        inputEl.scrollIntoView({ behavior: "smooth", block: "center" });
+        inputEl.focus({ preventScroll: true });
+      }
+      return;
+    }
+
+    setFieldErrors({});
 
     if (!selectedService || !selectedAgent || !selectedDate || !selectedSlot) {
       setFormError(
@@ -336,6 +358,64 @@ export default function AgendamentosPage() {
         )}`
       : parishWhatsappUrl);
 
+  const focusMissingSection = (
+    section: "services" | "agents" | "calendar" | "slots",
+    elementId: string,
+    message: string
+  ) => {
+    setStepValidation({ section, message });
+    requestAnimationFrame(() => {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      const focusTarget = el.querySelector<HTMLElement>(
+        "button:not(:disabled), input, textarea"
+      );
+      focusTarget?.focus({ preventScroll: true });
+    });
+  };
+
+  const handleContinue = () => {
+    if (currentStep === 1 && !selectedService) {
+      focusMissingSection(
+        "services",
+        "booking-step-services",
+        "Selecione o tipo de atendimento para continuar."
+      );
+      return;
+    }
+
+    if (currentStep === 2) {
+      if (!selectedAgent) {
+        focusMissingSection(
+          "agents",
+          "booking-step-agents",
+          "Selecione quem irá lhe atender."
+        );
+        return;
+      }
+      if (!selectedDate) {
+        focusMissingSection(
+          "calendar",
+          "booking-step-calendar",
+          "Selecione uma data disponível."
+        );
+        return;
+      }
+      if (!selectedSlot) {
+        focusMissingSection(
+          "slots",
+          "booking-step-slots",
+          "Escolha um horário para continuar."
+        );
+        return;
+      }
+    }
+
+    setStepValidation(null);
+    setCurrentStep(Math.min(4, currentStep + 1));
+  };
+
   const canContinueStep = (() => {
     if (currentStep === 1) return Boolean(selectedService);
     if (currentStep === 2)
@@ -401,7 +481,7 @@ export default function AgendamentosPage() {
               {contact?.phone && (
                 <a
                   href={`tel:${contact.phone.replace(/\D/g, "")}`}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-[#D6A64A]/50 bg-white px-5 py-3 text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 transition-colors shadow-2xs"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-[#D6A64A]/50 bg-[#FDFBF7] px-5 py-3 text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 transition-colors shadow-2xs"
                 >
                   <Phone size={16} className="text-[#B8872E]" />
                   <span>Ligar: {contact.phone}</span>
@@ -455,6 +535,11 @@ export default function AgendamentosPage() {
                     selectedService={selectedService}
                     isLoading={isLoadingServices}
                     onSelectService={handleSelectService}
+                    validationMessage={
+                      stepValidation?.section === "services"
+                        ? stepValidation.message
+                        : undefined
+                    }
                   />
                 )}
 
@@ -470,9 +555,22 @@ export default function AgendamentosPage() {
                     availableSlots={availableSlots}
                     isLoadingSlots={isLoadingSlots}
                     selectedSlot={selectedSlot}
-                    onSelectSlot={setSelectedSlot}
+                    onSelectSlot={(slot) => {
+                      setSelectedSlot(slot);
+                      setStepValidation(null);
+                    }}
                     parishWhatsappUrl={parishWhatsappUrl}
                     onBack={() => setCurrentStep(1)}
+                    validationSection={
+                      stepValidation && stepValidation.section !== "services"
+                        ? stepValidation.section
+                        : null
+                    }
+                    validationMessage={
+                      stepValidation && stepValidation.section !== "services"
+                        ? stepValidation.message
+                        : undefined
+                    }
                   />
                 )}
 
@@ -496,10 +594,17 @@ export default function AgendamentosPage() {
                       selectedService={selectedService}
                       communities={communities}
                       formError={formError}
+                      fieldErrors={fieldErrors}
                       requesterName={requesterName}
-                      onChangeRequesterName={setRequesterName}
+                      onChangeRequesterName={(val) => {
+                        setRequesterName(val);
+                        setFieldErrors((prev) => ({ ...prev, requesterName: undefined }));
+                      }}
                       requesterPhone={requesterPhone}
-                      onChangeRequesterPhone={handlePhoneChange}
+                      onChangeRequesterPhone={(val) => {
+                        handlePhoneChange(val);
+                        setFieldErrors((prev) => ({ ...prev, requesterPhone: undefined }));
+                      }}
                       requesterEmail={requesterEmail}
                       onChangeRequesterEmail={setRequesterEmail}
                       requesterRelationship={requesterRelationship}
@@ -507,7 +612,10 @@ export default function AgendamentosPage() {
                       communityId={communityId}
                       onChangeCommunityId={setCommunityId}
                       patientName={patientName}
-                      onChangePatientName={setPatientName}
+                      onChangePatientName={(val) => {
+                        setPatientName(val);
+                        setFieldErrors((prev) => ({ ...prev, patientName: undefined }));
+                      }}
                       isBedridden={isBedridden}
                       onChangeIsBedridden={setIsBedridden}
                       canSwallowHost={canSwallowHost}
@@ -517,11 +625,20 @@ export default function AgendamentosPage() {
                       cep={cep}
                       onChangeCep={handleCepChange}
                       street={street}
-                      onChangeStreet={setStreet}
+                      onChangeStreet={(val) => {
+                        setStreet(val);
+                        setFieldErrors((prev) => ({ ...prev, street: undefined }));
+                      }}
                       number={number}
-                      onChangeNumber={setNumber}
+                      onChangeNumber={(val) => {
+                        setNumber(val);
+                        setFieldErrors((prev) => ({ ...prev, number: undefined }));
+                      }}
                       neighborhood={neighborhood}
-                      onChangeNeighborhood={setNeighborhood}
+                      onChangeNeighborhood={(val) => {
+                        setNeighborhood(val);
+                        setFieldErrors((prev) => ({ ...prev, neighborhood: undefined }));
+                      }}
                       complement={complement}
                       onChangeComplement={setComplement}
                       referencePoint={referencePoint}
@@ -570,7 +687,7 @@ export default function AgendamentosPage() {
                 canContinue={canContinueStep}
                 isSubmitting={createAppointmentMutation.isPending}
                 onBack={() => setCurrentStep(Math.max(1, currentStep - 1))}
-                onContinue={() => setCurrentStep(Math.min(4, currentStep + 1))}
+                onContinue={handleContinue}
                 submitFormId="agendamento-requester-form"
               />
             )}

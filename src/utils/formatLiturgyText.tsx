@@ -10,8 +10,8 @@ export function formatLiturgyText(
 ): React.ReactNode {
   if (!text) return null;
 
-  // Matches verse numbers (e.g. "31", "13,1", "2") attached to or preceding words
-  const verseRegex = /(?:^|(?<=[\s.,;:!?–—\(\)]))(\d+(?:,\d+)?)\s*([a-zA-ZÀ-ÿ])/g;
+  // Matches verse numbers (e.g. "31", "13,1", "2", "14“") attached to or preceding words
+  const verseRegex = /(?:^|(?<=[\s.,;:!?–—\(\)“”"'«»]))(\d+(?:,\d+)?)\s*(["'“‘«(\[]?[a-zA-ZÀ-ÿ])/g;
 
   const parts: React.ReactNode[] = [];
   let lastIndex = 0;

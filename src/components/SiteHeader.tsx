@@ -9,6 +9,7 @@ import {
   MessageCircle,
   Calendar,
   CalendarCheck,
+  Download,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -62,6 +63,14 @@ export function SiteHeader() {
   const [clergyDropdownOpen, setClergyDropdownOpen] = useState(false);
   const [agendaDropdownOpen, setAgendaDropdownOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [isStandalone, setIsStandalone] = useState(true);
+
+  useEffect(() => {
+    const standalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (navigator as unknown as { standalone?: boolean }).standalone === true;
+    setIsStandalone(standalone);
+  }, []);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const clergyDropdownRef = useRef<HTMLDivElement>(null);
   const agendaDropdownRef = useRef<HTMLDivElement>(null);
@@ -163,13 +172,13 @@ export function SiteHeader() {
           className={'relative flex-1 bg-[#fbf5eb] min-w-0 border-b border-[#D6A64A] transition-all duration-300 ease-in-out shadow-md bg-[#fbf5eb]/95 backdrop-blur-md'}
         >
           <div
-            className={'max-w-324 mx-auto px-6 flex items-center justify-between transition-all duration-300 ease-in-out h-[72px]'}
+            className={'max-w-324 mx-auto px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ease-in-out h-14 min-[950px]:h-[72px]'}
           >
             <Link href="/" className="flex items-center gap-3 shrink-0">
               <img
                 src="/logo-mark.png"
                 alt="Paróquia São José"
-                className={'w-auto transition-all duration-300 ease-in-out object-contain h-14'}
+                className={'w-auto transition-all duration-300 ease-in-out object-contain h-10 min-[950px]:h-14'}
               />
             </Link>
 
@@ -231,15 +240,15 @@ export function SiteHeader() {
                                 onClick={() => setDropdownOpen(false)}
                                 className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all group/item ${
                                   isActiveCommunity
-                                    ? "bg-[#18351E] text-[#eeca94]"
-                                    : "text-[#18351E] hover:bg-[#18351E] hover:text-[#eeca94]"
+                                    ? "bg-[#ECD6BD]/55 text-[#18351E]"
+                                    : "text-[#18351E] hover:bg-[#ECD6BD]/40"
                                 }`}
                               >
                                 <div
                                   className={`size-11 rounded-lg overflow-hidden shrink-0 border transition-all ${
                                     isActiveCommunity
-                                      ? "border-[#eeca94]/60 ring-1 ring-[#eeca94]"
-                                      : "border-[#D6A64A]/30 group-hover/item:border-[#eeca94]/50"
+                                      ? "border-[#B8872E]/60 ring-1 ring-[#B8872E]/40"
+                                      : "border-[#D6A64A]/30 group-hover/item:border-[#B8872E]/50"
                                   }`}
                                 >
                                   <img
@@ -255,8 +264,8 @@ export function SiteHeader() {
                                   <span
                                     className={`text-sm line-clamp-1 ${
                                       isActiveCommunity
-                                        ? "text-[#eeca94]/70"
-                                        : "text-[#736254] group-hover/item:text-[#eeca94]/70"
+                                        ? "text-[#5A463B]"
+                                        : "text-[#736254] group-hover/item:text-[#5A463B]"
                                     }`}
                                   >
                                     {isMatriz
@@ -337,15 +346,15 @@ export function SiteHeader() {
                                   onClick={() => setClergyDropdownOpen(false)}
                                   className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all group/item ${
                                     isActiveClergy
-                                      ? "bg-[#18351E] text-[#eeca94]"
-                                      : "text-[#18351E] hover:bg-[#18351E] hover:text-[#eeca94]"
+                                      ? "bg-[#ECD6BD]/55 text-[#18351E]"
+                                      : "text-[#18351E] hover:bg-[#ECD6BD]/40"
                                   }`}
                                 >
                                   <div
                                     className={`size-11 rounded-lg overflow-hidden shrink-0 border transition-all bg-[#f0e6d6] ${
                                       isActiveClergy
-                                        ? "border-[#eeca94]/60 ring-1 ring-[#eeca94]"
-                                        : "border-[#D6A64A]/30 group-hover/item:border-[#eeca94]/50"
+                                        ? "border-[#B8872E]/60 ring-1 ring-[#B8872E]/40"
+                                        : "border-[#D6A64A]/30 group-hover/item:border-[#B8872E]/50"
                                     }`}
                                   >
                                     <img
@@ -361,8 +370,8 @@ export function SiteHeader() {
                                     <span
                                       className={`text-sm line-clamp-1 ${
                                         isActiveClergy
-                                          ? "text-[#eeca94]/70"
-                                          : "text-[#736254] group-hover/item:text-[#eeca94]/70"
+                                          ? "text-[#5A463B]"
+                                          : "text-[#736254] group-hover/item:text-[#5A463B]"
                                       }`}
                                     >
                                       {role}
@@ -428,15 +437,15 @@ export function SiteHeader() {
                           onClick={() => setAgendaDropdownOpen(false)}
                           className={`flex items-start gap-3 p-3 rounded-xl transition-all group/item ${
                             pathname === "/agenda"
-                              ? "bg-[#18351E] text-[#eeca94]"
-                              : "bg-[#B8872E]/8 text-[#18351E] hover:bg-[#18351E] hover:text-[#eeca94]"
+                              ? "bg-[#ECD6BD]/55 text-[#18351E]"
+                              : "text-[#18351E] hover:bg-[#ECD6BD]/40"
                           }`}
                         >
                           <div
-                            className={`p-2.5 rounded-lg shrink-0 ${
+                            className={`p-2.5 rounded-lg shrink-0 transition-colors ${
                               pathname === "/agenda"
-                                ? "bg-[#27442A] text-[#eeca94]"
-                                : "bg-[#D6A64A]/20 text-[#B8872E] group-hover/item:bg-[#27442A] group-hover/item:text-[#eeca94]"
+                                ? "bg-[#ECD6BD]/80 text-[#18351E]"
+                                : "bg-[#D6A64A]/20 text-[#B8872E] group-hover/item:bg-[#ECD6BD]/70 group-hover/item:text-[#18351E]"
                             }`}
                           >
                             <Calendar className="w-5 h-5" />
@@ -448,8 +457,8 @@ export function SiteHeader() {
                             <span
                               className={`text-sm line-clamp-1 ${
                                 pathname === "/agenda"
-                                  ? "text-[#eeca94]/80"
-                                  : "text-[#736254] group-hover/item:text-[#eeca94]/80"
+                                  ? "text-[#5A463B]"
+                                  : "text-[#736254] group-hover/item:text-[#5A463B]"
                               }`}
                             >
                               Horários de missas e eventos
@@ -462,15 +471,15 @@ export function SiteHeader() {
                           onClick={() => setAgendaDropdownOpen(false)}
                           className={`flex items-start gap-3 p-3 rounded-xl transition-all group/item ${
                             pathname === "/agendamentos"
-                              ? "bg-[#18351E] text-[#eeca94]"
-                              : "bg-[#B8872E]/8 text-[#18351E] hover:bg-[#18351E] hover:text-[#eeca94]"
+                              ? "bg-[#ECD6BD]/55 text-[#18351E]"
+                              : "text-[#18351E] hover:bg-[#ECD6BD]/40"
                           }`}
                         >
                           <div
-                            className={`p-2.5 rounded-lg shrink-0 ${
+                            className={`p-2.5 rounded-lg shrink-0 transition-colors ${
                               pathname === "/agendamentos"
-                                ? "bg-[#27442A] text-[#eeca94]"
-                                : "bg-[#D6A64A]/20 text-[#B8872E] group-hover/item:bg-[#27442A] group-hover/item:text-[#eeca94]"
+                                ? "bg-[#ECD6BD]/80 text-[#18351E]"
+                                : "bg-[#D6A64A]/20 text-[#B8872E] group-hover/item:bg-[#ECD6BD]/70 group-hover/item:text-[#18351E]"
                             }`}
                           >
                             <CalendarCheck className="w-5 h-5" />
@@ -482,8 +491,8 @@ export function SiteHeader() {
                             <span
                               className={`text-sm line-clamp-1 ${
                                 pathname === "/agendamentos"
-                                  ? "text-[#eeca94]/80"
-                                  : "text-[#736254] group-hover/item:text-[#eeca94]/80"
+                                  ? "text-[#5A463B]"
+                                  : "text-[#736254] group-hover/item:text-[#5A463B]"
                               }`}
                             >
                               Confissões e visitas pastorais
@@ -507,26 +516,10 @@ export function SiteHeader() {
                 )}
               </div>
 
-              {/* 5. Liturgia Diária (visível em telas >= 1200px) */}
-              <NavLink
-                href="/liturgia"
-                className="hidden min-[1200px]:inline-flex px-3.5 py-1.5 text-md font-semibold rounded-lg"
-              >
-                Liturgia Diária
-              </NavLink>
-
-              {/* 6. Contato (visível em telas >= 1200px) */}
-              <NavLink
-                href="/contato"
-                className="hidden min-[1200px]:inline-flex px-3.5 py-1.5 text-md font-semibold rounded-lg"
-              >
-                Contato
-              </NavLink>
-
-              {/* 7. Menu Mais com Submenu (visível apenas em telas < 1200px) */}
+              {/* 5. Menu Mais com Submenu */}
               <div
                 ref={moreDropdownRef}
-                className="relative min-[1200px]:hidden"
+                className="relative"
                 onMouseEnter={handleMoreMouseEnter}
                 onMouseLeave={handleMoreMouseLeave}
               >
@@ -563,15 +556,15 @@ export function SiteHeader() {
                               onClick={() => setMoreOpen(false)}
                               className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-md transition-all group/item ${
                                 isActive
-                                  ? "bg-[#18351E] text-[#eeca94]"
-                                  : "text-[#18351E] hover:bg-[#18351E] hover:text-[#eeca94]"
+                                  ? "bg-[#ECD6BD]/55 text-[#18351E]"
+                                  : "text-[#18351E] hover:bg-[#ECD6BD]/40"
                               }`}
                             >
                               <div
-                                className={`size-8 rounded-lg flex items-center justify-center shrink-0 ${
+                                className={`size-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
                                   isActive
-                                    ? "bg-[#eeca94]/20 text-[#eeca94]"
-                                    : "bg-[#D6A64A]/20 text-[#B8872E] group-hover/item:bg-[#eeca94]/20 group-hover/item:text-[#eeca94]"
+                                    ? "bg-[#ECD6BD]/80 text-[#18351E]"
+                                    : "bg-[#D6A64A]/20 text-[#B8872E] group-hover/item:bg-[#ECD6BD]/70 group-hover/item:text-[#18351E]"
                                 }`}
                               >
                                 <Icon className="w-4 h-4" />
@@ -597,6 +590,21 @@ export function SiteHeader() {
                 Quero contribuir
               </Link>
             </nav>
+
+            {/* Mobile PWA Download Button (visible only in browser, hidden when installed as standalone) */}
+            {!isStandalone && (
+              <button
+                type="button"
+                onClick={() => {
+                  window.dispatchEvent(new CustomEvent("open-pwa-notification-prompt"));
+                }}
+                aria-label="Baixar aplicativo"
+                className="min-[950px]:hidden inline-flex items-center gap-1.5 px-2 py-1.5 -mr-2 text-sm font-semibold text-[#18351E] hover:text-[#B8872E] transition-colors cursor-pointer"
+              >
+                <Download size={18} />
+                <span>Baixar App</span>
+              </button>
+            )}
           </div>
         </div>
       </div>

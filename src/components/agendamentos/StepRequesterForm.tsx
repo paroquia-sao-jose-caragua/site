@@ -8,11 +8,20 @@ interface CommunityOption {
   name: string;
 }
 
+export type RequesterFieldErrorKey =
+  | "requesterName"
+  | "requesterPhone"
+  | "patientName"
+  | "street"
+  | "number"
+  | "neighborhood";
+
 interface StepRequesterFormProps {
   formId: string;
   selectedService: AppointmentService;
   communities: CommunityOption[];
   formError: string;
+  fieldErrors?: Partial<Record<RequesterFieldErrorKey, string>>;
   requesterName: string;
   onChangeRequesterName: (v: string) => void;
   requesterPhone: string;
@@ -47,13 +56,30 @@ interface StepRequesterFormProps {
 }
 
 const inputClass =
-  "w-full rounded-xl border border-[#D6A64A]/40 bg-white/95 px-4 py-3 text-sm text-[#18351E] placeholder:text-[#a39485] outline-none focus:border-[#B8872E] shadow-2xs";
+  "w-full scroll-mt-28 rounded-xl border border-[#D6A64A]/40 bg-[#FDFBF7] px-4 py-3 text-sm text-[#18351E] placeholder:text-[#a39485] outline-none focus:border-[#B8872E] shadow-2xs";
+
+const inputErrorClass =
+  "w-full scroll-mt-28 rounded-xl border border-red-400 bg-[#FDFBF7] px-4 py-3 text-sm text-[#18351E] placeholder:text-[#a39485] outline-none focus:border-red-500 shadow-2xs";
+
+function FieldAlert({ message }: { message?: string }) {
+  if (!message) return null;
+  return (
+    <span
+      role="alert"
+      className="text-xs font-medium text-red-700 mt-1.5 flex items-center gap-1.5"
+    >
+      <AlertCircle size={13} className="shrink-0 text-red-600" />
+      <span>{message}</span>
+    </span>
+  );
+}
 
 export function StepRequesterForm({
   formId,
   selectedService,
   communities,
   formError,
+  fieldErrors,
   requesterName,
   onChangeRequesterName,
   requesterPhone,
@@ -87,7 +113,12 @@ export function StepRequesterForm({
   onSubmit,
 }: StepRequesterFormProps) {
   return (
-    <form id={formId} onSubmit={onSubmit} className="space-y-6 max-w-xl">
+    <form
+      id={formId}
+      onSubmit={onSubmit}
+      noValidate
+      className="space-y-6 max-w-xl"
+    >
       <div>
         <h2
           className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#18351E]"
@@ -113,13 +144,14 @@ export function StepRequesterForm({
             Nome completo <span className="text-red-600">*</span>
           </label>
           <input
+            id="field-requesterName"
             type="text"
-            required
             value={requesterName}
             onChange={(e) => onChangeRequesterName(e.target.value)}
             placeholder="Seu nome completo"
-            className={inputClass}
+            className={fieldErrors?.requesterName ? inputErrorClass : inputClass}
           />
+          <FieldAlert message={fieldErrors?.requesterName} />
         </div>
 
         <div>
@@ -127,13 +159,14 @@ export function StepRequesterForm({
             WhatsApp com DDD <span className="text-red-600">*</span>
           </label>
           <input
+            id="field-requesterPhone"
             type="tel"
-            required
             value={requesterPhone}
             onChange={(e) => onChangeRequesterPhone(e.target.value)}
             placeholder="(12) 98170-5757"
-            className={inputClass}
+            className={fieldErrors?.requesterPhone ? inputErrorClass : inputClass}
           />
+          <FieldAlert message={fieldErrors?.requesterPhone} />
           <span className="text-[11px] text-[#8c7b6c] mt-1 block">
             Enviaremos a confirmação neste número
           </span>
@@ -193,13 +226,14 @@ export function StepRequesterForm({
               Nome do Enfermo / Idoso <span className="text-red-600">*</span>
             </label>
             <input
+              id="field-patientName"
               type="text"
-              required
               value={patientName}
               onChange={(e) => onChangePatientName(e.target.value)}
               placeholder="Nome de quem receberá a visita ou a Eucaristia"
-              className={inputClass}
+              className={fieldErrors?.patientName ? inputErrorClass : inputClass}
             />
+            <FieldAlert message={fieldErrors?.patientName} />
           </div>
 
           <div>
@@ -207,7 +241,7 @@ export function StepRequesterForm({
               Condições do Enfermo
             </label>
             <div className="grid sm:grid-cols-3 gap-2.5">
-              <label className="flex items-center gap-2.5 p-3 rounded-xl border border-[#D6A64A]/35 bg-white/95 cursor-pointer hover:border-[#B8872E]">
+              <label className="flex items-center gap-2.5 p-3 rounded-xl border border-[#D6A64A]/35 bg-[#FDFBF7] cursor-pointer hover:border-[#B8872E]">
                 <input
                   type="checkbox"
                   checked={isBedridden}
@@ -217,7 +251,7 @@ export function StepRequesterForm({
                 <span className="text-sm font-medium text-[#18351E]">Está acamado</span>
               </label>
 
-              <label className="flex items-center gap-2.5 p-3 rounded-xl border border-[#D6A64A]/35 bg-white/95 cursor-pointer hover:border-[#B8872E]">
+              <label className="flex items-center gap-2.5 p-3 rounded-xl border border-[#D6A64A]/35 bg-[#FDFBF7] cursor-pointer hover:border-[#B8872E]">
                 <input
                   type="checkbox"
                   checked={canSwallowHost}
@@ -227,7 +261,7 @@ export function StepRequesterForm({
                 <span className="text-sm font-medium text-[#18351E]">Engole hóstia</span>
               </label>
 
-              <label className="flex items-center gap-2.5 p-3 rounded-xl border border-[#D6A64A]/35 bg-white/95 cursor-pointer hover:border-[#B8872E]">
+              <label className="flex items-center gap-2.5 p-3 rounded-xl border border-[#D6A64A]/35 bg-[#FDFBF7] cursor-pointer hover:border-[#B8872E]">
                 <input
                   type="checkbox"
                   checked={isLucid}
@@ -258,13 +292,14 @@ export function StepRequesterForm({
                 Rua / Avenida <span className="text-red-600">*</span>
               </label>
               <input
+                id="field-street"
                 type="text"
-                required
                 value={street}
                 onChange={(e) => onChangeStreet(e.target.value)}
                 placeholder="Ex.: Rua Edson dos Santos"
-                className={inputClass}
+                className={fieldErrors?.street ? inputErrorClass : inputClass}
               />
+              <FieldAlert message={fieldErrors?.street} />
             </div>
           </div>
 
@@ -274,13 +309,14 @@ export function StepRequesterForm({
                 Número <span className="text-red-600">*</span>
               </label>
               <input
+                id="field-number"
                 type="text"
-                required
                 value={number}
                 onChange={(e) => onChangeNumber(e.target.value)}
                 placeholder="Ex.: 30"
-                className={inputClass}
+                className={fieldErrors?.number ? inputErrorClass : inputClass}
               />
+              <FieldAlert message={fieldErrors?.number} />
             </div>
 
             <div>
@@ -288,13 +324,14 @@ export function StepRequesterForm({
                 Bairro <span className="text-red-600">*</span>
               </label>
               <input
+                id="field-neighborhood"
                 type="text"
-                required
                 value={neighborhood}
                 onChange={(e) => onChangeNeighborhood(e.target.value)}
                 placeholder="Ex.: Morro do Algodão"
-                className={inputClass}
+                className={fieldErrors?.neighborhood ? inputErrorClass : inputClass}
               />
+              <FieldAlert message={fieldErrors?.neighborhood} />
             </div>
 
             <div>

@@ -138,7 +138,7 @@ function TrackAppointmentContent() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       {/* Search Bar / Input Token */}
-      <div className="rounded-3xl bg-white/95 border border-[#D6A64A]/30 p-5 sm:p-6 shadow-2xs">
+      <div className="rounded-3xl bg-[#FDFBF7] border border-[#D6A64A]/30 p-5 sm:p-6 shadow-2xs">
         <label className="block text-xs font-bold text-[#a6824b] uppercase tracking-wider mb-2">
           Código de Acompanhamento
         </label>
@@ -168,7 +168,7 @@ function TrackAppointmentContent() {
 
       {/* Appointment Details */}
       {isLoading ? (
-        <div className="h-80 rounded-3xl bg-white/80 border border-[#D6A64A]/20 animate-pulse" />
+        <div className="h-80 rounded-3xl bg-[#FDFBF7]/80 border border-[#D6A64A]/20 animate-pulse" />
       ) : error ? (
         <div className="bg-rose-50 border border-rose-200 rounded-3xl p-6 text-rose-800 text-sm flex items-start gap-3">
           <AlertCircle size={20} className="shrink-0 text-rose-600 mt-0.5" />
@@ -187,7 +187,7 @@ function TrackAppointmentContent() {
           const StatusIcon = statusInfo.icon;
 
           return (
-            <div className="rounded-3xl bg-white/95 border border-[#D6A64A]/35 p-6 sm:p-10 shadow-xs text-center space-y-7">
+            <div className="rounded-3xl bg-[#FDFBF7] border border-[#D6A64A]/35 p-6 sm:p-10 shadow-xs text-center space-y-7">
               {/* Status Header */}
               <div>
                 <div
@@ -312,17 +312,17 @@ function TrackAppointmentContent() {
                     {appointment.patientConditions && (
                       <div className="flex flex-wrap gap-1.5 pt-0.5">
                         {appointment.patientConditions.isBedridden && (
-                          <span className="bg-white border border-[#D6A64A]/40 px-2.5 py-0.5 rounded-full text-[11px] font-medium text-[#18351E]">
+                          <span className="bg-[#fbf6ee] border border-[#D6A64A]/40 px-2.5 py-0.5 rounded-full text-[11px] font-medium text-[#18351E]">
                             Acamado
                           </span>
                         )}
                         {appointment.patientConditions.canSwallowHost && (
-                          <span className="bg-white border border-[#D6A64A]/40 px-2.5 py-0.5 rounded-full text-[11px] font-medium text-[#18351E]">
+                          <span className="bg-[#fbf6ee] border border-[#D6A64A]/40 px-2.5 py-0.5 rounded-full text-[11px] font-medium text-[#18351E]">
                             Engole Hóstia
                           </span>
                         )}
                         {appointment.patientConditions.isLucid && (
-                          <span className="bg-white border border-[#D6A64A]/40 px-2.5 py-0.5 rounded-full text-[11px] font-medium text-[#18351E]">
+                          <span className="bg-[#fbf6ee] border border-[#D6A64A]/40 px-2.5 py-0.5 rounded-full text-[11px] font-medium text-[#18351E]">
                             Lúcido
                           </span>
                         )}
@@ -350,7 +350,7 @@ function TrackAppointmentContent() {
                         description: appointment.requesterNotes,
                       })
                     }
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-[#D6A64A]/50 bg-white px-5 py-2.5 text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 transition-colors cursor-pointer"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-[#D6A64A]/50 bg-[#fbf6ee] px-5 py-2.5 text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 transition-colors cursor-pointer"
                   >
                     <Download size={15} className="text-[#B8872E]" />
                     <span>Salvar no calendário</span>
@@ -361,7 +361,7 @@ function TrackAppointmentContent() {
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-[#D6A64A]/50 bg-white px-5 py-2.5 text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 transition-colors cursor-pointer"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-[#D6A64A]/50 bg-[#fbf6ee] px-5 py-2.5 text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 transition-colors cursor-pointer"
                 >
                   <MessageCircle size={15} className="text-[#B8872E]" />
                   <span>WhatsApp da Secretaria</span>
@@ -386,7 +386,7 @@ function TrackAppointmentContent() {
       {/* Cancellation Modal */}
       {isCancelModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
-          <div className="bg-white border border-[#D6A64A]/40 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-xl space-y-4">
+          <div className="bg-[#FBF8F3] border border-[#D6A64A]/60 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-xl space-y-4">
             <div className="flex items-center justify-between">
               <h3
                 className="text-2xl font-bold text-[#18351E]"
@@ -485,7 +485,7 @@ export default function TrackAppointmentPage() {
 
         <Suspense
           fallback={
-            <div className="max-w-2xl mx-auto h-40 rounded-3xl bg-white/80 animate-pulse" />
+            <div className="max-w-2xl mx-auto h-40 rounded-3xl bg-[#FDFBF7]/80 animate-pulse" />
           }
         >
           <TrackAppointmentContent />
@@ -494,7 +494,7 @@ export default function TrackAppointmentPage() {
         <div className="flex items-center justify-center mt-12">
           <Link
             href="/agendamentos"
-            className="inline-flex items-center gap-2 rounded-full border border-[#D6A64A]/50 bg-white/90 px-4 py-2 text-xs sm:text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 hover:border-[#B8872E] transition-colors shadow-2xs self-start sm:self-auto"
+            className="inline-flex items-center gap-2 rounded-full border border-[#D6A64A]/50 bg-[#FDFBF7] px-4 py-2 text-xs sm:text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 hover:border-[#B8872E] transition-colors shadow-2xs self-start sm:self-auto"
           >
             <ArrowLeft size={15} className="text-[#B8872E]" />
             <span>Fazer novo agendamento</span>

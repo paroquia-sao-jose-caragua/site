@@ -45,39 +45,16 @@ const MONTHS_PT = [
   "Dezembro",
 ];
 
-const MONTHS_PT_SHORT = [
-  "Jan",
-  "Fev",
-  "Mar",
-  "Abr",
-  "Mai",
-  "Jun",
-  "Jul",
-  "Ago",
-  "Set",
-  "Out",
-  "Nov",
-  "Dez",
-];
-
 function parseDate(str: string) {
   const [y, m, d] = str.split("-").map(Number);
   return new Date(y, m - 1, d);
 }
 
-function formatDateLabel(dateStr: string) {
+function formatDateLabel(dateStr: string, fullWeekday = false) {
   const d = parseDate(dateStr);
-  const weekday = WEEKDAYS_FULL[d.getDay()];
+  const weekday = (fullWeekday ? WEEKDAYS_FULL : WEEKDAYS)[d.getDay()];
   const day = d.getDate();
   const month = MONTHS_PT[d.getMonth()];
-  return `${weekday}, ${day} de ${month}`;
-}
-
-function formatShortDateLabel(dateStr: string) {
-  const d = parseDate(dateStr);
-  const weekday = WEEKDAYS[d.getDay()];
-  const day = d.getDate();
-  const month = MONTHS_PT_SHORT[d.getMonth()];
   return `${weekday}, ${day} de ${month}`;
 }
 
@@ -342,8 +319,6 @@ export function UpcomingMassesSection() {
           <div className="space-y-10">
             {dayEntries.map(([dateStr, items]) => {
               const dateObj = parseDate(dateStr);
-              const isToday = dateStr === todayDateStr;
-              const isTomorrow = dateStr === tomorrowDateStr;
 
               return (
                 <div key={dateStr} className="space-y-4">
@@ -363,14 +338,14 @@ export function UpcomingMassesSection() {
                       <div className="flex flex-col gap-0.5">
                         <div className="flex items-center gap-2 flex-wrap">
                           <h3
-                            className="text-xl sm:text-2xl font-semibold text-[#18351E] capitalize"
+                            className="text-xl sm:text-2xl font-semibold text-[#18351E]"
                             style={{ fontFamily: "Cormorant Garamond, serif" }}
                           >
                             <span className="sm:hidden">
-                              {formatShortDateLabel(dateStr)}
+                              {formatDateLabel(dateStr)}
                             </span>
                             <span className="hidden sm:inline">
-                              {formatDateLabel(dateStr)}
+                              {formatDateLabel(dateStr, true)}
                             </span>
                           </h3>
                         </div>

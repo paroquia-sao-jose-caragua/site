@@ -54,7 +54,19 @@ export function BookingCalendar({
       isFuture: boolean;
     }> = [];
 
-    for (let i = -3; i <= 21; i++) {
+    const endOfNextMonth = new Date(
+      today.getFullYear(),
+      today.getMonth() + 2,
+      0
+    );
+    const daysAhead = Math.max(
+      1,
+      Math.round(
+        (endOfNextMonth.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+      )
+    );
+
+    for (let i = -3; i <= daysAhead; i++) {
       const d = new Date(today);
       d.setDate(today.getDate() + i);
       const rawWeek = new Intl.DateTimeFormat("pt-BR", {
@@ -130,25 +142,22 @@ export function BookingCalendar({
     [daysList]
   );
 
-  // If the currently selected date has no available slots (once checked),
-  // automatically advance to the next day with available slots.
+  // If a previously selected date is no longer available for the current agent, clear it.
   useEffect(() => {
-    if (!agentId || availableDays.length === 0) return;
+    if (!selectedDate || !agentId || availableDays.length === 0) return;
 
     const currentItem = daysList.find((d) => d.dateStr === selectedDate);
     if (currentItem && currentItem.isChecking) return;
 
     if (!currentItem || !currentItem.isAvailable) {
-      const nextAvailable =
-        availableDays.find((d) => d.dateStr > selectedDate) || availableDays[0];
-      if (nextAvailable && nextAvailable.dateStr !== selectedDate) {
-        onSelectDate(nextAvailable.dateStr);
-      }
+      onSelectDate("");
     }
   }, [agentId, daysList, availableDays, selectedDate, onSelectDate]);
 
   const monthTitle = useMemo(() => {
-    const current = daysList.find((d) => d.dateStr === selectedDate);
+    const current = selectedDate
+      ? daysList.find((d) => d.dateStr === selectedDate)
+      : daysList.find((d) => d.isFuture);
     return current?.monthYearLabel || daysList[0]?.monthYearLabel || "";
   }, [daysList, selectedDate]);
 
@@ -172,17 +181,34 @@ export function BookingCalendar({
     }
   }, []);
 
+  const hasMountedCenterRef = useRef(false);
+  const hasCenteredInitialAvailableRef = useRef(false);
+
   useEffect(() => {
-    if (!selectedDate) return;
-    const frame = requestAnimationFrame(() =>
-      centerDateInView(selectedDate, false)
-    );
-    const timer = setTimeout(() => centerDateInView(selectedDate, false), 100);
+    const targetDate =
+      selectedDate || availableDays[0]?.dateStr || futureDays[0]?.dateStr;
+    if (!targetDate) return;
+
+    // When no date is selected yet, avoid overriding manual horizontal scroll once we centered the first available day
+    if (!selectedDate && hasCenteredInitialAvailableRef.current) return;
+
+    const shouldSmooth = Boolean(selectedDate) && hasMountedCenterRef.current;
+    const frame = requestAnimationFrame(() => {
+      centerDateInView(targetDate, shouldSmooth);
+      if (selectedDate) {
+        hasMountedCenterRef.current = true;
+      } else if (availableDays[0]?.dateStr) {
+        hasCenteredInitialAvailableRef.current = true;
+      }
+    });
+    const timer = !shouldSmooth
+      ? setTimeout(() => centerDateInView(targetDate, false), 100)
+      : null;
     return () => {
       cancelAnimationFrame(frame);
-      clearTimeout(timer);
+      if (timer) clearTimeout(timer);
     };
-  }, [selectedDate, centerDateInView]);
+  }, [selectedDate, availableDays, futureDays, centerDateInView]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -238,7 +264,7 @@ export function BookingCalendar({
   );
 
   return (
-    <section className="bg-white/95 rounded-2xl p-4 border border-[#D6A64A]/30 shadow-2xs space-y-3 overflow-hidden">
+    <section className="p-4 border-y border-[#D6A64A]/30 space-y-3 overflow-hidden">
       {/* Header with Chevrons and centered dynamic month title */}
       <div className="flex items-center justify-between px-1">
         <button
@@ -252,7 +278,7 @@ export function BookingCalendar({
         </button>
 
         <span
-          className="text-base sm:text-lg font-bold text-[#18351E] tracking-tight capitalize"
+          className="text-base sm:text-lg font-bold text-[#18351E] tracking-tight"
           style={{ fontFamily: "Cormorant Garamond, serif" }}
         >
           {monthTitle}
@@ -303,16 +329,16 @@ export function BookingCalendar({
               }}
               className={`flex flex-col items-center py-2 sm:py-2.5 px-1.5 sm:px-2 rounded-xl transition-all relative select-none shrink-0 w-[52px] sm:w-[60px] lg:w-[68px] ${
                 isSelected
-                  ? "bg-[#18351E] text-[#eeca94] shadow-xs scale-105 z-10 cursor-pointer"
+                  ? "bg-[#ECD6BD]/60 text-[#18351E] border border-[#D6A64A]/40 shadow-xs scale-105 z-10 cursor-pointer"
                   : d.isAvailable
-                  ? "bg-[#ECD6BD]/45 text-[#18351E] hover:bg-[#ECD6BD]/80 cursor-pointer"
-                  : "bg-[#f3ece0]/55 text-[#a39485] cursor-not-allowed"
+                  ? "bg-[#FDFBF7] border border-[#D6A64A]/35 text-[#18351E] hover:border-[#B8872E] hover:bg-[#ECD6BD]/40 cursor-pointer"
+                  : "bg-[#f3ece0]/55 text-[#a39485] opacity-60 cursor-not-allowed"
               }`}
             >
               <span
                 className={`text-[10px] font-semibold mb-0.5 tracking-tight ${
                   isSelected
-                    ? "text-[#D6A64A]"
+                    ? "text-[#8c5e2a]"
                     : d.isAvailable
                     ? "text-[#8c7b6c]"
                     : "text-[#b8aa99]"
@@ -324,7 +350,7 @@ export function BookingCalendar({
               <span
                 className={`text-base font-bold tracking-tight ${
                   isSelected
-                    ? "text-[#eeca94]"
+                    ? "text-[#18351E]"
                     : d.isAvailable
                     ? "text-[#18351E]"
                     : "text-[#a39485]"

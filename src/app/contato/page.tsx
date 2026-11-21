@@ -488,7 +488,7 @@ export default function ContactPage() {
                   </a>
                 )}
 
-                {contact?.youtubeUrl && (
+                {/* {contact?.youtubeUrl && (
                   <a
                     href={contact.youtubeUrl}
                     target="_blank"
@@ -518,7 +518,7 @@ export default function ContactPage() {
                     </span>
                     <span>Canal do YouTube</span>
                   </a>
-                )}
+                )} */}
               </div>
             </div>
           </div>

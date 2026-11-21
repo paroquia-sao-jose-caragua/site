@@ -34,7 +34,7 @@ export function BookingActionBar({
               type="button"
               onClick={onBack}
               disabled={isSubmitting}
-              className="rounded-full border border-[#D6A64A]/50 bg-white text-[#18351E] px-6 py-2.5 text-sm font-semibold hover:bg-[#ECD6BD]/40 transition-colors cursor-pointer disabled:opacity-45"
+              className="rounded-full border border-[#D6A64A]/50 bg-[#FDFBF7] text-[#18351E] px-6 py-2.5 text-sm font-semibold hover:bg-[#ECD6BD]/40 transition-colors cursor-pointer disabled:opacity-45"
             >
               Voltar
             </button>
@@ -58,7 +58,7 @@ export function BookingActionBar({
             <button
               type="submit"
               form={submitFormId}
-              disabled={!canContinue || isSubmitting}
+              disabled={isSubmitting}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-[#18351E] px-7 py-2.5 text-sm font-semibold text-[#eeca94] hover:bg-[#27442A] transition-colors cursor-pointer shadow-xs disabled:opacity-45 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (
@@ -73,9 +73,8 @@ export function BookingActionBar({
           ) : (
             <button
               type="button"
-              disabled={!canContinue}
               onClick={onContinue}
-              className="rounded-full bg-[#18351E] px-7 py-2.5 text-sm font-semibold text-[#eeca94] hover:bg-[#27442A] transition-colors cursor-pointer shadow-xs disabled:opacity-45 disabled:cursor-not-allowed"
+              className="rounded-full bg-[#18351E] px-7 py-2.5 text-sm font-semibold text-[#eeca94] hover:bg-[#27442A] transition-colors cursor-pointer shadow-xs"
             >
               Continuar
             </button>

@@ -47,10 +47,13 @@ export function BookingSummarySidebar({
 }: BookingSummarySidebarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const formattedDay = selectedDate ? formatLongDatePtBr(selectedDate) : "—";
+  const formattedDay = selectedDate ? formatLongDatePtBr(selectedDate) : "";
   const agentFullName = selectedAgent
     ? `${selectedAgent.title ? `${selectedAgent.title} ` : ""}${selectedAgent.name}`
     : null;
+
+  const filledValueClass = "text-sm font-semibold text-[#18351E] mt-0.5 block";
+  const emptyValueClass = "text-sm font-normal text-[#a39485] mt-0.5 block";
 
   const summaryRows = (
     <div className="space-y-4">
@@ -58,7 +61,7 @@ export function BookingSummarySidebar({
         <span className="text-[11px] font-bold uppercase tracking-wider text-[#8c7b6c] block">
           Atendimento
         </span>
-        <span className="text-sm font-semibold text-[#18351E] mt-0.5 block">
+        <span className={selectedService ? filledValueClass : emptyValueClass}>
           {selectedService ? selectedService.title : "—"}
         </span>
       </div>
@@ -67,8 +70,8 @@ export function BookingSummarySidebar({
         <span className="text-[10px] font-bold uppercase tracking-wider text-[#8c7b6c] block">
           Quem vai atender
         </span>
-        <span className="text-sm font-bold text-[#18351E] mt-0.5 block">
-          {selectedAgent ? agentFullName : "-"}
+        <span className={agentFullName ? filledValueClass : emptyValueClass}>
+          {agentFullName || "—"}
         </span>
       </div>
 
@@ -76,8 +79,12 @@ export function BookingSummarySidebar({
         <span className="text-[11px] font-bold uppercase tracking-wider text-[#8c7b6c] block">
           Dia
         </span>
-        <span className="text-sm font-semibold text-[#18351E] mt-0.5 block capitalize">
-          {formattedDay}{selectedSlot ? ` às ${selectedSlot.startTime}` : ""}
+        <span
+          className={`${formattedDay ? filledValueClass : emptyValueClass} capitalize`}
+        >
+          {formattedDay
+            ? `${formattedDay}${selectedSlot ? ` às ${selectedSlot.startTime}` : ""}`
+            : "—"}
         </span>
       </div>
 
@@ -85,16 +92,16 @@ export function BookingSummarySidebar({
         <span className="text-[11px] font-bold uppercase tracking-wider text-[#8c7b6c] block">
           Observações
         </span>
-        <span className="text-sm font-semibold text-[#18351E] mt-0.5 block">
+        <span className={selectedTopic.trim() ? filledValueClass : emptyValueClass}>
           {selectedTopic.trim() || "—"}
         </span>
       </div>
-      
+
       <div>
         <span className="text-[11px] font-bold uppercase tracking-wider text-[#8c7b6c] block">
           Fiel
         </span>
-        <span className="text-sm font-semibold text-[#18351E] mt-0.5 block">
+        <span className={requesterName.trim() ? filledValueClass : emptyValueClass}>
           {requesterName.trim() || "—"}
         </span>
       </div>
@@ -116,7 +123,7 @@ export function BookingSummarySidebar({
     <>
       {/* Mobile Compact Collapsible Summary (Steps 2, 3, 4) */}
       {currentStep > 1 && currentStep < 5 && (
-        <div className="lg:hidden mb-6 rounded-2xl bg-white/95 border border-[#D6A64A]/35 shadow-2xs overflow-hidden">
+        <div className="lg:hidden mb-6 rounded-2xl bg-[#fbf5eb] border border-[#D6A64A]/35 shadow-2xs overflow-hidden">
           <button
             type="button"
             onClick={() => setMobileOpen((prev) => !prev)}
@@ -148,7 +155,7 @@ export function BookingSummarySidebar({
       )}
 
       {/* Desktop Sticky Sidebar */}
-      <aside className="hidden lg:block lg:sticky lg:top-8 rounded-3xl bg-white/95 border border-[#D6A64A]/30 p-6 shadow-xs">
+      <aside className="hidden lg:block lg:sticky lg:top-8 rounded-3xl bg-[#fbf5eb] border border-[#D6A64A]/30 p-6 shadow-xs">
         <h3
           className="text-xl font-semibold text-[#18351E] mb-5"
           style={{ fontFamily: "Cormorant Garamond, serif" }}
