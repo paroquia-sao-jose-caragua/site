@@ -184,7 +184,7 @@ export default function ClergyDetailPage({ params }: PageProps) {
                     Trajetória Pastoral e Vocação
                   </h2>
 
-                  <div className="space-y-4 font-serif text-[#43362d] text-base md:text-lg leading-relaxed text-justify">
+                  <div className="space-y-4 max-w-3xl font-serif text-[#43362d] text-base md:text-lg leading-relaxed text-justify">
                     {bioParagraphs.length > 0 ? (
                       bioParagraphs.map((p, idx) => (
                         <p key={idx} className="indent-4 first:indent-0">
@@ -197,16 +197,6 @@ export default function ClergyDetailPage({ params }: PageProps) {
                       </p>
                     )}
                   </div>
-                </div>
-
-                <div className="pt-2">
-                  <Link
-                    href="/clerigos"
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-[#8c6218] hover:text-[#18351E] transition-colors"
-                  >
-                    <ArrowLeft size={14} />
-                    <span>Voltar para todos os clérigos</span>
-                  </Link>
                 </div>
               </div>
 
@@ -223,29 +213,22 @@ export default function ClergyDetailPage({ params }: PageProps) {
                     </h3>
                   </div>
 
-                  <div className="space-y-3.5 text-sm">
+                  <div className="space-y-3.5">
                     <div>
                       <span className="text-sm text-[#8c7b6c] uppercase tracking-wider block font-medium">Ofício / Função</span>
-                      <span className="font-semibold text-[#18351E] text-base">{role}</span>
+                      <span className="font-semibold text-[#18351E] text-base text-sm">{role}</span>
                     </div>
 
                     <div>
                       <span className="text-sm text-[#8c7b6c] uppercase tracking-wider block font-medium">Jurisdição</span>
-                      <span className="text-[#5A463B] font-serif">{getMinistryJurisdiction(member.position)}</span>
+                      <span className="text-[#5A463B] font-serif text-sm">{getMinistryJurisdiction(member.position)}</span>
                     </div>
 
                     {/* Hierarquia do Clero */}
-                    <div className="pt-3 border-t border-[#D6A64A]/20 text-sm font-serif text-[#5A463B] space-y-1.5">
+                    <div className="pt-3 border-t border-[#D6A64A]/20 text-md font-serif text-[#5A463B] space-y-1.5 text-md">
                       <p className="leading-relaxed">
                         {getClergyHierarchyDesc(member.position)}
                       </p>
-                      <Link
-                        href="/clerigos"
-                        className="inline-flex items-center gap-1 font-sans text-sm font-semibold text-[#18351E] hover:text-[#B8872E] hover:underline transition-colors group"
-                      >
-                        <span>Entenda a hierarquia do clero</span>
-                        <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                      </Link>
                     </div>
                   </div>
                 </div>
@@ -254,31 +237,40 @@ export default function ClergyDetailPage({ params }: PageProps) {
 
             {/* 3. DEMAIS MINISTROS E PASTORES (Navegação Rápida) */}
             {otherClergy.length > 0 && (
-              <section aria-labelledby="other-clergy-heading" className="pt-4 border-t border-[#D6A64A]/30">
-                <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-                  <div>
-                    <h2
-                      id="other-clergy-heading"
-                      className="text-2xl md:text-3xl font-semibold text-[#18351E]"
-                      style={{ fontFamily: "Cormorant Garamond, serif" }}
-                    >
-                      Outros Pastores e Ministros
-                    </h2>
-                    <p className="text-sm md:text-base text-[#736254]">
-                      Conheça os demais ministros que servem e guiam a Igreja na comunhão apostólica.
-                    </p>
+              <section aria-labelledby="other-clergy-heading" className="md:pt-8">
+                <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10">
+                  <div className="flex items-center justify-center gap-3 mb-2">
+                    <span className="h-px w-10 bg-[#B8872E]/40" />
+                    <div className="flex items-center gap-1.5 text-[#B8872E] text-sm font-semibold uppercase tracking-[0.25em]">
+                      <span>CONHEÇA TAMBÉM</span>
+                    </div>
+                    <span className="h-px w-10 bg-[#B8872E]/40" />
                   </div>
 
-                  <Link
-                    href="/clerigos"
-                    className="text-sm sm:text-base font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors group shrink-0"
+                  <h2
+                    id="other-clergy-heading"
+                    className="text-2xl md:text-4xl font-semibold text-[#18351E] mb-2"
+                    style={{ fontFamily: "Cormorant Garamond, serif" }}
                   >
-                    <span>Entenda a hierarquia e veja todos</span>
-                    <ChevronRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
-                  </Link>
+                    Outros Pastores e Ministros
+                  </h2>
+
+                  <p className="text-lg text-[#5A463B] font-serif leading-relaxed max-w-xl mb-3">
+                    Conheça os demais ministros que servem e guiam a Igreja na comunhão apostólica.
+                  </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div
+                  className={`grid grid-cols-1 gap-4 md:gap-5 ${
+                    otherClergy.length === 1
+                      ? "max-w-md mx-auto"
+                      : otherClergy.length === 2
+                      ? "sm:grid-cols-2"
+                      : otherClergy.length === 3
+                      ? "sm:grid-cols-2 lg:grid-cols-3"
+                      : "sm:grid-cols-2 lg:grid-cols-4"
+                  }`}
+                >
                   {otherClergy.map((item) => {
                     const photoUrl = getClergyPhotoUrl(item);
                     const itemRole = getClergyRoleLabel(
@@ -286,39 +278,62 @@ export default function ClergyDetailPage({ params }: PageProps) {
                       item.roleName,
                       item.title,
                     );
+                    const summaryText = item.shortIntro || item.bio;
 
                     return (
                       <Link
                         key={item.id}
                         href={`/clerigos/${item.slug}`}
-                        className="group bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-2xl p-4 sm:p-5 flex items-center gap-4 hover:shadow-md hover:border-[#D6A64A] hover:-translate-y-0.5 transition-all"
+                        className="group bg-[#fbf5eb] border border-[#D6A64A]/30 hover:border-[#B8872E] rounded-3xl p-4 flex items-stretch gap-4 text-left shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer"
                       >
-                        <div className="size-16 rounded-full overflow-hidden shrink-0 border border-[#D6A64A]/50 bg-gradient-to-b from-[#f8f3eb] to-[#e7dac7]">
+                        {/* Foto retrato à esquerda */}
+                        <div className="w-28 sm:w-32 aspect-[3/4] shrink-0 overflow-hidden rounded-2xl bg-gradient-to-b from-[#f8f3eb] to-[#e7dac7]">
                           <img
                             src={photoUrl}
                             alt={item.name}
-                            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                           />
                         </div>
 
-                        <div className="flex-1 min-w-0">
-                          <span className="text-[10.5px] font-bold text-[#B8872E] uppercase tracking-wider block truncate">
-                            {itemRole}
-                          </span>
-                          <h3
-                            className="text-lg font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors truncate"
-                            style={{ fontFamily: "Cormorant Garamond, serif" }}
-                          >
-                            {item.name}
-                          </h3>
-                          <span className="text-sm text-[#8c6218] font-medium flex items-center gap-1 mt-0.5">
+                        {/* Conteúdo à direita */}
+                        <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
+                          <div>
+                            <span className="block text-[10.5px] font-bold text-[#B8872E] uppercase tracking-wider mb-0.5 truncate">
+                              {itemRole}
+                            </span>
+
+                            <h3
+                              className="text-lg font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors leading-snug line-clamp-2"
+                              style={{ fontFamily: "Cormorant Garamond, serif" }}
+                            >
+                              {item.name}
+                            </h3>
+
+                            {summaryText && (
+                              <p className="text-xs sm:text-sm text-[#736254] line-clamp-2 mt-1.5">
+                                {summaryText}
+                              </p>
+                            )}
+                          </div>
+
+                          <div className="flex items-center justify-between text-xs sm:text-sm font-semibold text-[#18351E] group-hover:text-[#B8872E] transition-colors pt-2.5 border-t border-[#D6A64A]/20 mt-2">
                             <span>Conheça</span>
-                            <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
-                          </span>
+                            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                          </div>
                         </div>
                       </Link>
                     );
                   })}
+                </div>
+
+                <div className="mt-14 flex flex-col sm:flex-row sm:items-center justify-end gap-3 text-sm sm:text-base">
+                  <Link
+                    href="/clerigos"
+                    className="text-sm sm:text-base font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors group shrink-0"
+                  >
+                    <span>Entenda a hierarquia e veja todos</span>
+                    <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                  </Link>
                 </div>
               </section>
             )}

@@ -98,7 +98,7 @@ export function AnnouncementsHero() {
             <>
               {slide.badgeText && (
                 <div className="flex items-center gap-2 text-[#d4a359] text-sm font-semibold uppercase tracking-[0.25em] mb-4">
-                  <Sparkles className="w-4 h-4 text-[#d4a359]" />
+                  <span className="h-px w-8 bg-[#d4a359]/60 inline-block" />
                   <span>{slide.badgeText}</span>
                   <span className="h-px w-8 bg-[#d4a359]/60 inline-block" />
                 </div>
@@ -118,7 +118,7 @@ export function AnnouncementsHero() {
                 <div>
                   <Link
                     href={slide.actionUrl || "#"}
-                    className="inline-flex items-center justify-center px-7 py-3.5 rounded-md bg-[#c69247] hover:bg-[#b07d35] text-[#14201d] font-semibold text-sm transition-all shadow-md hover:shadow-lg hover:scale-105"
+                    className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-[#c69247] hover:bg-[#b07d35] text-[#14201d] border border-[#D6A64A]/40 font-semibold text-sm transition-all shadow-md hover:shadow-lg"
                   >
                     {slide.actionText}
                   </Link>
@@ -144,7 +144,7 @@ export function AnnouncementsHero() {
               <div>
                 <Link
                   href="/comunidades"
-                  className="inline-flex items-center justify-center px-7 py-3.5 rounded-md bg-[#c69247] hover:bg-[#b07d35] text-[#14201d] font-semibold text-sm transition-all shadow-md hover:shadow-lg hover:scale-105"
+                  className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-[#18351E] hover:bg-[#27442A] text-[#eeca94] border border-[#D6A64A]/40 font-semibold text-sm transition-all shadow-md hover:shadow-lg"
                 >
                   Conheça Nossas Comunidades
                 </Link>

@@ -619,10 +619,9 @@ export function SiteHeader() {
               {/* 8. Botão Quero Contribuir */}
               <Link
                 href="/quero-contribuir"
-                className="ml-2 inline-flex items-center gap-1.5 bg-[#18351e] hover:bg-[#27442A] text-[#eeca94] hover:text-[#eeca94] text-md px-4 py-2 rounded-lg transition-colors shadow-sm"
-                style={{ fontWeight: 500 }}
+                className="ml-2 inline-flex items-center justify-center gap-2 bg-[#18351E] hover:bg-[#27442A] text-[#eeca94] hover:text-[#eeca94] border border-[#D6A64A]/40 text-sm font-semibold px-5 py-2.5 rounded-full transition-all shadow-sm"
               >
-                <Heart size={13} className="fill-[#eeca94]" />
+                <Heart size={14} className="fill-[#eeca94] text-[#eeca94]" />
                 Quero contribuir
               </Link>
             </nav>
@@ -880,10 +879,9 @@ export function SiteHeader() {
                 <Link
                   href="/quero-contribuir"
                   onClick={() => setMobileOpen(false)}
-                  className="inline-flex items-center gap-1.5 bg-[#e0be8b] hover:bg-[#314523] text-[#314523] hover:text-[#e0be8b] text-[13px] ml-8 px-4 py-2 rounded-lg transition-colors shadow-sm"
-                  style={{ fontWeight: 600 }}
+                  className="inline-flex items-center justify-center gap-2 bg-[#e0be8b] hover:bg-[#d4a359] text-[#18351E] text-sm font-semibold ml-8 px-5 py-2.5 rounded-full transition-colors shadow-sm"
                 >
-                  <Heart size={13} className="fill-[#314523]" />
+                  <Heart size={14} className="fill-[#18351E] text-[#18351E]" />
                   Quero contribuir
                 </Link>
               </div>

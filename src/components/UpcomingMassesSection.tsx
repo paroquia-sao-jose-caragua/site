@@ -218,13 +218,10 @@ export function UpcomingMassesSection() {
     return false;
   });
 
-  // Cap at at most 4 schedules total across the section
-  const upcomingEvents = (
-    futureEvents.length > 0 ? futureEvents : allEvents
-  ).slice(0, 4);
+  const sourceEvents = futureEvents.length > 0 ? futureEvents : allEvents;
 
-  // Group schedules by day
-  const groupedByDate = upcomingEvents.reduce<
+  // Group all upcoming schedules by day (chronological)
+  const groupedByDate = sourceEvents.reduce<
     Record<string, AgendaSectionEvent[]>
   >((acc, event) => {
     if (!acc[event.date]) {
@@ -234,16 +231,25 @@ export function UpcomingMassesSection() {
     return acc;
   }, {});
 
-  const dayEntries = Object.entries(groupedByDate);
+  // Take up to 3 days with schedules; if total exceeds 5 items, show only 2 days (with all items of each day)
+  const threeDays = Object.entries(groupedByDate).slice(0, 3);
+  const threeDaysTotal = threeDays.reduce(
+    (sum, [, items]) => sum + items.length,
+    0,
+  );
+  const dayEntries =
+    threeDaysTotal > 5 && threeDays.length > 2
+      ? threeDays.slice(0, 2)
+      : threeDays;
 
   return (
-    <section className="bg-[#fbf6ee] py-12 md:py-16 border-t border-[#e8dfd1]/60">
+    <section className="bg-[#fbf6ee] py-12">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-10">
           <div>
             <div className="flex items-center gap-2 mb-2 text-[#B8872E] text-sm font-semibold uppercase tracking-[0.25em]">
-              <Calendar className="w-4 h-4 text-[#B8872E]" />
+              <span className="h-px w-8 bg-[#B8872E]/40" />
               <span>CELEBRAÇÕES</span>
             </div>
             <h2
@@ -252,19 +258,11 @@ export function UpcomingMassesSection() {
             >
               Próximas Missas
             </h2>
-            <p className="text-sm md:text-base text-[#5A463B] max-w-xl font-serif">
+            <p className="text-lg text-[#5A463B] max-w-xl font-serif">
               Acompanhe os horários das nossas celebrações e participe conosco
               dos momentos de fé e oração.
             </p>
           </div>
-
-          <Link
-            href="/agenda"
-            className="text-sm sm:text-sm font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors shrink-0 group"
-          >
-            <span>Ver agenda completa</span>
-            <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-          </Link>
         </div>
 
         {/* Content */}
@@ -312,7 +310,7 @@ export function UpcomingMassesSection() {
             </p>
             <Link
               href="/agenda"
-              className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#18351E] text-[#eeca94] text-sm font-semibold hover:bg-[#234125] transition-colors shadow-xs"
+              className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#18351E] text-[#eeca94] text-md font-semibold hover:bg-[#234125] transition-colors shadow-xs"
             >
               Ver agenda completa <ChevronRight size={14} />
             </Link>
@@ -494,6 +492,16 @@ export function UpcomingMassesSection() {
             })}
           </div>
         )}
+
+        <div className="flex justify-end mt-8">
+          <Link
+            href="/agenda"
+            className="text-md sm:text-md font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors shrink-0 group"
+          >
+            <span>Ver agenda completa</span>
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+          </Link>
+        </div>
 
         {/* Details Modal */}
         {selectedSchedule && (

@@ -30,7 +30,7 @@ function getStatusPresentation(status: AppointmentStatus) {
     case "pending":
       return {
         icon: Clock,
-        iconClass: "text-[#ccb182]",
+        iconClass: "text-[#8c5e2a]",
         title: "Solicitação Aguardando Confirmação",
         description:
           "Seu pedido ainda está pendente de aprovação pela equipe paroquial. Assim que for confirmado, você receberá o aviso pelo WhatsApp.",
@@ -136,9 +136,9 @@ function TrackAppointmentContent() {
       : "https://wa.me/5512981705757");
 
   return (
-    <div className="space-y-8">
+    <div className="max-w-2xl mx-auto space-y-6">
       {/* Search Bar / Input Token */}
-      <div className="rounded-3xl bg-white/95 border border-[#D6A64A]/30 p-5 sm:p-6 shadow-2xs max-w-2xl">
+      <div className="rounded-3xl bg-white/95 border border-[#D6A64A]/30 p-5 sm:p-6 shadow-2xs">
         <label className="block text-xs font-bold text-[#a6824b] uppercase tracking-wider mb-2">
           Código de Acompanhamento
         </label>
@@ -147,13 +147,12 @@ function TrackAppointmentContent() {
           className="flex flex-col sm:flex-row gap-3"
         >
           <div className="relative flex-1">
-            <ShieldCheck className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#a6824b] w-4 h-4" />
             <input
               type="text"
               value={inputToken}
               onChange={(e) => setInputToken(e.target.value)}
               placeholder="Cole seu código (ex: 01j...)"
-              className="w-full pl-10 pr-4 py-3 rounded-xl border border-[#D6A64A]/40 bg-[#fbf6ee] text-[#18351E] placeholder:text-[#a39485] outline-none focus:border-[#B8872E] text-sm font-mono font-medium"
+              className="w-full px-4 py-3 rounded-xl border border-[#D6A64A]/40 bg-[#fbf6ee] text-[#18351E] placeholder:text-[#a39485] outline-none focus:border-[#B8872E] text-sm font-mono font-medium"
             />
           </div>
 
@@ -169,12 +168,9 @@ function TrackAppointmentContent() {
 
       {/* Appointment Details */}
       {isLoading ? (
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] xl:grid-cols-[1fr_370px] gap-8 items-start">
-          <div className="h-72 rounded-3xl bg-white/80 border border-[#D6A64A]/20 animate-pulse" />
-          <div className="h-72 rounded-3xl bg-white/80 border border-[#D6A64A]/20 animate-pulse" />
-        </div>
+        <div className="h-80 rounded-3xl bg-white/80 border border-[#D6A64A]/20 animate-pulse" />
       ) : error ? (
-        <div className="max-w-2xl bg-rose-50 border border-rose-200 rounded-3xl p-6 text-rose-800 text-sm flex items-start gap-3">
+        <div className="bg-rose-50 border border-rose-200 rounded-3xl p-6 text-rose-800 text-sm flex items-start gap-3">
           <AlertCircle size={20} className="shrink-0 text-rose-600 mt-0.5" />
           <div>
             <h4 className="font-bold text-base text-rose-900 mb-1">
@@ -191,10 +187,12 @@ function TrackAppointmentContent() {
           const StatusIcon = statusInfo.icon;
 
           return (
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] xl:grid-cols-[1fr_370px] gap-8 items-start">
-              {/* Left Column: Status Card */}
-              <div className="rounded-3xl bg-white/95 border border-[#D6A64A]/35 p-6 sm:p-10 shadow-xs text-center">
-                <div className={`flex items-center justify-center mx-auto mb-4 ${statusInfo.iconClass}`}>
+            <div className="rounded-3xl bg-white/95 border border-[#D6A64A]/35 p-6 sm:p-10 shadow-xs text-center space-y-7">
+              {/* Status Header */}
+              <div>
+                <div
+                  className={`flex items-center justify-center mx-auto mb-3 ${statusInfo.iconClass}`}
+                >
                   <StatusIcon size={44} strokeWidth={1.75} />
                 </div>
 
@@ -205,79 +203,24 @@ function TrackAppointmentContent() {
                   {statusInfo.title}
                 </h2>
 
-                <p className="text-sm sm:text-base text-[#5A463B] max-w-lg mx-auto mt-3 leading-relaxed">
+                <p className="text-sm sm:text-base text-[#5A463B] max-w-lg mx-auto mt-2.5 leading-relaxed">
                   {statusInfo.description}
                 </p>
 
                 {appointment.status === "cancelled" &&
                   appointment.cancellationReason && (
-                    <div className="mt-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-sm text-rose-800 text-left max-w-lg mx-auto">
+                    <div className="mt-5 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-sm text-rose-800 text-left">
                       <span className="font-bold block mb-0.5">
                         Motivo do cancelamento
                       </span>
                       <span>{appointment.cancellationReason}</span>
                     </div>
                   )}
-
-                {/* Actions */}
-                <div className="mt-7 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 flex-wrap">
-                  {appointment.status !== "cancelled" && (
-                    <button
-                      type="button"
-                      onClick={() =>
-                        downloadAppointmentIcs({
-                          serviceTitle:
-                            appointment.service?.title ||
-                            "Atendimento Pastoral",
-                          agentName: agentFullName,
-                          date: appointment.appointmentDate,
-                          startTime: appointment.startTime,
-                          endTime: appointment.endTime,
-                          address:
-                            appointment.patientAddress || "Paróquia São José",
-                          description: appointment.requesterNotes,
-                        })
-                      }
-                      className="inline-flex items-center justify-center gap-2 rounded-full border border-[#D6A64A]/50 bg-white px-5 py-2.5 text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 transition-colors cursor-pointer"
-                    >
-                      <Download size={15} className="text-[#B8872E]" />
-                      <span>Salvar no calendário</span>
-                    </button>
-                  )}
-
-                  <a
-                    href={whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-[#D6A64A]/50 bg-white px-5 py-2.5 text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 transition-colors cursor-pointer"
-                  >
-                    <MessageCircle size={15} className="text-[#B8872E]" />
-                    <span>WhatsApp da Secretaria</span>
-                  </a>
-
-                  {appointment.status !== "cancelled" &&
-                    appointment.status !== "completed" && (
-                      <button
-                        type="button"
-                        onClick={() => setIsCancelModalOpen(true)}
-                        className="inline-flex items-center justify-center rounded-full border border-rose-300 text-rose-700 bg-rose-50/60 hover:bg-rose-100 px-5 py-2.5 text-sm font-semibold transition-colors cursor-pointer"
-                      >
-                        Cancelar agendamento
-                      </button>
-                    )}
-                </div>
               </div>
 
-              {/* Right Column: Summary Sidebar */}
-              <aside className="lg:sticky lg:top-8 rounded-3xl bg-white/95 border border-[#D6A64A]/30 p-6 shadow-xs">
-                <h3
-                  className="text-xl font-semibold text-[#18351E] mb-5"
-                  style={{ fontFamily: "Cormorant Garamond, serif" }}
-                >
-                  Seu agendamento
-                </h3>
-
-                <div className="space-y-4">
+              {/* Informações Preenchidas */}
+              <div className="rounded-2xl bg-[#fbf6ee] border border-[#D6A64A]/30 p-5 sm:p-6 text-left space-y-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                   <div>
                     <span className="text-[11px] font-bold uppercase tracking-wider text-[#8c7b6c] block">
                       Atendimento
@@ -288,10 +231,10 @@ function TrackAppointmentContent() {
                   </div>
 
                   <div>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#8c7b6c] block">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#8c7b6c] block">
                       Quem vai atender
                     </span>
-                    <span className="text-sm font-bold text-[#18351E] mt-0.5 block">
+                    <span className="text-sm font-semibold text-[#18351E] mt-0.5 block">
                       {agentFullName}
                     </span>
                     {appointment.agent?.actingRole && (
@@ -303,17 +246,19 @@ function TrackAppointmentContent() {
 
                   <div>
                     <span className="text-[11px] font-bold uppercase tracking-wider text-[#8c7b6c] block">
-                      Dia
+                      Data e horário
                     </span>
                     <span className="text-sm font-semibold text-[#18351E] mt-0.5 block capitalize">
-                      {formatLongDatePtBr(appointment.appointmentDate)} às{" "}
-                      {appointment.startTime}
+                      {formatLongDatePtBr(appointment.appointmentDate)}
+                    </span>
+                    <span className="text-xs text-[#5A463B] block mt-0.5">
+                      {appointment.startTime} às {appointment.endTime}
                     </span>
                   </div>
 
                   <div>
                     <span className="text-[11px] font-bold uppercase tracking-wider text-[#8c7b6c] block">
-                      Fiel
+                      Solicitante
                     </span>
                     <span className="text-sm font-semibold text-[#18351E] mt-0.5 block">
                       {appointment.requesterName}
@@ -324,63 +269,115 @@ function TrackAppointmentContent() {
                     <span className="text-xs text-[#5A463B] block mt-0.5">
                       {appointment.requesterPhone}
                     </span>
+                    {appointment.requesterEmail && (
+                      <span className="text-xs text-[#5A463B] block break-all">
+                        {appointment.requesterEmail}
+                      </span>
+                    )}
                   </div>
+                </div>
 
-                  {appointment.requesterNotes && (
+                {appointment.requesterNotes && (
+                  <div className="pt-4 border-t border-[#D6A64A]/20">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#8c7b6c] block">
+                      Observações informadas
+                    </span>
+                    <p className="text-sm text-[#18351E] mt-1 leading-relaxed">
+                      {appointment.requesterNotes}
+                    </p>
+                  </div>
+                )}
+
+                {appointment.patientName && (
+                  <div className="pt-4 border-t border-[#D6A64A]/20 space-y-2.5">
                     <div>
                       <span className="text-[11px] font-bold uppercase tracking-wider text-[#8c7b6c] block">
-                        Observações
+                        Enfermo(a) / Local da visita
                       </span>
                       <span className="text-sm font-semibold text-[#18351E] mt-0.5 block">
-                        {appointment.requesterNotes}
+                        {appointment.patientName}
                       </span>
                     </div>
-                  )}
 
-                  {appointment.patientName && (
-                    <div className="pt-3 border-t border-[#D6A64A]/20 space-y-2">
-                      <div>
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#8c7b6c] block">
-                          Enfermo(a)
-                        </span>
-                        <span className="text-sm font-semibold text-[#18351E] mt-0.5 block">
-                          {appointment.patientName}
-                        </span>
+                    {appointment.patientAddress && (
+                      <p className="text-xs sm:text-sm text-[#5A463B] flex items-start gap-1.5">
+                        <MapPin
+                          size={14}
+                          className="text-[#B8872E] shrink-0 mt-0.5"
+                        />
+                        <span>{appointment.patientAddress}</span>
+                      </p>
+                    )}
+
+                    {appointment.patientConditions && (
+                      <div className="flex flex-wrap gap-1.5 pt-0.5">
+                        {appointment.patientConditions.isBedridden && (
+                          <span className="bg-white border border-[#D6A64A]/40 px-2.5 py-0.5 rounded-full text-[11px] font-medium text-[#18351E]">
+                            Acamado
+                          </span>
+                        )}
+                        {appointment.patientConditions.canSwallowHost && (
+                          <span className="bg-white border border-[#D6A64A]/40 px-2.5 py-0.5 rounded-full text-[11px] font-medium text-[#18351E]">
+                            Engole Hóstia
+                          </span>
+                        )}
+                        {appointment.patientConditions.isLucid && (
+                          <span className="bg-white border border-[#D6A64A]/40 px-2.5 py-0.5 rounded-full text-[11px] font-medium text-[#18351E]">
+                            Lúcido
+                          </span>
+                        )}
                       </div>
+                    )}
+                  </div>
+                )}
+              </div>
 
-                      {appointment.patientAddress && (
-                        <p className="text-xs text-[#5A463B] flex items-start gap-1.5">
-                          <MapPin
-                            size={13}
-                            className="text-[#B8872E] shrink-0 mt-0.5"
-                          />
-                          <span>{appointment.patientAddress}</span>
-                        </p>
-                      )}
+              {/* Actions */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 flex-wrap">
+                {appointment.status !== "cancelled" && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      downloadAppointmentIcs({
+                        serviceTitle:
+                          appointment.service?.title || "Atendimento Pastoral",
+                        agentName: agentFullName,
+                        date: appointment.appointmentDate,
+                        startTime: appointment.startTime,
+                        endTime: appointment.endTime,
+                        address:
+                          appointment.patientAddress || "Paróquia São José",
+                        description: appointment.requesterNotes,
+                      })
+                    }
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-[#D6A64A]/50 bg-white px-5 py-2.5 text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 transition-colors cursor-pointer"
+                  >
+                    <Download size={15} className="text-[#B8872E]" />
+                    <span>Salvar no calendário</span>
+                  </button>
+                )}
 
-                      {appointment.patientConditions && (
-                        <div className="flex flex-wrap gap-1.5 pt-0.5">
-                          {appointment.patientConditions.isBedridden && (
-                            <span className="bg-[#fbf6ee] border border-[#D6A64A]/40 px-2 py-0.5 rounded-full text-[11px] font-medium text-[#18351E]">
-                              Acamado
-                            </span>
-                          )}
-                          {appointment.patientConditions.canSwallowHost && (
-                            <span className="bg-[#fbf6ee] border border-[#D6A64A]/40 px-2 py-0.5 rounded-full text-[11px] font-medium text-[#18351E]">
-                              Engole Hóstia
-                            </span>
-                          )}
-                          {appointment.patientConditions.isLucid && (
-                            <span className="bg-[#fbf6ee] border border-[#D6A64A]/40 px-2 py-0.5 rounded-full text-[11px] font-medium text-[#18351E]">
-                              Lúcido
-                            </span>
-                          )}
-                        </div>
-                      )}
-                    </div>
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-[#D6A64A]/50 bg-white px-5 py-2.5 text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 transition-colors cursor-pointer"
+                >
+                  <MessageCircle size={15} className="text-[#B8872E]" />
+                  <span>WhatsApp da Secretaria</span>
+                </a>
+
+                {appointment.status !== "cancelled" &&
+                  appointment.status !== "completed" && (
+                    <button
+                      type="button"
+                      onClick={() => setIsCancelModalOpen(true)}
+                      className="inline-flex items-center justify-center rounded-full border border-rose-300 text-rose-700 bg-rose-50/60 hover:bg-rose-100 px-5 py-2.5 text-sm font-semibold transition-colors cursor-pointer"
+                    >
+                      Cancelar agendamento
+                    </button>
                   )}
-                </div>
-              </aside>
+              </div>
             </div>
           );
         })()
@@ -478,33 +475,31 @@ export default function TrackAppointmentPage() {
         </nav>
 
         {/* Page Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div className="max-w-2xl mx-auto flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
           <div>
-            <div className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#a6824b] uppercase tracking-widest mb-1.5">
-              <ShieldCheck size={14} />
-              <span>PORTAL DO FIEL</span>
-            </div>
             <h1 className="text-3xl md:text-4xl font-serif font-bold text-[#18351E]">
               Acompanhar Agendamento
             </h1>
           </div>
+        </div>
 
+        <Suspense
+          fallback={
+            <div className="max-w-2xl mx-auto h-40 rounded-3xl bg-white/80 animate-pulse" />
+          }
+        >
+          <TrackAppointmentContent />
+        </Suspense>
+
+        <div className="flex items-center justify-center mt-12">
           <Link
             href="/agendamentos"
-            className="inline-flex items-center gap-2 rounded-full border border-[#D6A64A]/50 bg-white/90 px-4 py-2 text-xs sm:text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 hover:border-[#B8872E] transition-colors shadow-2xs self-start md:self-auto"
+            className="inline-flex items-center gap-2 rounded-full border border-[#D6A64A]/50 bg-white/90 px-4 py-2 text-xs sm:text-sm font-semibold text-[#18351E] hover:bg-[#ECD6BD]/40 hover:border-[#B8872E] transition-colors shadow-2xs self-start sm:self-auto"
           >
             <ArrowLeft size={15} className="text-[#B8872E]" />
             <span>Fazer novo agendamento</span>
           </Link>
         </div>
-
-        <Suspense
-          fallback={
-            <div className="h-40 rounded-3xl bg-white/80 animate-pulse max-w-2xl" />
-          }
-        >
-          <TrackAppointmentContent />
-        </Suspense>
       </div>
 
       {/* Decorative Wave Separator */}

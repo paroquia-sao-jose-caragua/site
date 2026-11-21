@@ -430,19 +430,12 @@ export default function CommunityDetailPage({ params }: PageProps) {
                 </div>
 
                 {/* Hierarquia Paroquial */}
-                <div className="pt-4 border-t border-[#D6A64A]/20 text-sm font-serif text-[#5A463B] space-y-1.5">
+                <div className="pt-4 border-t border-[#D6A64A]/20 text-md font-serif text-[#5A463B] space-y-1.5">
                   <p className="leading-relaxed">
                     {community.type === "parish_church"
                       ? "A Igreja Matriz é a sede pastoral e administrativa de onde parte a coordenação de todas as capelas da paróquia."
                       : "Esta capela é o braço missionário da Paróquia São José no bairro, sob o pastoreio do Pároco e administração da Matriz."}
                   </p>
-                  <Link
-                    href="/comunidades"
-                    className="inline-flex items-center gap-1 font-sans text-sm font-semibold text-[#18351E] hover:text-[#B8872E] hover:underline transition-colors group"
-                  >
-                    <span>Entenda a hierarquia das comunidades</span>
-                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                  </Link>
                 </div>
 
                 {community.address && (
@@ -496,7 +489,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                       return (
                         <div
                           key={day}
-                          className="py-3.5 flex items-center justify-between text-sm"
+                          className="py-3.5 flex items-center justify-between text-md"
                         >
                           <span className="font-serif text-[#18351E] font-medium">
                             {WEEKDAY_FULL[day]}
@@ -515,7 +508,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                 )}
               </div>
 
-              {/* Missas Devocionais da Comunidade */}
+              {/* Missas Devocionais */}
               {devotionalSchedules.length > 0 && (
                 <div className="lg:col-span-6 bg-[#fbf5eb] border border-[#D6A64A]/30 rounded-3xl p-6 md:p-8">
                   <h3
@@ -523,7 +516,7 @@ export default function CommunityDetailPage({ params }: PageProps) {
                     style={{ fontFamily: "Cormorant Garamond, serif" }}
                   >
                     <CrossIcon width={10} height={18} fill="#B8872E" />
-                    <span>Missas Devocionais da Comunidade</span>
+                    <span>Missas Devocionais</span>
                   </h3>
 
                   <div className="divide-y divide-[#D6A64A]/20">
@@ -551,10 +544,10 @@ export default function CommunityDetailPage({ params }: PageProps) {
                       return (
                         <div
                           key={`${dev.id || "dev"}-${devIdx}`}
-                          className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4 text-sm"
+                          className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4 text-md"
                         >
                           <div className="flex flex-col">
-                            <span className="font-serif text-[#18351E] font-medium text-base">
+                            <span className="font-serif text-[#18351E] font-medium text-md">
                               {dev.title || "Celebração Especial"}
                             </span>
                             {dev.orientations && (
@@ -742,14 +735,12 @@ export default function CommunityDetailPage({ params }: PageProps) {
 
           {/* 5. OUTRAS COMUNIDADES */}
           {otherCommunities.length > 0 && (
-            <div className="mb-16 md:mb-24 pt-12 md:pt-16 border-t border-[#D6A64A]/25">
+            <div className="mb-16 md:mb-24 md:pt-8">
               <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10">
                 <div className="flex items-center justify-center gap-3 mb-2">
                   <span className="h-px w-10 bg-[#B8872E]/40" />
                   <div className="flex items-center gap-1.5 text-[#B8872E] text-sm font-semibold uppercase tracking-[0.25em]">
-                    <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
                     <span>CONHEÇA TAMBÉM</span>
-                    <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
                   </div>
                   <span className="h-px w-10 bg-[#B8872E]/40" />
                 </div>
@@ -761,17 +752,9 @@ export default function CommunityDetailPage({ params }: PageProps) {
                   Outras comunidades da nossa paróquia
                 </h2>
 
-                <p className="text-sm md:text-base text-[#5A463B] font-serif leading-relaxed max-w-xl mb-3">
+                <p className="text-lg text-[#5A463B] font-serif leading-relaxed max-w-xl mb-3">
                   Nossa paróquia é uma só família reunida em diversas capelas e igrejas, todas articuladas sob o pastoreio da Igreja Matriz.
                 </p>
-
-                <Link
-                  href="/comunidades"
-                  className="text-sm sm:text-base font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors group"
-                >
-                  <span>Entenda a hierarquia e organização das comunidades</span>
-                  <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                </Link>
               </div>
 
               {/* Grid Responsivo de Outras Comunidades */}
@@ -832,31 +815,19 @@ export default function CommunityDetailPage({ params }: PageProps) {
                   );
                 })}
               </div>
+
+              <div className="mt-14 flex flex-col sm:flex-row sm:items-center justify-end gap-3 text-sm sm:text-base">
+                <Link
+                  href="/comunidades"
+                  className="text-sm sm:text-base font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors group"
+                >
+                  <span>Entenda a hierarquia e organização das comunidades</span>
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                </Link>
+              </div>
+             
             </div>
           )}
-
-          {/* 6. BANNER FAÇA PARTE */}
-          <div className="rounded-3xl bg-[#18351E] text-white p-8 md:p-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
-            <div className="space-y-2 z-10 text-center md:text-left">
-              <h3
-                className="text-2xl md:text-4xl font-semibold text-[#fbf5eb]"
-                style={{ fontFamily: "Cormorant Garamond, serif" }}
-              >
-                Faça parte da nossa comunidade!
-              </h3>
-              <p className="text-sm md:text-base text-[#D6A64A]/90 font-serif max-w-xl">
-                Participe das celebrações, grupos de oração e atividades. Todos são bem-vindos!
-              </p>
-            </div>
-
-            <Link
-              href="/contato"
-              className="z-10 inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#B8872E] hover:bg-[#a37625] text-white text-sm font-semibold transition-all shadow-md shrink-0"
-            >
-              <MessageCircle className="w-4 h-4 text-white" />
-              <span>Falar com a secretaria</span>
-            </Link>
-          </div>
         </div>
       </main>
 

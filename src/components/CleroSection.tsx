@@ -46,7 +46,7 @@ export function CleroSection({ className }: CleroSectionProps = {}) {
   return (
     <section
       className={cn(
-        "bg-[#fbf6ee] py-16 md:py-24 border-t border-[#e8dfd1]/60",
+        "bg-[#fbf6ee] py-16",
         className
       )}
     >
@@ -56,9 +56,7 @@ export function CleroSection({ className }: CleroSectionProps = {}) {
           <div className="flex items-center justify-center gap-3 mb-3">
             <span className="h-px w-12 bg-[#B8872E]/40" />
             <div className="flex items-center gap-1.5 text-[#B8872E] text-sm font-semibold uppercase tracking-[0.3em]">
-              <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
               <span>NOSSOS CLÉRIGOS</span>
-              <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
             </div>
             <span className="h-px w-12 bg-[#B8872E]/40" />
           </div>
@@ -70,7 +68,7 @@ export function CleroSection({ className }: CleroSectionProps = {}) {
             Quem nos conduz na fé
           </h2>
 
-          <p className="text-sm md:text-base text-[#5A463B] font-serif leading-relaxed max-w-2xl mx-auto">
+          <p className="text-lg text-[#5A463B] font-serif leading-relaxed max-w-2xl mx-auto">
             Conheça os ministros e pastores que servem à nossa comunidade, cada um em sua missão e vocação.
           </p>
         </div>
@@ -181,7 +179,7 @@ export function CleroSection({ className }: CleroSectionProps = {}) {
             {otherMembers.length > 0 && (
               <div>
                 <div className="mb-8">
-                  <span className="text-[#B8872E] text-sm font-bold uppercase tracking-[0.25em] block mb-1">
+                  <span className="text-[#B8872E] text-sm font-semibold uppercase tracking-[0.25em] block mb-1">
                     OUTROS MINISTROS E PASTORES
                   </span>
                   <h3
@@ -190,7 +188,7 @@ export function CleroSection({ className }: CleroSectionProps = {}) {
                   >
                     Servindo à Igreja
                   </h3>
-                  <p className="text-sm text-[#5A463B] font-serif">
+                  <p className="text-lg text-[#5A463B] font-serif">
                     Conheça também aqueles que exercem diferentes ministérios e responsabilidades na Igreja.
                   </p>
                 </div>
@@ -236,13 +234,10 @@ export function CleroSection({ className }: CleroSectionProps = {}) {
             )}
 
             {/* Gatilho: Hierarquia do Clero e Comunhão Apostólica */}
-            <div className="mt-8 pt-6 border-t border-[#D6A64A]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm sm:text-base">
-              <p className="text-[#5A463B] font-serif leading-relaxed">
-                Conheça a sucessão apostólica que une o Santo Padre, a Diocese e a nossa paróquia.
-              </p>
+            <div className="mt-8 flex flex-col sm:flex-row sm:items-center justify-end gap-3 text-sm sm:text-base">
               <Link
                 href="/clerigos"
-                className="text-sm font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors group shrink-0"
+                className="text-md font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors group shrink-0"
               >
                 <span>Entenda a hierarquia e veja todos os clérigos</span>
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />

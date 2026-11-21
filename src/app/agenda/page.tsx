@@ -442,8 +442,8 @@ function EventCard({ event }: EventCardProps) {
 
               {/* Devotional Badge */}
               {event.massType === "devotional" && (
-                <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#f6eff9] text-[#76428a] border border-[#76428a]/30">
-                  <Sparkles className="w-3 h-3 text-[#76428a]" />
+                <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#B8872E]/15 text-[#14201d] border border-[#D6A64A]/40">
+                  <Sparkles className="w-3 h-3 text-[#14201d]" />
                   <span>Devocional</span>
                 </span>
               )}
@@ -912,11 +912,6 @@ function AgendaPageContent() {
                               {isToday && (
                                 <span className="text-[11px] bg-[#18351E] text-[#ffe7c2] px-2.5 py-0.5 rounded-full border border-[#D6A64A]/40 font-semibold uppercase tracking-wider">
                                   Hoje
-                                </span>
-                              )}
-                              {dayMeta?.isPreceptDay && (
-                                <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#18351E]/10 text-[#18351E] border border-[#18351E]/20">
-                                  ✦ Preceito
                                 </span>
                               )}
                             </div>

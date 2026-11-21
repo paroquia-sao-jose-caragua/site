@@ -40,9 +40,7 @@ export function OurCommunitiesSection() {
           <div className="flex items-center justify-center gap-3 mb-3">
             <span className="h-px w-12 bg-[#B8872E]/40" />
             <div className="flex items-center gap-1.5 text-[#B8872E] text-sm font-semibold uppercase tracking-[0.3em]">
-              <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
               <span>NOSSAS COMUNIDADES</span>
-              <Sparkles className="w-3.5 h-3.5 text-[#B8872E]" />
             </div>
             <span className="h-px w-12 bg-[#B8872E]/40" />
           </div>
@@ -54,7 +52,7 @@ export function OurCommunitiesSection() {
             Onde nossa fé se encontra
           </h2>
 
-          <p className="text-base text-[#5A463B] font-serif leading-relaxed max-w-2xl mx-auto">
+          <p className="text-lg text-[#5A463B] font-serif leading-relaxed max-w-2xl mx-auto">
             A Paróquia São José é formada por cinco comunidades, que caminham unidas na mesma fé e no mesmo propósito: servir a Deus e ao próximo.
           </p>
         </div>
@@ -203,13 +201,10 @@ export function OurCommunitiesSection() {
         )}
 
         {/* Gatilho: Hierarquia das Comunidades */}
-        <div className="mt-8 pt-6 border-t border-[#D6A64A]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm sm:text-base">
-          <p className="text-[#5A463B] font-serif leading-relaxed">
-            A Paróquia São José é formada pela Igreja Matriz e pelas suas Capelas nos bairros.
-          </p>
+        <div className="mt-8 flex flex-col sm:flex-row sm:items-center justify-end gap-3 text-sm sm:text-base">
           <Link
             href="/comunidades"
-            className="text-sm font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors group shrink-0"
+            className="text-md font-semibold text-[#18351E] hover:text-[#B8872E] inline-flex items-center gap-1 transition-colors group shrink-0"
           >
             <span>Entenda a hierarquia e veja todas as comunidades</span>
             <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
