@@ -8,6 +8,7 @@ import {
   ChevronLeft,
   ChevronRight,
   BookOpen,
+  ExternalLink,
   MessageCircle,
   Quote,
   Sparkles,
@@ -33,6 +34,44 @@ function formatLiturgyDate(date: dayjs.Dayjs, shortWeekday = false) {
 }
 
 type TabType = "first" | "second" | "psalm" | "gospel" | "reflection" | "saint";
+
+function VaticanNewsReflectionCard() {
+  return (
+    <a
+      href="https://www.vaticannews.va/pt/palavra-do-dia.html"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex items-center justify-between gap-4 bg-[#fbf5eb] border border-[#D6A64A]/40 hover:border-[#B8872E] rounded-2xl p-4 sm:p-5 shadow-xs hover:shadow-md transition-all no-underline"
+    >
+      <div className="flex items-center gap-3.5 min-w-0">
+        <div className="size-14 rounded-xl overflow-hidden shrink-0 border border-[#D6A64A]/30">
+          <img
+            src="/vatican-news-logo-icon.png"
+            alt="Vatican News"
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        <div className="min-w-0">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-[#B8872E] block">
+            Vatican News
+          </span>
+          <span className="font-serif font-bold text-[#18351E] text-lg leading-snug group-hover:text-[#8c6218] transition-colors block">
+            Palavra do Dia
+          </span>
+          <span className="text-xs text-[#6b5c4d] truncate block">
+            Acessar reflexão completa no site oficial
+          </span>
+        </div>
+      </div>
+
+      <ExternalLink
+        size={18}
+        className="text-[#B8872E] shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+      />
+    </a>
+  );
+}
 
 export default function LiturgiaPage() {
   const [selectedDate, setSelectedDate] = useState(dayjs());
@@ -120,6 +159,7 @@ export default function LiturgiaPage() {
                 },
                 { id: "psalm" as const, label: "Salmo", visible: true },
                 { id: "gospel" as const, label: "Evangelho", visible: true },
+                { id: "reflection" as const, label: "Reflexão", visible: true },
                 {
                   id: "saint" as const,
                   label: "Santos do Dia",
@@ -235,6 +275,20 @@ export default function LiturgiaPage() {
                     </article>
                   )}
 
+                  {/* Tab 5: Reflection (Vatican News) */}
+                  {activeTab === "reflection" && (
+                    <article className="prose max-w-none text-[#332b22]">
+                      <h2 className="text-xl md:text-2xl font-serif font-bold text-[#2d261e] mb-2">
+                        Reflexão Diária do Evangelho
+                      </h2>
+                      <p className="text-md leading-relaxed text-[#5A463B] mb-6">
+                        Acompanhe o comentário e a meditação sobre o Evangelho de hoje diretamente no portal oficial do Vatican News em português.
+                      </p>
+
+                      <VaticanNewsReflectionCard />
+                    </article>
+                  )}
+
                   {/* Tab 5: Saint of the Day */}
                   {activeTab === "saint" && data?.saint && (
                     <article className="prose max-w-none text-[#332b22]">
@@ -262,6 +316,11 @@ export default function LiturgiaPage() {
                 alt="Liturgia Diária"
                 className="w-full h-full object-cover object-bottom"
               />
+            </div>
+
+            {/* Reflexão Diária - Vatican News */}
+            <div className={activeTab === "reflection" ? "hidden lg:block" : undefined}>
+              <VaticanNewsReflectionCard />
             </div>
 
             {/* Leituras do Dia Card */}
