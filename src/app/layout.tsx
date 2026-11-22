@@ -60,7 +60,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Paróquia São José",
+    title: "Site São José",
   },
 
   openGraph: {

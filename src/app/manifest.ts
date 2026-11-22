@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Paróquia São José | Caraguatatuba - SP",
-    short_name: "Paróquia São José",
+    short_name: "Site São José",
     description:
       "Site oficial da Paróquia São José em Caraguatatuba - SP. Horários de missas, agenda de celebrações, eventos e informações da nossa comunidade.",
     start_url: "/",
