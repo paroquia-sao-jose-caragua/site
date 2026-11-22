@@ -22,6 +22,7 @@ import type {
 } from "@/entities/appointment";
 import { useCommunities } from "@/lib/api/communities/use-communities";
 import { useParishContact } from "@/lib/api/parish-contact/use-parish-contact";
+import { getAppointmentLocation } from "@/utils/appointment-location";
 import { useBookingStore } from "@/stores/useBookingStore";
 import { BookingStepper } from "@/components/agendamentos/BookingStepper";
 import { BookingSummarySidebar } from "@/components/agendamentos/BookingSummarySidebar";
@@ -303,7 +304,7 @@ export default function AgendamentosPage() {
       const result = await createAppointmentMutation.mutateAsync({
         serviceId: selectedService.id,
         agentId: selectedAgent.id,
-        communityId: communityId || selectedSlot.communityId || undefined,
+        communityId: selectedSlot.communityId || undefined,
         appointmentDate: selectedDate,
         startTime: selectedSlot.startTime,
         requesterName: requesterName.trim(),
@@ -592,7 +593,6 @@ export default function AgendamentosPage() {
                     <StepRequesterForm
                       formId="agendamento-requester-form"
                       selectedService={selectedService}
-                      communities={communities}
                       formError={formError}
                       fieldErrors={fieldErrors}
                       requesterName={requesterName}
@@ -609,8 +609,6 @@ export default function AgendamentosPage() {
                       onChangeRequesterEmail={setRequesterEmail}
                       requesterRelationship={requesterRelationship}
                       onChangeRequesterRelationship={setRequesterRelationship}
-                      communityId={communityId}
-                      onChangeCommunityId={setCommunityId}
                       patientName={patientName}
                       onChangePatientName={(val) => {
                         setPatientName(val);
@@ -652,6 +650,11 @@ export default function AgendamentosPage() {
                     createdAppointment={createdAppointment}
                     selectedService={selectedService}
                     selectedAgent={selectedAgent}
+                    locationInfo={getAppointmentLocation(
+                      createdAppointment,
+                      communities,
+                      contact?.address
+                    )}
                     requesterName={requesterName}
                     requesterEmail={requesterEmail}
                     requesterPhone={requesterPhone}

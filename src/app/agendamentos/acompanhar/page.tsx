@@ -21,6 +21,8 @@ import {
   useCancelAppointment,
 } from "@/lib/api/appointments/use-appointments";
 import { useParishContact } from "@/lib/api/parish-contact/use-parish-contact";
+import { useCommunities } from "@/lib/api/communities/use-communities";
+import { getAppointmentLocation } from "@/utils/appointment-location";
 import { downloadAppointmentIcs } from "@/utils/calendar-ics";
 import { formatLongDatePtBr } from "@/components/agendamentos/BookingSummarySidebar";
 import type { AppointmentStatus } from "@/entities/appointment";
@@ -126,6 +128,11 @@ function TrackAppointmentContent() {
   const agentFullName = appointment?.agent
     ? `${appointment.agent.title ? `${appointment.agent.title} ` : ""}${appointment.agent.name}`
     : "Equipe Pastoral";
+
+  const { communities } = useCommunities();
+  const locationInfo = appointment
+    ? getAppointmentLocation(appointment, communities, contact?.address)
+    : null;
 
   const whatsappUrl =
     contact?.whatsappUrl ||
@@ -275,6 +282,31 @@ function TrackAppointmentContent() {
                       </span>
                     )}
                   </div>
+
+                  {locationInfo && !locationInfo.isHomeVisit && (
+                    <div className="sm:col-span-2 pt-3 border-t border-[#D6A64A]/20">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#8c7b6c] block">
+                        Local do atendimento
+                        {appointment.status === "pending" ? " (caso aprovado)" : ""}
+                      </span>
+                      <div className="flex items-start gap-1.5 mt-1">
+                        <MapPin
+                          size={15}
+                          className="text-[#B8872E] shrink-0 mt-0.5"
+                        />
+                        <div>
+                          <span className="text-sm font-semibold text-[#18351E] block">
+                            {locationInfo.label}
+                          </span>
+                          {locationInfo.address && (
+                            <span className="text-xs sm:text-sm text-[#5A463B] block mt-0.5">
+                              {locationInfo.address}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {appointment.requesterNotes && (
@@ -345,8 +377,7 @@ function TrackAppointmentContent() {
                         date: appointment.appointmentDate,
                         startTime: appointment.startTime,
                         endTime: appointment.endTime,
-                        address:
-                          appointment.patientAddress || "Paróquia São José",
+                        address: locationInfo?.formatted || "Paróquia São José",
                         description: appointment.requesterNotes,
                       })
                     }

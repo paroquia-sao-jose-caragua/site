@@ -6,6 +6,7 @@ import {
   Check,
   Copy,
   Download,
+  MapPin,
   MessageCircle,
 } from "lucide-react";
 import type {
@@ -13,12 +14,14 @@ import type {
   AppointmentService,
   PastoralAgent,
 } from "@/entities/appointment";
+import type { AppointmentLocationInfo } from "@/utils/appointment-location";
 import { downloadAppointmentIcs } from "@/utils/calendar-ics";
 
 interface StepConfirmationProps {
   createdAppointment: Appointment;
   selectedService: AppointmentService | null;
   selectedAgent: PastoralAgent | null;
+  locationInfo: AppointmentLocationInfo;
   requesterName: string;
   requesterEmail: string;
   requesterPhone: string;
@@ -33,6 +36,7 @@ export function StepConfirmation({
   createdAppointment,
   selectedService,
   selectedAgent,
+  locationInfo,
   requesterPhone,
   copiedLink,
   onCopyLink,
@@ -62,6 +66,26 @@ export function StepConfirmation({
         {requesterPhone}.
       </p>
 
+      {/* Local do Atendimento */}
+      <div className="mt-5 max-w-md mx-auto rounded-2xl bg-[#fbf6ee] border border-[#D6A64A]/35 px-4 py-3 text-left flex items-start gap-2.5">
+        <MapPin size={17} className="text-[#B8872E] shrink-0 mt-0.5" />
+        <div className="min-w-0">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-[#8c7b6c] block">
+            {locationInfo.isHomeVisit
+              ? "Local da visita (caso aprovado)"
+              : "Local do atendimento (caso aprovado)"}
+          </span>
+          <span className="text-sm font-semibold text-[#18351E] block mt-0.5">
+            {locationInfo.label}
+          </span>
+          {locationInfo.address && (
+            <span className="text-xs text-[#5A463B] block mt-0.5">
+              {locationInfo.address}
+            </span>
+          )}
+        </div>
+      </div>
+
       {/* Ações finais */}
       <div className="mt-7 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 flex-wrap">
         <button
@@ -83,8 +107,7 @@ export function StepConfirmation({
               date: createdAppointment.appointmentDate,
               startTime: createdAppointment.startTime,
               endTime: createdAppointment.endTime,
-              address:
-                createdAppointment.patientAddress || "Paróquia São José",
+              address: locationInfo.formatted,
               description: createdAppointment.requesterNotes,
             })
           }

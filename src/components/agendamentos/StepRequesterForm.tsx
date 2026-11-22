@@ -1,12 +1,7 @@
 "use client";
 
-import { AlertCircle, ChevronDown } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import type { AppointmentService } from "@/entities/appointment";
-
-interface CommunityOption {
-  id: string;
-  name: string;
-}
 
 export type RequesterFieldErrorKey =
   | "requesterName"
@@ -19,7 +14,6 @@ export type RequesterFieldErrorKey =
 interface StepRequesterFormProps {
   formId: string;
   selectedService: AppointmentService;
-  communities: CommunityOption[];
   formError: string;
   fieldErrors?: Partial<Record<RequesterFieldErrorKey, string>>;
   requesterName: string;
@@ -30,8 +24,6 @@ interface StepRequesterFormProps {
   onChangeRequesterEmail: (v: string) => void;
   requesterRelationship: string;
   onChangeRequesterRelationship: (v: string) => void;
-  communityId: string;
-  onChangeCommunityId: (v: string) => void;
   patientName: string;
   onChangePatientName: (v: string) => void;
   isBedridden: boolean;
@@ -77,7 +69,6 @@ function FieldAlert({ message }: { message?: string }) {
 export function StepRequesterForm({
   formId,
   selectedService,
-  communities,
   formError,
   fieldErrors,
   requesterName,
@@ -88,8 +79,6 @@ export function StepRequesterForm({
   onChangeRequesterEmail,
   requesterRelationship,
   onChangeRequesterRelationship,
-  communityId,
-  onChangeCommunityId,
   patientName,
   onChangePatientName,
   isBedridden,
@@ -172,7 +161,7 @@ export function StepRequesterForm({
           </span>
         </div>
 
-        {selectedService.requiresAddress ? (
+        {selectedService.requiresAddress && (
           <div>
             <label className="block text-sm font-semibold text-[#18351E] mb-1.5">
               Grau de Parentesco / Relação{" "}
@@ -185,31 +174,6 @@ export function StepRequesterForm({
               placeholder="Ex.: Filho(a), Cônjuge, Vizinho(a)"
               className={inputClass}
             />
-          </div>
-        ) : (
-          <div>
-            <label className="block text-sm font-semibold text-[#18351E] mb-1.5">
-              Comunidade que frequenta{" "}
-              <span className="font-normal text-[#8c7b6c]">(opcional)</span>
-            </label>
-            <div className="relative">
-              <select
-                value={communityId}
-                onChange={(e) => onChangeCommunityId(e.target.value)}
-                className={`${inputClass} appearance-none pr-10 cursor-pointer`}
-              >
-                <option value="">Selecione a comunidade...</option>
-                {communities.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown
-                size={16}
-                className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-[#8c7b6c]"
-              />
-            </div>
           </div>
         )}
       </div>

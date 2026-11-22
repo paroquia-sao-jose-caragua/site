@@ -28,6 +28,7 @@ export interface PastoralAgent {
   community?: {
     id: string;
     name: string;
+    address?: string | null;
   } | null;
   services?: AppointmentService[];
 }
@@ -79,6 +80,7 @@ export interface Appointment {
   community?: {
     id: string;
     name: string;
+    address?: string | null;
   } | null;
 }
 
