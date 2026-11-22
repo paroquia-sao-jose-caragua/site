@@ -516,10 +516,21 @@ export function SiteHeader() {
                 )}
               </div>
 
-              {/* 5. Menu Mais com Submenu */}
+              {/* 5. Liturgia Diária e Contato diretos em telas >= 1200px */}
+              {secondaryNavItems.map((item) => (
+                <NavLink
+                  key={item.to}
+                  href={item.to}
+                  className="hidden min-[1200px]:inline-flex px-3.5 py-1.5 text-md font-semibold rounded-lg"
+                >
+                  {item.label}
+                </NavLink>
+              ))}
+
+              {/* 6. Menu Mais com Submenu (telas < 1200px) */}
               <div
                 ref={moreDropdownRef}
-                className="relative"
+                className="relative min-[1200px]:hidden"
                 onMouseEnter={handleMoreMouseEnter}
                 onMouseLeave={handleMoreMouseLeave}
               >
