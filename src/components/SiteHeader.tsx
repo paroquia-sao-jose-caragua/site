@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import {
-  Heart,
   ChevronDown,
   ChevronRight,
   BookOpen,
@@ -10,7 +9,7 @@ import {
   Calendar,
   CalendarCheck,
   Download,
-  Bell,
+  Users,
 } from "lucide-react";
 import { NoticesBellButton } from "./NoticesBellButton";
 import Link from "next/link";
@@ -30,9 +29,13 @@ const navItems = [
 ];
 
 const secondaryNavItems = [
-  { label: "Mural de Avisos", to: "/mural-de-avisos", icon: Bell },
   { label: "Liturgia Diária", to: "/liturgia", icon: BookOpen },
   { label: "Contato", to: "/contato", icon: MessageCircle },
+];
+
+const moreMenuItems = [
+  { label: "Clérigos", to: "/clerigos", icon: Users },
+  ...secondaryNavItems,
 ];
 
 const getCommunityCoverUrl = (comm: {
@@ -301,10 +304,10 @@ export function SiteHeader() {
                 )}
               </div>
 
-              {/* 3. Clérigos (sempre visível com dropdown) */}
+              {/* 3. Clérigos (visível no header principal em telas >= 1200px; em < 1200px fica dentro de Mais) */}
               <div
                 ref={clergyDropdownRef}
-                className="relative"
+                className="relative hidden min-[1200px]:block"
                 onMouseEnter={handleClergyMouseEnter}
                 onMouseLeave={handleClergyMouseLeave}
               >
@@ -519,18 +522,21 @@ export function SiteHeader() {
                 )}
               </div>
 
-              {/* 5. Liturgia Diária direto em telas >= 1200px */}
-              <NavLink
-                href="/liturgia"
-                className="hidden min-[1200px]:inline-flex px-3.5 py-1.5 text-md font-semibold rounded-lg"
-              >
-                Liturgia Diária
-              </NavLink>
+              {/* 5. Liturgia Diária e Contato diretos em telas >= 1200px */}
+              {secondaryNavItems.map((item) => (
+                <NavLink
+                  key={item.to}
+                  href={item.to}
+                  className="hidden min-[1200px]:inline-flex px-3.5 py-1.5 text-md font-semibold rounded-lg"
+                >
+                  {item.label}
+                </NavLink>
+              ))}
 
-              {/* 6. Menu Mais com Submenu (sempre visível no desktop com Mural de Avisos e Contato) */}
+              {/* 6. Menu Mais com Submenu (apenas em telas < 1200px) */}
               <div
                 ref={moreDropdownRef}
-                className="relative"
+                className="relative min-[1200px]:hidden"
                 onMouseEnter={handleMoreMouseEnter}
                 onMouseLeave={handleMoreMouseLeave}
               >
@@ -556,19 +562,16 @@ export function SiteHeader() {
                   <div className="absolute top-full right-0 pt-2 w-56 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                     <div className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-2xl shadow-xl p-2 text-[#18351E]">
                       <div className="space-y-0.5">
-                        {secondaryNavItems.map((item) => {
+                        {moreMenuItems.map((item) => {
                           const isActive = pathname.startsWith(item.to);
                           const Icon = item.icon;
-                          const isLiturgia = item.to === "/liturgia";
 
                           return (
                             <Link
                               key={item.label}
                               href={item.to}
                               onClick={() => setMoreOpen(false)}
-                              className={`${
-                                isLiturgia ? "flex min-[1200px]:hidden" : "flex"
-                              } items-center gap-2.5 px-3 py-2 rounded-xl text-md transition-all group/item ${
+                              className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-md transition-all group/item ${
                                 isActive
                                   ? "bg-[#ECD6BD]/55 text-[#18351E]"
                                   : "text-[#18351E] hover:bg-[#ECD6BD]/40"
@@ -595,13 +598,13 @@ export function SiteHeader() {
                 )}
               </div>
 
-              {/* 8. Botão Quero Contribuir */}
-              <Link
+              {/* 8. Link Quero Contribuir */}
+              <NavLink
                 href="/quero-contribuir"
-                className="ml-2 inline-flex items-center justify-center gap-2 bg-[#fbf6ee] hover:bg-[#f2e7d5] text-[#18351E] border-[1.5px] border-[#B8872E] hover:border-[#9c6f21] font-serif text-sm font-semibold px-5 py-2 rounded-full transition-all shadow-2xs"
+                className="px-3.5 py-1.5 text-md font-semibold rounded-lg"
               >
-                Quero contribuir
-              </Link>
+                Quero Contribuir
+              </NavLink>
 
               {/* 9. Sininho Mural de Avisos (Desktop - exibido apenas quando houver avisos) */}
               <NoticesBellButton mode="popover" />
