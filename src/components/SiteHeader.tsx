@@ -519,21 +519,18 @@ export function SiteHeader() {
                 )}
               </div>
 
-              {/* 5. Liturgia Diária e Contato diretos em telas >= 1200px */}
-              {secondaryNavItems.map((item) => (
-                <NavLink
-                  key={item.to}
-                  href={item.to}
-                  className="hidden min-[1200px]:inline-flex px-3.5 py-1.5 text-md font-semibold rounded-lg"
-                >
-                  {item.label}
-                </NavLink>
-              ))}
+              {/* 5. Liturgia Diária direto em telas >= 1200px */}
+              <NavLink
+                href="/liturgia"
+                className="hidden min-[1200px]:inline-flex px-3.5 py-1.5 text-md font-semibold rounded-lg"
+              >
+                Liturgia Diária
+              </NavLink>
 
-              {/* 6. Menu Mais com Submenu (telas < 1200px) */}
+              {/* 6. Menu Mais com Submenu (sempre visível no desktop com Mural de Avisos e Contato) */}
               <div
                 ref={moreDropdownRef}
-                className="relative min-[1200px]:hidden"
+                className="relative"
                 onMouseEnter={handleMoreMouseEnter}
                 onMouseLeave={handleMoreMouseLeave}
               >
@@ -562,13 +559,16 @@ export function SiteHeader() {
                         {secondaryNavItems.map((item) => {
                           const isActive = pathname.startsWith(item.to);
                           const Icon = item.icon;
+                          const isLiturgia = item.to === "/liturgia";
 
                           return (
                             <Link
                               key={item.label}
                               href={item.to}
                               onClick={() => setMoreOpen(false)}
-                              className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-md transition-all group/item ${
+                              className={`${
+                                isLiturgia ? "flex min-[1200px]:hidden" : "flex"
+                              } items-center gap-2.5 px-3 py-2 rounded-xl text-md transition-all group/item ${
                                 isActive
                                   ? "bg-[#ECD6BD]/55 text-[#18351E]"
                                   : "text-[#18351E] hover:bg-[#ECD6BD]/40"
