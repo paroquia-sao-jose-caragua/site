@@ -598,11 +598,13 @@ export function SiteHeader() {
               {/* 8. Botão Quero Contribuir */}
               <Link
                 href="/quero-contribuir"
-                className="ml-2 inline-flex items-center justify-center gap-2 bg-[#18351E] hover:bg-[#27442A] text-[#eeca94] hover:text-[#eeca94] border border-[#D6A64A]/40 text-sm font-semibold px-5 py-2.5 rounded-full transition-all shadow-sm"
+                className="ml-2 inline-flex items-center justify-center gap-2 bg-[#fbf6ee] hover:bg-[#f2e7d5] text-[#18351E] border-[1.5px] border-[#B8872E] hover:border-[#9c6f21] font-serif text-sm font-semibold px-5 py-2 rounded-full transition-all shadow-2xs"
               >
-                <Heart size={14} className="fill-[#eeca94] text-[#eeca94]" />
                 Quero contribuir
               </Link>
+
+              {/* 9. Sininho Mural de Avisos (Desktop - exibido apenas quando houver avisos) */}
+              <NoticesBellButton mode="popover" />
             </nav>
 
             {/* Mobile Right Actions: Notices Bell + PWA Download */}

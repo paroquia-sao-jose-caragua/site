@@ -91,7 +91,7 @@ export function AnnouncementsHero() {
     return (
       <section
         aria-label="Carregando destaques"
-        className="relative w-full aspect-square sm:aspect-auto sm:h-[480px] md:h-[560px] lg:h-[632px] bg-[#f4ebe0] overflow-hidden"
+        className="relative w-full aspect-square sm:aspect-[1440/632] bg-[#f4ebe0] overflow-hidden"
       >
         <div className="absolute inset-0 bg-gradient-to-b from-[#f3e9db] via-[#efe3d3] to-[#fbf6ee] animate-pulse" />
       </section>
@@ -117,9 +117,15 @@ export function AnnouncementsHero() {
       ? getImageUrl(slide.coverMobileId)
       : tabletSrc;
 
+  const hasTabletImage = Boolean(hasDynamicSlide && slide.coverTabletId);
+
+  const heightClasses = hasTabletImage
+    ? "aspect-square sm:aspect-[4/3] lg:aspect-[1440/632]"
+    : "aspect-square sm:aspect-[1440/632]";
+
   return (
     <section
-      className={`relative w-full aspect-square sm:aspect-auto sm:h-[480px] md:h-[560px] lg:h-[632px] overflow-hidden ${
+      className={`relative w-full ${heightClasses} overflow-hidden ${
         hasDynamicSlide ? "bg-[#f4ebe0] text-white" : "bg-[#18351E] text-white"
       }`}
     >
