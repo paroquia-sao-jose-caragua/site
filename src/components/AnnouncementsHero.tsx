@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { listActiveAnnouncements } from "@/lib/api/announcements/listActive";
@@ -9,17 +8,74 @@ import { apiBaseUrl } from "@/lib/api/utils/api";
 import type { Announcement } from "@/entities/Announcement";
 
 const SLIDE_INTERVAL_MS = 15000;
-const DEFAULT_BANNER = "/banners/default-banner.png";
+const CACHE_KEY = "cached_active_announcements_v1";
+
+const getImageUrl = (id?: string | null) => {
+  if (!id) return "";
+  if (
+    id.startsWith("http://") ||
+    id.startsWith("https://") ||
+    id.startsWith("/")
+  ) {
+    return id;
+  }
+  return `${apiBaseUrl}/attachments/${id}`;
+};
 
 export function AnnouncementsHero() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [cachedAnnouncements, setCachedAnnouncements] = useState<
+    Announcement[] | null
+  >(null);
 
-  const { data } = useQuery({
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as Announcement[];
+        if (Array.isArray(parsed)) {
+          setCachedAnnouncements(parsed);
+        }
+      }
+    } catch {
+      // ignore invalid cache
+    }
+  }, []);
+
+  const { data, isPending } = useQuery({
     queryKey: ["active-announcements"],
     queryFn: listActiveAnnouncements,
+    staleTime: 1000 * 60 * 5,
   });
 
-  const announcements: Announcement[] = data?.announcements ?? [];
+  useEffect(() => {
+    if (!data?.announcements) return;
+    setCachedAnnouncements(data.announcements);
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify(data.announcements));
+    } catch {
+      // ignore storage quota errors
+    }
+  }, [data]);
+
+  const announcements: Announcement[] =
+    data?.announcements ?? cachedAnnouncements ?? [];
+
+  // Preload banner images in browser cache
+  useEffect(() => {
+    if (announcements.length === 0) return;
+    announcements.forEach((item) => {
+      [item.coverDesktopId, item.coverTabletId, item.coverMobileId].forEach(
+        (id) => {
+          const url = getImageUrl(id);
+          if (url) {
+            const img = new window.Image();
+            img.src = url;
+          }
+        },
+      );
+    });
+  }, [announcements]);
 
   useEffect(() => {
     if (announcements.length <= 1) return;
@@ -29,13 +85,18 @@ export function AnnouncementsHero() {
     return () => clearInterval(timer);
   }, [announcements.length]);
 
-  const getImageUrl = (id?: string | null) => {
-    if (!id) return DEFAULT_BANNER;
-    if (id.startsWith("http://") || id.startsWith("https://") || id.startsWith("/")) {
-      return id;
-    }
-    return `${apiBaseUrl}/attachments/${id}`;
-  };
+  const isLoadingWithoutCache = isPending && cachedAnnouncements === null;
+
+  if (isLoadingWithoutCache) {
+    return (
+      <section
+        aria-label="Carregando destaques"
+        className="relative w-full h-[480px] md:h-[560px] lg:h-[632px] bg-[#f4ebe0] overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f3e9db] via-[#efe3d3] to-[#fbf6ee] animate-pulse" />
+      </section>
+    );
+  }
 
   const slide = announcements[currentSlide] || announcements[0];
   const hasDynamicSlide = announcements.length > 0 && !!slide;
@@ -46,27 +107,25 @@ export function AnnouncementsHero() {
       slide?.actionText?.trim(),
   );
 
-  const desktopSrc = hasDynamicSlide ? getImageUrl(slide.coverDesktopId) : DEFAULT_BANNER;
-  const tabletSrc = hasDynamicSlide && slide.coverTabletId ? getImageUrl(slide.coverTabletId) : desktopSrc;
-  const mobileSrc = hasDynamicSlide && slide.coverMobileId ? getImageUrl(slide.coverMobileId) : tabletSrc;
+  const desktopSrc = hasDynamicSlide ? getImageUrl(slide.coverDesktopId) : "";
+  const tabletSrc =
+    hasDynamicSlide && slide.coverTabletId
+      ? getImageUrl(slide.coverTabletId)
+      : desktopSrc;
+  const mobileSrc =
+    hasDynamicSlide && slide.coverMobileId
+      ? getImageUrl(slide.coverMobileId)
+      : tabletSrc;
 
   return (
-    <section className="relative w-full h-[480px] md:h-[560px] lg:h-[632px] bg-[#14201d] text-white overflow-hidden">
-      {/* 1. Imagem de Fallback Estática (Renderizada imediatamente com prioridade máxima para LCP e CLS 0) */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src={DEFAULT_BANNER}
-          alt="Paróquia São José de Caraguatatuba"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center"
-        />
-      </div>
-
-      {/* 2. Imagem Dinâmica da API (Renderizada em cima com transição suave quando disponível) */}
-      {hasDynamicSlide && desktopSrc !== DEFAULT_BANNER && (
-        <div className="absolute inset-0 z-0 transition-opacity duration-700">
+    <section
+      className={`relative w-full h-[480px] md:h-[560px] lg:h-[632px] overflow-hidden ${
+        hasDynamicSlide ? "bg-[#f4ebe0] text-white" : "bg-[#18351E] text-white"
+      }`}
+    >
+      {/* Imagem Dinâmica da API */}
+      {hasDynamicSlide && desktopSrc && (
+        <div className="absolute inset-0 z-0 transition-opacity duration-500">
           {!hasSlideContent && slide.actionUrl ? (
             <Link
               href={slide.actionUrl}
@@ -159,7 +218,9 @@ export function AnnouncementsHero() {
                 </h1>
 
                 <p className="text-base md:text-lg text-[#e6ded1] font-sans mb-8 leading-relaxed max-w-lg drop-shadow">
-                  Todo dia 19. Venha celebrar conosco na Paróquia Matriz. Traga suas intenções de oração e fortaleça sua devoção ao Glorioso São José.
+                  Todo dia 19. Venha celebrar conosco na Paróquia Matriz. Traga
+                  suas intenções de oração e fortaleça sua devoção ao Glorioso
+                  São José.
                 </p>
 
                 <div>
@@ -184,7 +245,9 @@ export function AnnouncementsHero() {
               key={idx}
               onClick={() => setCurrentSlide(idx)}
               className={`h-2 rounded-full transition-all ${
-                idx === currentSlide ? "w-6 bg-[#d4a359]" : "w-2 bg-white/40 hover:bg-white/80"
+                idx === currentSlide
+                  ? "w-6 bg-[#d4a359]"
+                  : "w-2 bg-white/40 hover:bg-white/80"
               }`}
               aria-label={`Ir para slide ${idx + 1}`}
             />

@@ -1,5 +1,4 @@
 import { AnnouncementsHero } from "@/components/AnnouncementsHero";
-import { LiturgyFloatingButton } from "@/components/LiturgyFloatingButton";
 import { OurCommunitiesSection } from "@/components/OurCommunitiesSection";
 import { UpcomingMassesSection } from "@/components/UpcomingMassesSection";
 import { CleroSection } from "@/components/CleroSection";
@@ -15,7 +14,6 @@ export default function HomePage() {
       <CleroSection />
       <ChurchLinksSection />
       <CommunityCalloutSection />
-      <LiturgyFloatingButton />
     </main>
   );
 }
