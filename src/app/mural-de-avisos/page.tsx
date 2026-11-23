@@ -3,14 +3,12 @@
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Bell,
   AlertTriangle,
   Info,
   Sparkles,
   Pin,
   ChevronRight,
   Clock,
-  ArrowLeft,
 } from "lucide-react";
 import { getActiveNotices } from "@/lib/api/notices/getActive";
 import { apiBaseUrl } from "@/lib/api/utils/api";
@@ -44,7 +42,11 @@ export default function MuralDeAvisosPage() {
 
   const getImageUrl = (id?: string | null) => {
     if (!id) return "";
-    if (id.startsWith("http://") || id.startsWith("https://") || id.startsWith("/")) {
+    if (
+      id.startsWith("http://") ||
+      id.startsWith("https://") ||
+      id.startsWith("/")
+    ) {
       return id;
     }
     return `${apiBaseUrl}/attachments/${id}`;
@@ -62,31 +64,25 @@ export default function MuralDeAvisosPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#fbf6ee] pt-24 pb-20">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">
-        <div>
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#5A463B] hover:text-[#18351E] transition-colors mb-4"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Voltar ao início
+    <section className="relative overflow-hidden bg-[#fbf6ee] min-h-screen">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-8 pb-36">
+        {/* Breadcrumb */}
+        <nav className="text-sm text-[#8c7b6c] mb-2 flex items-center gap-2 font-medium">
+          <Link href="/" className="hover:text-[#2d261e] transition-colors">
+            Início
           </Link>
+          <span>&gt;</span>
+          <span className="text-[#2d261e]">Mural de Avisos</span>
+        </nav>
 
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-2xl bg-[#18351E] text-[#eeca94] flex items-center justify-center shrink-0 shadow-sm">
-              <Bell className="w-5 h-5" />
-            </div>
-            <div>
-              <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[#14201d]">
-                Mural de Avisos
-              </h1>
-              <p className="text-sm sm:text-base text-[#5A463B]">
-                Comunicados, orientações e avisos importantes da Paróquia São José
-              </p>
-            </div>
-          </div>
-          <div className="w-20 h-1 bg-[#B8872E] mt-4 rounded-full" />
+        {/* Page Header */}
+        <div className="mb-10">
+          <h1 className="text-3xl md:text-5xl font-serif font-bold text-[#18351E]">
+            Mural de Avisos
+          </h1>
+          <p className="text-sm md:text-base text-[#6b5c4d] mt-2 max-w-2xl">
+            Comunicados, orientações e avisos importantes da Paróquia São José.
+          </p>
         </div>
 
         {isPending ? (
@@ -94,19 +90,16 @@ export default function MuralDeAvisosPage() {
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="h-32 rounded-2xl bg-[#f4ebe0] animate-pulse border border-[#e5d8c5]"
+                className="h-32 rounded-2xl bg-[#fbf5eb] animate-pulse border border-[#D6A64A]/30"
               />
             ))}
           </div>
         ) : notices.length === 0 ? (
-          <div className="bg-white border border-[#e5d8c5] rounded-2xl p-10 text-center space-y-3 shadow-2xs">
-            <div className="w-12 h-12 rounded-full bg-[#f4ebe0] text-[#5A463B] flex items-center justify-center mx-auto">
-              <Bell className="w-6 h-6" />
-            </div>
-            <h2 className="text-xl font-serif font-bold text-[#14201d]">
+          <div className="bg-[#fbf5eb] border border-[#D6A64A]/40 rounded-2xl p-10 text-center space-y-2 shadow-xs">
+            <h2 className="text-xl font-serif font-bold text-[#18351E]">
               Nenhum aviso ativo no momento
             </h2>
-            <p className="text-sm text-[#5A463B] max-w-md mx-auto">
+            <p className="text-sm text-[#6b5c4d] max-w-md mx-auto">
               Quando houver novos comunicados paroquiais, eles aparecerão aqui.
             </p>
           </div>
@@ -123,11 +116,11 @@ export default function MuralDeAvisosPage() {
                 <Link
                   key={notice.id}
                   href={`/mural-de-avisos/${notice.id}`}
-                  className="block bg-white border border-[#e5d8c5] hover:border-[#B8872E] rounded-2xl p-5 sm:p-6 shadow-2xs hover:shadow-md transition-all group"
+                  className="block bg-[#fbf5eb] border border-[#D6A64A]/40 hover:border-[#B8872E] rounded-2xl p-5 sm:p-6 shadow-xs hover:shadow-md transition-all group"
                 >
                   <div className="flex flex-col sm:flex-row gap-5">
                     {imageUrl && (
-                      <div className="w-full sm:w-44 aspect-video sm:aspect-4/3 rounded-xl overflow-hidden border border-[#e5d8c5] bg-stone-100 shrink-0">
+                      <div className="w-full sm:w-48 aspect-video sm:aspect-4/3 rounded-xl overflow-hidden border border-[#D6A64A]/30 bg-stone-100 shrink-0">
                         <img
                           src={imageUrl}
                           alt={notice.title}
@@ -147,25 +140,27 @@ export default function MuralDeAvisosPage() {
                           </span>
 
                           {notice.pinned && (
-                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#ECD6BD]/70 text-[#634515]">
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#ECD6BD]/80 text-[#634515]">
                               <Pin className="w-2.5 h-2.5" />
                               FIXADO
                             </span>
                           )}
                         </div>
 
-                        <h2 className="text-xl font-serif font-bold text-[#14201d] group-hover:text-[#18351E] leading-snug">
+                        <h2 className="text-xl font-serif font-bold text-[#18351E] group-hover:text-[#8c6218] transition-colors leading-snug">
                           {notice.title}
                         </h2>
 
-                        <p className="text-sm sm:text-base text-stone-600 line-clamp-2 leading-relaxed">
+                        <p className="text-sm sm:text-base text-[#5A463B] line-clamp-2 leading-relaxed">
                           {notice.summary || notice.description}
                         </p>
                       </div>
 
-                      <div className="flex items-center justify-between pt-2 border-t border-[#f4ebe0] text-xs text-[#736254]">
+                      <div className="flex items-center justify-between pt-3 border-t border-[#D6A64A]/20 text-xs text-[#736254]">
                         <div className="flex flex-wrap items-center gap-3">
-                          {publishedAt && <span>Publicado em {publishedAt}</span>}
+                          {publishedAt && (
+                            <span>Publicado em {publishedAt}</span>
+                          )}
                           {endsAt && (
                             <span className="inline-flex items-center gap-1">
                               <Clock className="w-3.5 h-3.5" />
@@ -174,7 +169,7 @@ export default function MuralDeAvisosPage() {
                           )}
                         </div>
 
-                        <span className="inline-flex items-center gap-1 font-semibold text-[#18351E] group-hover:text-[#B8872E]">
+                        <span className="inline-flex items-center gap-1 font-semibold text-[#8c6218] group-hover:text-[#18351E] transition-colors">
                           Ler aviso
                           <ChevronRight className="w-4 h-4" />
                         </span>
@@ -187,6 +182,6 @@ export default function MuralDeAvisosPage() {
           </div>
         )}
       </div>
-    </main>
+    </section>
   );
 }
