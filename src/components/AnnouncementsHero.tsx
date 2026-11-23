@@ -50,6 +50,12 @@ export function AnnouncementsHero() {
 
   const slide = announcements[currentSlide] || announcements[0];
   const hasDynamicSlide = announcements.length > 0 && !!slide;
+  const hasSlideContent = Boolean(
+    slide?.badgeText?.trim() ||
+      slide?.title?.trim() ||
+      slide?.description?.trim() ||
+      slide?.actionText?.trim(),
+  );
 
   const desktopSrc = hasDynamicSlide ? getImageUrl(slide.coverDesktopId) : DEFAULT_BANNER;
   const tabletSrc = hasDynamicSlide && slide.coverTabletId ? getImageUrl(slide.coverTabletId) : desktopSrc;
@@ -72,85 +78,114 @@ export function AnnouncementsHero() {
       {/* 2. Imagem Dinâmica da API (Renderizada em cima com transição suave quando disponível) */}
       {hasDynamicSlide && desktopSrc !== DEFAULT_BANNER && (
         <div className="absolute inset-0 z-0 transition-opacity duration-700">
-          <picture>
-            <source media="(max-width: 640px)" srcSet={mobileSrc} />
-            <source media="(max-width: 1024px)" srcSet={tabletSrc} />
-            <img
-              src={desktopSrc}
-              alt={slide.title || "Destaque"}
-              width={1920}
-              height={632}
-              fetchPriority="high"
-              className="w-full h-full object-cover object-center"
-            />
-          </picture>
+          {!hasSlideContent && slide.actionUrl ? (
+            <Link
+              href={slide.actionUrl}
+              aria-label="Acessar destaque"
+              className="block w-full h-full"
+            >
+              <picture>
+                <source media="(max-width: 640px)" srcSet={mobileSrc} />
+                <source media="(max-width: 1024px)" srcSet={tabletSrc} />
+                <img
+                  src={desktopSrc}
+                  alt={slide.title || "Destaque"}
+                  width={1920}
+                  height={632}
+                  fetchPriority="high"
+                  className="w-full h-full object-cover object-center"
+                />
+              </picture>
+            </Link>
+          ) : (
+            <picture>
+              <source media="(max-width: 640px)" srcSet={mobileSrc} />
+              <source media="(max-width: 1024px)" srcSet={tabletSrc} />
+              <img
+                src={desktopSrc}
+                alt={slide.title || "Destaque"}
+                width={1920}
+                height={632}
+                fetchPriority="high"
+                className="w-full h-full object-cover object-center"
+              />
+            </picture>
+          )}
         </div>
       )}
 
-      {/* Overlay gradiente suave para contraste e legibilidade */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/75 via-black/40 to-transparent md:w-3/4 lg:w-3/5" />
-      <div className="absolute inset-0 z-0 bg-black/15" />
+      {/* Overlay gradiente suave para contraste e legibilidade (apenas quando houver texto sobreposto) */}
+      {(!hasDynamicSlide || hasSlideContent) && (
+        <>
+          <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/75 via-black/40 to-transparent md:w-3/4 lg:w-3/5" />
+          <div className="absolute inset-0 z-0 bg-black/15" />
+        </>
+      )}
 
       {/* Conteúdo (Destaque da API ou Mensagem Padrão de Boas-Vindas) */}
-      <div className="relative z-10 max-w-7xl mx-auto h-full px-6 md:px-12 flex flex-col justify-center">
-        <div className="max-w-xl md:max-w-md py-12">
-          {hasDynamicSlide ? (
-            <>
-              {slide.badgeText && (
+      {(!hasDynamicSlide || hasSlideContent) && (
+        <div className="relative z-10 max-w-7xl mx-auto h-full px-6 md:px-12 flex flex-col justify-center">
+          <div className="max-w-xl md:max-w-md py-12">
+            {hasDynamicSlide ? (
+              <>
+                {slide.badgeText && (
+                  <div className="flex items-center gap-2 text-[#d4a359] text-sm font-semibold uppercase tracking-[0.25em] mb-4">
+                    <span className="h-px w-8 bg-[#d4a359]/60 inline-block" />
+                    <span>{slide.badgeText}</span>
+                  </div>
+                )}
+
+                {slide.title && (
+                  <h1 className="text-4xl md:text-6xl font-serif font-semibold text-[#fbf5eb] tracking-tight leading-[1.1] mb-5 drop-shadow-md">
+                    {slide.title}
+                  </h1>
+                )}
+
+                {slide.description && (
+                  <p className="text-base md:text-lg text-[#e6ded1] font-sans mb-8 leading-relaxed max-w-lg drop-shadow">
+                    {slide.description}
+                  </p>
+                )}
+
+                {slide.actionText && (
+                  <div>
+                    <Link
+                      href={slide.actionUrl || "#"}
+                      className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-[#c69247] hover:bg-[#b07d35] text-[#14201d] border border-[#D6A64A]/40 font-semibold text-sm transition-all shadow-md hover:shadow-lg"
+                    >
+                      {slide.actionText}
+                    </Link>
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
                 <div className="flex items-center gap-2 text-[#d4a359] text-sm font-semibold uppercase tracking-[0.25em] mb-4">
                   <span className="h-px w-8 bg-[#d4a359]/60 inline-block" />
-                  <span>{slide.badgeText}</span>
+                  <span>MISSA DO PADROEIRO</span>
                 </div>
-              )}
 
-              <h1 className="text-4xl md:text-6xl font-serif font-semibold text-[#fbf5eb] tracking-tight leading-[1.1] mb-5 drop-shadow-md">
-                {slide.title}
-              </h1>
+                <h1 className="text-4xl md:text-6xl font-serif font-semibold text-[#fbf5eb] tracking-tight leading-[1.1] mb-5 drop-shadow-md">
+                  Missa em Honra a São José
+                </h1>
 
-              {slide.description && (
                 <p className="text-base md:text-lg text-[#e6ded1] font-sans mb-8 leading-relaxed max-w-lg drop-shadow">
-                  {slide.description}
+                  Todo dia 19. Venha celebrar conosco na Paróquia Matriz. Traga suas intenções de oração e fortaleça sua devoção ao Glorioso São José.
                 </p>
-              )}
 
-              {slide.actionText && (
                 <div>
                   <Link
-                    href={slide.actionUrl || "#"}
+                    href="/agenda"
                     className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-[#c69247] hover:bg-[#b07d35] text-[#14201d] border border-[#D6A64A]/40 font-semibold text-sm transition-all shadow-md hover:shadow-lg"
                   >
-                    {slide.actionText}
+                    Ver Programação Completa
                   </Link>
                 </div>
-              )}
-            </>
-          ) : (
-            <>
-              <div className="flex items-center gap-2 text-[#d4a359] text-sm font-semibold uppercase tracking-[0.25em] mb-4">
-                <span className="h-px w-8 bg-[#d4a359]/60 inline-block" />
-                <span>MISSA DO PADROEIRO</span>
-              </div>
-
-              <h1 className="text-4xl md:text-6xl font-serif font-semibold text-[#fbf5eb] tracking-tight leading-[1.1] mb-5 drop-shadow-md">
-                Missa em Honra a São José
-              </h1>
-
-              <p className="text-base md:text-lg text-[#e6ded1] font-sans mb-8 leading-relaxed max-w-lg drop-shadow">
-                Todo dia 19. Venha celebrar conosco na Paróquia Matriz. Traga suas intenções de oração e fortaleça sua devoção ao Glorioso São José.
-              </p>
-
-              <div>
-                <Link
-                  href="/agenda"
-                  className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-[#c69247] hover:bg-[#b07d35] text-[#14201d] border border-[#D6A64A]/40 font-semibold text-sm transition-all shadow-md hover:shadow-lg"
-                >
-                  Ver Programação Completa
-                </Link>
-              </div>
-            </>
-          )}
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Controles de Navegação (Apenas se houver múltiplos anúncios) */}
       {announcements.length > 1 && (
