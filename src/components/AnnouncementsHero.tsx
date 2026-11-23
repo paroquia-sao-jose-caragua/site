@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { listActiveAnnouncements } from "@/lib/api/announcements/listActive";
 import { apiBaseUrl } from "@/lib/api/utils/api";
 import type { Announcement } from "@/entities/Announcement";
@@ -29,16 +28,6 @@ export function AnnouncementsHero() {
     }, SLIDE_INTERVAL_MS);
     return () => clearInterval(timer);
   }, [announcements.length]);
-
-  const handlePrev = () => {
-    if (announcements.length <= 1) return;
-    setCurrentSlide((prev) => (prev === 0 ? announcements.length - 1 : prev - 1));
-  };
-
-  const handleNext = () => {
-    if (announcements.length <= 1) return;
-    setCurrentSlide((prev) => (prev + 1) % announcements.length);
-  };
 
   const getImageUrl = (id?: string | null) => {
     if (!id) return DEFAULT_BANNER;
@@ -187,37 +176,20 @@ export function AnnouncementsHero() {
         </div>
       )}
 
-      {/* Controles de Navegação (Apenas se houver múltiplos anúncios) */}
+      {/* Indicadores de Slide (Apenas se houver múltiplos anúncios) */}
       {announcements.length > 1 && (
-        <>
-          <button
-            onClick={handlePrev}
-            className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-black/30 hover:bg-black/60 text-white/90 hover:text-white flex items-center justify-center transition-all border border-white/10 backdrop-blur-xs"
-            aria-label="Anterior"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-          <button
-            onClick={handleNext}
-            className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-black/30 hover:bg-black/60 text-white/90 hover:text-white flex items-center justify-center transition-all border border-white/10 backdrop-blur-xs"
-            aria-label="Próximo"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
-
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
-            {announcements.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setCurrentSlide(idx)}
-                className={`h-2 rounded-full transition-all ${
-                  idx === currentSlide ? "w-6 bg-[#d4a359]" : "w-2 bg-white/40 hover:bg-white/80"
-                }`}
-                aria-label={`Ir para slide ${idx + 1}`}
-              />
-            ))}
-          </div>
-        </>
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+          {announcements.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentSlide(idx)}
+              className={`h-2 rounded-full transition-all ${
+                idx === currentSlide ? "w-6 bg-[#d4a359]" : "w-2 bg-white/40 hover:bg-white/80"
+              }`}
+              aria-label={`Ir para slide ${idx + 1}`}
+            />
+          ))}
+        </div>
       )}
     </section>
   );

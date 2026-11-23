@@ -10,7 +10,9 @@ import {
   Calendar,
   CalendarCheck,
   Download,
+  Bell,
 } from "lucide-react";
+import { NoticesBellButton } from "./NoticesBellButton";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NavLink } from "./ui/nav-link";
@@ -28,6 +30,7 @@ const navItems = [
 ];
 
 const secondaryNavItems = [
+  { label: "Mural de Avisos", to: "/mural-de-avisos", icon: Bell },
   { label: "Liturgia Diária", to: "/liturgia", icon: BookOpen },
   { label: "Contato", to: "/contato", icon: MessageCircle },
 ];
@@ -602,20 +605,23 @@ export function SiteHeader() {
               </Link>
             </nav>
 
-            {/* Mobile PWA Download Button (visible only in browser, hidden when installed as standalone) */}
-            {!isStandalone && (
-              <button
-                type="button"
-                onClick={() => {
-                  window.dispatchEvent(new CustomEvent("open-pwa-notification-prompt"));
-                }}
-                aria-label="Baixar aplicativo"
-                className="min-[950px]:hidden inline-flex items-center gap-1.5 px-2 py-1.5 -mr-2 text-sm font-semibold text-[#18351E] hover:text-[#B8872E] transition-colors cursor-pointer"
-              >
-                <Download size={18} />
-                <span>Baixar App</span>
-              </button>
-            )}
+            {/* Mobile Right Actions: Notices Bell + PWA Download */}
+            <div className="min-[950px]:hidden flex items-center gap-1 -mr-1">
+              <NoticesBellButton />
+              {!isStandalone && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    window.dispatchEvent(new CustomEvent("open-pwa-notification-prompt"));
+                  }}
+                  aria-label="Baixar aplicativo"
+                  className="inline-flex items-center gap-1.5 px-2 py-1.5 text-sm font-semibold text-[#18351E] hover:text-[#B8872E] transition-colors cursor-pointer"
+                >
+                  <Download size={18} />
+                  <span>Baixar App</span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
