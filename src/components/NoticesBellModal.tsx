@@ -12,7 +12,6 @@ import {
   Pin,
   ChevronRight,
   ArrowRight,
-  Clock,
 } from "lucide-react";
 import type { Notice } from "@/entities/Notice";
 
@@ -69,16 +68,6 @@ export function NoticesBellModal({
 
   if (!mounted || !isOpen) return null;
 
-  const formatEndsAt = (iso?: string | null) => {
-    if (!iso) return null;
-    const d = new Date(iso);
-    if (Number.isNaN(d.getTime())) return null;
-    return d.toLocaleDateString("pt-BR", {
-      day: "2-digit",
-      month: "2-digit",
-    });
-  };
-
   return createPortal(
     <div
       role="dialog"
@@ -128,7 +117,6 @@ export function NoticesBellModal({
           {notices.map((notice) => {
             const style = variantStyles[notice.variant] || variantStyles.info;
             const VariantIcon = style.icon;
-            const endsAtLabel = formatEndsAt(notice.endsAt);
 
             return (
               <Link
@@ -151,13 +139,6 @@ export function NoticesBellModal({
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#ECD6BD]/70 text-[#634515]">
                           <Pin className="w-2.5 h-2.5" />
                           FIXADO
-                        </span>
-                      )}
-
-                      {endsAtLabel && (
-                        <span className="inline-flex items-center gap-1 text-[11px] text-[#736254]">
-                          <Clock className="w-3 h-3" />
-                          Até {endsAtLabel}
                         </span>
                       )}
                     </div>

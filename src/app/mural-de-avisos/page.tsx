@@ -1,19 +1,30 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronRight, Clock } from "lucide-react";
+import { ArrowLeft, ChevronRight } from "lucide-react";
 import { getActiveNotices } from "@/lib/api/notices/getActive";
 import { apiBaseUrl } from "@/lib/api/utils/api";
 import type { Notice } from "@/entities/Notice";
 
 export default function MuralDeAvisosPage() {
+  const router = useRouter();
+
   const { data, isPending } = useQuery({
     queryKey: ["active-notices"],
     queryFn: getActiveNotices,
   });
 
   const notices = data?.notices ?? [];
+
+  const handleBack = () => {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      router.back();
+    } else {
+      router.push("/");
+    }
+  };
 
   const getImageUrl = (id?: string | null) => {
     if (!id) return "";
@@ -27,28 +38,20 @@ export default function MuralDeAvisosPage() {
     return `${apiBaseUrl}/attachments/${id}`;
   };
 
-  const formatDate = (iso?: string | null) => {
-    if (!iso) return null;
-    const d = new Date(iso);
-    if (Number.isNaN(d.getTime())) return null;
-    return d.toLocaleDateString("pt-BR", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    });
-  };
-
   return (
     <section className="relative overflow-hidden bg-[#fbf6ee] min-h-screen">
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 pt-8 pb-36">
-        {/* Breadcrumb */}
-        <nav className="text-sm text-[#8c7b6c] mb-3 flex items-center justify-center gap-2 font-medium">
-          <Link href="/" className="hover:text-[#2d261e] transition-colors">
-            Início
-          </Link>
-          <span>&gt;</span>
-          <span className="text-[#2d261e]">Mural de Avisos</span>
-        </nav>
+        {/* Botão Voltar */}
+        <div className="mb-4">
+          <button
+            type="button"
+            onClick={handleBack}
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#5A463B] hover:text-[#18351E] transition-colors cursor-pointer"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Voltar
+          </button>
+        </div>
 
         {/* Page Header Centralizado */}
         <div className="mb-10 text-center">
@@ -82,8 +85,6 @@ export default function MuralDeAvisosPage() {
           <div className="space-y-5">
             {notices.map((notice: Notice) => {
               const imageUrl = getImageUrl(notice.imageId);
-              const publishedAt = formatDate(notice.createdAt);
-              const endsAt = formatDate(notice.endsAt);
 
               return (
                 <Link
@@ -113,17 +114,7 @@ export default function MuralDeAvisosPage() {
                         </p>
                       </div>
 
-                      <div className="flex items-center justify-between pt-2.5 border-t border-[#D6A64A]/20 text-xs text-[#736254]">
-                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                          {publishedAt && <span>{publishedAt}</span>}
-                          {endsAt && (
-                            <span className="inline-flex items-center gap-1">
-                              <Clock className="w-3.5 h-3.5" />
-                              Até {endsAt}
-                            </span>
-                          )}
-                        </div>
-
+                      <div className="flex items-center justify-end pt-2.5 border-t border-[#D6A64A]/20 text-xs">
                         <span className="inline-flex items-center gap-1 font-semibold text-[#8c6218] group-hover:text-[#18351E] transition-colors shrink-0">
                           Ler mais
                           <ChevronRight className="w-4 h-4" />
