@@ -91,7 +91,7 @@ export function AnnouncementsHero() {
     return (
       <section
         aria-label="Carregando destaques"
-        className="relative w-full h-[480px] md:h-[560px] lg:h-[632px] bg-[#f4ebe0] overflow-hidden"
+        className="relative w-full aspect-square sm:aspect-auto sm:h-[480px] md:h-[560px] lg:h-[632px] bg-[#f4ebe0] overflow-hidden"
       >
         <div className="absolute inset-0 bg-gradient-to-b from-[#f3e9db] via-[#efe3d3] to-[#fbf6ee] animate-pulse" />
       </section>
@@ -119,7 +119,7 @@ export function AnnouncementsHero() {
 
   return (
     <section
-      className={`relative w-full h-[480px] md:h-[560px] lg:h-[632px] overflow-hidden ${
+      className={`relative w-full aspect-square sm:aspect-auto sm:h-[480px] md:h-[560px] lg:h-[632px] overflow-hidden ${
         hasDynamicSlide ? "bg-[#f4ebe0] text-white" : "bg-[#18351E] text-white"
       }`}
     >
@@ -132,7 +132,7 @@ export function AnnouncementsHero() {
               aria-label="Acessar destaque"
               className="block w-full h-full"
             >
-              <picture>
+              <picture className="block w-full h-full">
                 <source media="(max-width: 640px)" srcSet={mobileSrc} />
                 <source media="(max-width: 1024px)" srcSet={tabletSrc} />
                 <img
@@ -146,7 +146,7 @@ export function AnnouncementsHero() {
               </picture>
             </Link>
           ) : (
-            <picture>
+            <picture className="block w-full h-full">
               <source media="(max-width: 640px)" srcSet={mobileSrc} />
               <source media="(max-width: 1024px)" srcSet={tabletSrc} />
               <img
