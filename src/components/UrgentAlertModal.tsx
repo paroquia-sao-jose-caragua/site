@@ -121,7 +121,7 @@ export function UrgentAlertModal({ alert, isOpen, onClose }: UrgentAlertModalPro
               <img
                 src={imageUrl}
                 alt={alert.modalTitle || "Cartaz de divulgação"}
-                className="w-full h-64 sm:h-80 md:h-[420px] object-cover"
+                className="w-full h-auto block"
               />
             </div>
           )}
