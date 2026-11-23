@@ -240,7 +240,7 @@ body {
 .animate-ticker {
   display: inline-flex;
   white-space: nowrap;
-  animation: ticker 40s linear infinite;
+  animation: ticker 65s linear infinite;
   will-change: transform;
 }
 

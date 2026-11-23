@@ -47,11 +47,11 @@ export function UrgentAlertBar() {
       iconPulse: "text-emerald-300",
     },
     solemnity: {
-      barBg: "bg-gradient-to-r from-[#523912] via-[#6e4e1a] to-[#523912] text-[#fff8ed] border-b border-amber-500/40",
-      badgeBg: "bg-[#3d2a0d] text-amber-200 border-amber-300/40",
+      barBg: "bg-gradient-to-r from-[#b6852a] via-[#d6a64a] to-[#b6852a] text-[#fffdf7] border-b border-[#9a6d1c]/50",
+      badgeBg: "bg-[#8f6418] text-[#fff8e6] border-[#f2d08a]/40",
       badgeText: "SOLENIDADE",
-      buttonBg: "bg-[#f5d470] text-[#332207] hover:bg-[#fae08f] shadow-sm",
-      iconPulse: "text-amber-200 animate-pulse",
+      buttonBg: "bg-[#fff8e6] text-[#634515] hover:bg-white shadow-sm",
+      iconPulse: "text-[#fff3cc] animate-pulse",
     },
   };
 

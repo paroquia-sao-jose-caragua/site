@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Lora } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
-import { UrgentAlertBar } from "@/components/UrgentAlertBar";
 import { SiteFooter } from "@/components/SiteFooter";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 import AppProvider from "@/providers/AppProvider";
@@ -155,7 +154,6 @@ export default function RootLayout({
         <AppProvider>
           <div className="min-h-screen flex flex-col bg-[#f8f0e7] pb-16 min-[950px]:pb-0">
             <SiteHeader />
-            <UrgentAlertBar />
             <div className="flex-1">{children}</div>
             <SiteFooter />
             <MobileBottomNav />

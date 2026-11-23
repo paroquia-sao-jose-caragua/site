@@ -175,7 +175,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-30">
       <div className="flex items-start">
         <div
-          className={'relative flex-1 bg-[#fbf5eb] min-w-0 border-b border-[#D6A64A] transition-all duration-300 ease-in-out shadow-md bg-[#fbf5eb]/95 backdrop-blur-md'}
+          className={'relative flex-1 bg-[#fbf5eb] min-w-0 border-b border-[#D6A64A] transition-all duration-300 ease-in-out shadow-xs bg-[#fbf5eb]/95 backdrop-blur-md'}
         >
           <div
             className={'max-w-324 mx-auto px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ease-in-out h-14 min-[950px]:h-[72px]'}
