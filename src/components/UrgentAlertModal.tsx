@@ -87,12 +87,9 @@ export function UrgentAlertModal({ alert, isOpen, onClose }: UrgentAlertModalPro
         {/* Header Bar */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#e5d8c5] bg-[#f4ebe0]/80 shrink-0">
           <div className="flex items-center gap-2">
-            <span
-              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold tracking-wider border shadow-2xs ${currentVariant.badge}`}
-            >
-              <VariantIcon className="w-3 h-3" />
-              {currentVariant.label}
-            </span>
+            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#14201d] leading-tight whitespace-pre-line">
+              {alert.modalTitle || alert.text}
+            </h2>
           </div>
 
           <button
@@ -107,14 +104,6 @@ export function UrgentAlertModal({ alert, isOpen, onClose }: UrgentAlertModalPro
 
         {/* Content Body */}
         <div className="p-6 sm:p-8 flex-1 min-h-0 overflow-y-auto space-y-6">
-          {/* Title */}
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#14201d] leading-tight whitespace-pre-line">
-              {alert.modalTitle || alert.text}
-            </h2>
-            <div className="w-16 h-1 bg-[#B8872E] mt-3 rounded-full" />
-          </div>
-
           {/* Cartaz / Arte / Flyer se houver */}
           {imageUrl && (
             <div className="w-full rounded-xl overflow-hidden border border-[#d8cbb8] shadow-md bg-stone-100">
@@ -132,17 +121,9 @@ export function UrgentAlertModal({ alert, isOpen, onClose }: UrgentAlertModalPro
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="px-6 py-4 pb-24 sm:pb-4 bg-[#f4ebe0] border-t border-[#e5d8c5] flex flex-col-reverse sm:flex-row items-center justify-end gap-3 shrink-0">
-          <button
-            type="button"
-            onClick={onClose}
-            className="w-full sm:w-auto px-5 py-2.5 rounded-full text-sm font-semibold text-stone-600 hover:bg-stone-200/60 transition-colors"
-          >
-            Fechar
-          </button>
-
-          {alert.modalActionUrl && alert.modalActionText && (
+        {/* Footer (apenas quando houver botão de ação) */}
+        {alert.modalActionUrl && alert.modalActionText && (
+          <div className="px-6 py-4 bg-[#f4ebe0] border-t border-[#e5d8c5] flex items-center justify-end shrink-0">
             <a
               href={alert.modalActionUrl}
               target="_blank"
@@ -152,8 +133,8 @@ export function UrgentAlertModal({ alert, isOpen, onClose }: UrgentAlertModalPro
               {alert.modalActionText}
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
