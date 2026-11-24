@@ -3,10 +3,16 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Playfair_Display } from "next/font/google";
 import { useQuery } from "@tanstack/react-query";
 import { listActiveAnnouncements } from "@/lib/api/announcements/listActive";
 import { apiBaseUrl } from "@/lib/api/utils/api";
 import type { Announcement } from "@/entities/Announcement";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+});
 
 const SLIDE_INTERVAL_MS = 15000;
 const FALLBACK_HOLD_MS = 2000;
@@ -183,22 +189,24 @@ export function AnnouncementsHero() {
               <div className="absolute inset-0 z-0 bg-black/15" />
 
               <div className="relative z-10 max-w-7xl mx-auto h-full px-6 md:px-12 flex flex-col justify-center">
-                <div className="max-w-xl md:max-w-md py-12">
+                <div className="max-w-lg md:max-w-md py-8 sm:py-12">
                   {slide.badgeText && (
-                    <div className="flex items-center gap-2 text-[#d4a359] text-sm font-semibold uppercase tracking-[0.25em] mb-4">
-                      <span className="h-px w-8 bg-[#d4a359]/60 inline-block" />
+                    <div className="flex items-center gap-2 text-[#d4a359] text-[11px] sm:text-xs font-semibold uppercase tracking-[0.22em] mb-2.5 sm:mb-3">
+                      <span className="h-px w-6 sm:w-8 bg-[#d4a359]/60 inline-block" />
                       <span>{slide.badgeText}</span>
                     </div>
                   )}
 
                   {slide.title && (
-                    <h1 className="text-4xl md:text-6xl font-serif font-semibold text-[#fbf5eb] tracking-tight leading-[1.1] mb-5 drop-shadow-md">
+                    <h1
+                      className={`${playfair.className} text-2xl sm:text-4xl md:text-5xl font-semibold text-[#fbf5eb] tracking-tight leading-[1.12] mb-3 sm:mb-4 drop-shadow-md`}
+                    >
                       {slide.title}
                     </h1>
                   )}
 
                   {slide.description && (
-                    <p className="text-base md:text-lg text-[#e6ded1] font-sans mb-8 leading-relaxed max-w-lg drop-shadow">
+                    <p className="text-sm sm:text-base md:text-lg text-[#e6ded1] font-sans mb-5 sm:mb-7 leading-relaxed max-w-md drop-shadow">
                       {slide.description}
                     </p>
                   )}
@@ -207,7 +215,7 @@ export function AnnouncementsHero() {
                     <div>
                       <Link
                         href={slide.actionUrl || "#"}
-                        className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-[#c69247] hover:bg-[#b07d35] text-[#14201d] border border-[#D6A64A]/40 font-semibold text-sm transition-all shadow-md hover:shadow-lg"
+                        className="inline-flex items-center justify-center px-6 py-2.5 sm:px-7 sm:py-3 rounded-full bg-[#c69247] hover:bg-[#b07d35] text-[#14201d] border border-[#D6A64A]/40 font-semibold text-xs sm:text-sm transition-all shadow-md hover:shadow-lg"
                       >
                         {slide.actionText}
                       </Link>
@@ -242,6 +250,25 @@ export function AnnouncementsHero() {
 
         <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/75 via-black/40 to-transparent md:w-3/4 lg:w-3/5" />
         <div className="absolute inset-0 z-0 bg-black/15" />
+
+        <div className="relative z-10 max-w-7xl mx-auto h-full px-6 md:px-12 flex flex-col justify-center">
+          <div className="max-w-lg md:max-w-md py-8 sm:py-12">
+            <div className="flex items-center gap-2 text-[#d4a359] text-[11px] sm:text-xs font-semibold uppercase tracking-[0.22em] mb-2.5 sm:mb-3">
+              <span className="h-px w-6 sm:w-8 bg-[#d4a359]/60 inline-block" />
+              <span>MISSA DO PADROEIRO</span>
+            </div>
+
+            <h1
+              className={`${playfair.className} text-2xl sm:text-4xl md:text-5xl font-semibold text-[#fbf5eb] tracking-tight leading-[1.12] mb-3 sm:mb-4 drop-shadow-md`}
+            >
+              Missa em Honra a São José
+            </h1>
+
+            <p className="text-sm sm:text-base md:text-lg text-[#e6ded1] font-sans leading-relaxed max-w-md drop-shadow">
+              Todo dia 19 na Paróquia Matriz
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Indicadores de Slide (Apenas após a saída do fallback e com múltiplos anúncios) */}
