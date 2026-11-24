@@ -191,7 +191,7 @@ export function AnnouncementsHero() {
               <div className="relative z-10 max-w-7xl mx-auto h-full px-6 md:px-12 flex flex-col justify-center">
                 <div className="max-w-xl md:max-w-lg lg:max-w-xl py-8 sm:py-12">
                   {slide.badgeText && (
-                    <div className="flex items-center gap-2 text-[#d4a359] text-[10px] sm:text-xs lg:text-sm font-semibold uppercase tracking-[0.22em] mb-2 sm:mb-3 lg:mb-4">
+                    <div className="flex items-center gap-2 text-[#d4a359] text-xs sm:text-sm font-semibold uppercase tracking-[0.22em] mb-2.5 sm:mb-3 lg:mb-4">
                       <span className="h-px w-6 sm:w-8 bg-[#d4a359]/60 inline-block" />
                       <span>{slide.badgeText}</span>
                     </div>
@@ -199,14 +199,14 @@ export function AnnouncementsHero() {
 
                   {slide.title && (
                     <h1
-                      className={`${playfair.className} text-2xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-7xl font-semibold text-[#fbf5eb] tracking-tight leading-[1.08] mb-2.5 sm:mb-4 lg:mb-5 drop-shadow-md`}
+                      className={`${playfair.className} text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-[#fbf5eb] tracking-tight leading-[1.08] mb-3 sm:mb-4 lg:mb-5 drop-shadow-md`}
                     >
                       {slide.title}
                     </h1>
                   )}
 
                   {slide.description && (
-                    <p className="text-xs sm:text-sm md:text-base lg:text-xl text-[#e6ded1] font-sans mb-5 sm:mb-7 leading-relaxed max-w-lg drop-shadow">
+                    <p className="text-base sm:text-lg lg:text-xl text-[#e6ded1] font-sans mb-5 sm:mb-7 leading-relaxed max-w-lg drop-shadow">
                       {slide.description}
                     </p>
                   )}
@@ -253,18 +253,18 @@ export function AnnouncementsHero() {
 
         <div className="relative z-10 max-w-7xl mx-auto h-full px-6 md:px-12 flex flex-col justify-center">
           <div className="max-w-xl md:max-w-lg lg:max-w-xl py-8 sm:py-12">
-            <div className="flex items-center gap-2 text-[#d4a359] text-[10px] sm:text-xs lg:text-sm font-semibold uppercase tracking-[0.22em] mb-2 sm:mb-3 lg:mb-4">
+            <div className="flex items-center gap-2 text-[#d4a359] text-xs sm:text-sm font-semibold uppercase tracking-[0.22em] mb-2.5 sm:mb-3 lg:mb-4">
               <span className="h-px w-6 sm:w-8 bg-[#d4a359]/60 inline-block" />
               <span>MISSA DO PADROEIRO</span>
             </div>
 
             <h1
-              className={`${playfair.className} text-2xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-7xl font-semibold text-[#fbf5eb] tracking-tight leading-[1.08] mb-2.5 sm:mb-4 lg:mb-5 drop-shadow-md`}
+              className={`${playfair.className} text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-[#fbf5eb] tracking-tight leading-[1.08] mb-3 sm:mb-4 lg:mb-5 drop-shadow-md`}
             >
               Missa em Honra a São José
             </h1>
 
-            <p className="text-xs sm:text-sm md:text-base lg:text-xl text-[#e6ded1] font-sans leading-relaxed max-w-lg drop-shadow">
+            <p className="text-base sm:text-lg lg:text-xl text-[#e6ded1] font-sans leading-relaxed max-w-lg drop-shadow">
               Todo dia 19 na Paróquia Matriz
             </p>
           </div>
