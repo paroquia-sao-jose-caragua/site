@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
@@ -36,6 +36,15 @@ function formatLiturgyDate(date: dayjs.Dayjs, compact = false) {
 }
 
 type TabType = "first" | "second" | "psalm" | "gospel" | "reflection" | "saint";
+
+const LITURGY_IMAGES = [
+  "/liturgy/01.png",
+  "/liturgy/02.png",
+  "/liturgy/03.png",
+  "/liturgy/04.png",
+];
+
+const LITURGY_IMAGE_INTERVAL_MS = 8000;
 
 function VaticanNewsReflectionCard() {
   return (
@@ -78,6 +87,16 @@ function VaticanNewsReflectionCard() {
 export default function LiturgiaPage() {
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [activeTab, setActiveTab] = useState<TabType>("first");
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const tabButtonRefs = useRef<Partial<Record<TabType, HTMLButtonElement | null>>>({});
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % LITURGY_IMAGES.length);
+    }, LITURGY_IMAGE_INTERVAL_MS);
+    return () => clearInterval(timer);
+  }, []);
 
   const formattedDateParam = selectedDate.format("YYYY-MM-DD");
 
@@ -92,6 +111,63 @@ export default function LiturgiaPage() {
 
   const handleNextDay = () => {
     setSelectedDate((prev) => prev.add(1, "day"));
+  };
+
+  const visibleTabs = [
+    { id: "first" as const, label: "1ª Leitura", visible: true },
+    {
+      id: "second" as const,
+      label: "2ª Leitura",
+      visible: Boolean(data?.secondReading),
+    },
+    { id: "psalm" as const, label: "Salmo", visible: true },
+    { id: "gospel" as const, label: "Evangelho", visible: true },
+    { id: "reflection" as const, label: "Reflexão", visible: true },
+    {
+      id: "saint" as const,
+      label: "Santos do Dia",
+      visible: Boolean(data?.saint),
+    },
+  ].filter((tab) => tab.visible);
+
+  const selectTabWithScroll = (tabId: TabType) => {
+    setActiveTab(tabId);
+    tabButtonRefs.current[tabId]?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
+    });
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touch = e.touches[0];
+    if (!touch) return;
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    const start = touchStartRef.current;
+    touchStartRef.current = null;
+    if (!start) return;
+
+    const touch = e.changedTouches[0];
+    if (!touch) return;
+
+    const dx = touch.clientX - start.x;
+    const dy = touch.clientY - start.y;
+
+    if (Math.abs(dx) < 50 || Math.abs(dx) <= Math.abs(dy) * 1.2) {
+      return;
+    }
+
+    const currentIndex = visibleTabs.findIndex((t) => t.id === activeTab);
+    if (currentIndex === -1) return;
+
+    if (dx < 0 && currentIndex < visibleTabs.length - 1) {
+      selectTabWithScroll(visibleTabs[currentIndex + 1].id);
+    } else if (dx > 0 && currentIndex > 0) {
+      selectTabWithScroll(visibleTabs[currentIndex - 1].id);
+    }
   };
 
   const tomorrowDateStr = selectedDate.add(1, "day").format("dddd, D [de] MMMM");
@@ -152,41 +228,31 @@ export default function LiturgiaPage() {
 
             {/* Tabs Bar */}
             <div className="flex items-center gap-1.5 overflow-x-auto">
-              {[
-                { id: "first" as const, label: "1ª Leitura", visible: true },
-                {
-                  id: "second" as const,
-                  label: "2ª Leitura",
-                  visible: Boolean(data?.secondReading),
-                },
-                { id: "psalm" as const, label: "Salmo", visible: true },
-                { id: "gospel" as const, label: "Evangelho", visible: true },
-                { id: "reflection" as const, label: "Reflexão", visible: true },
-                {
-                  id: "saint" as const,
-                  label: "Santos do Dia",
-                  visible: Boolean(data?.saint),
-                },
-              ]
-                .filter((tab) => tab.visible)
-                .map((tab) => (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`px-3.5 py-1.5 rounded-lg text-md transition-all duration-200 whitespace-nowrap cursor-pointer ${
-                      activeTab === tab.id
-                        ? "bg-[#B8872E]/15 text-[#8c6218] font-semibold"
-                        : "text-[#32402A] font-medium hover:text-[#B8872E] hover:bg-[#B8872E]/8"
-                    }`}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
+              {visibleTabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  ref={(el) => {
+                    tabButtonRefs.current[tab.id] = el;
+                  }}
+                  type="button"
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`px-3.5 py-1.5 rounded-lg text-md transition-all duration-200 whitespace-nowrap cursor-pointer ${
+                    activeTab === tab.id
+                      ? "bg-[#B8872E]/15 text-[#8c6218] font-semibold"
+                      : "text-[#32402A] font-medium hover:text-[#B8872E] hover:bg-[#B8872E]/8"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
             </div>
 
             {/* Reading Content */}
-            <div>
+            <div
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              className="touch-pan-y"
+            >
               {isPending ? (
                 <div className="py-16 text-center text-[#8c7b6c] text-sm">
                   Carregando leituras da Liturgia...
@@ -199,7 +265,7 @@ export default function LiturgiaPage() {
                       <h2 className="text-xl md:text-2xl font-serif font-bold text-[#2d261e] mb-1.5">
                         {data?.firstReading?.title || "Primeira Leitura"}
                       </h2>
-                      <p className="text-md font-bold text-[#a6824b] tracking-wider mb-4">
+                      <p className="text-lg font-semibold text-[#a6824b] tracking-wider mb-4">
                         {data?.firstReading?.reference}
                       </p>
 
@@ -207,7 +273,7 @@ export default function LiturgiaPage() {
                         {formatLiturgyText(data?.firstReading?.text)}
                       </div>
 
-                      <div className="mt-8 pt-4 border-t border-[#e8e2d8] text-md font-bold text-[#a6824b]">
+                      <div className="mt-8 pt-4 border-t border-[#e8e2d8] text-lg font-bold text-[#a6824b]">
                         Palavra do Senhor. <span className="font-semibold text-[#2d261e]">Graças a Deus.</span>
                       </div>
                     </article>
@@ -219,7 +285,7 @@ export default function LiturgiaPage() {
                       <h2 className="text-xl md:text-2xl font-serif font-bold text-[#2d261e] mb-1.5">
                         {data.secondReading.title}
                       </h2>
-                      <p className="text-md font-bold text-[#a6824b] tracking-wider mb-4">
+                      <p className="text-lg font-semibold text-[#a6824b] tracking-wider mb-4">
                         {data.secondReading.reference}
                       </p>
 
@@ -227,7 +293,7 @@ export default function LiturgiaPage() {
                         {formatLiturgyText(data.secondReading.text)}
                       </div>
 
-                      <div className="mt-8 pt-4 border-t border-[#e8e2d8] text-md font-bold text-[#a6824b]">
+                      <div className="mt-8 pt-4 border-t border-[#e8e2d8] text-lg font-bold text-[#a6824b]">
                         Palavra do Senhor. <span className="font-semibold text-[#2d261e]">Graças a Deus.</span>
                       </div>
                     </article>
@@ -239,7 +305,7 @@ export default function LiturgiaPage() {
                       <h2 className="text-xl md:text-2xl font-serif font-bold text-[#2d261e] mb-1.5">
                         Salmo Responsorial
                       </h2>
-                      <p className="text-md font-bold text-[#a6824b] tracking-wider mb-4">
+                      <p className="text-lg font-semibold text-[#a6824b] tracking-wider mb-4">
                         {data?.psalm?.reference}
                       </p>
 
@@ -263,7 +329,7 @@ export default function LiturgiaPage() {
                           .replace(/\s*✠\s*/g, " ")
                           .trim()}
                       </h2>
-                      <p className="text-md font-bold text-[#a6824b] tracking-wider mb-4">
+                      <p className="text-lg font-semibold text-[#a6824b] tracking-wider mb-4">
                         {data?.gospel?.reference}
                       </p>
 
@@ -271,7 +337,7 @@ export default function LiturgiaPage() {
                         {formatLiturgyText(data?.gospel?.text)}
                       </div>
 
-                      <div className="mt-8 pt-4 border-t border-[#e8e2d8] text-md font-bold text-[#a6824b]">
+                      <div className="mt-8 pt-4 border-t border-[#e8e2d8] text-lg font-bold text-[#a6824b]">
                         Palavra da Salvação. <span className="font-semibold text-[#2d261e]">Glória a vós, Senhor.</span>
                       </div>
                     </article>
@@ -312,21 +378,26 @@ export default function LiturgiaPage() {
           {/* Right Sidebar Column (1 col) */}
           <div className="space-y-6">
             {/* Hero Card */}
-            <div className="relative rounded-2xl overflow-hidden w-full aspect-[16/10.15] border border-[#D6A64A]/40 shadow-md">
-              <img
-                src="/biblia-aberta-card.png"
-                alt="Liturgia Diária"
-                className="w-full h-full object-cover object-bottom"
-              />
+            <div className="relative rounded-2xl overflow-hidden w-full aspect-[16/10.15] border border-[#D6A64A]/40 shadow-md bg-[#f3ece0]">
+              {LITURGY_IMAGES.map((src, index) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt="Liturgia Diária"
+                  className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1500 ease-in-out ${
+                    index === currentImageIndex ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+              ))}
             </div>
 
             {/* Reflexão Diária - Vatican News */}
-            <div className={activeTab === "reflection" ? "hidden lg:block" : undefined}>
+            <div className="hidden lg:block">
               <VaticanNewsReflectionCard />
             </div>
 
             {/* Leituras do Dia Card */}
-            <div className="bg-[#fbf5eb] border border-[#e8e2d8] rounded-2xl p-5 shadow-sm space-y-4">
+            <div className="hidden lg:block bg-[#fbf5eb] border border-[#e8e2d8] rounded-2xl p-5 shadow-sm space-y-4">
               <h4 className="font-serif font-bold text-[#2d261e] text-xl border-b border-[#e8e2d8] pb-3">
                 Leituras do Dia
               </h4>
