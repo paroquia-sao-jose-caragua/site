@@ -9,7 +9,7 @@ import { apiBaseUrl } from "@/lib/api/utils/api";
 import type { Announcement } from "@/entities/Announcement";
 
 const SLIDE_INTERVAL_MS = 15000;
-const FALLBACK_HOLD_MS = 5000;
+const FALLBACK_HOLD_MS = 2000;
 const DEFAULT_BANNER = "/banners/default-banner.png";
 const CACHE_KEY = "cached_active_announcements_v1";
 
@@ -242,24 +242,6 @@ export function AnnouncementsHero() {
 
         <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/75 via-black/40 to-transparent md:w-3/4 lg:w-3/5" />
         <div className="absolute inset-0 z-0 bg-black/15" />
-
-        <div className="relative z-10 max-w-7xl mx-auto h-full px-6 md:px-12 flex flex-col justify-center">
-          <div className="max-w-xl md:max-w-md py-12">
-            <div className="flex items-center gap-2 text-[#d4a359] text-sm font-semibold uppercase tracking-[0.25em] mb-4">
-              <span className="h-px w-8 bg-[#d4a359]/60 inline-block" />
-              <span>MISSA DO PADROEIRO</span>
-            </div>
-
-            <h1 className="text-4xl md:text-6xl font-serif font-semibold text-[#fbf5eb] tracking-tight leading-[1.1] mb-5 drop-shadow-md">
-              Missa em Honra a São José
-            </h1>
-
-            <p className="text-base md:text-lg text-[#e6ded1] font-sans leading-relaxed max-w-lg drop-shadow">
-              Todo dia 19. Venha celebrar conosco na Paróquia Matriz. Traga suas
-              intenções de oração e fortaleça sua devoção ao Glorioso São José.
-            </p>
-          </div>
-        </div>
       </div>
 
       {/* Indicadores de Slide (Apenas após a saída do fallback e com múltiplos anúncios) */}
