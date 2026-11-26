@@ -1,82 +1,76 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { apiBaseUrl } from "@/lib/api/utils/api";
 
-const STORAGE_KEY = "paroquia_site_visit_date";
+const STORAGE_KEY = "paroquia_site_page_views_ts";
+const COOLDOWN_MS = 30 * 60 * 1000; // 30 minutes per page
+const MIN_DWELL_MS = 5000; // 5 seconds minimum visible dwell time
 
-function getTodaySaoPaulo(): string {
+function readCooldownMap(): Record<string, number> {
   try {
-    const parts = new Intl.DateTimeFormat("en-CA", {
-      timeZone: "America/Sao_Paulo",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    }).formatToParts(new Date());
-
-    const year = parts.find((p) => p.type === "year")?.value;
-    const month = parts.find((p) => p.type === "month")?.value;
-    const day = parts.find((p) => p.type === "day")?.value;
-
-    if (year && month && day) {
-      return `${year}-${month}-${day}`;
-    }
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw) as Record<string, number>;
+    if (!parsed || typeof parsed !== "object") return {};
+    return parsed;
   } catch {
-    // Fallback to local ISO date
+    return {};
   }
-  return new Date().toISOString().slice(0, 10);
+}
+
+function writeCooldownEntry(path: string, nowMs: number) {
+  try {
+    const map = readCooldownMap();
+    const cleaned: Record<string, number> = {};
+    for (const [k, ts] of Object.entries(map)) {
+      if (typeof ts === "number" && nowMs - ts < COOLDOWN_MS) {
+        cleaned[k] = ts;
+      }
+    }
+    cleaned[path] = nowMs;
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(cleaned));
+  } catch {
+    // Ignore storage access errors (e.g. private browsing restrictions)
+  }
 }
 
 export function SiteVisitTracker() {
+  const pathname = usePathname();
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (!apiBaseUrl) return;
-
-    // Ignore automated browser drivers (bots / headless)
     if (navigator.webdriver) return;
 
-    const today = getTodaySaoPaulo();
+    const currentPath = pathname || "/";
+    const nowMs = Date.now();
+    const cooldownMap = readCooldownMap();
+    const lastSentAt = cooldownMap[currentPath];
 
-    // Check localStorage cache first — 0 requests if already counted today
-    try {
-      if (window.localStorage.getItem(STORAGE_KEY) === today) {
-        return;
-      }
-    } catch {
-      // Ignore storage access errors (e.g. private browsing restrictions)
+    // Already counted this page within the 30-minute window — 0 requests
+    if (typeof lastSentAt === "number" && nowMs - lastSentAt < COOLDOWN_MS) {
+      return;
     }
 
-    let triggered = false;
-    let timerId: number | undefined;
-
-    const cleanup = () => {
-      window.removeEventListener("scroll", onHumanSignal);
-      window.removeEventListener("pointerdown", onHumanSignal);
-      window.removeEventListener("keydown", onHumanSignal);
-      window.removeEventListener("touchstart", onHumanSignal);
-      document.removeEventListener("visibilitychange", onVisibilityChange);
-      if (timerId !== undefined) {
-        window.clearTimeout(timerId);
-        timerId = undefined;
-      }
-    };
+    let cancelled = false;
+    let timerId: ReturnType<typeof setTimeout> | undefined;
 
     const sendVisit = () => {
+      if (cancelled || document.visibilityState !== "visible") return;
+
       const dispatch = () => {
-        const entryPath = window.location.pathname || "/";
+        if (cancelled) return;
         fetch(`${apiBaseUrl}/site-visits`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ entryPath }),
+          body: JSON.stringify({ entryPath: currentPath }),
           keepalive: true,
         })
           .then((res) => {
             if (res.ok || res.status === 204) {
-              try {
-                window.localStorage.setItem(STORAGE_KEY, today);
-              } catch {
-                // Silent fallback
-              }
+              writeCooldownEntry(currentPath, Date.now());
             }
           })
           .catch(() => {
@@ -91,36 +85,34 @@ export function SiteVisitTracker() {
       }
     };
 
-    const triggerOnce = () => {
-      if (triggered) return;
-      if (document.visibilityState !== "visible") return;
-      triggered = true;
-      cleanup();
-      sendVisit();
-    };
-
-    const onHumanSignal = () => {
-      triggerOnce();
-    };
-
-    const onVisibilityChange = () => {
-      if (document.visibilityState === "visible" && timerId === undefined && !triggered) {
-        timerId = window.setTimeout(triggerOnce, 3000);
+    const scheduleTimer = () => {
+      if (cancelled || timerId !== undefined) return;
+      if (document.visibilityState === "visible") {
+        timerId = globalThis.setTimeout(sendVisit, MIN_DWELL_MS);
       }
     };
 
-    window.addEventListener("scroll", onHumanSignal, { once: true, passive: true });
-    window.addEventListener("pointerdown", onHumanSignal, { once: true, passive: true });
-    window.addEventListener("keydown", onHumanSignal, { once: true, passive: true });
-    window.addEventListener("touchstart", onHumanSignal, { once: true, passive: true });
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        scheduleTimer();
+      } else if (timerId !== undefined) {
+        globalThis.clearTimeout(timerId);
+        timerId = undefined;
+      }
+    };
+
     document.addEventListener("visibilitychange", onVisibilityChange);
+    scheduleTimer();
 
-    if (document.visibilityState === "visible") {
-      timerId = window.setTimeout(triggerOnce, 3000);
-    }
-
-    return cleanup;
-  }, []);
+    // If the user navigates to another page before 5s, cancel timer so corridor pages aren't counted
+    return () => {
+      cancelled = true;
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      if (timerId !== undefined) {
+        globalThis.clearTimeout(timerId);
+      }
+    };
+  }, [pathname]);
 
   return null;
 }
