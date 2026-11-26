@@ -7,6 +7,7 @@ import { MobileBottomNav } from "@/components/MobileBottomNav";
 import AppProvider from "@/providers/AppProvider";
 import { ParishSchema } from "@/components/seo/ParishSchema";
 import { PwaNotificationManager } from "@/components/pwa/PwaNotificationManager";
+import { SiteVisitTracker } from "@/components/SiteVisitTracker";
 import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
@@ -158,6 +159,7 @@ export default function RootLayout({
             <SiteFooter />
             <MobileBottomNav />
             <PwaNotificationManager />
+            <SiteVisitTracker />
             <Toaster richColors position="top-right" />
           </div>
         </AppProvider>
