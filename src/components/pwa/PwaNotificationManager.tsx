@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Download, X } from "lucide-react";
 import { toast } from "sonner";
+import { apiBaseUrl } from "@/lib/api/utils/api";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -126,12 +127,11 @@ export function PwaNotificationManager() {
             });
         }
 
-        if (subscription) {
+        if (subscription && apiBaseUrl) {
           const subJson = subscription.toJSON();
           const deviceId = getOrCreateDeviceId();
-          const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8787";
 
-          await fetch(`${apiUrl}/api/push/subscribe`, {
+          await fetch(`${apiBaseUrl}/push-subscriptions`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -139,7 +139,7 @@ export function PwaNotificationManager() {
               keys: subJson.keys,
               deviceId,
               deviceInfo: `${getBrowserInfo()} (Site)`,
-              source: "SITE",
+              origin: "site",
             }),
           })
             .then((res) => {

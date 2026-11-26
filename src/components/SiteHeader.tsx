@@ -48,7 +48,8 @@ const getCommunityCoverUrl = (comm: {
     if (comm.coverId.startsWith("http") || comm.coverId.startsWith("/")) {
       return comm.coverId;
     }
-    const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333";
+    const apiBaseUrl =
+      process.env.NEXT_PUBLIC_BASE_API_UR;
     return `${apiBaseUrl}/attachments/${comm.coverId}`;
   }
   const localMap: Record<string, string> = {
