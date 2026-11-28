@@ -148,7 +148,7 @@ export function HighlightsCarousel({
           setIsFocused(false);
         }
       }}
-      className="relative w-full min-[950px]:min-h-[calc(100svh-73px)] flex flex-col overflow-hidden touch-pan-y border-b border-[#e8dfd1]/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#B8872E]"
+      className="relative w-full min-[950px]:min-h-[calc(100svh-73px)] flex flex-col overflow-hidden touch-pan-y border-b border-[#d6a64a]/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#B8872E]"
     >
       {/* Smooth crossfading background layers per slide */}
       {slides.map((slide, idx) => (

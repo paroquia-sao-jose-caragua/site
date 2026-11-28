@@ -98,7 +98,7 @@ export function AdventWeekSidebar({
       {/* Desktop: Vertical Sidebar (~30%) */}
       <div className="hidden lg:block space-y-5">
         <div className="bg-[#fbf5eb] border border-[#e8e2d8] rounded-3xl p-6 shadow-sm">
-          <div className="pb-4 mb-2 border-b border-[#e8e2d8]">
+          <div className="pb-4 mb-4 border-b border-[#e8e2d8]">
             <span className="block text-[11px] font-semibold uppercase tracking-[0.25em] text-[#B8872E] mb-1">
               JORNADA LITÚRGICA
             </span>
@@ -114,47 +114,46 @@ export function AdventWeekSidebar({
             role="tablist"
             aria-orientation="vertical"
             aria-label="Sua caminhada no Advento"
-            className="divide-y divide-[#e8e2d8]"
+            className="flex flex-col gap-2.5"
           >
             {weeks.map((week, idx) => {
               const isSelected = week.id === activeWeekId;
               return (
-                <div key={week.id} className="py-1.5 first:pt-0 last:pb-0">
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={isSelected}
-                    aria-controls="advent-week-panel"
-                    onClick={() => onSelectWeek(week.id)}
-                    onKeyDown={(e) => handleKeyDown(e, idx)}
-                    className={`group w-full text-left rounded-xl px-4 py-3 transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8872E] ${
+                <button
+                  key={week.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isSelected}
+                  aria-controls="advent-week-panel"
+                  onClick={() => onSelectWeek(week.id)}
+                  onKeyDown={(e) => handleKeyDown(e, idx)}
+                  className={`group w-full text-left rounded-xl border px-4 py-3 transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8872E] ${
+                    isSelected
+                      ? "bg-[#ebe0cc] border-[#D6A64A]/60"
+                      : "bg-[#f5eee2] border-transparent hover:bg-[#efe6d6]"
+                  }`}
+                >
+                  <span
+                    className={`block text-xs font-semibold uppercase tracking-[0.16em] transition-colors ${
                       isSelected
-                        ? "bg-[#EFE4D1]/85"
-                        : "bg-transparent hover:bg-[#f3ece0]/60"
+                        ? "text-[#B8872E]"
+                        : "text-[#8c7b6c] group-hover:text-[#B8872E]"
                     }`}
                   >
-                    <span
-                      className={`block text-xs font-semibold uppercase tracking-[0.16em] transition-colors ${
-                        isSelected
-                          ? "text-[#B8872E]"
-                          : "text-[#8c7b6c] group-hover:text-[#B8872E]"
-                      }`}
-                    >
-                      {week.numberLabel} — {week.displayDate}
-                    </span>
+                    {week.numberLabel} — {week.displayDate}
+                  </span>
 
-                    <span
-                      className="block text-lg font-semibold text-[#18351E] mt-0.5 leading-snug"
-                      style={{ fontFamily: "Cormorant Garamond, serif" }}
-                    >
-                      {week.theme}
-                    </span>
+                  <span
+                    className="block text-lg font-semibold text-[#18351E] mt-0.5 leading-snug"
+                    style={{ fontFamily: "Cormorant Garamond, serif" }}
+                  >
+                    {week.theme}
+                  </span>
 
-                    <span className="block text-sm text-[#6b5c4d] font-serif mt-0.5">
-                      {week.sidebarSubtitle}
-                    </span>
-                  </button>
-                </div>
+                  <span className="block text-sm text-[#6b5c4d] font-serif mt-0.5">
+                    {week.sidebarSubtitle}
+                  </span>
+                </button>
               );
             })}
           </div>
