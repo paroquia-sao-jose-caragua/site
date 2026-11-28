@@ -94,7 +94,7 @@ export function AdventWeekContent({
           {week.gospelSection.reflectionParagraphs.map((p, idx) => (
             <p
               key={idx}
-              className="text-base font-serif text-[#43362d] leading-relaxed"
+              className="text-lg font-serif text-[#43362d] leading-relaxed"
             >
               {p}
             </p>
@@ -126,7 +126,7 @@ export function AdventWeekContent({
 
         {/* Aviso sereno de preparação do conteúdo completo */}
         <div className="bg-[#fbf5eb] border border-[#D6A64A]/35 rounded-3xl p-6 sm:p-8 space-y-4">
-          <p className="font-serif text-[#5A463B] text-base leading-relaxed">
+          <p className="font-serif text-[#5A463B] text-lg leading-relaxed">
             As reflexões completas, orações e sugestões em família desta{" "}
             {week.numberLabel}ª semana do Advento serão disponibilizadas ao longo
             da nossa caminhada paroquial até o Natal.
@@ -244,7 +244,7 @@ export function AdventWeekContent({
           </blockquote>
         )}
 
-        <div className="space-y-3 font-serif text-[#43362d] text-base leading-relaxed">
+        <div className="space-y-3 font-serif text-[#43362d] text-lg leading-relaxed">
           {week.gospelSection.reflectionParagraphs.map((paragraph, idx) => (
             <p key={idx}>{paragraph}</p>
           ))}
@@ -344,7 +344,7 @@ export function AdventWeekContent({
             {week.familySection.suggestions.map((item, idx) => (
               <li
                 key={idx}
-                className="flex items-start gap-3 font-serif text-[#43362d] text-base leading-relaxed pb-3 border-b border-[#D6A64A]/20"
+                className="flex items-start gap-3 font-serif text-[#43362d] text-lg leading-relaxed pb-3 border-b border-[#D6A64A]/20"
               >
                 <SuggestionIcon icon={item.icon} />
                 <span>{item.text}</span>
@@ -409,7 +409,7 @@ export function AdventWeekContent({
             >
               {week.nextWeek.title}
             </h3>
-            <p className="font-serif text-[#5A463B] text-base leading-relaxed">
+            <p className="font-serif text-[#5A463B] text-lg leading-relaxed">
               {week.nextWeek.description}
             </p>
           </div>
