@@ -167,6 +167,10 @@ function getScheduleName(schedule: Schedule) {
     return "Santa Missa";
   }
 
+  if (schedule.eventType === "feast" && schedule.title?.trim()) {
+    return schedule.title.trim();
+  }
+
   return getEventTypeLabel(schedule.eventType);
 }
 
@@ -597,30 +601,40 @@ function AgendaPageContent() {
     refetchOnWindowFocus: false,
   });
 
+  const todayStr = useMemo(() => dayjs().format("YYYY-MM-DD"), []);
+
   const data = useMemo(() => {
-    if (!isCurrentMonth) {
+    if (!isCurrentMonth || isPending || !currentData) {
       return currentData;
     }
 
     const currentEvents = mapCalendarToAgendaEvents(
-      currentData?.calendar ?? [],
-    ).filter((event) => event.date >= today.format("YYYY-MM-DD"));
+      currentData.calendar ?? [],
+    ).filter((event) => event.date >= todayStr);
 
     return currentEvents.length > 0 ? currentData : nextData;
-  }, [currentData, nextData, isCurrentMonth, today]);
+  }, [currentData, nextData, isCurrentMonth, isPending, todayStr]);
 
   useEffect(() => {
-    if (!isCurrentMonth) return;
+    if (!isCurrentMonth || isPending || !currentData) return;
 
     const currentEvents = mapCalendarToAgendaEvents(
-      currentData?.calendar ?? [],
-    ).filter((event) => event.date >= today.format("YYYY-MM-DD"));
+      currentData.calendar ?? [],
+    ).filter((event) => event.date >= todayStr);
 
     if (currentEvents.length === 0 && nextData?.calendar?.length) {
       setSelectedMonth(nextMonth);
       setSelectedYear(nextYear);
     }
-  }, [currentData, nextData, isCurrentMonth, nextMonth, nextYear, today]);
+  }, [
+    currentData,
+    nextData,
+    isCurrentMonth,
+    isPending,
+    nextMonth,
+    nextYear,
+    todayStr,
+  ]);
 
   const agendaEvents = useMemo(() => {
     return mapCalendarToAgendaEvents(data?.calendar ?? []);

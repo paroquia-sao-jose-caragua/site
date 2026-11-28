@@ -253,7 +253,7 @@ export function UpcomingMassesSection() {
               <span>CELEBRAÇÕES</span>
             </div>
             <h2
-              className="text-2xl md:text-4xl font-semibold text-[#18351E] mb-3"
+              className="text-3xl md:text-5xl font-semibold text-[#18351E] mb-3"
               style={{ fontFamily: "Cormorant Garamond, serif" }}
             >
               Próximas Missas
