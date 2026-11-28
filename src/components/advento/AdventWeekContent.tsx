@@ -226,7 +226,7 @@ export function AdventWeekContent({
             <BookOpen className="w-4 h-4" />
             <span>A PALAVRA DE DEUS</span>
           </div>
-          <span className="text-sm font-semibold text-[#8c6218]">
+          <span className="text-md font-semibold text-[#8c6218]">
             {week.gospelSection.reference}
           </span>
         </div>
