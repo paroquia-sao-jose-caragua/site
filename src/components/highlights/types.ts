@@ -11,6 +11,7 @@ export interface AdventHighlightSlide {
   eyebrow: string;
   titleLines: [string, string];
   description: string;
+  mobileDescription?: string;
   complementaryText: string;
   cta: HighlightCtaConfig;
   images: {

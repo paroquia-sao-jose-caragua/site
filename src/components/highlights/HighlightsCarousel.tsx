@@ -218,11 +218,11 @@ export function HighlightsCarousel({
             <ChevronRight className="w-5 h-5" />
           </button>
 
-          {/* Mobile-only discreet borderless dots in soft tones close to background */}
+          {/* Discreet borderless dots in soft tones close to background */}
           <div
             role="tablist"
             aria-label="Selecionar destaque"
-            className="md:hidden absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2"
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2"
           >
             {slides.map((slide, idx) => {
               const isActive = idx === activeIndex;

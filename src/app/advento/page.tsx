@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import { AdventJourneyPage } from "@/components/advento/AdventJourneyPage";
 
 export const metadata: Metadata = {
   title: "Tempo do Advento",
   description:
-    "O Advento é um tempo de espera e esperança, um convite para preparar o coração e renovar nossa fé na chegada de Jesus.",
+    "Um caminho de fé, esperança e preparação para o Natal. Acompanhe as quatro semanas do Advento na Paróquia São José de Caraguatatuba.",
 };
 
 export default function AdventoPage() {
-  return <main className="w-full min-h-screen bg-[#fbf6ee]" />;
+  return <AdventJourneyPage />;
 }

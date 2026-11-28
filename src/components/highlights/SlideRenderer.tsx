@@ -105,8 +105,15 @@ function AdventSlideContent({
         </h2>
 
         {/* Texto descritivo */}
-        <p className="text-base sm:text-lg text-[#5A463B] font-serif leading-relaxed max-w-2xl mb-10">
-          {slide.description}
+        <p className="text-lg text-[#5A463B] font-serif leading-relaxed max-w-2xl mb-6 lg:mb-10">
+          {slide.mobileDescription ? (
+            <>
+              <span className="lg:hidden">{slide.mobileDescription}</span>
+              <span className="hidden lg:inline">{slide.description}</span>
+            </>
+          ) : (
+            slide.description
+          )}
         </p>
 
         {/* Imagem centralizada */}
@@ -133,7 +140,7 @@ function AdventSlideContent({
 
         {/* Botão CTA flanqueado por linhas douradas + Texto complementar */}
         <div className="flex flex-col items-center gap-7 w-full">
-          <p className="text-lg text-[#8c7b6c] font-serif italic">
+          <p className="text-lg text-[#8c6218] font-serif italic">
             {slide.complementaryText}
           </p>
 

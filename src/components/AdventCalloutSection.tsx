@@ -92,7 +92,7 @@ export function AdventCalloutSection({
         </h2>
 
         {/* Texto descritivo */}
-        <p className="text-base sm:text-lg text-[#5A463B] font-serif leading-relaxed max-w-2xl mb-10">
+        <p className="text-lg text-[#5A463B] font-serif leading-relaxed max-w-2xl mb-10">
           O Advento é um tempo de espera e esperança, um convite para preparar o
           coração e renovar nossa fé na chegada de Jesus.
         </p>
@@ -126,7 +126,7 @@ export function AdventCalloutSection({
             />
             <Link
               href={href}
-              className="group/btn inline-flex items-center justify-center gap-2.5 rounded-full bg-[#18351E] hover:bg-[#27442A] active:bg-[#122917] border border-[#D6A64A]/60 text-[#eeca94] font-semibold text-sm sm:text-base px-8 py-3.5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8872E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#fbf6ee]"
+              className="group/btn inline-flex items-center justify-center gap-2.5 rounded-full bg-[#18351E] hover:bg-[#27442A] active:bg-[#122917] border-2 border-[#D6A64A]/60 text-[#eeca94] font-semibold text-sm sm:text-base px-8 py-3.5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8872E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#fbf6ee]"
             >
               <span>Conheça o Advento</span>
               <ArrowRight

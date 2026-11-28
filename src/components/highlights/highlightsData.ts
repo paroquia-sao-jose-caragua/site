@@ -12,6 +12,8 @@ export const HIGHLIGHTS_SLIDES: HighlightSlideConfig[] = [
     titleLines: ["Prepare o seu coração.", "Jesus está chegando!"],
     description:
       "O Advento é um tempo de espera e esperança, um convite para preparar o coração e renovar nossa fé na chegada de Jesus.",
+    mobileDescription:
+      "Um tempo de espera e esperança para preparar o coração para Jesus.",
     complementaryText: "Viva este tempo de fé e preparação conosco.",
     cta: {
       label: "Conheça o Advento",
@@ -42,11 +44,11 @@ export const HIGHLIGHTS_SLIDES: HighlightSlideConfig[] = [
       "Celebremos juntos a copadroeira da Matriz São José em oração e gratidão.",
     scheduleDates: [
       { label: "Tríduo", dates: "24 a 26 de novembro" },
-      { label: "Festa", dates: "27 a 29 de novembro" },
+      { label: "Festa Social", dates: "27 a 29 de novembro" },
     ],
-    invocation: "Maria, Mãe da Graça, rogai por nós!",
+    invocation: "Maria, Mãe da Divina Graça, rogai por nós!",
     cta: {
-      label: "Confira a programação",
+      label: "Confira a Programação",
       href: "/agenda",
     },
     image: {
